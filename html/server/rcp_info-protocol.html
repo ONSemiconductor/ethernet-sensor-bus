@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Network Configuration" href="rcp_net.html" />
+    <link rel="prev" title="Identification and Capabilities" href="rcp_info.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_info.html">Identification and Capabilities</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldidentity">
+<span id="protogen-esb-rcp-info-fldidentity"></span><h3>fldIdentity<a class="headerlink" href="#fldidentity" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.info.fldIdentity</span></code></p>
+<p>RCP server identity records.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-rcp-info-fldidentity-rcpversion"><strong><code class="docutils literal notranslate"><span class="pre">rcpVersion</span></code></strong> — <a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldversion"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldVersion</span></code></span></a><br />
+The current RCP protocol version implemented by the RCP server.</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-macaddr"><strong><code class="docutils literal notranslate"><span class="pre">macAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+The factory-default MAC address of the server.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This can differ from the actual MAC address the RCP server
+is using if the client configured a new MAC address using <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldConfig</span></code></span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some vendor implementations do not provide a default (globally-unique) MAC
+address permanently stored in the RCP server.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-vendor"><strong><code class="docutils literal notranslate"><span class="pre">vendor</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">string</span></code><br />
+Optional UTF-8 string containing the RCP server vendor name.</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-pid"><strong><code class="docutils literal notranslate"><span class="pre">pid</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional product identifier (managed by the vendor).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-version"><strong><code class="docutils literal notranslate"><span class="pre">version</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional product version identifier (managed by the vendor).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-serial"><strong><code class="docutils literal notranslate"><span class="pre">serial</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">string</span></code><br />
+Optional product serial number/string (managed by the vendor).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-date"><strong><code class="docutils literal notranslate"><span class="pre">date</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional manufacturing date in UNIX format (seconds since 1st Jan 1970 00:00:00).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldidentity-sid"><strong><code class="docutils literal notranslate"><span class="pre">sid</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional system-level unique identifier (not to be confused with the DID).</p>
+</li>
+</ul>
+</section>
+<section id="fldcapabilities">
+<span id="protogen-esb-rcp-info-fldcapabilities"></span><h3>fldCapabilities<a class="headerlink" href="#fldcapabilities" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.info.fldCapabilities</span></code></p>
+<p>RCP server capability records.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-info-fldcapabilities-supportedphymodes"><strong><code class="docutils literal notranslate"><span class="pre">supportedPhyModes</span></code></strong> — <em>repeated</em> <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-enphymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.enPhyMode</span></code></span></a><br />
+List of communication standards supported by the PHY.</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldcapabilities-plcasupported"><strong><code class="docutils literal notranslate"><span class="pre">plcaSupported</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, indicates the RCP server supports Physical Layer Collision
+Avoidance (PLCA) for the PHY modes that support it (e.g., 10BASE-T1S).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldcapabilities-topologydiscoverysupported"><strong><code class="docutils literal notranslate"><span class="pre">topologyDiscoverySupported</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the RCP server supports the Topology Discovery feature for
+the PHY modes that support it (e.g., 10BASE-T1S).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldcapabilities-sqisupported"><strong><code class="docutils literal notranslate"><span class="pre">sqiSupported</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the RCP server supports the SQI feature for the PHY modes that
+support it (e.g., 100BASE-T1 and 10BASE-T1S).</p>
+</li>
+<li><p id="protogen-esb-rcp-info-fldcapabilities-wakesleepsupported"><strong><code class="docutils literal notranslate"><span class="pre">wakeSleepSupported</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the RCP server supports the OPEN Alliance TC10 wake/sleep feature
+for the PHY modes that support it (e.g., 100BASE-T1 and 10BASE-T1S).</p>
+</li>
+</ul>
+</section>
+<section id="fldinterfaces">
+<span id="protogen-esb-rcp-info-fldinterfaces"></span><h3>fldInterfaces<a class="headerlink" href="#fldinterfaces" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.info.fldInterfaces</span></code></p>
+<p>RCP interface descriptors.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-info-fldinterfaces-dsc"><strong><code class="docutils literal notranslate"><span class="pre">dsc</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-info-fldinterfaces-fldinterfacedescriptor"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldInterfaceDescriptor</span></code></span></a><br />
+List of endpoint descriptors.
+Each interface has a type and a unique ID (handle) that can be used for
+configuration and actions.</p>
+</li>
+</ul>
+</section>
+<section id="fldinterfaces-fldinterfacedescriptor">
+<span id="protogen-esb-rcp-info-fldinterfaces-fldinterfacedescriptor"></span><h3>fldInterfaces.fldInterfaceDescriptor<a class="headerlink" href="#fldinterfaces-fldinterfacedescriptor" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.info.fldInterfaces.fldInterfaceDescriptor</span></code></p>
+<p>Single instance of an endpoint descriptor.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-rcp-info-fldinterfaces-fldinterfacedescriptor-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The unique endpoint identifier (handle).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This number cannot be 0 as it is reserved for the RCP server itself.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-info-fldinterfaces-fldinterfacedescriptor-type"><strong><code class="docutils literal notranslate"><span class="pre">type</span></code></strong> — <a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-enendpointtype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enEndpointType</span></code></span></a><br />
+Endpoint type (SPI, I2C, …)</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_info.html" class="btn btn-neutral float-left" title="Identification and Capabilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_net.html" class="btn btn-neutral float-right" title="Network Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+(protogen.rcp_pins)=
+
+# Pins
+
+**File:** `server/rcp_pins.proto`
+
+**Package:** `esb.rcp.pins`
+
+Pins of the RCP server: descriptors and configuration.
+
+The RCP server has a number of physical pins. A pin serves a function of an endpoint, identified by its handle,
+e.g., the clock of an SPI endpoint or a GPIO. Depending on the server, the mapping of the pins to the endpoints is
+either static or configurable. On a server with a static mapping, each pin has a fixed endpoint and function. On a
+server with a configurable mapping, the pin configuration assigns each pin to an endpoint and to a function of that
+endpoint.
+
+This file defines the descriptors that tell what the pins can do and the configuration that sets them up. The
+configuration is part of the server configuration ([`rcp.dev.fldConfig.pins`](#protogen.esb.rcp.dev.fldConfig.pins)). The figure shows the configuration
+of a server with a configurable mapping:
+
+![](../../../../sw_proto_rcp/figures/server/structurePins.svg)
+
+## Pin descriptors and functions
+
+A query returns a descriptor for each pin: its unique identifier, its capabilities, such as input, output, driver
+modes, or weak pull resistors, and the endpoints and functions that the pin can serve. On a server with a static
+mapping, that is exactly one endpoint and function. The functions of the pins depend on the type of the endpoint,
+e.g., clock, data in, data out, and chip-select for an SPI endpoint. There is one enumeration of functions for each
+group of endpoint types.
+
+## Pin configuration
+
+The configuration identifies a pin by the identifier of its descriptor. On a server with a configurable mapping, it
+assigns the pin to an endpoint. The function within the endpoint is either fixed by the handle or selected
+explicitly, if the server supports it. On a server with a static mapping, the endpoint and the function are fixed.
+In both cases, the configuration sets the electrical properties of the pin, such as the pull resistor, the driver
+mode, and the pad strength. A configuration that the pin or the server does not support fails with
+[`cfgNotSupported`](#protogen.esb.enConfigResult.cfgNotSupported). The configuration can be read back with a query.
+
+## Example
+
+To use the pins 4 and 5 as clock and data output of the SPI endpoint with the handle 2, and the pin 9 as GPIO 5 with
+a pull-up resistor:
+
+```text
+seq: 1
+dir {
+   config {
+      rcp {
+         pins {
+            pin { num: 4  hndl: 2  spi: pinSpiSclk }
+            pin { num: 5  hndl: 2  spi: pinSpiMosi }
+            pin { num: 9  hndl: 1  gpio: 5  pullMode: pullUp }
+         }
+      }
+   }
+}
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_pins-protocol
+```

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>SPI command with two transfer tokens</title>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#9a9a9a" stroke-width="1.5"/></pattern>
+  </defs>
+  <rect width="900" height="440" fill="#ffffff"/>
+  <text x="120" y="93" text-anchor="end" font-size="14" font-weight="bold">CS</text>
+  <text x="120" y="162" text-anchor="end" font-size="14" font-weight="bold">SCLK</text>
+  <text x="120" y="227" text-anchor="end" font-size="14" font-weight="bold">MOSI</text>
+  <text x="120" y="281" text-anchor="end" font-size="14" font-weight="bold">MISO</text>
+  <path d="M 140 76 H 170 V 98 H 681 V 76 H 770" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="681" y1="98" x2="770" y2="98" stroke="#000000" stroke-width="2" stroke-dasharray="6 4"/>
+  <text xml:space="preserve" x="780" y="94"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">csHold</tspan> set:</text>
+  <text x="780" y="111">CS stays low</text>
+  <path d="M 170 58 Q 170 53 175 53 H 420.5 Q 425.5 53 425.5 48 Q 425.5 53 430.5 53 H 676 Q 681 53 681 58" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="425.5" y="36" text-anchor="middle">One <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">fldCmd</tspan>: CS is asserted for the first token and released after the last one</text>
+  <line x1="170" y1="98" x2="170" y2="142" stroke="#000000" stroke-width="1"/>
+  <line x1="214" y1="98" x2="214" y2="142" stroke="#000000" stroke-width="1"/>
+  <line x1="177" y1="124" x2="207" y2="124" stroke="#000000" stroke-width="1"/>
+  <polygon points="214,124 204,128 204,120" fill="#000000"/>
+  <polygon points="170,124 180,120 180,128" fill="#000000"/>
+  <text xml:space="preserve" x="222" y="118"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">csDelay</tspan></text>
+  <line x1="637" y1="98" x2="637" y2="170" stroke="#000000" stroke-width="1"/>
+  <line x1="681" y1="98" x2="681" y2="170" stroke="#000000" stroke-width="1"/>
+  <line x1="644" y1="124" x2="674" y2="124" stroke="#000000" stroke-width="1"/>
+  <polygon points="681,124 671,128 671,120" fill="#000000"/>
+  <polygon points="637,124 647,120 647,128" fill="#000000"/>
+  <text xml:space="preserve" x="629" y="118" text-anchor="end"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">csDelay</tspan></text>
+  <path d="M 140 170 H 214 V 142 H 223 V 170 H 232 V 142 H 241 V 170 H 250 V 142 H 259 V 170 H 268 V 142 H 277 V 170 H 286 V 142 H 295 V 170 H 304 V 142 H 313 V 170 H 322 V 142 H 331 V 170 H 340 V 142 H 349 V 170 H 358 V 142 H 367 V 170 H 376 V 142 H 385 V 170 H 394 V 142 H 403 V 170 H 412 V 142 H 421 V 170 H 430 V 142 H 439 V 170 H 448 V 142 H 457 V 170 H 466 V 142 H 475 V 170 H 484 V 142 H 493 V 170 H 502 V 142 H 511 V 170 H 520 V 142 H 529 V 170 H 538 V 142 H 547 V 170 H 556 V 142 H 565 V 170 H 574 V 142 H 583 V 170 H 592 V 142 H 601 V 170 H 610 V 142 H 619 V 170 H 628 V 142 H 637 V 170 H 770" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="140" y1="221" x2="205" y2="221" stroke="#888888" stroke-width="1.5"/>
+  <path d="M 205 221 L 209 208 L 345 208 L 349 221 L 345 234 L 209 234 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="277" y="225.9" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan></text>
+  <path d="M 349 221 L 353 208 H 637 L 641 221" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="641" y1="221" x2="770" y2="221" stroke="#888888" stroke-width="1.5"/>
+  <text xml:space="preserve" x="493" y="228" text-anchor="middle">constant <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wpad</tspan> (here 1)</text>
+  <line x1="140" y1="275" x2="205" y2="275" stroke="#888888" stroke-width="1.5"/>
+  <path d="M 205 275 L 209 262 L 345 262 L 349 275 L 345 288 L 209 288 Z" fill="url(#hatch)" stroke="#000000" stroke-width="1.5"/>
+  <rect x="244.82" y="267.2" width="64.37" height="15.6" fill="#ffffff"/>
+  <text x="277" y="279.55" text-anchor="middle">discarded</text>
+  <path d="M 349 275 L 353 262 L 489 262 L 493 275 L 489 288 L 353 288 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="421" y="279.9" text-anchor="middle">byte 0</text>
+  <path d="M 493 275 L 497 262 L 633 262 L 637 275 L 633 288 L 497 288 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="565" y="279.9" text-anchor="middle">byte 1</text>
+  <line x1="637" y1="275" x2="770" y2="275" stroke="#888888" stroke-width="1.5"/>
+  <path d="M 205 304 Q 205 309 210 309 H 270.5 Q 275.5 309 275.5 314 Q 275.5 309 280.5 309 H 341 Q 346 309 346 304" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <path d="M 352 304 Q 352 309 357 309 H 489.5 Q 494.5 309 494.5 314 Q 494.5 309 499.5 309 H 632 Q 637 309 637 304" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="277" y="336" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xfer[0]</tspan></text>
+  <text xml:space="preserve" x="277" y="355" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xferWriteOnly</tspan></text>
+  <text xml:space="preserve" x="277" y="374" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan>: 1 byte</text>
+  <text xml:space="preserve" x="493" y="336" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xfer[1]</tspan></text>
+  <text xml:space="preserve" x="493" y="355" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xferReadOnly</tspan></text>
+  <text xml:space="preserve" x="493" y="374" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">rsize</tspan> = 2, returned to the client</text>
+  <text x="12" y="426">Shown for CPOL = 0, CPHA = 0, MSb first.</text>
+</svg>

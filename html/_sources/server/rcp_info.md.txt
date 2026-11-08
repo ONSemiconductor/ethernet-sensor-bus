@@ -1,0 +1,36 @@
+(protogen.rcp_info)=
+
+# Identification and Capabilities
+
+**File:** `server/rcp_info.proto`
+
+**Package:** `esb.rcp.info`
+
+Identity, capabilities, and endpoints of the RCP server.
+
+A client that connects to an unknown RCP server uses these queries to find out what the server is and what it can
+do. They are sent to the RCP server (handle 0, see [RCP Server](#protogen.rcp_dev)), and their results are the messages of this file:
+the identity of the server, its capabilities, and the list of its endpoints.
+
+The identity holds the version of the RCP protocol that the server implements and the data that identifies the
+server, such as its factory-default MAC address, its vendor, and its product. The capabilities tell which PHY modes
+and which optional network features the server supports, e.g., PLCA ([PLCA](#protogen.rcp_plca)) or topology discovery
+([Topology Discovery](#protogen.rcp_tpd)). The list of the endpoints gives the handle of each endpoint, which identifies it in all
+configurations, actions, queries, and notifications, and its type. The type selects the driver that describes the
+messages of the endpoint, e.g., [SPI Driver](#protogen.spi) for the type [`devTypeSpi`](#protogen.esb.enEndpointType.devTypeSpi).
+
+A client can read all three results with one directive:
+
+```text
+seq: 1
+dir { query { rcp: qryIdentity } }
+dir { query { rcp: qryCapabilities } }
+dir { query { rcp: qryInterfaces } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_info-protocol
+```

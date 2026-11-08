@@ -1,0 +1,192 @@
+(protogen.uart)=
+
+# UART Driver
+
+**File:** `endpoints/uart/uart_dev.proto`
+
+**Package:** `esb.uart`
+
+UART configuration, actions, and notifications for RCP.
+
+A UART endpoint is a universal asynchronous receiver-transmitter (UART). It sends and receives blocks of data
+words. The transmitter and the receiver work independently, but both use the same line configuration. The client
+configures the endpoint with a [`fldConfig`](#protogen.esb.uart.fldConfig) message before it uses it. The pins TX and RX and, for hardware
+flow control, CTS and RTS are assigned to the endpoint with the pin configuration, see [`rcp.pins.enPinFuncUart`](#protogen.esb.rcp.pins.enPinFuncUart).
+
+## Transmission timing
+
+The UART sends blocks of words on the pin TX. By default, the idle level is high (called "mark"), and start bits and
+breaks are low (called "space"). Setting [`fldConfig.txPolInv`](#protogen.esb.uart.fldConfig.txPolInv) inverts the polarity of the pin, including the data
+bits.
+
+A UART word consists of a start bit, data bits, an optional parity bit, and stop bits. The least significant bit is
+sent first. The parameters [`fldConfig.speedBps`](#protogen.esb.uart.fldConfig.speedBps), [`fldConfig.numDataBits`](#protogen.esb.uart.fldConfig.numDataBits), [`fldConfig.parityBit`](#protogen.esb.uart.fldConfig.parityBit), and
+[`fldConfig.numStopBits`](#protogen.esb.uart.fldConfig.numStopBits) configure how the word is structured in time. The figure shows a word with seven data bits,
+even parity, and two stop bits.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartWord.svg)
+
+The bit time is {math}`t_B` = 1 / [`fldConfig.speedBps`](#protogen.esb.uart.fldConfig.speedBps). The word time {math}`t_W` is the time from the start of the start bit to
+the end of the last stop bit:
+
+{math}`t_W` = (1 + [`fldConfig.numDataBits`](#protogen.esb.uart.fldConfig.numDataBits) + {1 if [`fldConfig.parityBit`](#protogen.esb.uart.fldConfig.parityBit) is not [`parityNone`](#protogen.esb.uart.enParityBit.parityNone)} + [`fldConfig.numStopBits`](#protogen.esb.uart.fldConfig.numStopBits))
+× {math}`t_B`
+
+The UART sends one block of data words for each [`fldCmd`](#protogen.esb.uart.fldCmd) message. In the simplest case, the command contains only
+the data to send, and the UART concatenates all words without a pause between them. The block time {math}`t_{BLK}` is
+then Length([`fldCmd.txData`](#protogen.esb.uart.fldCmd.txData)) × {math}`t_W`:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockSingle.svg)
+
+The client can set [`fldCmd.txBreak`](#protogen.esb.uart.fldCmd.txBreak) to send a break before the data. A break is a space that lasts
+[`fldConfig.txBreakBitTime`](#protogen.esb.uart.fldConfig.txBreakBitTime) bit times. The client should choose a break that is longer than the longest space of
+normal data, so that a UART receiver can tell the break from an all-zero word. A mark follows the break and
+separates it from the start bit of the first word, which is a space as well. The mark lasts as long as the stop bits
+of a word, i.e., [`fldConfig.numStopBits`](#protogen.esb.uart.fldConfig.numStopBits) bit times. The figure shows three words with a break:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockBreak.svg)
+
+The block time is now {math}`t_{BLK}` = {math}`t_B` × ([`fldConfig.txBreakBitTime`](#protogen.esb.uart.fldConfig.txBreakBitTime) + [`fldConfig.numStopBits`](#protogen.esb.uart.fldConfig.numStopBits)) +
+Length([`fldCmd.txData`](#protogen.esb.uart.fldCmd.txData)) × {math}`t_W`.
+
+[`fldCmd.chunkSize`](#protogen.esb.uart.fldCmd.chunkSize) splits a block into smaller "chunks". Each chunk contains that many words, except for the last
+one, which is smaller if the block size is not a multiple of the chunk size. With the default chunk size of 0, a
+block consists of one chunk. The UART concatenates the words of a chunk as before, adds the pause
+[`fldConfig.txDelayUs`](#protogen.esb.uart.fldConfig.txDelayUs) between the chunks, and sends the break, if commanded, before each chunk:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockChunks.svg)
+
+In the general case, the block time is
+
+{math}`t_{BLK}` = {math}`t_B` × ([`fldConfig.txBreakBitTime`](#protogen.esb.uart.fldConfig.txBreakBitTime) + [`fldConfig.numStopBits`](#protogen.esb.uart.fldConfig.numStopBits)) × {math}`N_{Ch}` +
+[`fldConfig.txDelayUs`](#protogen.esb.uart.fldConfig.txDelayUs) / {math}`10^6` × ({math}`N_{Ch}` - 1) + Length([`fldCmd.txData`](#protogen.esb.uart.fldCmd.txData)) × {math}`t_W`
+
+where {math}`N_{Ch}` is the number of chunks in the block: {math}`N_{Ch}` = {math}`\lceil` Length([`fldCmd.txData`](#protogen.esb.uart.fldCmd.txData)) /
+[`fldCmd.chunkSize`](#protogen.esb.uart.fldCmd.chunkSize) {math}`\rceil`, or 1 if [`fldCmd.chunkSize`](#protogen.esb.uart.fldCmd.chunkSize) is 0. Without [`fldCmd.txBreak`](#protogen.esb.uart.fldCmd.txBreak), the first term is omitted.
+
+## Reception
+
+The UART receives on the pin RX while [`fldConfig.rxEnable`](#protogen.esb.uart.fldConfig.rxEnable) is set. The receiver uses the same nominal timing as the
+transmitter. Details such as the sampling moment, oversampling, and resynchronization are implementation-specific
+(refer to the datasheet of the server).
+
+The receiver validates each word. A word without the expected stop bits is a framing error, and a word with a wrong
+parity bit is a parity error. The receiver reports both with a notification (criterion 2 below).
+
+To save bandwidth between the client and the RCP server, the receiver buffers the received words before it sends
+them. It sends a [`fldNotif`](#protogen.esb.fldNotif) notification to the client as soon as one of six criteria is met. [`fldNotif.data`](#protogen.esb.fldNotif.data) holds
+the accumulated words from the buffer unless stated otherwise. The client should evaluate [`fldNotif.code`](#protogen.esb.fldNotif.code) to process
+the notification correctly.
+
+The receiver checks the criteria in this order:
+
+1. The endpoint could not process the received data quickly enough and lost data. This can happen when the link
+    between the client and the RCP server is overloaded and notifications cannot be sent as fast as the UART
+    receives words. [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfBufferOverrun`](#protogen.esb.enNotifResult.ntfBufferOverrun). [`fldNotif.data`](#protogen.esb.fldNotif.data) can contain the words received after the
+    data loss. If the word received after the loss is corrupted, e.g., by a parity error, [`fldNotif.data`](#protogen.esb.fldNotif.data) is empty
+    and another notification follows immediately, according to criterion 2. Likewise, if a break follows the overrun
+    immediately, a second notification with empty data and the code [`ntfFlushed`](#protogen.esb.enNotifResult.ntfFlushed) follows immediately.
+ 2. The receiver detects a parity error or a framing error. [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfCsumError`](#protogen.esb.enNotifResult.ntfCsumError) or [`ntfFrameError`](#protogen.esb.enNotifResult.ntfFrameError),
+    and the last byte of [`fldNotif.data`](#protogen.esb.fldNotif.data) is the erroneous word, which is likely corrupted.
+ 3. The receiver detects a break. [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfFlushed`](#protogen.esb.enNotifResult.ntfFlushed), and the last byte of [`fldNotif.data`](#protogen.esb.fldNotif.data) is the last
+    word received before the break. [`fldNotif.data`](#protogen.esb.fldNotif.data) is empty if the receiver got no word before the break. The
+    minimum duration of a space that the receiver detects as a break is implementation-specific (refer to the
+    datasheet of the server).
+ 4. The number of words in the buffer equals or exceeds [`fldConfig.rxLength`](#protogen.esb.uart.fldConfig.rxLength). This criterion is met intrinsically if
+    the buffer is full. [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfSuccess`](#protogen.esb.enNotifResult.ntfSuccess).
+ 5. The last word in the buffer was received more than [`fldConfig.rxTimeoutBitTime`](#protogen.esb.uart.fldConfig.rxTimeoutBitTime) bit times ago, and
+    [`fldConfig.rxTimeoutEnable`](#protogen.esb.uart.fldConfig.rxTimeoutEnable) is set. [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfSuccess`](#protogen.esb.enNotifResult.ntfSuccess).
+ 6. The last received word equals [`fldConfig.rxTerminalByte`](#protogen.esb.uart.fldConfig.rxTerminalByte), and [`fldConfig.rxTerminalByteEnable`](#protogen.esb.uart.fldConfig.rxTerminalByteEnable) is set.
+    [`fldNotif.code`](#protogen.esb.fldNotif.code) is [`ntfSuccess`](#protogen.esb.enNotifResult.ntfSuccess), and the last byte of [`fldNotif.data`](#protogen.esb.fldNotif.data) is the terminal byte.
+
+## Reception filtering
+
+The receiver can filter the received data, so that the client receives only fragments of a data stream.
+
+By default, the receiver collects all received words. Setting [`fldConfig.rxStartByteEnable`](#protogen.esb.uart.fldConfig.rxStartByteEnable) makes the receiver
+ignore incoming data until it correctly receives the start byte [`fldConfig.rxStartByte`](#protogen.esb.uart.fldConfig.rxStartByte). The receiver puts the start
+byte into the buffer and collects the data again until it receives the terminal byte [`fldConfig.rxTerminalByte`](#protogen.esb.uart.fldConfig.rxTerminalByte).
+After that, it ignores incoming data again until the next start byte.
+
+The receiver treats a start byte that arrives while it is collecting like any other word. It keeps ignoring data when
+a terminal byte arrives while it is ignoring.
+
+The notifications include the start byte and the terminal byte that change the filtering state. As a consequence,
+after the client sets [`fldConfig.rxStartByteEnable`](#protogen.esb.uart.fldConfig.rxStartByteEnable), the first received byte is always the start byte. After a
+terminal byte, the next received byte is always a start byte.
+
+Filtering affects only the collection of valid data and not the notification criteria above:
+
+- A break that arrives while the receiver is ignoring data still causes a notification with the code [`ntfFlushed`](#protogen.esb.enNotifResult.ntfFlushed).
+   [`fldNotif.data`](#protogen.esb.fldNotif.data) is empty, because the receiver has collected no words (criterion 3). A break that arrives while
+   the receiver is collecting causes a separate notification as well.
+ - Parity and framing errors are always reported to the client. While the receiver is collecting, the behavior is the
+   same as without filtering, and all bytes in [`fldNotif.data`](#protogen.esb.fldNotif.data) are valid except the last. While the receiver is
+   ignoring, [`fldNotif.data`](#protogen.esb.fldNotif.data) contains only the erroneous byte.
+ - When the receiver starts ignoring data, it always sends a notification, and the last byte is
+   [`fldConfig.rxTerminalByte`](#protogen.esb.uart.fldConfig.rxTerminalByte) (criterion 6).
+
+Only correctly received words change the filtering state. Errors have two consequences:
+
+- A start byte with a framing or parity error does not start the collection, and the client misses the fragment.
+ - A terminal byte with an error does not stop the collection, and the client keeps receiving notifications that it
+   would rather ignore.
+
+## Flow control
+
+The UART supports hardware and software flow control, which can be enabled together.
+
+Setting [`fldConfig.hwFlowControl`](#protogen.esb.uart.fldConfig.hwFlowControl) enables hardware flow control. The signal CTS needs an input pin
+and the signal RTS an output pin.
+
+While CTS is active, the transmitter may send data. Otherwise, it holds the pending data. The transmitter stops
+per word, not per block, so unfinished commands stay pending as long as CTS is inactive:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockHwFlow.svg)
+
+The receiver signals through RTS whether it can accept further words. RTS is active after initialization. It becomes
+inactive when the endpoint cannot guarantee that further incoming words can be processed without data loss. If RTS
+becomes inactive while a word is being received, the receiver still accepts that word without data loss.
+
+By default, CTS and RTS are active low. [`fldConfig.hwFlowControlPolInv`](#protogen.esb.uart.fldConfig.hwFlowControlPolInv) inverts their polarity.
+
+Software flow control throttles the transmitter only. [`fldConfig.swFlowControl`](#protogen.esb.uart.fldConfig.swFlowControl) enables it. It needs no additional
+hardware signal and relies on in-band signaling in the data that the UART receives. When the incoming data stream
+contains an "XOFF" character (0x13, 19), the transmitter finishes the ongoing word, if any, and stops until it
+receives an "XON" character (0x11, 17):
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockSwFlow.svg)
+
+For both kinds of flow control, the transmitter handles a break like a data word. If the transmission is suspended
+while a break is being sent, the transmitter completes the break and waits before the first data word:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingUartBlockHwFlowBreak.svg)
+
+## Example
+
+To configure the UART for 115200 bps, 8 data bits, no parity, and one stop bit, to receive lines that end with a
+line feed, and to send a command line:
+
+```text
+seq: 1
+dir {
+   config {
+      hndl: 7
+      uart {
+         speedBps: 115200  numDataBits: 8  numStopBits: 1  parityBit: parityNone
+         rxEnable: true  rxTerminalByteEnable: true  rxTerminalByte: 10
+      }
+   }
+}
+dir { action { hndl: 7  uart { txData: "AT\r\n" } } }
+```
+
+The receiver collects words until the terminal byte 0x0A (line feed) and then sends a notification with
+[`fldNotif.code`](#protogen.esb.fldNotif.code) set to [`ntfSuccess`](#protogen.esb.enNotifResult.ntfSuccess) and the received line in [`fldNotif.data`](#protogen.esb.fldNotif.data).
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+uart_dev-protocol
+```

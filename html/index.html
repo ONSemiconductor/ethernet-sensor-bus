@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethernet Sensor Bus (ESB) &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b611b094"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="introduction/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = 'gsearch.html';
+    var searchPath = 'search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="./pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ethernet Sensor Bus (ESB)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="ethernet-sensor-bus-esb">
+<h1>Ethernet Sensor Bus (ESB)<a class="headerlink" href="#ethernet-sensor-bus-esb" title="Link to this heading"></a></h1>
+<p>The Ethernet Sensor Bus (ESB) is a protocol for controlling hardware endpoints, such as SPI, I2C, GPIO, and UART controllers, over Ethernet. The application software runs on a central processor, the client, and controls the remote RCP servers. The servers contain the endpoints and run no application software, so the application is developed, tested, and updated in one place.</p>
+<p><img alt="" src="_images/logoEsbLight.svg" /><img alt="" src="_images/logoEsbDark.svg" /></p>
+<p>The following pages Introduce the protocol:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="introduction/index.html"><span class="std std-doc">Overview</span></a>: the motivation, the scope, the conventions, the terms, and the references.</p></li>
+<li><p><a class="reference internal" href="introduction/principle.html"><span class="std std-doc">Operating principle</span></a>: the roles of the client and the RCP server, the path of a directive, and the endpoints.</p></li>
+<li><p><a class="reference internal" href="introduction/messages.html"><span class="std std-doc">Messages</span></a>: the structure of directives and reports.</p></li>
+<li><p><a class="reference internal" href="introduction/network.html"><span class="std std-doc">Network</span></a>: how messages reach an RCP server over Ethernet and, optionally, UDP/IP.</p></li>
+<li><p><a class="reference internal" href="introduction/scheduler.html"><span class="std std-doc">Scheduler</span></a>: how an RCP server runs actions at the right time, repeatedly, or on events.</p></li>
+<li><p><a class="reference internal" href="introduction/behavior.html"><span class="std std-doc">Higher-level behavior</span></a>: persistent storage and fail-safe operation.</p></li>
+<li><p><a class="reference internal" href="introduction/hints.html"><span class="std std-doc">Usage hints</span></a>: recommendations for working with RCP servers.</p></li>
+<li><p><a class="reference internal" href="introduction/protobuf.html"><span class="std std-doc">Protobuf encoding</span></a>: how Protocol Buffers turn a message into bytes.</p></li>
+<li><p><a class="reference internal" href="introduction/generators.html"><span class="std std-doc">Code generators</span></a>: how to get the encoder and decoder for a programming language.</p></li>
+</ul>
+<p>The remaining pages describe the protocol fields in detail:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="rcp.html"><span class="std std-doc">RCP Messages</span></a>: the top-level messages and the containers of the operations.</p></li>
+<li><p><a class="reference internal" href="rcp_common.html"><span class="std std-doc">Common Definitions</span></a>: the definitions that several files share.</p></li>
+<li><p><a class="reference internal" href="server/index.html"><span class="std std-doc">Server</span></a>: the messages for the RCP server itself.</p></li>
+<li><p><a class="reference internal" href="endpoints/index.html"><span class="std std-doc">Endpoints</span></a>: one page for each type of endpoint.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction/index.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

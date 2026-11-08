@@ -1,0 +1,382 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.pins.fldDescriptors)=
+
+### fldDescriptors
+
+*Message* `esb.rcp.pins.fldDescriptors`
+
+RCP server pin descriptors.
+
+**Fields**
+
+- (protogen.esb.rcp.pins.fldDescriptors.dsc)=
+
+  **`dsc`** — *repeated* [`fldDescriptor`](#protogen.esb.rcp.pins.fldDescriptors.fldDescriptor)\
+  List of pin descriptors.
+
+(protogen.esb.rcp.pins.fldDescriptors.fldDescriptor)=
+
+### fldDescriptors.fldDescriptor
+
+*Message* `esb.rcp.pins.fldDescriptors.fldDescriptor`
+
+Single instance of a pin descriptor.
+
+**Fields**
+
+- (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.num)=
+
+  **`num`** — `uint32`\
+  Unique pin identifier within the controller.
+
+- (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.caps)=
+
+  **`caps`** — `uint32`\
+  Pin capabilities.
+  [`caps`](#protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.caps) is a bit mask, according to the [`enCapability`](#protogen.esb.rcp.pins.enCapability) enum.
+
+- (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fun)=
+
+  **`fun`** — *repeated* [`fldFunction`](#protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction)\
+  List of endpoints/functions the pin can be associated with.
+  If not present (empty), all handles and functions are supported.
+  On a server with a static mapping, the list holds the one endpoint and function that the pin is fixed to.
+
+(protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction)=
+
+### fldDescriptors.fldDescriptor.fldFunction
+
+*Message* `esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction`
+
+**Fields**
+
+- (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.hndl)=
+
+  **`hndl`** — `uint32`\
+  Handle of the endpoint.
+
+- (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.sub)=
+
+  **`sub`** — *oneof*
+
+  - (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.uart)=
+
+    **`uart`** — [`enPinFuncUart`](#protogen.esb.rcp.pins.enPinFuncUart)\
+    UART/LIN subfunction.
+
+  - (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.spi)=
+
+    **`spi`** — [`enPinFuncSpi`](#protogen.esb.rcp.pins.enPinFuncSpi)\
+    SPI/ADC subfunction.
+
+  - (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.i2c)=
+
+    **`i2c`** — [`enPinFuncI2c`](#protogen.esb.rcp.pins.enPinFuncI2c)\
+    I2C subfunction.
+
+  - (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.pcm)=
+
+    **`pcm`** — [`enPinFuncPcm`](#protogen.esb.rcp.pins.enPinFuncPcm)\
+    PCM subfunction.
+
+  - (protogen.esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction.pdm)=
+
+    **`pdm`** — [`enPinFuncPdm`](#protogen.esb.rcp.pins.enPinFuncPdm)\
+    PDM subfunction.
+
+(protogen.esb.rcp.pins.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.pins.fldConfig`
+
+Container for the pin configuration message.
+
+**Fields**
+
+- (protogen.esb.rcp.pins.fldConfig.pin)=
+
+  **`pin`** — *repeated* [`fldConfigItem`](#protogen.esb.rcp.pins.fldConfig.fldConfigItem)\
+  List of pin configurations.
+
+(protogen.esb.rcp.pins.fldConfig.fldConfigItem)=
+
+### fldConfig.fldConfigItem
+
+*Message* `esb.rcp.pins.fldConfig.fldConfigItem`
+
+Single instance of a pin configuration.
+
+**Fields**
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.num)=
+
+  **`num`** — `uint32`\
+  Unique pin identifier within the RCP server, as reported by [`dev.qryPins`](#protogen.esb.rcp.dev.enQuery.qryPins).
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.hndl)=
+
+  **`hndl`** — *optional* `uint32`\
+  If set, associates the pin with a specific endpoint instance.
+  The exact pin function within the specified endpoint (e.g., SPI MISO
+  or SPI MOSI) can be fixed based on the specified endpoint handle, or
+  it can be further specified using the [`fun`](#protogen.esb.rcp.pins.fldConfig.fldConfigItem.fun) parameter (within this
+  message), if supported by the server hardware.
+  If the pin cannot be associated with the specified endpoint instance,
+  the configuration operation fails with the [`cfgNotSupported`](#protogen.esb.enConfigResult.cfgNotSupported) error code.
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.pullMode)=
+
+  **`pullMode`** — *optional* [`enPull`](#protogen.esb.rcp.pins.enPull)\
+  If set, enables or disables the pin's pull-up/down resistor when
+  the endpoint supports it and the pin is in push-pull mode.
+  If the pin does not support the specified [`pullMode`](#protogen.esb.rcp.pins.fldConfig.fldConfigItem.pullMode), the configuration
+  operation fails with the [`cfgNotSupported`](#protogen.esb.enConfigResult.cfgNotSupported) error code.
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.driverMode)=
+
+  **`driverMode`** — *optional* [`enDriver`](#protogen.esb.rcp.pins.enDriver)\
+  If set, changes the pin driver configuration.
+  If the pin does not support the specified [`driverMode`](#protogen.esb.rcp.pins.fldConfig.fldConfigItem.driverMode), the
+  configuration operation fails with the [`cfgNotSupported`](#protogen.esb.enConfigResult.cfgNotSupported) error code.
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.padStrength)=
+
+  **`padStrength`** — *optional* `uint32`\
+  If set, defines the pad strength in microamperes (uA).
+  The specific server may round this parameter to the nearest
+  supported value.
+  To retrieve the actual value set by the HW, the client can use the
+  [`dev.qryPinConfig`](#protogen.esb.rcp.dev.enQuery.qryPinConfig) query.
+
+- (protogen.esb.rcp.pins.fldConfig.fldConfigItem.fun)=
+
+  **`fun`** — *oneof*\
+  If set, defines the pin function within the endpoint specified by
+  the [`hndl`](#protogen.esb.rcp.pins.fldConfig.fldConfigItem.hndl) field. If a server implementation does not support the
+  explicit selection of the pin function (i.e., the endpoint's
+  pin locations are fixed) and this field is set, the configuration
+  fails with the [`cfgNotSupported`](#protogen.esb.enConfigResult.cfgNotSupported) error code.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.uart)=
+
+    **`uart`** — [`enPinFuncUart`](#protogen.esb.rcp.pins.enPinFuncUart)\
+    UART/LIN pin functions.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.spi)=
+
+    **`spi`** — [`enPinFuncSpi`](#protogen.esb.rcp.pins.enPinFuncSpi)\
+    SPI/ADC pin functions.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.i2c)=
+
+    **`i2c`** — [`enPinFuncI2c`](#protogen.esb.rcp.pins.enPinFuncI2c)\
+    I2C pin functions.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.pcm)=
+
+    **`pcm`** — [`enPinFuncPcm`](#protogen.esb.rcp.pins.enPinFuncPcm)\
+    PCM pin functions.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.pdm)=
+
+    **`pdm`** — [`enPinFuncPdm`](#protogen.esb.rcp.pins.enPinFuncPdm)\
+    PDM pin functions.
+
+  - (protogen.esb.rcp.pins.fldConfig.fldConfigItem.gpio)=
+
+    **`gpio`** — `uint32`\
+    GPIO pin index (0-based index within the controller).
+
+## Enumerations
+
+(protogen.esb.rcp.pins.enCapability)=
+
+### enCapability
+
+*Enumeration* `esb.rcp.pins.enCapability`
+
+Capabilities of a pin, used as bit mask values.
+
+- (protogen.esb.rcp.pins.enCapability.capNone)=
+
+  **`capNone`** — No capabilities.
+
+- (protogen.esb.rcp.pins.enCapability.capInput)=
+
+  **`capInput`** — Pin can be configured as input.
+
+- (protogen.esb.rcp.pins.enCapability.capOutput)=
+
+  **`capOutput`** — Pin can be configured as output.
+
+- (protogen.esb.rcp.pins.enCapability.capDrvPushPull)=
+
+  **`capDrvPushPull`** — Pin supports push-pull driver mode.
+
+- (protogen.esb.rcp.pins.enCapability.capDrvOpenDrain)=
+
+  **`capDrvOpenDrain`** — Pin supports open-drain driver mode (cannot drive strong '1').
+
+- (protogen.esb.rcp.pins.enCapability.capDrvOpenSource)=
+
+  **`capDrvOpenSource`** — Pin supports open-source driver mode (cannot drive strong '0').
+
+- (protogen.esb.rcp.pins.enCapability.capTristate)=
+
+  **`capTristate`** — Pin supports tristate mode.
+
+- (protogen.esb.rcp.pins.enCapability.capRpu)=
+
+  **`capRpu`** — Pin has a weak pull-up resistor.
+
+- (protogen.esb.rcp.pins.enCapability.capRpd)=
+
+  **`capRpd`** — Pin has a weak pull-down resistor.
+
+- (protogen.esb.rcp.pins.enCapability.capIrq)=
+
+  **`capIrq`** — Pin can be used as an IRQ source for notifications.
+
+(protogen.esb.rcp.pins.enPinFuncUart)=
+
+### enPinFuncUart
+
+*Enumeration* `esb.rcp.pins.enPinFuncUart`
+
+Pin functions for the UART and LIN endpoints.
+
+- (protogen.esb.rcp.pins.enPinFuncUart.pinUartTx)=
+
+  **`pinUartTx`** — Transmit Data.
+
+- (protogen.esb.rcp.pins.enPinFuncUart.pinUartRx)=
+
+  **`pinUartRx`** — Receive Data.
+
+- (protogen.esb.rcp.pins.enPinFuncUart.pinUartRts)=
+
+  **`pinUartRts`** — Ready To Send.
+
+- (protogen.esb.rcp.pins.enPinFuncUart.pinUartCts)=
+
+  **`pinUartCts`** — Clear To Send.
+
+(protogen.esb.rcp.pins.enPinFuncSpi)=
+
+### enPinFuncSpi
+
+*Enumeration* `esb.rcp.pins.enPinFuncSpi`
+
+Pin functions for the SPI and the ADC endpoints.
+
+- (protogen.esb.rcp.pins.enPinFuncSpi.pinSpiSclk)=
+
+  **`pinSpiSclk`** — Serial Clock.
+
+- (protogen.esb.rcp.pins.enPinFuncSpi.pinSpiMosi)=
+
+  **`pinSpiMosi`** — Master Out Slave In.
+
+- (protogen.esb.rcp.pins.enPinFuncSpi.pinSpiMiso)=
+
+  **`pinSpiMiso`** — Master In Slave Out.
+
+- (protogen.esb.rcp.pins.enPinFuncSpi.pinSpiCs)=
+
+  **`pinSpiCs`** — Chip-Select.
+
+(protogen.esb.rcp.pins.enPinFuncI2c)=
+
+### enPinFuncI2c
+
+*Enumeration* `esb.rcp.pins.enPinFuncI2c`
+
+Pin functions for the I2C endpoint.
+
+- (protogen.esb.rcp.pins.enPinFuncI2c.pinI2cScl)=
+
+  **`pinI2cScl`** — Serial Clock.
+
+- (protogen.esb.rcp.pins.enPinFuncI2c.pinI2cSda)=
+
+  **`pinI2cSda`** — Bidirectional serial data.
+
+(protogen.esb.rcp.pins.enPinFuncPcm)=
+
+### enPinFuncPcm
+
+*Enumeration* `esb.rcp.pins.enPinFuncPcm`
+
+Pin functions for the PCM audio endpoint.
+
+- (protogen.esb.rcp.pins.enPinFuncPcm.pinPcmSck)=
+
+  **`pinPcmSck`** — Serial Clock.
+
+- (protogen.esb.rcp.pins.enPinFuncPcm.pinPcmSd)=
+
+  **`pinPcmSd`** — Serial Data.
+
+- (protogen.esb.rcp.pins.enPinFuncPcm.pinPcmWs)=
+
+  **`pinPcmWs`** — Word-Select / LR / Frame.
+
+(protogen.esb.rcp.pins.enPinFuncPdm)=
+
+### enPinFuncPdm
+
+*Enumeration* `esb.rcp.pins.enPinFuncPdm`
+
+Pin functions for the PDM endpoint.
+
+- (protogen.esb.rcp.pins.enPinFuncPdm.pinPdmDin)=
+
+  **`pinPdmDin`** — Data In.
+
+- (protogen.esb.rcp.pins.enPinFuncPdm.pinPdmClk)=
+
+  **`pinPdmClk`** — Clock Out.
+
+(protogen.esb.rcp.pins.enPull)=
+
+### enPull
+
+*Enumeration* `esb.rcp.pins.enPull`
+
+Pin pull-up/down mode.
+
+- (protogen.esb.rcp.pins.enPull.pullNone)=
+
+  **`pullNone`** — Disable pull-up/down.
+
+- (protogen.esb.rcp.pins.enPull.pullUp)=
+
+  **`pullUp`** — Enable pull-up resistor.
+
+- (protogen.esb.rcp.pins.enPull.pullDw)=
+
+  **`pullDw`** — Enable pull-down resistor.
+
+(protogen.esb.rcp.pins.enDriver)=
+
+### enDriver
+
+*Enumeration* `esb.rcp.pins.enDriver`
+
+GPIO/PWM pin driver mode.
+
+- (protogen.esb.rcp.pins.enDriver.drvPushPull)=
+
+  **`drvPushPull`** — Push-pull: actively drives both '0' and '1'.
+
+- (protogen.esb.rcp.pins.enDriver.drvOpenDrain)=
+
+  **`drvOpenDrain`** — Open-drain: actively drives '0' only (cannot drive strong '1').
+
+- (protogen.esb.rcp.pins.enDriver.drvOpenSource)=
+
+  **`drvOpenSource`** — Open-source: actively drives '1' only (cannot drive strong '0').

@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Network" href="network.html" />
+    <link rel="prev" title="Operating principle" href="principle.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="principle.html">Operating principle</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.html">Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior.html">Higher-level behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hints.html">Usage hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protobuf.html">Protobuf encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generators.html">Code generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Messages</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="messages">
+<span id="protogen-messages"></span><h1>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h1>
+<p>The client and the RCP server exchange two types of top-level messages, the directive and the report. They are defined in <a class="reference internal" href="../rcp.html"><span class="std std-doc">RCP Messages</span></a>. The page <a class="reference internal" href="network.html"><span class="std std-doc">Network</span></a> specifies how they are transmitted. The figure shows the structure of both messages.</p>
+<p><img alt="" src="../_images/structureMessages.svg" /></p>
+<section id="directives">
+<h2>Directives<a class="headerlink" href="#directives" title="Link to this heading"></a></h2>
+<p>A directive (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective</span></code></span></a>) holds a sequence number (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a>) and a list of operations. The server handles the operations in the order in which they appear. It checks and schedules an asynchronous action at its position, and the action runs when its trigger fires, see <a class="reference internal" href="scheduler.html"><span class="std std-doc">Scheduler</span></a>.</p>
+<p>A directive is not a transaction. An operation error neither rolls back earlier operations nor prevents later operations from being handled. This differs from a decoding error, which rejects the whole directive, see Malformed messages.</p>
+<p>The maximum size of a message, see <a class="reference internal" href="network.html"><span class="std std-doc">Network</span></a>, and the size of the operations limit the number of operations in a directive. A server may limit this number further.</p>
+<p>An operation (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation</span></code></span></a>) is one of the following:</p>
+<ul class="simple">
+<li><p>An action commands an endpoint or the RCP server itself, e.g., a SPI transfer or the toggling of GPIO pins. It can run immediately, at a later time, repeatedly, or when an event occurs, see <a class="reference internal" href="scheduler.html"><span class="std std-doc">Scheduler</span></a>.</p></li>
+<li><p>A query requests information, e.g., the identity, the configuration, or the status. The enumeration <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.enQuery</span></code></span></a> marks the mandatory and the optional queries.</p></li>
+<li><p>A configuration changes the settings of the RCP server or of an endpoint.</p></li>
+<li><p>A cancel operation cancels scheduled actions that have not completed.</p></li>
+</ul>
+<p>An action, a configuration, or a query contains the handle of the endpoint that it addresses, followed by the message for that endpoint. The message matches the type of the endpoint at the handle, see <a class="reference internal" href="principle.html"><span class="std std-doc">Operating principle</span></a>.</p>
+<p>If <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a> is non-zero, the server returns it in the report to the directive. If it is 0, the default, the server sends no report to the directive. This does not suppress unsolicited reports. A malformed directive is the exception, see Malformed messages. The sequence number correlates a reply, not an execution: receiving the same directive again can execute its operations again.</p>
+<p>If a directive is broadcast or multicast to many RCP servers, the optional DID mask of an operation (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldoperation-deviceidmask"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.deviceIdMask</span></code></span></a>) selects the servers that execute it. A server executes the operation only if the bitwise AND of its identification number (DID) and the mask is not zero. Otherwise, it ignores the operation and adds no result for it to the report. The DID is set with <a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverconfig-did"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerConfig.did</span></code></span></a>. See <a class="reference internal" href="../server/rcp_core.html"><span class="std std-doc">Core Operations</span></a> for an example.</p>
+</section>
+<section id="reports">
+<h2>Reports<a class="headerlink" href="#reports" title="Link to this heading"></a></h2>
+<p>A report (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgreport"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgReport</span></code></span></a>) holds the sequence number of the directive that it answers and one result for each of its operations, in the same order, except for an operation that the server ignores because of the DID mask. Each kind of result has its own enumeration of result codes. Some result codes are warnings. A warning means that the operation succeeded but deviated from the request. For example, <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgparamadjusted"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></span></a> tells that the server accepted a configuration but adjusted a value, such as a clock speed that its hardware cannot reproduce exactly. The client can read the actual setting back with a query. A warning counts as success, e.g., for the reply mode of an action and for the trigger type of a dependent action, see <a class="reference internal" href="scheduler.html"><span class="std std-doc">Scheduler</span></a>.</p>
+</section>
+<section id="unsolicited-reports">
+<h2>Unsolicited reports<a class="headerlink" href="#unsolicited-reports" title="Link to this heading"></a></h2>
+<p>The server also sends reports that the client has not requested. These reports carry no <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgreport-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgReport.seq</span></code></span></a>. A report can hold results of two kinds:</p>
+<ul class="simple">
+<li><p>The result of a scheduled action. If an action does not run immediately, the report to its directive only acknowledges that the action is pending. The server reports the result of each execution, unless <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.replyMode</span></code></span></a> limits the reports.</p></li>
+<li><p>A notification. Some endpoints produce data on their own, e.g., when a GPIO pin changes, a UART receives bytes, or an ADC crosses a threshold.</p></li>
+</ul>
+<p>Action execution results are sent to the client that scheduled the action. Each endpoint has at most one client that owns its notifications, and sends them only to that client. The query result <a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldendpointnotifinfo"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldEndpointNotifInfo</span></code></span></a> identifies the owner.</p>
+<p>To save bandwidth, the server may collect several notifications in one report, see <a class="reference internal" href="../server/rcp_core.html"><span class="std std-doc">Core Operations</span></a>. Each endpoint numbers its notifications (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldnotif-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.seq</span></code></span></a>) and each action its results (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactionresult-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.seq</span></code></span></a>), so a gap shows that a report is missing.</p>
+</section>
+<section id="malformed-messages">
+<h2>Malformed messages<a class="headerlink" href="#malformed-messages" title="Link to this heading"></a></h2>
+<p>A server ignores a frame that is not a valid RCP frame, see <a class="reference internal" href="network.html"><span class="std std-doc">Network</span></a>. It sends no report for it.</p>
+<p>If the frame is valid but the server cannot process the encoded message, it rejects the whole directive. It does not execute any operation of the directive, not even the operations in front of the error. The server answers with a report that holds one notification. The code of the notification (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a>) tells the reason:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../rcp-protocol.html#protogen-esb-ennotifresult-ntfprotocolerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfProtocolError</span></code></span></a>: the message is not valid Protocol Buffers data, e.g., it ends inside a field or contains an invalid wire type.</p></li>
+<li><p><a class="reference internal" href="../rcp-protocol.html#protogen-esb-ennotifresult-ntfprotocoltoolarge"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfProtocolTooLarge</span></code></span></a>: the message exceeds a limit of the server, e.g., a list has more items than the server can store. The limits are implementation-specific.</p></li>
+<li><p><a class="reference internal" href="../rcp-protocol.html#protogen-esb-ennotifresult-ntfprotocolunsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfProtocolUnsupported</span></code></span></a>: the message contains a field that the server does not know, or it sets more than one member of a <code class="docutils literal notranslate"><span class="pre">oneof</span></code>.</p></li>
+<li><p><a class="reference internal" href="../rcp-protocol.html#protogen-esb-ennotifresult-ntfoutofmemory"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfOutOfMemory</span></code></span></a>: the server ran out of memory while it decoded the message.</p></li>
+</ul>
+<p>The report carries the sequence number of the directive only if the server read it before it detected the error. Otherwise, the sequence number is 0. The server sends the report also if the sequence number of the directive is 0.</p>
+</section>
+<section id="compatibility">
+<h2>Compatibility<a class="headerlink" href="#compatibility" title="Link to this heading"></a></h2>
+<p>New versions of the schema add fields, messages, and enumeration values. They never renumber an existing field or enumeration value and never reuse a number for another purpose, so a message of an older version is still valid in a newer version. A client reads the version of the protocol that a server implements from <a class="reference internal" href="../server/rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity-rcpversion"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.info.fldIdentity.rcpVersion</span></code></span></a>.</p>
+<p>A client and a server can implement different versions, so a receiver can get content that it does not know:</p>
+<ul class="simple">
+<li><p>A server rejects a directive that contains a field that it does not know, see Malformed messages. It does not skip the field and execute the rest of the directive.</p></li>
+<li><p>A client skips a field of a report that it does not know. Protocol Buffers libraries do this by default.</p></li>
+<li><p>A server answers an operation that it does not implement with the result code <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actNotSupported</span></code></span></a>, <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></span></a>, or <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enqueryresult-qrynotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryNotSupported</span></code></span></a>.</p></li>
+</ul>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>A directive with two operations: a query for the status of the RCP server and an action that reads the state of the pins 0 and 1 of the GPIO endpoint with the handle 1. Both run as soon as possible:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 7
+dir { query { rcp: qryServerStatus } }
+dir { action { hndl: 1  gpio { get: 0x03 } } }
+</pre></div>
+</div>
+<p>The report has the same sequence number and one result for each operation, in the same order. In this example, the power-on flag of the RCP server is still set, pin 0 is high, and pin 1 is low:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 7
+res { query { rcp { server { pwrOn: true } } } }
+res { action { gpio: 1 } }
+</pre></div>
+</div>
+<p>The examples use the text format of protobuf, see <a class="reference internal" href="protobuf.html"><span class="std std-doc">Protobuf encoding</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="principle.html" class="btn btn-neutral float-left" title="Operating principle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral float-right" title="Network" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

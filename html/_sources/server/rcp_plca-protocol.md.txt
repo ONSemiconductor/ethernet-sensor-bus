@@ -1,0 +1,73 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.plca.fldStatus)=
+
+### fldStatus
+
+*Message* `esb.rcp.plca.fldStatus`
+
+Data structure representing the PLCA status.
+
+**Fields**
+
+- (protogen.esb.rcp.plca.fldStatus.status)=
+
+  **`status`** — `bool`\
+  The global PLCA operational status (True = UP).
+
+- (protogen.esb.rcp.plca.fldStatus.rxInTo)=
+
+  **`rxInTo`** — *optional* `bool`\
+  Diag: multiple nodes sharing the same node ID were detected.
+
+- (protogen.esb.rcp.plca.fldStatus.unexpB)=
+
+  **`unexpB`** — *optional* `bool`\
+  Diag: multiple coordinators were detected.
+
+- (protogen.esb.rcp.plca.fldStatus.bcnBfTo)=
+
+  **`bcnBfTo`** — *optional* `bool`\
+  Diag: wrong PLCA node count detected.
+
+(protogen.esb.rcp.plca.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.plca.fldConfig`
+
+Data structure representing the PLCA configuration.
+
+**Fields**
+
+- (protogen.esb.rcp.plca.fldConfig.enable)=
+
+  **`enable`** — *optional* `bool`\
+  PLCA administrative state.
+
+- (protogen.esb.rcp.plca.fldConfig.nodeId)=
+
+  **`nodeId`** — *optional* `uint32`\
+  Unique ID assigned to the node (0 = Coordinator, 255 = disabled).
+
+- (protogen.esb.rcp.plca.fldConfig.nodeCount)=
+
+  **`nodeCount`** — *optional* `uint32`\
+  Maximum number of nodes on the network (only for coordinator, default = 8).
+
+- (protogen.esb.rcp.plca.fldConfig.toTimer)=
+
+  **`toTimer`** — *optional* `uint32`\
+  Transmit Opportunity Timer (default = 32).
+
+- (protogen.esb.rcp.plca.fldConfig.burstTimer)=
+
+  **`burstTimer`** — *optional* `uint32`\
+  Burst Timer in bit times (default = 128).
+
+- (protogen.esb.rcp.plca.fldConfig.burstCount)=
+
+  **`burstCount`** — *optional* `uint32`\
+  PLCA burst count (0 = disabled, default).

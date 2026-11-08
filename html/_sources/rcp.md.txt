@@ -1,0 +1,53 @@
+(protogen.rcp_msg)=
+
+# RCP Messages
+
+**File:** `rcp.proto`
+
+**Package:** `esb`
+
+The top-level messages of ESB, a remote control protocol (RCP), and the containers of the operations.
+
+The client sends a directive ([`msgDirective`](#protogen.esb.msgDirective)) to the RCP server, and the server answers with a report
+([`msgReport`](#protogen.esb.msgReport)). The page [Messages](#protogen.messages) describes their structure and the page [Scheduler](#protogen.scheduler) how the server runs
+actions. The messages of the endpoints travel in the containers that this file defines. The endpoints are described
+on their own pages (see [Common Definitions](#protogen.rcp_common) for the list), the RCP server itself on [RCP Server](#protogen.rcp_dev).
+
+The message [`msgRcp`](#protogen.esb.msgRcp) combines both top-level messages for tools such as Wireshark. Neither side sends it.
+
+## Example
+
+A directive with a configuration, a synchronous action, and a query:
+
+```text
+seq: 1
+dir { config { hndl: 2  spi { cpol: false  cpha: false  speedHz: 1000000 } } }
+dir { action { hndl: 2  spi { xfer { xft: xferWriteOnly  wdata: "\x9F" }  xfer { xft: xferReadOnly  rsize: 2 } } } }
+dir { query { rcp: qryIdentity } }
+```
+
+The report has the same [`msgReport.seq`](#protogen.esb.msgReport.seq) and holds three results, one for each operation. A directive that toggles
+GPIO #0, which is configured as an output, ten times at intervals of 500 ms, starting one second after its reception
+(an asynchronous action):
+
+```text
+seq: 2
+dir {
+   action {
+      hndl: 1
+      gpio { tgl: 0x01 }
+      timed { offset { sec: 1 }  period { nsec: 500000000 } }
+      repeatCount: 9
+   }
+}
+```
+
+The server answers with [`actPending`](#protogen.esb.enActionResult.actPending) and the unique ID of the action, and reports the result of each execution
+in an unsolicited report, unless [`fldAction.replyMode`](#protogen.esb.fldAction.replyMode) limits it.
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp-protocol
+```

@@ -1,0 +1,158 @@
+/**
+ * Copyright (c) 2024 onsemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.cs-search-bar {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.cs-search-bar input {
+  width: 100%;
+  padding: 10px 40px 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  box-shadow: none;
+}
+
+.cs-search-bar i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  color: #ccc;
+  font-size: 18px;
+}
+
+.code-sample-listing mark {
+  background: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  color: inherit;
+  border-radius: 4px;
+  outline: 4px solid rgba(255, 255, 0, 0.3);
+  outline-offset: 2px;
+}
+
+ul.code-sample-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.code-sample-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.code-sample-name {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.code-sample-description {
+  color: #555;
+}
+
+.code-sample-badge {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1px 8px;
+  margin-right: 8px;
+  border-radius: 10px;
+  vertical-align: middle;
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.code-sample-badge.zephyr {
+  background-color: #7929d2;
+  color: #fff;
+}
+
+.code-sample-badge.bare_metal {
+  background-color: #1a7f37;
+  color: #fff;
+}
+
+/* "Related APIs": each relevant-api entry renders as a clickable card that
+   links to its Doxygen page. Local onsemi groups and external Zephyr groups
+   share the chip layout; external cards carry an outbound-link affordance.
+   Colors come from the theme's onsemi CSS variables (light.css / dark.css) so
+   the cards adapt automatically to light and dark mode. */
+.sdk-api-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0.5rem 0 1rem;
+}
+
+.sdk-api-card,
+a.sdk-api-card:visited {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 120px;
+  padding: 10px 14px;
+  border: 1px solid var(--onsemi-border, #d5d8dc);
+  border-left: 4px solid var(--onsemi-primary, #0072ce);
+  border-radius: 8px;
+  background-color: var(--onsemi-light-alt, #fafbfc);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+a.sdk-api-card:hover {
+  border-color: var(--onsemi-primary, #0072ce);
+  box-shadow: 0 2px 10px var(--onsemi-shadow, rgba(0, 114, 206, 0.18));
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+a.sdk-api-card--external {
+  border-left-color: #8b5cf6;
+}
+
+a.sdk-api-card--external:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.22);
+}
+
+.sdk-api-card__name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--onsemi-text, #1a1a1a);
+}
+
+.sdk-api-card__meta {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--onsemi-text-muted, #6a6f76);
+  opacity: 0.65;
+}
+
+a.sdk-api-card--external .sdk-api-card__meta::after {
+  content: " \2197"; /* north-east arrow: outbound link */
+}
+
+/* Disabled cards (a <span>, not <a>) inherit the chip geometry from the
+   `.sdk-api-card` group selector above; keep that selector element-agnostic. */
+.sdk-api-card.sdk-api-card--disabled {
+  border-left-color: var(--onsemi-border, #b0b4ba);
+  background-color: var(--onsemi-light-alt, #f1f2f4);
+  color: var(--onsemi-text-muted, #6a6f76);
+  opacity: 0.7;
+}

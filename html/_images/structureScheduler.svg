@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="400" viewBox="0 0 1000 400" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Life of an action in the scheduler of an RCP server</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="1000" height="400" fill="#ffffff"/>
+  <rect class="act" x="20" y="120" width="150" height="64" rx="6"/>
+  <text class="b c" x="95" y="147.05" xml:space="preserve">Received</text>
+  <text class="n c" x="95" y="166.05" xml:space="preserve">the action is checked</text>
+  <rect class="act" x="320" y="120" width="150" height="64" rx="6"/>
+  <text class="b c" x="395" y="147.05" xml:space="preserve">Scheduled</text>
+  <text class="n c" x="395" y="166.05" xml:space="preserve">waits for its trigger</text>
+  <rect class="act" x="620" y="120" width="150" height="64" rx="6"/>
+  <text class="b c" x="695" y="147.05" xml:space="preserve">Running</text>
+  <text class="n c" x="695" y="166.05" xml:space="preserve">the endpoint executes it</text>
+  <rect class="act" x="840" y="120" width="140" height="64" rx="6"/>
+  <text class="b c" x="910" y="147.05" xml:space="preserve">Completed</text>
+  <text class="n c" x="910" y="166.05" xml:space="preserve">the result is reported</text>
+  <rect class="end" x="20" y="300" width="150" height="46" rx="6"/>
+  <text class="b c" x="95" y="327.55" xml:space="preserve">Rejected</text>
+  <rect class="end" x="270" y="300" width="150" height="46" rx="6"/>
+  <text class="b c" x="345" y="327.55" xml:space="preserve">Canceled</text>
+  <path class="arrow" d="M170,152 L320,152"/>
+  <text class="c n" x="245" y="140" xml:space="preserve">asynchronous action</text>
+  <text class="c n" x="245" y="170" xml:space="preserve"><tspan class="mn">actPending</tspan> and <tspan class="mn">uid</tspan></text>
+  <path class="arrow" d="M470,152 L620,152"/>
+  <text class="c n" x="545" y="140" xml:space="preserve">trigger fires</text>
+  <text class="c n" x="545" y="170" xml:space="preserve">endpoint is free</text>
+  <path class="arrow" d="M770,152 L840,152"/>
+  <path class="sync" d="M95,120 L95,72 L695,72 L695,120"/>
+  <text class="c n" x="395" y="64" xml:space="preserve">synchronous action: runs as soon as the endpoint is free, and the reply holds the final result</text>
+  <path class="arrow" d="M910,184 L910,250 L440,250 L440,184"/>
+  <text class="c n" x="675" y="270" xml:space="preserve">repetitions left: scheduled again</text>
+  <path class="arrow" d="M95,184 L95,300"/>
+  <text class="n" x="105" y="232" xml:space="preserve">invalid, or no resources:</text>
+  <text class="n" x="105" y="248" xml:space="preserve">error result</text>
+  <path class="arrow" d="M345,184 L345,300"/>
+  <text class="n" x="355" y="232" xml:space="preserve">cancel:</text>
+  <text class="n" x="355" y="248" xml:space="preserve"><tspan class="mn">aclSuccess</tspan></text>
+  <text class="n" x="20" y="382" xml:space="preserve">A running action completes even if it is canceled (<tspan class="mn">aclPending</tspan>). After its last repetition, an action is removed from the scheduler.</text>
+</svg>

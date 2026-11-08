@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Scheduler" href="scheduler.html" />
+    <link rel="prev" title="Messages" href="messages.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="principle.html">Operating principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.html">Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior.html">Higher-level behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hints.html">Usage hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protobuf.html">Protobuf encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generators.html">Code generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="network">
+<span id="protogen-network"></span><h1>Network<a class="headerlink" href="#network" title="Link to this heading"></a></h1>
+<p>An RCP server accepts RCP messages carried over raw Ethernet frames (layer 2 of the OSI model). A server that supports IP can also accept RCP messages carried over User Datagram Protocol (UDP) packets (layer 4).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Raw Ethernet needs no IP configuration, but its frames do not pass routers. UDP/IP packets can be routed.</p>
+</div>
+<p>The figure shows how a server processes and filters the frames that it receives. Dashed boxes mark optional or conditional support. ARP is required if the server uses IP.</p>
+<p><img alt="" src="../_images/structureFrameProcessing.svg" /></p>
+<section id="message-size">
+<h2>Message size<a class="headerlink" href="#message-size" title="Link to this heading"></a></h2>
+<p>The figures in the sections Raw Ethernet and UDP/IP give the maximum size of the complete encoded directive or report, without and with a VLAN tag.</p>
+<p>Fragmentation is optional. A server may reassemble fragmented IPv4 packets (RFC 791), which allows UDP messages that are larger than a frame. A server without fragmentation support ignores fragmented packets without notifying the client. Raw Ethernet has no fragmentation. A client should keep both its directives and the expected reports within one frame unless it knows that the server supports larger messages.</p>
+</section>
+<section id="raw-ethernet">
+<h2>Raw Ethernet<a class="headerlink" href="#raw-ethernet" title="Link to this heading"></a></h2>
+<p>A raw Ethernet frame that carries an RCP message is structured as defined in IEEE 802.3. The upper part of the figure shows the frame, and the lower part shows its payload. The figure applies to directives and reports.</p>
+<p><img alt="" src="../_images/structureEthernetFrame.svg" /></p>
+<p>The VLAN tag is defined in IEEE 802.1Q. The EtherType is the OUI Extended EtherType. The frame check sequence is the 32-bit cyclic redundancy check (CRC) value of the frame.</p>
+<p>The server accepts the following destination MAC addresses:</p>
+<ul class="simple">
+<li><p>The broadcast address FF:FF:FF:FF:FF:FF. All servers on the Ethernet network accept it, regardless of their configuration.</p></li>
+<li><p>The individual address of the server. By default, it is the factory-default address (<a class="reference internal" href="../server/rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity-macaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.info.fldIdentity.macAddr</span></code></span></a>), and <a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-macaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.macAddr</span></code></span></a> replaces it.</p></li>
+<li><p>The multicast addresses of the server (<a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-multicastaddrs"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.multicastAddrs</span></code></span></a>).</p></li>
+</ul>
+<p>The fields of the payload header are transmitted with the most significant byte first. The company identifier is the organizationally unique identifier (OUI) of onsemi. The message length counts only the encoded message, excluding the eight-byte payload header and any Ethernet padding. The header version is independent of the version of the protocol that the server reports in <a class="reference internal" href="../server/rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity-rcpversion"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.info.fldIdentity.rcpVersion</span></code></span></a>. The server ignores any bytes after the encoded message. It ignores a frame whose message length is 0 or exceeds the bytes available after the payload header. The server handles a message that it cannot decode as described in <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>.</p>
+<p>The reply to a directive uses the same frame format. Its destination address is the source address of the received frame, and it uses the VLAN of the received frame. Its source address is the individual MAC address of the server, even if the received frame was addressed to a broadcast or multicast address.</p>
+</section>
+<section id="udp-ip">
+<h2>UDP/IP<a class="headerlink" href="#udp-ip" title="Link to this heading"></a></h2>
+<p>A server that supports IP also accepts RCP messages in UDP packets (RFC 768) that are carried in IPv4 packets (RFC 791). If <a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.ipAddr</span></code></span></a> is 255.255.255.255, the IP networking stack, including UDP, is disabled and the server accepts raw Ethernet frames only.</p>
+<p>The IPv4 header has no options. The UDP payload is the encoded message without payload header.</p>
+<p><img alt="" src="../_images/structureUdpPacket.svg" /></p>
+<p>A client sends a directive to the UDP port 7771 (0x1E5B) of the server. The server sends its reports from the UDP port 7771 to the UDP source port that the client used.</p>
+<p>The server accepts the following destination IP addresses:</p>
+<ul class="simple">
+<li><p>The limited broadcast address 255.255.255.255, as long as IP networking is enabled.</p></li>
+<li><p>The broadcast address of the local subnet. It has all bits after the network prefix set to one. The length of the network prefix is <a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-subnetprefixlength"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.subnetPrefixLength</span></code></span></a>.</p></li>
+<li><p>The unicast IP address of the server (<a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.ipAddr</span></code></span></a>).</p></li>
+<li><p>The multicast addresses of the server (<a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-multicastaddrs"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.multicastAddrs</span></code></span></a>).</p></li>
+</ul>
+</section>
+<section id="clients">
+<h2>Clients<a class="headerlink" href="#clients" title="Link to this heading"></a></h2>
+<p>The server assigns a unique client ID to each client that it learns from received messages or that is registered in advance. The page <a class="reference internal" href="../server/rcp_net.html"><span class="std std-doc">Network Configuration</span></a> describes how the server identifies and registers clients.</p>
+</section>
+<section id="support-protocols">
+<h2>Support protocols<a class="headerlink" href="#support-protocols" title="Link to this heading"></a></h2>
+<p>A server that uses IP answers requests of the Address Resolution Protocol (ARP, RFC 826) for its IP address, so that a client can find its MAC address. If <a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-gratuitousarpenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.gratuitousArpEnable</span></code></span></a> is set, the server also announces its address after every successful change of the IP address.</p>
+<p>The server can acquire its IP address with the Dynamic Host Configuration Protocol (DHCP, RFC 2131) or the Bootstrap Protocol (BOOTP, RFC 951) if <a class="reference internal" href="../server/rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.net.fldConfig.ipAddr</span></code></span></a> is 0.0.0.0. Both are optional.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="messages.html" class="btn btn-neutral float-left" title="Messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scheduler.html" class="btn btn-neutral float-right" title="Scheduler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

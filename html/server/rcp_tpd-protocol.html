@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Core Operations" href="rcp_core.html" />
+    <link rel="prev" title="Topology Discovery" href="rcp_tpd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_tpd.html">Topology Discovery</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldcmd">
+<span id="protogen-esb-rcp-tpd-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.tpd.fldCmd</span></code></p>
+<p>Container for the topology discovery operation.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-tpd-fldcmd-role"><strong><code class="docutils literal notranslate"><span class="pre">role</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-tpd-encmdrole"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCmdRole</span></code></span></a><br />
+Role of the node in the measurement.
+The measurement needs two nodes with different roles, so the client sends the command to both of them.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmd-durationms"><strong><code class="docutils literal notranslate"><span class="pre">durationMs</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Duration of each delay measurement in milliseconds.
+A longer duration improves the precision of the measured delays, but makes the whole measurement longer.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmd-timeoutms"><strong><code class="docutils literal notranslate"><span class="pre">timeoutMs</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Timeout of the measurement in milliseconds.
+The RCP server waits at most this time for the other node to take part in the measurement. If the other node does
+not respond in time, the measurement fails with an error status, see <a class="reference internal" href="#protogen-esb-rcp-tpd-encmdstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCmdStatus</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+<section id="fldcmdresult">
+<span id="protogen-esb-rcp-tpd-fldcmdresult"></span><h3>fldCmdResult<a class="headerlink" href="#fldcmdresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.tpd.fldCmdResult</span></code></p>
+<p>Container for the topology discovery result.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-tpd-fldcmdresult-internaldelay"><strong><code class="docutils literal notranslate"><span class="pre">internalDelay</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Internal delay of the node, i.e., the delay that the node itself adds to the signal.
+The delay between the two nodes includes the internal delays, see <a class="reference internal" href="#protogen-esb-rcp-tpd-fldcmdresult-distancedelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">distanceDelay</span></code></span></a>.
+It is a count, see the page <a class="reference internal" href="rcp_tpd.html#protogen-rcp-tpd"><span class="std std-ref">Topology Discovery</span></a> for the conversion into a time.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmdresult-distancedelay"><strong><code class="docutils literal notranslate"><span class="pre">distanceDelay</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Delay between the two nodes, measured over the line. The client derives the distance between the nodes from it,
+taking the internal delays into account, see <a class="reference internal" href="#protogen-esb-rcp-tpd-fldcmdresult-internaldelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">internalDelay</span></code></span></a> and <a class="reference internal" href="#protogen-esb-rcp-tpd-fldcmdresult-measurednodedelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">measuredNodeDelay</span></code></span></a>.
+For the calculation, see the page <a class="reference internal" href="rcp_tpd.html#protogen-rcp-tpd"><span class="std std-ref">Topology Discovery</span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmdresult-durationms"><strong><code class="docutils literal notranslate"><span class="pre">durationMs</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Duration of each delay measurement in milliseconds, the same as in <a class="reference internal" href="#protogen-esb-rcp-tpd-fldcmd-durationms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.durationMs</span></code></span></a>.
+The client needs it to convert the delays into times, see the page <a class="reference internal" href="rcp_tpd.html#protogen-rcp-tpd"><span class="std std-ref">Topology Discovery</span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmdresult-measurednodedelay"><strong><code class="docutils literal notranslate"><span class="pre">measuredNodeDelay</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Internal delay of the measured node, as measured by the reference node. Only the reference node reports it. In
+the result of the measured node, it is 0.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-fldcmdresult-status"><strong><code class="docutils literal notranslate"><span class="pre">status</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-tpd-encmdstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCmdStatus</span></code></span></a><br />
+Status of the measurement. The delays are only valid if it is <a class="reference internal" href="#protogen-esb-rcp-tpd-encmdstatus-statussuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">statusSuccess</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="encmdrole">
+<span id="protogen-esb-rcp-tpd-encmdrole"></span><h3>enCmdRole<a class="headerlink" href="#encmdrole" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.tpd.enCmdRole</span></code></p>
+<p>Role of a node in the topology discovery.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-tpd-encmdrole-rolemeasurednode"><strong><code class="docutils literal notranslate"><span class="pre">roleMeasuredNode</span></code></strong> — Start topology discovery as the measured node. The measured node waits for the reference node, measures its own
+internal delay, and then takes part in the measurement of the delay between the two nodes.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-encmdrole-rolereferencenode"><strong><code class="docutils literal notranslate"><span class="pre">roleReferenceNode</span></code></strong> — Start topology discovery as the reference node. The reference node starts the exchange with the measured node.
+It measures its own internal delay and that of the measured node, and then the delay between the two nodes.</p>
+</li>
+</ul>
+</section>
+<section id="encmdstatus">
+<span id="protogen-esb-rcp-tpd-encmdstatus"></span><h3>enCmdStatus<a class="headerlink" href="#encmdstatus" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.tpd.enCmdStatus</span></code></p>
+<p>Topology discovery status.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-tpd-encmdstatus-statussuccess"><strong><code class="docutils literal notranslate"><span class="pre">statusSuccess</span></code></strong> — Measurement was successful.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-encmdstatus-statusautoerr"><strong><code class="docutils literal notranslate"><span class="pre">statusAutoErr</span></code></strong> — Error in the automatic sequence of the measurement: the other node did not continue the sequence within the
+timeout, see <a class="reference internal" href="#protogen-esb-rcp-tpd-fldcmd-timeoutms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.timeoutMs</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-encmdstatus-statusmeaserr"><strong><code class="docutils literal notranslate"><span class="pre">statusMeasErr</span></code></strong> — Error during the measurement of the delay between the two nodes, e.g., because no signal was received in time.</p>
+</li>
+<li><p id="protogen-esb-rcp-tpd-encmdstatus-statusdlymeaserr"><strong><code class="docutils literal notranslate"><span class="pre">statusDlyMeasErr</span></code></strong> — Error during the measurement of an internal delay, e.g., because no signal was received in time.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_tpd.html" class="btn btn-neutral float-left" title="Topology Discovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_core.html" class="btn btn-neutral float-right" title="Core Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

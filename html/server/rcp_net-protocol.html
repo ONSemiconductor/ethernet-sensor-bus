@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pins" href="rcp_pins.html" />
+    <link rel="prev" title="Network Configuration" href="rcp_net.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_net.html">Network Configuration</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_net.html">Network Configuration</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldstatus">
+<span id="protogen-esb-rcp-net-fldstatus"></span><h3>fldStatus<a class="headerlink" href="#fldstatus" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldStatus</span></code></p>
+<p>Network status records.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldstatus-phymode"><strong><code class="docutils literal notranslate"><span class="pre">phyMode</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-net-enphymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPhyMode</span></code></span></a><br />
+Current mode the embedded PHY is operating in.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldstatus-lnkmode"><strong><code class="docutils literal notranslate"><span class="pre">lnkMode</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-net-enlinkmode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enLinkMode</span></code></span></a><br />
+Current Ethernet link mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldstatus-lnkspeed"><strong><code class="docutils literal notranslate"><span class="pre">lnkSpeed</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-net-enlinkspeed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enLinkSpeed</span></code></span></a><br />
+Current Ethernet link speed.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldstatus-ipaddr"><strong><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+Current IPv4 address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldstatus-sqi"><strong><code class="docutils literal notranslate"><span class="pre">sqi</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Current value of SQI+.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldstatus-subnetprefixlength"><strong><code class="docutils literal notranslate"><span class="pre">subnetPrefixLength</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Current subnet prefix length.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig">
+<span id="protogen-esb-rcp-net-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldConfig</span></code></p>
+<p>Network configuration container.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-rcp-net-fldconfig-macaddr"><strong><code class="docutils literal notranslate"><span class="pre">macAddr</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Configured MAC address.
+If set, the RCP server uses the specified MAC address for communications.
+When the MAC address changes, the RCP server sends the reply to the configuration operation with the old MAC
+address as source address.
+If not configured (default), the RCP server uses the factory-default MAC address, if available. Otherwise, it
+uses a fixed or randomly generated MAC address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-ipaddr"><strong><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+If set, changes the current IPv4 address of the RCP server.
+When the IPv4 address changes, the RCP server sends the reply to the configuration operation with the old IP
+address as source address.
+If <a class="reference internal" href="#protogen-esb-rcp-net-fldconfig-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></span></a> is 0.0.0.0, the RCP server acquires an IPv4 address with DHCP or BOOTP.
+If it is 255.255.255.255, IPv4 is disabled.
+When IPv4 is enabled, the RCP server answers directives that arrive on the UDP port 7771 (0x1E5B) and uses the
+source port of the client as the destination port.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting the IP address to 127.x.x.x fails with the <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfginvalidparam"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgInvalidParam</span></code></span></a> code.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-subnetprefixlength"><strong><code class="docutils literal notranslate"><span class="pre">subnetPrefixLength</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Configures the subnetwork prefix length, which determines the subnet mask.
+This also affects the subnet broadcast address.
+For an example, see the page <a class="reference internal" href="rcp_net.html#protogen-rcp-net"><span class="std std-ref">Network Configuration</span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-multicastaddrs"><strong><code class="docutils literal notranslate"><span class="pre">multicastAddrs</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-net-fldconfig-fldmulticastitem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldMulticastItem</span></code></span></a><br />
+List of the multicast addresses that the RCP server accepts.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-vlanids"><strong><code class="docutils literal notranslate"><span class="pre">vlanIds</span></code></strong> — <em>repeated</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set, specifies a list of VLANs that the RCP server accepts.
+If this list is empty, the RCP server accepts only untagged
+frames, and silently drops all VLAN-tagged ones.
+The RCP server tracks the VLAN ID for the purpose of replying to clients:</p>
+<ul class="simple">
+<li><p>Clients with the same MAC/IP address and different VLAN ID are considered
+different clients.</p></li>
+<li><p>Replies preserve the original VLAN used by the client to communicate with
+the RCP server.</p></li>
+</ul>
+<p>Unsolicited RCP notifications use the VLAN that the client used for
+subscribing to the specific notification / endpoint.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-defaultvlanid"><strong><code class="docutils literal notranslate"><span class="pre">defaultVlanId</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The VLAN ID to be used for unsolicited non-RCP protocol frames, for
+example ARP announcements or DHCP.
+If set to 0 (default), non-RCP protocols use untagged frames.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-gratuitousarpenable"><strong><code class="docutils literal notranslate"><span class="pre">gratuitousArpEnable</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set to true, the server sends an ARP announcement after a successful
+IP address change.
+If set to false (default), the server does not announce its IP address
+on boot, regardless of the DHCP or static IP settings.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig-fldmulticastitem">
+<span id="protogen-esb-rcp-net-fldconfig-fldmulticastitem"></span><h3>fldConfig.fldMulticastItem<a class="headerlink" href="#fldconfig-fldmulticastitem" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldConfig.fldMulticastItem</span></code></p>
+<p>Single entry of the multicast address list.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldconfig-fldmulticastitem-addr"><strong><code class="docutils literal notranslate"><span class="pre">addr</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-rcp-net-fldconfig-fldmulticastitem-ipaddr"><strong><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+Multicast IPv4 address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldconfig-fldmulticastitem-macaddr"><strong><code class="docutils literal notranslate"><span class="pre">macAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Multicast MAC address.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldclientconfigitem">
+<span id="protogen-esb-rcp-net-fldclientconfigitem"></span><h3>fldClientConfigItem<a class="headerlink" href="#fldclientconfigitem" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldClientConfigItem</span></code></p>
+<p>Address of a client that the RCP server registers in advance.
+If the client has an IPv4 address, the RCP server identifies it by this address, its UDP port, and its VLAN ID, and
+sends its messages to it in UDP datagrams. Otherwise, the RCP server identifies the client by its MAC address and
+its VLAN ID, and sends its messages to it in raw Ethernet frames.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldclientconfigitem-macaddr"><strong><code class="docutils literal notranslate"><span class="pre">macAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+MAC address of the client.
+The RCP server uses it as the destination address of the Ethernet frames that carry its messages to the client.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientconfigitem-vlanid"><strong><code class="docutils literal notranslate"><span class="pre">vlanId</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+VLAN ID of the client. If 0 (default), the client does not use a VLAN, and the RCP server sends its messages
+to it in untagged frames. Otherwise, it sends them in frames that carry this VLAN ID in their tag.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientconfigitem-ipaddr"><strong><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+IPv4 address of the client.
+If set to a non-zero address, the RCP server sends its messages to the client in UDP datagrams to this address
+and to the <a class="reference internal" href="#protogen-esb-rcp-net-fldclientconfigitem-port"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">port</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientconfigitem-port"><strong><code class="docutils literal notranslate"><span class="pre">port</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+UDP port of the client, to which the RCP server sends its UDP datagrams. It is only used if <a class="reference internal" href="#protogen-esb-rcp-net-fldclientconfigitem-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></span></a> is set.</p>
+</li>
+</ul>
+</section>
+<section id="fldclientconfig">
+<span id="protogen-esb-rcp-net-fldclientconfig"></span><h3>fldClientConfig<a class="headerlink" href="#fldclientconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldClientConfig</span></code></p>
+<p>Registers clients in advance, i.e., before they send their first message.
+The RCP server learns a client from the messages that it receives from it. A registered client is known to the RCP
+server before it sends a message, so the RCP server can send messages to it without having received one from it
+first, e.g., the results of a stored action that it loads on boot.
+The client configuration is part of the server configuration. If it is saved (see <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opsaveconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opSaveConfig</span></code></span></a>), the
+RCP server knows the clients again after a restart, with the same client IDs, so that the stored actions that it
+loads still report to their clients.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldclientconfig-clients"><strong><code class="docutils literal notranslate"><span class="pre">clients</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-net-fldclientconfigitem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldClientConfigItem</span></code></span></a><br />
+Clients to register.
+For each entry, the RCP server adds the client and assigns a client ID to it. If the RCP server already knows the
+client, it keeps the client ID.
+The query <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryclientstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryClientStatus</span></code></span></a> returns the client IDs.</p>
+</li>
+</ul>
+</section>
+<section id="fldclientstatusitem">
+<span id="protogen-esb-rcp-net-fldclientstatusitem"></span><h3>fldClientStatusItem<a class="headerlink" href="#fldclientstatusitem" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldClientStatusItem</span></code></p>
+<p>A client that the RCP server knows, with the client ID that the RCP server assigned to it.
+The address fields have the same meaning as those of <a class="reference internal" href="#protogen-esb-rcp-net-fldclientconfigitem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldClientConfigItem</span></code></span></a>.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldclientstatusitem-clientid"><strong><code class="docutils literal notranslate"><span class="pre">clientId</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Client ID that the RCP server assigned to the client. It is unique among the clients that the RCP server knows.
+The ID identifies the notification owner of an endpoint (<a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldendpointnotifinfo-clientid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldEndpointNotifInfo.clientId</span></code></span></a>) or the client that
+scheduled an action (<a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-clientid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldSchedulerStatus.fldSchedulerItem.clientId</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientstatusitem-macaddr"><strong><code class="docutils literal notranslate"><span class="pre">macAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+MAC address of the client, 6 bytes.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientstatusitem-vlanid"><strong><code class="docutils literal notranslate"><span class="pre">vlanId</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+VLAN ID of the client. Not set if the client does not use a VLAN.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientstatusitem-ipaddr"><strong><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+IPv4 address of the client. Not set if the client does not have an IPv4 address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldclientstatusitem-port"><strong><code class="docutils literal notranslate"><span class="pre">port</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+UDP port of the client. Set together with <a class="reference internal" href="#protogen-esb-rcp-net-fldclientstatusitem-ipaddr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ipAddr</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+<section id="fldclientstatus">
+<span id="protogen-esb-rcp-net-fldclientstatus"></span><h3>fldClientStatus<a class="headerlink" href="#fldclientstatus" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldClientStatus</span></code></p>
+<p>Status of the clients of the RCP server, returned by the query <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryclientstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryClientStatus</span></code></span></a>.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldclientstatus-clients"><strong><code class="docutils literal notranslate"><span class="pre">clients</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-net-fldclientstatusitem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldClientStatusItem</span></code></span></a><br />
+The clients that the RCP server knows: the ones that it learned from their messages, and the ones that were
+registered with <a class="reference internal" href="#protogen-esb-rcp-net-fldclientconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldClientConfig</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+<section id="fldmdioconfig">
+<span id="protogen-esb-rcp-net-fldmdioconfig"></span><h3>fldMdioConfig<a class="headerlink" href="#fldmdioconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldMdioConfig</span></code></p>
+<p>MDIO access container.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldmdioconfig-phyaddr"><strong><code class="docutils literal notranslate"><span class="pre">phyAddr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+PHY MDIO address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldmdioconfig-mmd"><strong><code class="docutils literal notranslate"><span class="pre">mmd</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+MMD address (0 = Clause 22).</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldmdioconfig-regaddress"><strong><code class="docutils literal notranslate"><span class="pre">regAddress</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Register address.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldmdioconfig-data"><strong><code class="docutils literal notranslate"><span class="pre">data</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Register data for write operations.</p>
+</li>
+</ul>
+</section>
+<section id="fldphyreg">
+<span id="protogen-esb-rcp-net-fldphyreg"></span><h3>fldPhyReg<a class="headerlink" href="#fldphyreg" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldPhyReg</span></code></p>
+<p>Container for a list of MDIO register accesses.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldphyreg-mdiolist"><strong><code class="docutils literal notranslate"><span class="pre">mdioList</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-net-fldmdioconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldMdioConfig</span></code></span></a><br />
+List of MDIO accesses.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-fldphyreg-key"><strong><code class="docutils literal notranslate"><span class="pre">key</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Key that gives access to vendor-specific capabilities of the PHY. The meaning of the key and of the accesses that
+it enables is implementation-specific (refer to the datasheet of the server).</p>
+</li>
+</ul>
+</section>
+<section id="fldphydata">
+<span id="protogen-esb-rcp-net-fldphydata"></span><h3>fldPhyData<a class="headerlink" href="#fldphydata" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.fldPhyData</span></code></p>
+<p>Container for MDIO register read data.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-fldphydata-data"><strong><code class="docutils literal notranslate"><span class="pre">data</span></code></strong> — <em>repeated</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+List of MDIO register data for read operations.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enphymode">
+<span id="protogen-esb-rcp-net-enphymode"></span><h3>enPhyMode<a class="headerlink" href="#enphymode" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.enPhyMode</span></code></p>
+<p>Embedded Ethernet PHY modes.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-enphymode-phyunknown"><strong><code class="docutils literal notranslate"><span class="pre">phyUnknown</span></code></strong> — Unknown or no PHY.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-enphymode-phy10base-t1s"><strong><code class="docutils literal notranslate"><span class="pre">phy10BASE_T1S</span></code></strong> — 10BASE-T1S PHY.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-enphymode-phy100base-t1"><strong><code class="docutils literal notranslate"><span class="pre">phy100BASE_T1</span></code></strong> — 100BASE-T1 PHY.</p>
+</li>
+</ul>
+</section>
+<section id="enlinkmode">
+<span id="protogen-esb-rcp-net-enlinkmode"></span><h3>enLinkMode<a class="headerlink" href="#enlinkmode" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.enLinkMode</span></code></p>
+<p>Ethernet link modes.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-enlinkmode-lnkmodeunknown"><strong><code class="docutils literal notranslate"><span class="pre">lnkModeUnknown</span></code></strong> — Unknown or no link mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-enlinkmode-lnkmodehalfduplex"><strong><code class="docutils literal notranslate"><span class="pre">lnkModeHalfDuplex</span></code></strong> — Half duplex link.</p>
+</li>
+</ul>
+</section>
+<section id="enlinkspeed">
+<span id="protogen-esb-rcp-net-enlinkspeed"></span><h3>enLinkSpeed<a class="headerlink" href="#enlinkspeed" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.net.enLinkSpeed</span></code></p>
+<p>Embedded Ethernet link speeds.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-net-enlinkspeed-lnkspeedunknown"><strong><code class="docutils literal notranslate"><span class="pre">lnkSpeedUnknown</span></code></strong> — Unknown or no link speed.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-enlinkspeed-lnkspeed10m"><strong><code class="docutils literal notranslate"><span class="pre">lnkSpeed10M</span></code></strong> — 10 Mbps supported.</p>
+</li>
+<li><p id="protogen-esb-rcp-net-enlinkspeed-lnkspeed100m"><strong><code class="docutils literal notranslate"><span class="pre">lnkSpeed100M</span></code></strong> — 100 Mbps supported.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_net.html" class="btn btn-neutral float-left" title="Network Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_pins.html" class="btn btn-neutral float-right" title="Pins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

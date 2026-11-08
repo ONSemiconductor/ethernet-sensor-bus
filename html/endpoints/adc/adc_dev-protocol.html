@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SENT Driver" href="../sent/sent_dev.html" />
+    <link rel="prev" title="ADC Driver" href="adc_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="adc_dev.html">ADC Driver</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+          <li class="breadcrumb-item"><a href="adc_dev.html">ADC Driver</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldinterfaceserial">
+<span id="protogen-esb-adc-fldinterfaceserial"></span><h3>fldInterfaceSerial<a class="headerlink" href="#fldinterfaceserial" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldInterfaceSerial</span></code></p>
+<p>The ESB protocol allows ADC endpoints to be internal or external to the
+RCP server. This interface allows configuration of an external ADC endpoint.
+The external ADC serial interface assumes the ADC has only three pins,
+similar to an SPI interface. In fact, the pin configuration message is the
+same as that of an SPI endpoint (see <a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncspi"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.enPinFuncSpi</span></code></span></a>).</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncspi-pinspisclk"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.pinSpiSclk</span></code></span></a>: the clock from the RCP server to the external ADC</p></li>
+<li><p><a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncspi-pinspimiso"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.pinSpiMiso</span></code></span></a>: the ADC serial data output pin (input to RCP server)</p></li>
+<li><p><a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncspi-pinspics"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.pinSpiCs</span></code></span></a>:   the chip-select, marking the start of the sampling period</p></li>
+</ul>
+<p>The parameters <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-databits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dataBits</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-leftpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">leftPaddingBits</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-rightpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rightPaddingBits</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-cpol"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cpol</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-cpha"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cpha</span></code></span></a> and
+<a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-msbfirst"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msbFirst</span></code></span></a> define the length of a single acquisition.
+For an example, see the page <a class="reference internal" href="adc_dev.html#protogen-adc"><span class="std std-ref">ADC Driver</span></a>.</p>
+<p>The RCP server starts the conversion by asserting the chip select (CS). The <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-leftpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">leftPaddingBits</span></code></span></a> defines how many
+clock cycles to wait before the first valid data bit appears at the ADC data pin. This allows time for the ADC to
+perform sample &amp; hold, depending on the ADC type and performance.
+The <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-databits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dataBits</span></code></span></a> parameter tells the RCP server how many data bits to sample. This should be set according to the
+ADC resolution.
+Finally, the <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-rightpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rightPaddingBits</span></code></span></a> parameter sets how many clock cycles to wait before de-asserting the
+chip-select. Some ADCs require these extra clock cycles to reset the internal state before a new conversion can
+happen.
+The total number of clock cycles for a single acquisition is therefore
+the sum of <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-leftpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">leftPaddingBits</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-databits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dataBits</span></code></span></a>, and <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-rightpaddingbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rightPaddingBits</span></code></span></a>.
+The <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-cpol"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cpol</span></code></span></a>, <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-cpha"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cpha</span></code></span></a> and <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-msbfirst"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msbFirst</span></code></span></a> parameters are the same as those used for a normal SPI
+interface. See <a class="reference internal" href="../spi/spi_dev-protocol.html#protogen-esb-spi-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">spi.fldConfig</span></code></span></a> for more information.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldinterfaceserial-speedhz"><strong><code class="docutils literal notranslate"><span class="pre">speedHz</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The clock speed in hertz (Hz).
+If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgSuccess</span></code></span></a> return code.
+The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgparamadjusted"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></span></a> warning code and the client can retrieve the actual (rounded) speed by querying the
+configuration of the endpoint.</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-databits"><strong><code class="docutils literal notranslate"><span class="pre">dataBits</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Number of bits in each ADC sample.</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-leftpaddingbits"><strong><code class="docutils literal notranslate"><span class="pre">leftPaddingBits</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Number of clock cycles before the first data bit.</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-rightpaddingbits"><strong><code class="docutils literal notranslate"><span class="pre">rightPaddingBits</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Number of clock cycles after the last data bit.</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-cpol"><strong><code class="docutils literal notranslate"><span class="pre">cpol</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+Clock polarity (same as SPI CPOL).</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-cpha"><strong><code class="docutils literal notranslate"><span class="pre">cpha</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+Clock phase (same as SPI CPHA).</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-msbfirst"><strong><code class="docutils literal notranslate"><span class="pre">msbFirst</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If true, ADC data is captured MSb first.</p>
+</li>
+<li><p id="protogen-esb-adc-fldinterfaceserial-csdelay"><strong><code class="docutils literal notranslate"><span class="pre">csDelay</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+CS to SCLK delay in half clock periods.
+This parameter defines the additional delay between the chip select
+assertion and the first clock edge, as well as the delay between the
+last clock edge and the de-assertion of the chip-select.
+The total delay is calculated as (<a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-csdelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">csDelay</span></code></span></a> + 1) / (2 * <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial-speedhz"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">speedHz</span></code></span></a>) seconds.</p>
+</li>
+</ul>
+</section>
+<section id="fldthresholdconfig">
+<span id="protogen-esb-adc-fldthresholdconfig"></span><h3>fldThresholdConfig<a class="headerlink" href="#fldthresholdconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldThresholdConfig</span></code></p>
+<p>Each ADC channel has configurable thresholds to generate internal events and
+notifications. The thresholds evaluate the value at the ADC filter output,
+that is, after all configured on-chip post-processing except decimation.
+When a threshold is enabled and triggered, it generates an internal event
+that can be used to fire pre-configured (re)actions for use cases requiring
+low latency. In addition to the internal event, a threshold can be
+configured to send a notification message when triggered.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldthresholdconfig-value"><strong><code class="docutils literal notranslate"><span class="pre">value</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unsigned threshold value, see <a class="reference internal" href="#protogen-esb-adc-envaluetype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enValueType</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-adc-fldthresholdconfig-event"><strong><code class="docutils literal notranslate"><span class="pre">event</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-adc-enthresholdevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enThresholdEvent</span></code></span></a><br />
+Configures which threshold crossings generate an event.</p>
+</li>
+<li><p id="protogen-esb-adc-fldthresholdconfig-notify"><strong><code class="docutils literal notranslate"><span class="pre">notify</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, sends a notification to the client when an event occurs.</p>
+</li>
+</ul>
+</section>
+<section id="fldchannelconfig">
+<span id="protogen-esb-adc-fldchannelconfig"></span><h3>fldChannelConfig<a class="headerlink" href="#fldchannelconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldChannelConfig</span></code></p>
+<p>Configuration for each ADC channel post-processor.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldchannelconfig-fltlp"><strong><code class="docutils literal notranslate"><span class="pre">fltLP</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Filter factor for the ADC channel. This value determines the strength of
+the low-pass filter applied to the ADC samples.
+The filter transfer function is:
+OUT[i] = (IN[i] + <a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-fltlp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fltLP</span></code></span></a> * OUT[i - 1]) / (<a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-fltlp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fltLP</span></code></span></a> + 1 )
+Setting <a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-fltlp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fltLP</span></code></span></a> to 0 (default) disables low-pass filtering (OUT[i] = IN[i]).</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-decimationfactor"><strong><code class="docutils literal notranslate"><span class="pre">decimationFactor</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Decimation factor for the ADC channel.
+This value determines the number of samples reported to the client.
+The decimator reports 1 sample every <span class="math notranslate nohighlight">\(2^N\)</span> samples, where <span class="math notranslate nohighlight">\(N\)</span> is <a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-decimationfactor"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">decimationFactor</span></code></span></a>.
+Setting <a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-decimationfactor"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">decimationFactor</span></code></span></a> = 0 (default) disables decimation (all samples
+are reported to the client).
+Decimation affects streamed samples only. Thresholds evaluate the filtered samples before decimation,
+see <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-initialvalue"><strong><code class="docutils literal notranslate"><span class="pre">initialValue</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Initial value for the ADC channel filter output.
+This value is the initial output value of the ADC
+post-processing block when the ADC starts. This can be used to avoid glitches on the
+configured thresholds.</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-valuetype"><strong><code class="docutils literal notranslate"><span class="pre">valueType</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-adc-envaluetype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enValueType</span></code></span></a><br />
+Configures the value type of the ADC samples for this channel.</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-threshold1"><strong><code class="docutils literal notranslate"><span class="pre">threshold1</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig</span></code></span></a><br />
+Threshold configuration for the first threshold event.</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-threshold2"><strong><code class="docutils literal notranslate"><span class="pre">threshold2</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig</span></code></span></a><br />
+Threshold configuration for the second threshold event.</p>
+</li>
+<li><p id="protogen-esb-adc-fldchannelconfig-channelid"><strong><code class="docutils literal notranslate"><span class="pre">channelId</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If the ADC device supports multiple channels, this parameter represents
+the channel number identifier, that is, the channel multiplexer (MUX) selector number.
+This identifier can be used to instruct the ADC to sample channels in a
+specific order / sequence.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig">
+<span id="protogen-esb-adc-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldConfig</span></code></p>
+<p>ADC post-processing configuration.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-adc-fldconfig-sampleratehz"><strong><code class="docutils literal notranslate"><span class="pre">sampleRateHz</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The ADC sample rate in hertz (Hz).
+This parameter configures the speed at which ADC samples are fed into
+the ADC post-processing block. If an external ADC interface is used, the
+time interval between two CS pin assertions is 1 / <a class="reference internal" href="#protogen-esb-adc-fldconfig-sampleratehz"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">sampleRateHz</span></code></span></a>.
+If the requested frequency is fully supported by the RCP server, the
+configuration is accepted with the <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgSuccess</span></code></span></a> return code.
+The RCP server is allowed to round the requested frequency to
+the nearest supported speed within a reasonable tolerance (refer to
+the datasheet of the server). In this case, the configuration is
+accepted with the <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgparamadjusted"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></span></a> warning code and the client can retrieve
+the actual (rounded) speed by querying the configuration of the endpoint.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On some implementations, the sample rate can be synchronous to the
+internal PTP clock.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not confuse the sample rate with the external ADC clock speed,
+which is configured with the <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldInterfaceSerial</span></code></span></a> message.</p>
+</div>
+</li>
+<li><p id="protogen-esb-adc-fldconfig-buffersizebytes"><strong><code class="docutils literal notranslate"><span class="pre">bufferSizeBytes</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+This parameter sets the size in bytes of the internal ADC buffer.
+When the amount of sampled data exceeds <a class="reference internal" href="#protogen-esb-adc-fldconfig-buffersizebytes"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">bufferSizeBytes</span></code></span></a>, the RCP server
+sends out a notification message including all the captured samples.</p>
+</li>
+<li><p id="protogen-esb-adc-fldconfig-channels"><strong><code class="docutils literal notranslate"><span class="pre">channels</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-adc-fldchannelconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldChannelConfig</span></code></span></a><br />
+Configuration for each channel.</p>
+</li>
+<li><p id="protogen-esb-adc-fldconfig-interface"><strong><code class="docutils literal notranslate"><span class="pre">interface</span></code></strong> — <em>oneof</em><br />
+Defines the ADC physical interface.
+If none of the options is selected, the configuration targets the first
+available internal ADC.</p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldconfig-serial"><strong><code class="docutils literal notranslate"><span class="pre">serial</span></code></strong> — <a class="reference internal" href="#protogen-esb-adc-fldinterfaceserial"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldInterfaceSerial</span></code></span></a><br />
+Configuration for the SPI ADC interface.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldcmd">
+<span id="protogen-esb-adc-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldCmd</span></code></p>
+<p>Container for ADC commands.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldcmd-op"><strong><code class="docutils literal notranslate"><span class="pre">op</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-adc-encmdoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCmdOperation</span></code></span></a><br />
+ADC operation.</p>
+</li>
+<li><p id="protogen-esb-adc-fldcmd-quiet"><strong><code class="docutils literal notranslate"><span class="pre">quiet</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, suppresses data streaming to the client.</p>
+</li>
+</ul>
+</section>
+<section id="fldnotif">
+<span id="protogen-esb-adc-fldnotif"></span><h3>fldNotif<a class="headerlink" href="#fldnotif" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.fldNotif</span></code></p>
+<p>Container for ADC event notifications.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-fldnotif-channelid"><strong><code class="docutils literal notranslate"><span class="pre">channelId</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+ID of the channel that generated the event.</p>
+</li>
+<li><p id="protogen-esb-adc-fldnotif-event"><strong><code class="docutils literal notranslate"><span class="pre">event</span></code></strong> — <a class="reference internal" href="#protogen-esb-adc-ennotifevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enNotifEvent</span></code></span></a><br />
+Type of the event.</p>
+</li>
+<li><p id="protogen-esb-adc-fldnotif-value"><strong><code class="docutils literal notranslate"><span class="pre">value</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Value that triggered the event.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enthresholdevent">
+<span id="protogen-esb-adc-enthresholdevent"></span><h3>enThresholdEvent<a class="headerlink" href="#enthresholdevent" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.enThresholdEvent</span></code></p>
+<p>Threshold crossing that generates an event.</p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-enthresholdevent-thresholdevtnone"><strong><code class="docutils literal notranslate"><span class="pre">thresholdEvtNone</span></code></strong> — No trigger (disables the threshold).</p>
+</li>
+<li><p id="protogen-esb-adc-enthresholdevent-thresholdevtabove"><strong><code class="docutils literal notranslate"><span class="pre">thresholdEvtAbove</span></code></strong> — Trigger if the filtered output rises above <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig-value"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig.value</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-adc-enthresholdevent-thresholdevtbelow"><strong><code class="docutils literal notranslate"><span class="pre">thresholdEvtBelow</span></code></strong> — Trigger if the output falls below <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig-value"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig.value</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-adc-enthresholdevent-thresholdevtcrossing"><strong><code class="docutils literal notranslate"><span class="pre">thresholdEvtCrossing</span></code></strong> — Trigger if the output crosses <a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig-value"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig.value</span></code></span></a> in either direction.</p>
+</li>
+</ul>
+</section>
+<section id="envaluetype">
+<span id="protogen-esb-adc-envaluetype"></span><h3>enValueType<a class="headerlink" href="#envaluetype" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.enValueType</span></code></p>
+<p>This enumeration defines the ADC data format as produced by the internal
+or external ADC endpoint. This setting affects the ADC post-processing
+and filtering arithmetic.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The threshold value (<a class="reference internal" href="#protogen-esb-adc-fldthresholdconfig-value"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldThresholdConfig.value</span></code></span></a>), the initial value (<a class="reference internal" href="#protogen-esb-adc-fldchannelconfig-initialvalue"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldChannelConfig.initialValue</span></code></span></a>)
+and the value in a notification (<a class="reference internal" href="#protogen-esb-adc-fldnotif-value"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.value</span></code></span></a>) are unsigned integers, regardless of the selected format.</p>
+</div>
+<ul class="simple">
+<li><p id="protogen-esb-adc-envaluetype-valueunsigned"><strong><code class="docutils literal notranslate"><span class="pre">valueUnsigned</span></code></strong> — Standard n-bit unsigned sample data (10010101 = 149 dec.)</p>
+</li>
+<li><p id="protogen-esb-adc-envaluetype-valuecomplement"><strong><code class="docutils literal notranslate"><span class="pre">valueComplement</span></code></strong> — Signed two’s complement number (10010101 = -107 dec.)</p>
+</li>
+<li><p id="protogen-esb-adc-envaluetype-valuesignbit"><strong><code class="docutils literal notranslate"><span class="pre">valueSignBit</span></code></strong> — Sign bit plus integer part, i.e., the MSb is used as sign bit (10010101 = -21 dec.)</p>
+</li>
+</ul>
+</section>
+<section id="encmdoperation">
+<span id="protogen-esb-adc-encmdoperation"></span><h3>enCmdOperation<a class="headerlink" href="#encmdoperation" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.enCmdOperation</span></code></p>
+<p>ADC operation types.</p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-encmdoperation-opstart"><strong><code class="docutils literal notranslate"><span class="pre">opStart</span></code></strong> — Start the ADC in free-running mode.</p>
+</li>
+<li><p id="protogen-esb-adc-encmdoperation-opstop"><strong><code class="docutils literal notranslate"><span class="pre">opStop</span></code></strong> — Stop the ADC.</p>
+</li>
+<li><p id="protogen-esb-adc-encmdoperation-opsingle"><strong><code class="docutils literal notranslate"><span class="pre">opSingle</span></code></strong> — Capture a single buffer, then stop.</p>
+</li>
+</ul>
+</section>
+<section id="ennotifevent">
+<span id="protogen-esb-adc-ennotifevent"></span><h3>enNotifEvent<a class="headerlink" href="#ennotifevent" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.adc.enNotifEvent</span></code></p>
+<p>Type of ADC event.</p>
+<ul class="simple">
+<li><p id="protogen-esb-adc-ennotifevent-eventthreshold1"><strong><code class="docutils literal notranslate"><span class="pre">eventThreshold1</span></code></strong> — An event occurred on threshold 1.</p>
+</li>
+<li><p id="protogen-esb-adc-ennotifevent-eventthreshold2"><strong><code class="docutils literal notranslate"><span class="pre">eventThreshold2</span></code></strong> — An event occurred on threshold 2.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adc_dev.html" class="btn btn-neutral float-left" title="ADC Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sent/sent_dev.html" class="btn btn-neutral float-right" title="SENT Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

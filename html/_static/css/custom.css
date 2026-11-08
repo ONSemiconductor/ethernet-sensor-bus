@@ -1,0 +1,1688 @@
+/* 
+ * Custom Sphinx Theme - OnSemi Style
+ * Based on OnSemi design system
+ */
+
+/* (Removed custom font-face to use theme defaults) */
+
+* {
+    box-sizing: border-box;
+}
+
+/* ========================================================================
+   Font Definitions - OnSemi Official Format (Comprehensive Unicode Support)
+   ======================================================================== */
+
+/* Open Sans Font Family */
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-cyrillic-ext-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-cyrillic-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-greek-ext-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+1F00-1FFF}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-greek-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0370-03FF}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-vietnamese-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-latin-ext-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Open Sans";font-style:normal;font-display:swap;font-weight:400;src:url(../files/open-sans-latin-400-normal.woff2) format("woff2"),url(../files/open-sans-all-400-normal.woff) format("woff");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* Inter Font Family */
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-cyrillic-ext-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-cyrillic-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-greek-ext-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+1F00-1FFF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-greek-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+0370-03FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-vietnamese-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-latin-ext-400-normal.woff2) format("woff2"),url(../files/inter-all-400-normal.woff) format("woff");unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:400;src:url(../files/inter-latin-400-normal.woff2) format("woff2"),url(../files/inter-latin-400-normal.woff2) format("woff");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-cyrillic-ext-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-cyrillic-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-greek-ext-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+1F00-1FFF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-greek-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+0370-03FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-vietnamese-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-latin-ext-600-normal.woff2) format("woff2"),url(../files/inter-all-600-normal.woff) format("woff");unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:600;src:url(../files/inter-latin-600-normal.woff2) format("woff2"),url(../files/inter-latin-600-normal.woff2) format("woff");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-cyrillic-ext-700-normal.woff2) format("woff2"),url(../files/inter-all-700-normal.woff) format("woff");unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-cyrillic-700-normal.woff2) format("woff2"),url(../files/inter-all-700-normal.woff) format("woff");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-greek-ext-700-normal.woff2) format("woff2"),url(../files/inter-all-700-normal.woff) format("woff");unicode-range:U+1F00-1FFF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-greek-700-normal.woff2) format("woff2"),url(../files/inter-all-700-normal.woff) format("woff");unicode-range:U+0370-03FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-vietnamese-700-normal.woff2) format("woff2"),url(../files/inter-all-700-normal.woff) format("woff");unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-latin-ext-700-normal.woff2) format("woff2"),url(../files/inter-latin-700-normal.woff2) format("woff");unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:700;src:url(../files/inter-latin-700-normal.woff2) format("woff2"),url(../files/inter-latin-700-normal.woff2) format("woff");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ========================================================================
+   Font Application - OnSemi CSS Scheme
+   ======================================================================== */
+
+/* Base font family for the document */
+html, body {
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Content fonts - Open Sans for readability */
+p, li, td, dd, dt, blockquote,
+.rst-content p, .rst-content li, .rst-content td, .rst-content dd, .rst-content dt {
+    font-family: "Open Sans", "Inter", system-ui, sans-serif;
+}
+
+/* Heading fonts - Inter for consistency */
+h1, h2, h3, h4, h5, h6,
+.wy-text-large,
+.rst-content h1, .rst-content h2, .rst-content h3, 
+.rst-content h4, .rst-content h5, .rst-content h6 {
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Interface elements */
+.wy-nav-content, .wy-nav-content-wrap, .wy-body-for-nav,
+.wy-menu-vertical a, input, button, select, textarea {
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Code and monospace elements */
+code, pre, tt, .highlight, 
+.rst-content code, .rst-content pre, .rst-content tt {
+    font-family: "Consolas", "Monaco", "Courier New", monospace;
+}
+
+/* ========================================================================
+   Universal transitions to prevent lagging during theme switches */
+/* Force ALL elements to use consistent 0.3s timing - more aggressive approach */
+*,
+*::before, 
+*::after,
+body,
+html,
+div,
+nav,
+aside,
+section,
+header,
+footer,
+main,
+article,
+.wy-nav-content,
+.wy-nav-content-wrap,
+.wy-body-for-nav,
+.wy-nav-side,
+.wy-side-nav-search,
+.rst-content,
+.wy-menu-vertical a,
+.wy-menu-vertical a:hover,
+.wy-menu-vertical a:focus,
+.wy-menu-vertical a:active,
+h1, h2, h3, h4, h5, h6,
+p, span, a, button, input, textarea,
+code, pre, blockquote,
+table, td, th, tr,
+.wy-menu,
+.wy-breadcrumbs,
+/* Specific targeting for complex toctree structures */
+.toctree-wrapper,
+.toctree-wrapper *,
+.toctree-l1,
+.toctree-l2, 
+.toctree-l3,
+.toctree-l4,
+.toctree-l1 > a,
+.toctree-l2 > a,
+.toctree-l3 > a,
+.toctree-l4 > a,
+.toctree-l1 > ul,
+.toctree-l2 > ul,
+.toctree-l3 > ul,
+.toctree-l4 > ul,
+li.toctree-l1,
+li.toctree-l2,
+li.toctree-l3,
+li.toctree-l4 {
+    transition: all 0.3s ease !important;
+}
+
+html {
+    font-size: var(--base-font-size);
+    /* Smooth theme transitions */
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+:root {
+    /* Ensure sidebar width is defined for layout shift */
+    --nav-width: 300px;
+    --content-max-width: 1200px;
+    /* Add transition timing variables for consistency */
+    --transition-speed: 0.3s;
+    --transition-easing: ease;
+}
+
+body {
+    color: var(--onsemi-text);
+    background-color: var(--onsemi-light);
+    line-height: var(--base-line-height);
+    /* Smooth theme transitions for body */
+    transition: background-color var(--transition-speed) var(--transition-easing), color var(--transition-speed) var(--transition-easing) !important;
+}
+
+/* Heading scale - consistent across all pages */
+h1, .wy-text-large { 
+    font-size: 2.5rem !important; 
+    line-height: var(--heading-line-height) !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.75rem !important;
+}
+
+h2 { 
+    font-size: 2rem !important; 
+    line-height: var(--heading-line-height) !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.65rem !important;
+}
+
+h3 { 
+    font-size: 1.5rem !important; 
+    line-height: var(--heading-line-height) !important;
+    margin-top: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+    color: var(--onsemi-primary) !important;
+    font-weight: 600 !important;
+}
+
+h4 { 
+    font-size: 1.3rem !important; 
+    line-height: 1.3 !important;
+    margin-top: 0.8rem !important;
+    margin-bottom: 0.4rem !important;
+}
+
+h5, h6 { 
+    font-size: 1rem !important; 
+    line-height: var(--heading-line-height) !important;
+    margin-top: 0.7rem !important;
+    margin-bottom: 0.3rem !important;
+}
+
+/* Paragraph and text sizing */
+p, .wy-plain-list-disc li, .wy-plain-list-decimal li {
+    font-size: 18px !important;
+    line-height: var(--base-line-height);
+    margin-bottom: 0.75rem;
+}
+
+/* Code and pre blocks - consistent sizing */
+
+pre {
+    padding: 1rem !important;
+    line-height: 1.45 !important;
+}
+
+/* Inline code - make it larger and more visible */
+code.docutils.literal,
+code.docutils,
+span.pre,
+code,
+tt,
+.rst-content tt,
+.rst-content code {
+    font-size: 1.0em !important;
+}
+
+/* ========================================================================
+   Typography Normalization
+   Ensure consistent font sizes across all pages (index/toctree vs content)
+   ======================================================================== */
+.rst-content {
+    font-size: 1rem; /* 16px base for content */
+}
+
+.rst-content p,
+.rst-content li,
+.rst-content dt,
+.rst-content dd {
+    font-size: 1rem;
+    line-height: var(--base-line-height);
+}
+
+/* Index page toctree sizing should match normal content */
+.rst-content .toctree-wrapper p.caption,
+.rst-content .toctree-wrapper a,
+.rst-content .toctree-wrapper li {
+    font-size: 1rem !important;
+    line-height: var(--base-line-height) !important;
+}
+
+/* More specific selectors for inline code */
+.rst-content code.docutils.literal.notranslate,
+.rst-content code.literal,
+code.docutils.literal.notranslate,
+p code,
+li code,
+td code,
+dd code,
+.wy-nav-content code,
+.wy-nav-content tt {
+    font-size: 1.0em !important;
+}
+
+/* Prevent code blocks from being affected */
+pre code,
+pre tt,
+pre span.pre {
+    font-size: var(--code-font-size) !important;
+}
+
+/* ========================================================================
+   Syntax Highlight Token Overrides (light mode)
+   - Override default Pygments "sphinx" colors for better readability
+   ======================================================================== */
+.highlight .nf {
+    color: #1d3546 !important;  /* Function names - onsemi gunmetal */
+}
+
+.highlight .kt {
+    color: #8b4513 !important;  /* Keyword types - saddle brown */
+}
+
+.highlight .cp,
+.highlight .cpf {
+    color: #0b7285 !important;  /* Preprocessor - teal */
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
+    color: #2e7d32 !important;  /* Strings - green */
+}
+
+.highlight .nt {
+    color: var(--syntax-tag) !important;
+}
+
+.highlight .cm,
+.highlight .c1 {
+    color: #6a737d !important;  /* Comments - muted gray */
+}
+
+.highlight .mi,
+.highlight .mh {
+    color: #1d3546 !important;  /* Number literals - gunmetal */
+}
+
+/* Tables - consistent sizing */
+table, .wy-table {
+    font-size: var(--table-font-size) !important;
+}
+
+.wy-table td, .wy-table th,
+.rst-content table.docutils td, .rst-content table.docutils th {
+    padding: 0.5rem 0.75rem !important;
+    font-size: var(--table-font-size) !important;
+}
+
+/* Ensure table headers are never italicized */
+.wy-table th,
+.rst-content table.docutils th,
+table thead th,
+table th {
+    font-style: normal !important;
+}
+
+/* Images - responsive and consistent max sizes */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.figure img, div.figure img {
+    max-width: 720px;
+}
+
+/* Logo consistency */
+.wy-side-nav-search a img.logo, 
+.wy-side-nav-search .wy-dropdown > a img.logo,
+.logo {
+    max-height: var(--logo-max-height) !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Sidebar width consistency */
+.wy-nav-side {
+    width: var(--nav-width) !important;
+}
+
+@media screen and (min-width: 769px) {
+    .wy-nav-content-wrap {
+        margin-left: var(--nav-width) !important;
+    }
+}
+
+/* Content max width */
+@media only screen and (min-width: 769px) {
+    .wy-nav-content {
+        max-width: var(--content-max-width) !important;
+    }
+}
+
+/* Menu text sizing */
+.wy-menu-vertical a {
+    font-size: var(--menu-item-size) !important;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    font-size: var(--sidebar-caption-size) !important;
+}
+
+/* Search box sizing */
+.wy-side-nav-search input[type="text"],
+.wy-side-nav-search input[type="search"] {
+    font-size: 0.95rem !important;
+}
+
+/* Admonitions (note, warning, etc.) - consistent sizing */
+.admonition, .note, .warning, .tip, .hint, .important, .caution, .danger, .error {
+    font-size: 0.95rem !important;
+    padding: 1rem !important;
+}
+
+.admonition-title, .admonition .first {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    :root {
+        --base-font-size: 15px;
+        --nav-width: 85vw;
+        --logo-max-height: 64px;
+    }
+    
+    h1 { font-size: 1.75rem !important; }
+    h2 { font-size: 1.35rem !important; }
+    h3 { font-size: 1.15rem !important; }
+}
+
+/* ========================================================================
+   Icon and Home Links
+   ======================================================================== */
+a.icon-home,
+a.icon-home:visited {
+    color: var(--onsemi-secondary) !important;  /* Force orange in all themes */
+    opacity: 0.9;
+}
+
+a.icon-home:hover {
+    color: var(--onsemi-secondary) !important;  /* Force orange on hover */
+    opacity: 1;
+}
+
+/* ========================================================================
+   Main Content Sections
+   ======================================================================== */
+.wy-nav-content-wrap {
+    background-color: var(--onsemi-light);
+    transition: background-color 0.3s ease !important;
+}
+
+.wy-nav-content {
+    background-color: var(--onsemi-content-bg, #ffffff);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.75rem;
+    transition: background-color 0.3s ease !important;
+}
+
+.wy-body-for-nav {
+    background-color: var(--onsemi-light);
+    transition: background-color 0.3s ease !important;
+}
+
+@media only screen and (min-width: 769px) {
+    .wy-nav-content {
+        max-width: 1200px;
+    }
+}
+
+/* ========================================================================
+   Sidebar Navigation - OnSemi Style
+   ======================================================================== */
+.wy-nav-side {
+    background: var(--navbar-background-color) !important;
+    border-right: 1px solid var(--onsemi-border-light);
+    transition: background-color 0.3s ease !important;
+}
+
+.wy-side-nav-search {
+    background: var(--navbar-background-color) !important;
+    border-bottom: 2px solid var(--onsemi-border-light);
+    /* reduce top/bottom padding so the caption and contents sit higher */
+    padding: 0.25rem 0.75rem 0.85rem;
+    transition: background-color 0.3s ease !important;
+}
+
+/* Dropdown states */
+.wy-side-nav-search .wy-dropdown > a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.wy-side-nav-search .wy-dropdown > a:active {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.wy-side-nav-search input[type="text"],
+.wy-side-nav-search input[type="search"] {
+    border: 1px solid var(--onsemi-input-border);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1rem;
+    background-color: var(--onsemi-input-bg);
+    color: var(--onsemi-text);
+    width: 100%;
+    transition: all 0.3s ease !important;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+}
+
+.wy-side-nav-search input[type="text"]:focus,
+.wy-side-nav-search input[type="search"]:focus {
+    border-color: var(--navbar-hover-color);
+    background-color: var(--onsemi-input-bg);
+    outline: none;
+    /* Orange focus ring */
+    box-shadow: 0 0 0 0.1rem rgba(240, 105, 10, 0.25);
+}
+
+.wy-side-nav-search input[type="text"]::placeholder,
+.wy-side-nav-search input[type="search"]::placeholder {
+    color: var(--onsemi-text-light);
+    font-weight: 400;
+}
+
+/* Menu structure */
+.wy-menu-vertical {
+    width: 100%;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    color: var(--navbar-heading-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.75px;
+    /* tighten vertical spacing so the caption aligns higher in the sidebar */
+    padding: 0.45rem 1.5rem 0.2rem;
+    /* nudge caption upward to sit closer to the top */
+    margin-top: -0.5rem;
+    /* larger bottom margin for more spacing below CONTENTS */
+    margin-bottom: 0.5rem;
+    border-bottom: 0.1px solid var(--onsemi-border-light);
+    background-color: var(--onsemi-light-alt);
+}
+
+
+
+/* First level menu items */
+.wy-menu-vertical a {
+    color: var(--navbar-level-1-color);
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease !important;
+    display: block;
+    /* reduced top padding so items sit closer together */
+    padding: 0.45rem 1.5rem;
+    border-left: 3px solid transparent;
+    position: relative;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.wy-menu-vertical a:hover,
+.wy-menu-vertical a:focus {
+    background-color: var(--navbar-background-color-hover) !important;
+    color: var(--navbar-hover-color) !important;
+    border-left-color: var(--navbar-hover-color) !important;
+    text-decoration: none;
+}
+
+.wy-menu-vertical a:active {
+    background-color: var(--navbar-background-color-active);
+}
+
+.wy-menu-vertical a.disabled,
+.wy-menu-vertical a:disabled {
+    color: var(--navbar-disabled-color);
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+/* Active/current item */
+.wy-menu-vertical li.current > a {
+    background: var(--navbar-current-background-color);
+    color: var(--navbar-active-color);
+    border-left: 3px solid var(--navbar-active-color);
+    font-weight: 600;
+}
+
+.wy-menu-vertical li.current a:hover,
+.wy-menu-vertical li.current a:focus {
+    background: var(--navbar-current-background-color-hover);
+    text-decoration: none;
+}
+
+.wy-menu-vertical li.current a:active {
+    background: var(--navbar-current-background-color-active);
+}
+
+/* Top-level current item */
+.wy-menu-vertical li.toctree-l1.current > a {
+    background: var(--navbar-current-background-color);
+    border-left: 3px solid var(--navbar-active-color);
+}
+
+/* Second and third level items */
+.wy-menu-vertical li.toctree-l2 > a {
+    font-size: 0.95rem;
+    color: var(--navbar-level-2-color);
+    font-weight: 400;
+}
+
+.wy-menu-vertical li.toctree-l2 > a:hover,
+.wy-menu-vertical li.toctree-l2 > a:focus {
+    color: var(--navbar-hover-color) !important;
+}
+
+.wy-menu-vertical li.toctree-l3 > a {
+    font-size: 0.9rem;
+    color: var(--navbar-level-2-color);
+    font-weight: 400;
+}
+
+.wy-menu-vertical li.toctree-l3 > a:hover,
+.wy-menu-vertical li.toctree-l3 > a:focus {
+    color: var(--navbar-hover-color) !important;
+}
+
+.wy-menu-vertical li.toctree-l4 > a {
+    font-size: 0.85rem;
+    color: var(--navbar-level-3-color);
+    font-weight: 400;
+}
+
+.wy-menu-vertical li.toctree-l4 > a:hover,
+.wy-menu-vertical li.toctree-l4 > a:focus {
+    color: var(--navbar-hover-color) !important;
+}
+
+/* Current item display - handle long words */
+.wy-menu-vertical li.current a {
+    /* Make long words always display on a single line, keep wrapping for multiple words */
+    /* This fixes the class reference titles' display with very long class names */
+    display: flex;
+}
+
+/* Current nested items */
+.wy-menu-vertical li.current a,
+.wy-menu-vertical li.toctree-l2.current > a,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l4 > a {
+    background: var(--navbar-current-background-color);
+    border-left-color: var(--navbar-active-color);
+    color: var(--navbar-active-color);
+    font-weight: 600;
+    border-left-width: 3px;
+}
+
+.wy-menu-vertical li.current a:hover,
+.wy-menu-vertical li.current a:focus,
+.wy-menu-vertical li.toctree-l2.current > a:hover,
+.wy-menu-vertical li.toctree-l2.current > a:focus,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:hover,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:focus,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a:hover,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a:focus {
+    background: var(--navbar-current-background-color-hover);
+}
+
+.wy-menu-vertical li.current a:active,
+.wy-menu-vertical li.toctree-l2.current > a:active,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:active,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a:active {
+    background: var(--navbar-current-background-color);
+}
+
+/* Override default margins */
+.wy-menu-vertical a {
+    /* This overrides 8px margin added in other multi-selector rules */
+    margin-right: 0;
+}
+
+/* Dividers between sections */
+.wy-menu-vertical li.toctree-l1 {
+    border-bottom: 1px solid var(--onsemi-border-lightest);
+}
+
+/* Banner panel in sidebar */
+.wy-nav-side .ethical-rtd.fixed {
+    position: fixed;
+}
+
+/* Expand/collapse icons and buttons */
+.wy-menu-vertical a button.toctree-expand,
+.wy-menu-vertical li.toctree-l1 > a span.toctree-expand,
+.wy-menu-vertical li.toctree-l2 a button.toctree-expand,
+.wy-menu-vertical li.on a span.toctree-expand {
+    color: var(--navbar-level-3-color);
+    transition: transform 0.3s ease, color 0.3s ease !important;
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.wy-menu-vertical a:hover button.toctree-expand,
+.wy-menu-vertical a:focus button.toctree-expand,
+.wy-menu-vertical li.toctree-l2 a:hover button.toctree-expand,
+.wy-menu-vertical li.toctree-l2 a:focus button.toctree-expand {
+    color: var(--navbar-hover-color) !important;
+}
+
+.wy-menu-vertical a:active button.toctree-expand,
+.wy-menu-vertical li.toctree-l2 a:active button.toctree-expand {
+    color: var(--navbar-hover-color);
+}
+
+.wy-menu-vertical li.current > a span.toctree-expand,
+.wy-menu-vertical li.current > a button.toctree-expand {
+    color: var(--navbar-active-color);
+    font-weight: 700;
+}
+
+
+/* --- Sidebar alignment fix (custom.css) --- */
+
+/* 1) Reserve space for the expand icon on ALL menu links */
+.wy-menu-vertical a {
+  position: relative;          /* allow absolute positioning of the icon */
+  padding-left: 2rem;          /* base left padding incl. icon column */
+}
+
+/* 2) Place the icon in that reserved column; remove margin drift */
+.wy-menu-vertical a .toctree-expand,
+.wy-menu-vertical li > a .toctree-expand {
+  position: absolute;
+  left: 0.75rem;               /* inset from the sidebar edge */
+  top: 50%;
+  transform: translateY(-50%); /* vertically center it */
+  width: 1rem;                 /* fixed column width */
+  margin: 0;                   /* override previous margin-right: 6px */
+  text-align: center;
+  color: var(--navbar-level-3-color);
+}
+
+/* --- end fix --- */
+
+
+/* ========================================================================
+   Main Content Area (consolidated above)
+   ======================================================================== */
+
+/* ========================================================================
+   Typography
+   ======================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--onsemi-primary);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a {
+    color: var(--onsemi-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--onsemi-secondary-dark);
+    text-decoration: underline;
+}
+
+/* ========================================================================
+   Code Blocks - Enhanced Style
+   ======================================================================== */
+.highlight {
+    background: var(--onsemi-light-alt);
+    border: 1px solid var(--onsemi-border);
+    border-radius: var(--radius-md);
+    margin: 1rem 0;
+    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.highlight pre {
+    padding: 1rem;
+    margin: 0;
+    background: var(--onsemi-light-alt);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    transition: background-color 0.3s ease;
+}
+
+code {
+    background-color: var(--onsemi-light-alt);
+    color: var(--onsemi-secondary);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* ========================================================================
+   Tables - OnSemi Style
+   ======================================================================== */
+table.docutils {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+table.docutils th {
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    font-style: normal !important;
+    border-bottom: 2px solid var(--onsemi-border);
+}
+
+table.docutils td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--onsemi-border);
+}
+
+table.docutils tbody tr:hover {
+    background-color: var(--onsemi-light-alt);
+    transition: background-color 0.2s ease;
+}
+
+table.docutils tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ========================================================================
+   Admonitions - Enhanced Styling
+   ======================================================================== */
+.admonition {
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+    border-radius: var(--radius-md);
+    background-color: var(--onsemi-light);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.admonition-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Admonitions - Use CSS variables for all types */
+.admonition.note {
+    border-left-color: var(--admonition-note-border-color);
+    background-color: var(--admonition-note-bg-color);
+    border: 1px solid var(--admonition-note-border-color);
+    border-left-width: 4px;
+}
+
+.admonition.note .admonition-title {
+    color: var(--admonition-note-title-text-color);
+}
+
+.admonition.warning,
+.admonition.attention,
+.admonition.caution {
+    border-left-color: var(--admonition-warning-border-color);
+    background-color: var(--admonition-warning-bg-color);
+    border: 1px solid var(--admonition-warning-border-color);
+    border-left-width: 4px;
+}
+
+.admonition.warning .admonition-title,
+.admonition.attention .admonition-title,
+.admonition.caution .admonition-title {
+    color: var(--admonition-warning-title-text-color);
+}
+
+.admonition.danger,
+.admonition.error {
+    border-left-color: var(--admonition-error-border-color);
+    background-color: var(--admonition-error-bg-color);
+    border: 1px solid var(--admonition-error-border-color);
+    border-left-width: 4px;
+}
+
+.admonition.danger .admonition-title,
+.admonition.error .admonition-title {
+    color: var(--admonition-error-title-text-color);
+}
+
+.admonition.tip,
+.admonition.hint {
+    border-left-color: var(--admonition-hint-border-color);
+    background-color: var(--admonition-hint-bg-color);
+    border: 1px solid var(--admonition-hint-border-color);
+    border-left-width: 4px;
+}
+
+.admonition.tip .admonition-title,
+.admonition.hint .admonition-title {
+    background: var(--admonition-hint-title-bg-color);
+    color: var(--admonition-hint-title-text-color);
+}
+
+/* Important directive - OnSemi orange with white text on colored background */
+.admonition.important {
+    border-left-color: var(--admonition-important-border-color);
+    background-color: var(--admonition-important-bg-color);
+    border: 1px solid var(--admonition-important-border-color);
+    border-left-width: 4px;
+}
+
+.admonition.important .admonition-title {
+    background: var(--admonition-important-border-color) !important;
+    color: var(--admonition-important-title-text-color) !important;
+}
+
+/* Admonition icons - Font Awesome differentiation */
+.admonition.note .admonition-title::before {
+    content: "\f05a";  /* info-circle */
+}
+
+.admonition.warning .admonition-title::before,
+.admonition.attention .admonition-title::before,
+.admonition.caution .admonition-title::before {
+    content: "\f071";  /* exclamation-triangle */
+}
+
+.admonition.danger .admonition-title::before,
+.admonition.error .admonition-title::before {
+    content: "\f06a";  /* exclamation-circle */
+}
+
+.admonition.tip .admonition-title::before,
+.admonition.hint .admonition-title::before {
+    content: "\f0eb";  /* lightbulb */
+}
+
+.admonition.important .admonition-title::before {
+    content: "\f12a";  /* exclamation */
+}
+
+/* ========================================================================
+   Breadcrumbs
+   ======================================================================== */
+.wy-breadcrumbs {
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 0 0.75rem;
+    /* remove bottom border to avoid a double-line with the top nav */
+    border-bottom: none;
+}
+
+.wy-breadcrumbs li {
+    display: inline-block;
+    color: var(--onsemi-text-light);
+}
+
+.wy-breadcrumbs li a {
+    color: var(--onsemi-secondary);
+}
+
+.wy-breadcrumbs li code {
+    background: none;
+    padding: 0;
+}
+
+/* ========================================================================
+   Search Results
+   ======================================================================== */
+.search li {
+    padding: 1rem;
+    border-bottom: 1px solid var(--onsemi-border);
+    margin-bottom: 0.5rem;
+}
+
+.search li:hover {
+    background-color: var(--onsemi-light-alt);
+}
+
+.search li a {
+    font-weight: 600;
+    color: var(--onsemi-primary);
+    font-size: 1.1rem;
+}
+
+.search .context {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--onsemi-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+footer > hr {
+    display: none;
+}
+
+footer {
+    color: var(--onsemi-text-light);
+    font-size: 0.9rem;
+	font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Copyright + last-updated line in the footer */
+footer p,
+footer p .copyright-text,
+footer p .lastupdated {
+	font-family: "Inter", system-ui, sans-serif;
+	font-size: 0.8rem;
+}
+
+footer a {
+    color: var(--onsemi-secondary);
+}
+
+.onsemi-legal-footer {
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.85rem;
+    color: var(--onsemi-text-light);
+}
+
+.onsemi-legal-footer a {
+    color: var(--onsemi-secondary);
+    text-decoration: none;
+}
+
+.onsemi-legal-footer a:hover {
+    text-decoration: underline;
+}
+
+.onsemi-legal-sep {
+    margin: 0 8px;
+    color: var(--onsemi-text-light);
+}
+
+/* ========================================================================
+   Mobile Menu Toggle
+   ======================================================================== */
+.wy-nav-top {
+    background: var(--navbar-background-color);
+    color: var(--navbar-level-1-color);
+    border-bottom: 1px solid var(--onsemi-border-light);
+}
+
+.wy-nav-top a {
+    color: var(--navbar-level-1-color);
+}
+
+/* ========================================================================
+   Document Inline Code
+   ======================================================================== */
+.rst-content code.literal {
+    background-color: var(--onsemi-light-alt);
+    color: var(--onsemi-secondary);
+    border: 1px solid var(--onsemi-border);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+}
+
+/* ========================================================================
+   Definition Lists
+   ======================================================================== */
+dl dt {
+    font-weight: 600;
+    color: var(--onsemi-primary);
+    margin-top: 0.5rem;
+}
+
+dl dd {
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ========================================================================
+   Logo and Version Badge
+   ======================================================================== */
+.logo {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.wy-side-nav-search > a {
+    display: block;
+    margin-bottom: 0.4rem;
+    transition: background-color 0.2s ease;
+}
+
+.wy-side-nav-search > a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.wy-side-nav-search > a:active {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.wy-side-nav-search > a img,
+.wy-side-nav-search > a img.logo {
+    max-width: 100%;
+    height: 31.9965px;
+    /* Slightly smaller max height so it doesn't push the caption down */
+    max-height: 82px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Fixed positioning support */
+.wy-side-nav-search.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+@media only screen and (min-width: 769px) {
+    /* Simulate a drop shadow that only affects the bottom edge */
+    /* This is used to indicate the search bar is fixed when scrolled */
+    .wy-side-nav-search.fixed-and-scrolled::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 300px;
+        height: 8px;
+        pointer-events: none;
+        background: linear-gradient(hsla(0, 0%, 0%, 0.3), transparent);
+    }
+}
+
+.wy-side-nav-search > div.version {
+    color: var(--navbar-level-3-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.35rem 0;
+    text-align: center;
+    background: var(--onsemi-light-alt);
+    border-radius: var(--radius-sm);
+    /* smaller top margin so caption moves up */
+    margin-top: 0.25rem;
+    border: 1px solid var(--onsemi-border-light);
+}
+
+/* ========================================================================
+   Scrollbar Styling
+   ======================================================================== */
+.wy-side-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.wy-side-scroll::-webkit-scrollbar-track {
+    background: var(--navbar-scrollbar-background, rgba(0, 0, 0, 0.1));
+}
+
+.wy-side-scroll::-webkit-scrollbar-thumb {
+    background: var(--navbar-scrollbar-color, rgba(255, 255, 255, 0.2));
+    border-radius: var(--radius-sm);
+}
+
+.wy-side-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--navbar-scrollbar-hover-color, rgba(255, 255, 255, 0.3));
+}
+
+.wy-side-scroll::-webkit-scrollbar-thumb:active {
+    background: var(--navbar-scrollbar-active-color, rgba(255, 255, 255, 0.4));
+}
+
+.wy-menu.wy-menu-vertical {
+    scrollbar-color: var(--navbar-scrollbar-color) var(--navbar-scrollbar-background);
+}
+
+/* ========================================================================
+   Responsive Design
+   ======================================================================== */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .wy-nav-content {
+        padding: 1rem;
+    }
+}
+
+/* ========================================================================
+   Custom Classes
+   ======================================================================== */
+.onsemi-card {
+    background: var(--onsemi-content-bg);
+    border: 1px solid var(--onsemi-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.onsemi-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    background-color: var(--onsemi-secondary);
+    color: var(--color-white);
+}
+
+/* ========================================================================
+   Heading Accents (onsemi orange)
+   ======================================================================== */
+
+/* H1 gets a solid accent bar underneath (no fading) */
+.rst-content section > h1 {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.rst-content section > h1::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    height: 3px;
+    bottom: 0;
+    background: var(--onsemi-secondary);
+    border-radius: 2px;
+}
+
+/* H2-H4 left border accents */
+.rst-content section > h2 {
+    padding-left: 10px !important;
+    margin-left: 0 !important;
+    border-left: 4px solid var(--onsemi-secondary) !important;
+    border-bottom: none !important;
+    padding-bottom: 0.3em !important;
+    padding-top: 0.3em !important;
+}
+
+.rst-content section > h3 {
+    border-left: 4px solid var(--onsemi-accent-light) !important;
+    padding-left: 10px !important;
+    background: none !important;
+}
+
+.rst-content section > h4 {
+    border-left: 4px solid var(--onsemi-border-light) !important;
+    padding-left: 10px !important;
+}
+
+/* ========================================================================
+   Table Styling
+   ======================================================================== */
+
+/* Override table responsive wrapping */
+.wy-table-responsive table td:not(:nth-child(1)),
+.wy-table-responsive table th:not(:nth-child(1)) {
+    white-space: normal;
+}
+
+/* Force table content font-size in responsive tables */
+.wy-table-responsive td p {
+    font-size: 100%;
+}
+
+/* Clean table header with navy accent (--bs-primary: #1d3546) */
+table.docutils thead th,
+.rst-content table.docutils thead th {
+    background-color: #1d3546 !important;
+    color: #fff !important;
+    font-weight: 600;
+    font-style: normal !important;
+    padding: 0.6rem 0.75rem;
+    border-bottom: none !important;
+    text-align: left;
+}
+
+/* Alternating row stripes (--bs-gray-100: #f8f9fa) */
+.rst-content table.docutils:not(.field-list) tr:nth-child(2n-1) td {
+    background-color: #f8f9fa;
+}
+
+/* Remove heavy box-shadow; use subtle border only (--bs-border-color: #dbe7f0) */
+table.docutils {
+    box-shadow: none !important;
+    border: 1px solid #dbe7f0 !important;
+    border-radius: 4px !important;
+    overflow: hidden;
+}
+
+table.docutils td {
+    border-bottom: 1px solid #dbe7f0 !important;
+    padding: 0.6rem 0.75rem;
+}
+
+table.docutils tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+table.docutils tbody tr:hover {
+    background-color: #dbe7f0 !important;
+}
+
+/* Inline code inside table cells — compact to prevent wrapping/overlap */
+table.docutils td code,
+table.docutils td tt,
+table.docutils td .rst-content code.literal,
+.rst-content table.docutils td code {
+    padding: 0.1em 0.3em !important;
+    font-size: 0.85em !important;
+    white-space: nowrap;
+    border: none !important;
+    background-color: #f4f4f4 !important;
+    border-radius: 3px;
+    line-height: 1.4;
+}
+
+/* ========================================================================
+   Admonition Title Bar
+   ======================================================================== */
+
+/* Admonition title gets a full-width colored background */
+.rst-content .admonition .admonition-title {
+    margin: -1rem -1rem 0.75rem -1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px 4px 0 0;
+    font-size: 0.95rem;
+}
+
+.rst-content .admonition.note .admonition-title,
+.rst-content .admonition.seealso .admonition-title {
+    background-color: var(--admonition-note-border-color, #1a5c8a);
+    color: #fff;
+}
+
+.rst-content .admonition.tip .admonition-title,
+.rst-content .admonition.hint .admonition-title {
+    background-color: var(--admonition-hint-border-color, #00695c);
+    color: #fff;
+}
+
+.rst-content .admonition.warning .admonition-title,
+.rst-content .admonition.attention .admonition-title,
+.rst-content .admonition.caution .admonition-title {
+    background-color: var(--admonition-warning-border-color, #b94a00);
+    color: #fff;
+}
+
+.rst-content .admonition.danger .admonition-title,
+.rst-content .admonition.error .admonition-title {
+    background-color: var(--admonition-error-border-color, #a93226);
+    color: #fff;
+}
+
+.rst-content .admonition.important .admonition-title {
+    background-color: var(--onsemi-secondary) !important;
+    color: #fff !important;
+}
+
+/* ========================================================================
+   Definition Lists
+   ======================================================================== */
+.rst-content dl:not(.field-list) {
+    border-left: 4px solid var(--onsemi-accent-light);
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.rst-content dl:not(.field-list) > dt {
+    position: relative;
+    padding-left: 1rem;
+    line-height: 1.8rem;
+    background: var(--onsemi-light-alt);
+    border-radius: 0 12px 12px 0;
+    margin-left: 0;
+}
+
+.rst-content dl:not(.field-list) > dt::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    background: var(--onsemi-secondary);
+    border-radius: 50%;
+    border: 3px solid var(--onsemi-content-bg, #fff);
+}
+
+.rst-content dl:not(.field-list) > dd {
+    padding-left: 1.5rem;
+}
+
+/* ========================================================================
+   Print Styles
+   ======================================================================== */
+@media print {
+    .wy-nav-side,
+    .wy-nav-top,
+    .rst-footer-buttons,
+    .wy-breadcrumbs {
+        display: none;
+    }
+    
+    .wy-nav-content {
+        margin-left: 0;
+    }
+}
+
+/* =========================================================
+   SIDEBAR ALIGNMENT FIX (works for span/button inside OR
+   sibling of <a>)
+   Paste at the END of custom.css
+   ========================================================= */
+
+/* Make each nav item a positioning context */
+.wy-menu-vertical li[class^="toctree-l"] {
+  position: relative !important;
+}
+
+/* Reserve a fixed icon column for ALL links (so text aligns) */
+.wy-menu-vertical li[class^="toctree-l"] > a {
+  padding-left: 2.1rem !important;   /* <-- text start position */
+  position: relative !important;
+}
+
+/* If the expand control is INSIDE the <a> */
+.wy-menu-vertical li[class^="toctree-l"] > a > .toctree-expand,
+.wy-menu-vertical li[class^="toctree-l"] > a > button.toctree-expand,
+.wy-menu-vertical li[class^="toctree-l"] > a > span.toctree-expand {
+  position: absolute !important;
+  left: 0.65rem !important;          /* icon column position */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 1rem !important;
+  margin: 0 !important;              /* kill margin drift */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* If the expand control is a SIBLING of <a> (direct child of <li>) */
+.wy-menu-vertical li[class^="toctree-l"] > .toctree-expand,
+.wy-menu-vertical li[class^="toctree-l"] > button.toctree-expand,
+.wy-menu-vertical li[class^="toctree-l"] > span.toctree-expand {
+  position: absolute !important;
+  left: 0.65rem !important;
+  top: 0.95rem !important;           /* good default for RTD line height */
+  width: 1rem !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Keep nested indentation consistent and clearly stepped.
+   navigation_depth is 5, so EVERY level (l1-l5) must have an explicit,
+   increasing indent. If a deeper level is left undefined it falls back to
+   the base padding and renders to the LEFT of its parent, making
+   sub-headings look like siblings. Steps are ~1.1rem so the hierarchy is
+   easy to read at a glance. */
+.wy-menu-vertical li.toctree-l1 > a { padding-left: 1.8rem !important; }
+.wy-menu-vertical li.toctree-l2 > a { padding-left: 2.9rem !important; }
+.wy-menu-vertical li.toctree-l3 > a { padding-left: 4.0rem !important; }
+.wy-menu-vertical li.toctree-l4 > a { padding-left: 5.1rem !important; }
+.wy-menu-vertical li.toctree-l5 > a { padding-left: 6.2rem !important; }
+
+/* Vertical guide rails visually connect a parent heading to its children,
+   so it is obvious which headings contain sub-headings. Each rail is drawn
+   at the parent's indent and spans the whole child group. */
+.wy-menu-vertical li.toctree-l1 > ul,
+.wy-menu-vertical li.toctree-l2 > ul,
+.wy-menu-vertical li.toctree-l3 > ul,
+.wy-menu-vertical li.toctree-l4 > ul {
+  position: relative !important;
+}
+.wy-menu-vertical li.toctree-l1 > ul::before { left: 1.85rem; }
+.wy-menu-vertical li.toctree-l2 > ul::before { left: 2.95rem; }
+.wy-menu-vertical li.toctree-l3 > ul::before { left: 4.05rem; }
+.wy-menu-vertical li.toctree-l4 > ul::before { left: 5.15rem; }
+.wy-menu-vertical li.toctree-l1 > ul::before,
+.wy-menu-vertical li.toctree-l2 > ul::before,
+.wy-menu-vertical li.toctree-l3 > ul::before,
+.wy-menu-vertical li.toctree-l4 > ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px solid rgba(127, 127, 127, 0.25);
+  pointer-events: none;
+}
+
+/* Mark headings that contain sub-headings: bolder label plus a caret on the
+   right edge, so parents are distinguishable from leaf items. */
+.wy-menu-vertical li:has(> ul) > a {
+  font-weight: 600 !important;
+}
+.wy-menu-vertical li:has(> ul) > a::after {
+  content: "\203A";              /* › : collapsed / has children */
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.55;
+  font-weight: 700;
+}
+.wy-menu-vertical li.current:has(> ul) > a::after {
+  content: "\2304";              /* ⌄ : expanded */
+}
+
+/* Align captions with the same left start */
+.wy-menu-vertical p.caption,
+.wy-menu-vertical header {
+  padding-left: 2.1rem !important;
+}
+
+/* Hide table and figure captions in HTML output */
+table caption,
+.figure .caption,
+figcaption,
+p.caption-text {
+    display: none !important;
+}
+
+/* --- Optional debug (uncomment to confirm your CSS is loading) --- */
+/* .wy-menu-vertical { outline: 2px solid magenta !important; } */
+
+/* =========================================================================
+   FINAL OVERRIDE: Inline code font size
+   This MUST be at the end of the file to ensure it loads last
+   Note: theme.css has .rst-content code with font-size:75%, so we need
+   to match or exceed that specificity
+   ========================================================================= */
+.rst-content code.docutils.literal.notranslate,
+.rst-content code.docutils.literal,
+.rst-content code.docutils,
+.rst-content code,
+.rst-content tt,
+html body .rst-content code.docutils.literal.notranslate,
+html body .rst-content code.literal,
+html body code.docutils.literal.notranslate,
+html body code.docutils.literal,
+html body code.docutils,
+html body p code,
+html body li code,
+html body td code,
+html body dd code,
+html body span.pre,
+html body code {
+    font-size: 1.0em !important;
+}
+
+/* Keep code blocks at normal size */
+.rst-content pre code,
+html body pre code,
+html body pre tt,
+html body pre span.pre {
+    font-size: 0.9rem !important;
+}
+
+/* =========================================================
+   Persistent TOC Expansion Override
+   Keep sections open with a custom class independent of `.current`.
+   ========================================================= */
+.wy-menu-vertical li.force-open > ul {
+    display: block !important;
+}
+.wy-menu-vertical li.force-open > a .toctree-expand,
+.wy-menu-vertical li.force-open > .toctree-expand {
+    /* Keep the minus/expanded icon styling consistent */
+    color: var(--navbar-active-color);
+}
+
+/* =========================================================
+   Previous/Next Navigation Buttons Styling
+   ========================================================= */
+.rst-footer-buttons {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--onsemi-border);
+    transition: border-color 0.3s ease;
+}
+
+/* Style the navigation buttons */
+.btn-neutral {
+    align-items: center !important;
+    appearance: none !important;
+    background-color: var(--onsemi-secondary) !important;
+    border: 1px solid var(--onsemi-secondary) !important;
+    border-radius: 50px !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    color: var(--color-white) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    font-family: Inter !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    justify-content: center !important;
+    line-height: 24px !important;
+    min-height: 40px !important;
+    padding: 0.75rem 1.5rem !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    user-select: none !important;
+    transition: all 0.3s ease !important;
+    scrollbar-color: var(--onsemi-accent-1) var(--onsemi-light) !important;
+    scrollbar-width: thin !important;
+}
+
+.btn-neutral:hover,
+.btn-neutral:focus {
+    background-color: var(--onsemi-secondary-dark) !important;
+    border-color: var(--onsemi-secondary-dark) !important;
+    color: var(--color-white) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--onsemi-shadow) !important;
+}
+
+.btn-neutral:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px var(--onsemi-shadow) !important;
+}
+
+.btn-neutral:visited {
+    color: var(--color-white) !important;
+}
+
+/* Ensure proper spacing between buttons */
+.rst-footer-buttons .btn-neutral {
+    margin: 0.5rem !important;
+}
+
+/* Previous button (left aligned) */
+.rst-footer-buttons .fa-arrow-circle-left::before {
+    margin-right: 0.5rem;
+}
+
+/* Next button (right aligned) */
+.rst-footer-buttons .fa-arrow-circle-right::before {
+    margin-left: 0.5rem;
+}
+
+/* ========================================================================
+   Downloads / Version Flyout Panel
+   ======================================================================== */
+
+.rst-versions {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--onsemi-primary, #1d3546);
+}
+
+.rst-versions .rst-current-version {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--onsemi-primary, #1d3546);
+    color: #fff;
+    padding: 12px 12px;
+    font-size: 0.85rem;
+}
+
+.rst-versions .rst-current-version .fa-book {
+    font-weight: 600;
+}
+
+.rst-versions .rst-other-versions {
+    font-family: "Open Sans", "Inter", system-ui, sans-serif;
+    background: var(--onsemi-primary, #1d3546);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 12px 16px;
+    font-size: 0.8rem;
+}
+
+.rst-versions .rst-other-versions dl dt {
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.rst-versions .rst-other-versions dl dd {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.rst-versions .rst-other-versions dl dd a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.rst-versions .rst-other-versions dl dd a:hover {
+    color: var(--onsemi-secondary, #f0690a);
+    text-decoration: underline;
+}
+
+.rst-versions .rst-other-versions dl {
+    margin-bottom: 10px;
+}
+
+.rst-versions .rst-other-versions dl:last-child {
+    margin-bottom: 0;
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="520" viewBox="0 0 940 520" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Pins assigned to the functions of the endpoints</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="940" height="520" fill="#ffffff"/>
+  <text class="b" x="12" y="24" xml:space="preserve">Pins</text>
+  <text class="n" x="12" y="42" xml:space="preserve"><tspan class="mn">fldDescriptor</tspan> (<tspan class="mn">qryPins</tspan>)</text>
+  <text class="b" x="250" y="24" xml:space="preserve">Pin configuration</text>
+  <text class="n" x="250" y="42" xml:space="preserve"><tspan class="mn">fldConfigItem</tspan></text>
+  <text class="b" x="600" y="24" xml:space="preserve">Endpoints</text>
+  <text class="n" x="600" y="42" xml:space="preserve">selected by their handle <tspan class="mn">hndl</tspan></text>
+  <rect class="blk" x="600" y="70" width="320" height="174" rx="6"/>
+  <path class="end" d="M600,98 V76 A6,6 0 0 1 606,70 H914 A6,6 0 0 1 920,76 V98 Z"/>
+  <text class="b" x="612" y="88.9" xml:space="preserve">SPI endpoint, <tspan class="mb">hndl</tspan> = 2</text>
+  <text x="630" y="123" xml:space="preserve"><tspan class="m">pinSpiSclk</tspan></text>
+  <text x="630" y="159" xml:space="preserve"><tspan class="m">pinSpiMosi</tspan></text>
+  <text class="g" x="630" y="195" xml:space="preserve"><tspan class="m">pinSpiMiso</tspan></text>
+  <text class="g" x="630" y="231" xml:space="preserve"><tspan class="m">pinSpiCs</tspan></text>
+  <rect class="blk" x="600" y="260" width="320" height="102" rx="6"/>
+  <path class="end" d="M600,288 V266 A6,6 0 0 1 606,260 H914 A6,6 0 0 1 920,266 V288 Z"/>
+  <text class="b" x="612" y="278.9" xml:space="preserve">I2C endpoint, <tspan class="mb">hndl</tspan> = 3</text>
+  <text x="630" y="313" xml:space="preserve"><tspan class="m">pinI2cScl</tspan></text>
+  <text class="g" x="630" y="349" xml:space="preserve"><tspan class="m">pinI2cSda</tspan></text>
+  <rect class="blk" x="600" y="378" width="320" height="66" rx="6"/>
+  <path class="end" d="M600,406 V384 A6,6 0 0 1 606,378 H914 A6,6 0 0 1 920,384 V406 Z"/>
+  <text class="b" x="612" y="396.9" xml:space="preserve">GPIO controller, <tspan class="mb">hndl</tspan> = 1</text>
+  <text x="630" y="431" xml:space="preserve">GPIO 5</text>
+  <rect class="blk" x="12" y="103" width="130" height="30" rx="6"/>
+  <text class="c" x="77" y="122.55" xml:space="preserve">Pin 4</text>
+  <path class="arrow" d="M142,118 L600,118"/>
+  <text class="n" x="250" y="110" xml:space="preserve"><tspan class="mn">num</tspan> = 4, <tspan class="mn">hndl</tspan> = 2, <tspan class="mn">spi</tspan> = <tspan class="mn">pinSpiSclk</tspan></text>
+  <rect class="blk" x="12" y="139" width="130" height="30" rx="6"/>
+  <text class="c" x="77" y="158.55" xml:space="preserve">Pin 5</text>
+  <path class="arrow" d="M142,154 L600,154"/>
+  <text class="n" x="250" y="146" xml:space="preserve"><tspan class="mn">num</tspan> = 5, <tspan class="mn">hndl</tspan> = 2, <tspan class="mn">spi</tspan> = <tspan class="mn">pinSpiMosi</tspan></text>
+  <rect class="blk" x="12" y="293" width="130" height="30" rx="6"/>
+  <text class="c" x="77" y="312.55" xml:space="preserve">Pin 6</text>
+  <path class="arrow" d="M142,308 L600,308"/>
+  <text class="n" x="250" y="300" xml:space="preserve"><tspan class="mn">num</tspan> = 6, <tspan class="mn">hndl</tspan> = 3, <tspan class="mn">i2c</tspan> = <tspan class="mn">pinI2cScl</tspan></text>
+  <rect class="blk" x="12" y="411" width="130" height="30" rx="6"/>
+  <text class="c" x="77" y="430.55" xml:space="preserve">Pin 9</text>
+  <path class="arrow" d="M142,426 L600,426"/>
+  <text class="n" x="250" y="418" xml:space="preserve"><tspan class="mn">num</tspan> = 9, <tspan class="mn">hndl</tspan> = 1, <tspan class="mn">gpio</tspan> = 5</text>
+  <text x="12" y="480" xml:space="preserve">Each configuration item also sets, per pin, the pull-up or pull-down resistor (<tspan class="m">pullMode</tspan>), the driver (<tspan class="m">driverMode</tspan>)</text>
+  <text x="12" y="498" xml:space="preserve">and the pad strength (<tspan class="m">padStrength</tspan>). Example data. The available pins and functions depend on the server.</text>
+</svg>

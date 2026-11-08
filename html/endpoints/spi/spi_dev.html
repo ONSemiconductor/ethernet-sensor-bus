@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPI Driver &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Protocol" href="spi_dev-protocol.html" />
+    <link rel="prev" title="Protocol" href="../gpio/gpio_dev-protocol.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPI Driver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_dev-protocol.html">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+      <li class="breadcrumb-item active">SPI Driver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="spi-driver">
+<span id="protogen-spi"></span><h1>SPI Driver<a class="headerlink" href="#spi-driver" title="Link to this heading"></a></h1>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">endpoints/spi/spi_dev.proto</span></code></p>
+<p><strong>Package:</strong> <code class="docutils literal notranslate"><span class="pre">esb.spi</span></code></p>
+<p>SPI configuration, actions, queries, and notifications for RCP.</p>
+<p>An SPI endpoint is a serial peripheral interface (SPI) controller, also called the “master”. It drives the clock
+SCLK and the chip-select CS, shifts data out on MOSI, and samples MISO. The client first configures the bus with a
+<a class="reference internal" href="spi_dev-protocol.html#protogen-esb-spi-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig</span></code></span></a> message and then performs bus transactions with <a class="reference internal" href="spi_dev-protocol.html#protogen-esb-spi-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd</span></code></span></a> commands. The pins SCLK, MOSI, MISO, and
+CS are assigned to the endpoint with the pin configuration, see <a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncspi"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.enPinFuncSpi</span></code></span></a>.</p>
+<section id="clock-polarity-and-phase">
+<h2>Clock polarity and phase<a class="headerlink" href="#clock-polarity-and-phase" title="Link to this heading"></a></h2>
+<p>The clock polarity and the clock phase select one of the four SPI modes. The polarity is the idle level of SCLK. The
+phase decides which clock edge samples the data: the leading edge (the first edge after the idle level) or the
+trailing edge (the second edge of each clock period). The transmitter changes its data on the other edge. The figure
+shows the four modes with the most significant bit (MSb) first. The circles mark the sampling edges.</p>
+<p><img alt="" src="../../_images/timingSpiModes.svg" /></p>
+</section>
+<section id="transactions">
+<h2>Transactions<a class="headerlink" href="#transactions" title="Link to this heading"></a></h2>
+<p>Each command is one SPI transaction. The chip-select is asserted before the first transfer token and released after
+the last one, unless the command keeps it asserted so that a following command can continue the transaction. The
+tokens are executed in order. A token writes bytes, reads bytes, or does both at the same time. The bytes that all
+tokens return are concatenated, in the order of the tokens, in the reply to the command.</p>
+<p>The figure shows a command with two tokens: a write-only token that sends one byte, followed by a read-only token
+that reads two bytes while MOSI stays at a constant level. SCLK runs continuously from the first to the last bit. CS
+is asserted a configurable delay before the first clock edge and released the same delay after the last one. The
+hardware can add a minimum delay on top of this. Refer to the datasheet of the server.</p>
+<p><img alt="" src="../../_images/timingSpiXfer.svg" /></p>
+<p>A command uses the configuration of the endpoint. It can override some of the parameters for itself, e.g., to use a
+lower clock speed for one device.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To read a two-byte identifier from a device with the command byte 0x9F in SPI mode 0, at 1 MHz:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
+dir {
+   config { hndl: 2  spi { cpol: false  cpha: false  msbFirst: true  speedHz: 1000000 } }
+}
+dir {
+   action {
+      hndl: 2
+      spi {
+         xfer { xft: xferWriteOnly  wdata: "\x9F" }
+         xfer { xft: xferReadOnly   rsize: 2 }
+      }
+   }
+}
+</pre></div>
+</div>
+<p>The identifier is returned in <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldactionresult-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.data</span></code></span></a>.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../gpio/gpio_dev-protocol.html" class="btn btn-neutral float-left" title="Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spi_dev-protocol.html" class="btn btn-neutral float-right" title="Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

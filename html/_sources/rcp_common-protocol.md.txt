@@ -1,0 +1,141 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.fldEndpointNotifInfo)=
+
+### fldEndpointNotifInfo
+
+*Message* `esb.fldEndpointNotifInfo`
+
+Notification ownership and sequence state of an endpoint.
+An endpoint has at most one notification owner and sends its notifications only to that client.
+
+**Fields**
+
+- (protogen.esb.fldEndpointNotifInfo.used)=
+
+  **`used`** — `bool`\
+  True if the endpoint has a notification owner.
+
+- (protogen.esb.fldEndpointNotifInfo.clientId)=
+
+  **`clientId`** — `uint32`\
+  Client ID of that owner, valid if [`used`](#protogen.esb.fldEndpointNotifInfo.used) is true.
+
+- (protogen.esb.fldEndpointNotifInfo.seq)=
+
+  **`seq`** — `uint32`\
+  Last notification sequence number, valid if [`used`](#protogen.esb.fldEndpointNotifInfo.used) is true.
+
+(protogen.esb.fldTstamp)=
+
+### fldTstamp
+
+*Message* `esb.fldTstamp`
+
+Time expressed in seconds and nanoseconds. The containing field selects an absolute PTP time or a non-negative
+time span, e.g., an action period or delay. The seconds component is 32 bits.
+
+**Fields**
+
+- (protogen.esb.fldTstamp.sec)=
+
+  **`sec`** — `fixed32`\
+  Seconds component.
+
+- (protogen.esb.fldTstamp.nsec)=
+
+  **`nsec`** — `fixed32`\
+  Nanoseconds component.
+
+(protogen.esb.fldVersion)=
+
+### fldVersion
+
+*Message* `esb.fldVersion`
+
+Version record.
+
+**Fields**
+
+- (protogen.esb.fldVersion.major)=
+
+  **`major`** — `uint32`\
+  The major version number.
+
+- (protogen.esb.fldVersion.minor)=
+
+  **`minor`** — `uint32`\
+  The minor version number.
+
+- (protogen.esb.fldVersion.patch)=
+
+  **`patch`** — `uint32`\
+  The patch number.
+
+## Enumerations
+
+(protogen.esb.enEndpointType)=
+
+### enEndpointType
+
+*Enumeration* `esb.enEndpointType`
+
+Endpoint types handled by the RCP protocol.
+
+- (protogen.esb.enEndpointType.devTypeGpio)=
+
+  **`devTypeGpio`** — General Purpose I/O Interface (GPIO).
+
+- (protogen.esb.enEndpointType.devTypeUart)=
+
+  **`devTypeUart`** — Universal Asynchronous Receiver-Transmitter (UART) Interface.
+
+- (protogen.esb.enEndpointType.devTypeSpi)=
+
+  **`devTypeSpi`** — Serial Peripheral Interface (SPI).
+
+- (protogen.esb.enEndpointType.devTypeI2c)=
+
+  **`devTypeI2c`** — Inter-Integrated Circuit (I2C) Interface.
+
+- (protogen.esb.enEndpointType.devTypeAdc)=
+
+  **`devTypeAdc`** — Analog-to-Digital Converter (ADC) Interface.
+
+- (protogen.esb.enEndpointType.devTypePwm)=
+
+  **`devTypePwm`** — Pulse-Width Modulation (PWM) Interface.
+
+- (protogen.esb.enEndpointType.devTypePdm)=
+
+  **`devTypePdm`** — Pulse-Density Modulation (PDM) Interface.
+
+- (protogen.esb.enEndpointType.devTypePcm)=
+
+  **`devTypePcm`** — Pulse-Code Modulation (PCM) Audio Interface.
+
+- (protogen.esb.enEndpointType.devTypeLin)=
+
+  **`devTypeLin`** — Local Interconnect Network (LIN) Interface.
+
+- (protogen.esb.enEndpointType.devTypeSent)=
+
+  **`devTypeSent`** — Single Edge Nibble Transmission (SENT) Interface.
+
+(protogen.esb.enEndpointQuery)=
+
+### enEndpointQuery
+
+*Enumeration* `esb.enEndpointQuery`
+
+Types of query that an endpoint answers.
+
+- (protogen.esb.enEndpointQuery.epqConfig)=
+
+  **`epqConfig`** — Get current endpoint configuration.
+
+- (protogen.esb.enEndpointQuery.epqNotifInfo)=
+
+  **`epqNotifInfo`** — Get notification ownership and sequence state.

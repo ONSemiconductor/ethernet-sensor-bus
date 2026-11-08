@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Higher-level behavior &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Usage hints" href="hints.html" />
+    <link rel="prev" title="Scheduler" href="scheduler.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="principle.html">Operating principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.html">Scheduler</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Higher-level behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hints.html">Usage hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protobuf.html">Protobuf encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generators.html">Code generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Higher-level behavior</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="higher-level-behavior">
+<span id="protogen-behavior"></span><h1>Higher-level behavior<a class="headerlink" href="#higher-level-behavior" title="Link to this heading"></a></h1>
+<p>This page describes behavior that spans more than one message: persistent storage and fail-safe operation.</p>
+<section id="persistent-storage">
+<h2>Persistent storage<a class="headerlink" href="#persistent-storage" title="Link to this heading"></a></h2>
+<p>An RCP server can have a non-volatile memory (NVM), e.g., an EEPROM. The query <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qrynvmstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryNvmStatus</span></code></span></a> tells whether it is present. An operation that needs the NVM fails with the result <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actnvmnotpresent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actNvmNotPresent</span></code></span></a> on a server without it. The NVM holds the configuration, actions, and user data.</p>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h3>
+<p>The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opsaveconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opSaveConfig</span></code></span></a> saves the current configuration of the server. The configuration includes the network settings, such as the MAC address and the multicast addresses, and the registered clients.</p>
+<p>At start-up, the server loads the saved configuration if there is a valid one. Otherwise, or without an NVM, it starts with its default configuration, so a change that is not saved is lost at a reset. A saved configuration that cannot be loaded, e.g., because its checksum does not match, is not applied. The status of the NVM reports the error (<a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmstatus-configerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldNvmStatus.configError</span></code></span></a>).</p>
+<p>The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-oprestoreconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opRestoreConfig</span></code></span></a> loads the saved configuration at any time. If it returns an error, the current configuration does not change. The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-oprestorefactoryconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opRestoreFactoryConfig</span></code></span></a> erases the NVM and restarts the server with its default configuration.</p>
+<p>The power-on flag of the status (<a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverstatus-pwron"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerStatus.pwrOn</span></code></span></a>) is set at every start until the client clears it with <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opclearpwron"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opClearPwron</span></code></span></a>. A client that clears the flag once and polls it later can detect an unwanted reset.</p>
+</section>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Link to this heading"></a></h3>
+<p>An action whose field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-storetonvm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.storeToNvm</span></code></span></a> is set is written to the NVM instead of being scheduled. The server loads the stored actions at start-up, so they run even if no client has reached the server yet. This allows fail-safe actions that exist from power-up.</p>
+<figure class="align-default" id="id1">
+<img alt="Storage and scheduling of asynchronous actions" src="../_images/structureStoredActions.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Storage and scheduling of asynchronous actions</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-oploadstoredactions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opLoadStoredActions</span></code></span></a> loads the stored actions at once. It does not remove the actions that are already loaded, so repeating it loads them again. The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opclearstoredactions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opClearStoredActions</span></code></span></a> erases the stored actions, but not the loaded ones. The status of the NVM tells how many actions are stored and whether loading them failed (<a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldNvmStatus</span></code></span></a>).</p>
+<p>To receive reports from stored actions after a restart, register their client and save the client configuration, see <a class="reference internal" href="../server/rcp_net.html"><span class="std std-doc">Network Configuration</span></a>.</p>
+</section>
+<section id="user-data">
+<h3>User data<a class="headerlink" href="#user-data" title="Link to this heading"></a></h3>
+<p>The NVM can also hold user data, which the server does not interpret. The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opmanageuserdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opManageUserData</span></code></span></a> reads or writes it (<a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldNvmOperation</span></code></span></a>). The server rejects an access beyond the user-dedicated NVM.</p>
+</section>
+</section>
+<section id="fail-safe-operation">
+<h2>Fail-safe operation<a class="headerlink" href="#fail-safe-operation" title="Link to this heading"></a></h2>
+<p>The network watchdog detects the loss of the client, see <a class="reference internal" href="../server/rcp_core.html"><span class="std std-doc">Core Operations</span></a>. If it expires, the server enters the fail-safe mode and executes the fail-safe actions. These are the actions with the field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-failsafe"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.failsafe</span></code></span></a> set. An example is an action that brings an output into a safe state. The client defines the fail-safe actions after the start of the server, or the server loads them from the NVM, see above. The server may also enter the mode for other implementation-specific reasons.</p>
+<p>In fail-safe mode, the server rejects a synchronous action without the flag, and outside of the mode, it rejects a synchronous action with the flag. The result is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actfailsafeerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actFailsafeError</span></code></span></a> in both cases. An asynchronous fail-safe action waits in the scheduler until the server enters the mode.</p>
+<p>What else the mode changes is implementation-specific, e.g., whether the server cancels the other scheduled actions and whether the PTP timer keeps running. The same holds for the way in which the server leaves the mode. The flag <a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverstatus-liv"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerStatus.liv</span></code></span></a> is set during normal operation and cleared in fail-safe mode. The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-openterfailsafe"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opEnterFailsafe</span></code></span></a> forces the mode. It can be used to test the fail-safe actions.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The following directive enables and saves a one-second watchdog timeout, stores a fail-safe action, and loads it for use now. It also survives a restart. In fail-safe mode, the action toggles GPIO pin 0, already configured as an output, every 250 ms, e.g., to blink a lamp. Execution reports are suppressed.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 12
+dir { config { rcp { server { watchdogTimeoutMs: 1000 } } } }
+dir { action { rcp { op: opSaveConfig } } }
+dir {
+   action {
+      hndl: 1
+      gpio { tgl: 0x01 }
+      timed { period { nsec: 250000000 } }
+      repeatCount: 4294967295
+      replyMode: actReplyNever
+      failsafe: true
+      storeToNvm: true
+   }
+}
+dir { action { rcp { op: opLoadStoredActions } } }
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scheduler.html" class="btn btn-neutral float-left" title="Scheduler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hints.html" class="btn btn-neutral float-right" title="Usage hints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

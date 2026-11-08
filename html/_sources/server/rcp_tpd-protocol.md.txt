@@ -1,0 +1,118 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.tpd.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.rcp.tpd.fldCmd`
+
+Container for the topology discovery operation.
+
+**Fields**
+
+- (protogen.esb.rcp.tpd.fldCmd.role)=
+
+  **`role`** — [`enCmdRole`](#protogen.esb.rcp.tpd.enCmdRole)\
+  Role of the node in the measurement.
+  The measurement needs two nodes with different roles, so the client sends the command to both of them.
+
+- (protogen.esb.rcp.tpd.fldCmd.durationMs)=
+
+  **`durationMs`** — `uint32`\
+  Duration of each delay measurement in milliseconds.
+  A longer duration improves the precision of the measured delays, but makes the whole measurement longer.
+
+- (protogen.esb.rcp.tpd.fldCmd.timeoutMs)=
+
+  **`timeoutMs`** — `uint32`\
+  Timeout of the measurement in milliseconds.
+  The RCP server waits at most this time for the other node to take part in the measurement. If the other node does
+  not respond in time, the measurement fails with an error status, see [`enCmdStatus`](#protogen.esb.rcp.tpd.enCmdStatus).
+
+(protogen.esb.rcp.tpd.fldCmdResult)=
+
+### fldCmdResult
+
+*Message* `esb.rcp.tpd.fldCmdResult`
+
+Container for the topology discovery result.
+
+**Fields**
+
+- (protogen.esb.rcp.tpd.fldCmdResult.internalDelay)=
+
+  **`internalDelay`** — `uint32`\
+  Internal delay of the node, i.e., the delay that the node itself adds to the signal.
+  The delay between the two nodes includes the internal delays, see [`distanceDelay`](#protogen.esb.rcp.tpd.fldCmdResult.distanceDelay).
+  It is a count, see the page [Topology Discovery](#protogen.rcp_tpd) for the conversion into a time.
+
+- (protogen.esb.rcp.tpd.fldCmdResult.distanceDelay)=
+
+  **`distanceDelay`** — `uint32`\
+  Delay between the two nodes, measured over the line. The client derives the distance between the nodes from it,
+  taking the internal delays into account, see [`internalDelay`](#protogen.esb.rcp.tpd.fldCmdResult.internalDelay) and [`measuredNodeDelay`](#protogen.esb.rcp.tpd.fldCmdResult.measuredNodeDelay).
+  For the calculation, see the page [Topology Discovery](#protogen.rcp_tpd).
+
+- (protogen.esb.rcp.tpd.fldCmdResult.durationMs)=
+
+  **`durationMs`** — `uint32`\
+  Duration of each delay measurement in milliseconds, the same as in [`fldCmd.durationMs`](#protogen.esb.rcp.tpd.fldCmd.durationMs).
+  The client needs it to convert the delays into times, see the page [Topology Discovery](#protogen.rcp_tpd).
+
+- (protogen.esb.rcp.tpd.fldCmdResult.measuredNodeDelay)=
+
+  **`measuredNodeDelay`** — `uint32`\
+  Internal delay of the measured node, as measured by the reference node. Only the reference node reports it. In
+  the result of the measured node, it is 0.
+
+- (protogen.esb.rcp.tpd.fldCmdResult.status)=
+
+  **`status`** — [`enCmdStatus`](#protogen.esb.rcp.tpd.enCmdStatus)\
+  Status of the measurement. The delays are only valid if it is [`statusSuccess`](#protogen.esb.rcp.tpd.enCmdStatus.statusSuccess).
+
+## Enumerations
+
+(protogen.esb.rcp.tpd.enCmdRole)=
+
+### enCmdRole
+
+*Enumeration* `esb.rcp.tpd.enCmdRole`
+
+Role of a node in the topology discovery.
+
+- (protogen.esb.rcp.tpd.enCmdRole.roleMeasuredNode)=
+
+  **`roleMeasuredNode`** — Start topology discovery as the measured node. The measured node waits for the reference node, measures its own
+  internal delay, and then takes part in the measurement of the delay between the two nodes.
+
+- (protogen.esb.rcp.tpd.enCmdRole.roleReferenceNode)=
+
+  **`roleReferenceNode`** — Start topology discovery as the reference node. The reference node starts the exchange with the measured node.
+  It measures its own internal delay and that of the measured node, and then the delay between the two nodes.
+
+(protogen.esb.rcp.tpd.enCmdStatus)=
+
+### enCmdStatus
+
+*Enumeration* `esb.rcp.tpd.enCmdStatus`
+
+Topology discovery status.
+
+- (protogen.esb.rcp.tpd.enCmdStatus.statusSuccess)=
+
+  **`statusSuccess`** — Measurement was successful.
+
+- (protogen.esb.rcp.tpd.enCmdStatus.statusAutoErr)=
+
+  **`statusAutoErr`** — Error in the automatic sequence of the measurement: the other node did not continue the sequence within the
+  timeout, see [`fldCmd.timeoutMs`](#protogen.esb.rcp.tpd.fldCmd.timeoutMs).
+
+- (protogen.esb.rcp.tpd.enCmdStatus.statusMeasErr)=
+
+  **`statusMeasErr`** — Error during the measurement of the delay between the two nodes, e.g., because no signal was received in time.
+
+- (protogen.esb.rcp.tpd.enCmdStatus.statusDlyMeasErr)=
+
+  **`statusDlyMeasErr`** — Error during the measurement of an internal delay, e.g., because no signal was received in time.

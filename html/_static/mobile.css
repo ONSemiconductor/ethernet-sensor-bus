@@ -1,0 +1,26 @@
+@media screen and (max-width: 768px) {
+  /* custom.css makes the sidebar 85vw wide, the theme hides it at left: -300px: on a phone wider than 353 px a strip of the menu stayed on the page, over its left edge and the menu button. */
+  .wy-nav-side {
+    left: calc(-1 * var(--nav-width, 85vw));
+  }
+
+  /* The open menu pushes the page, and the menu button with it, under the fixed button of the dark mode: the button goes into the menu then. */
+  .wy-nav-side.shift .theme-toggle-button {
+    position: absolute;
+  }
+}
+
+/* Long names such as esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction made the page wider than the screen, which the browsers answer by shrinking it; span.pre never wraps. */
+.rst-content {
+  overflow-wrap: break-word;
+}
+
+.rst-content code span.pre {
+  white-space: normal;
+}
+
+/* The theme gives the text of a table cell lines of 1rem and custom.css makes the text 18px: a cell that wraps, as on a phone, printed its lines over each other. */
+html.writer-html5 .rst-content table.docutils td > p,
+html.writer-html5 .rst-content table.docutils th > p {
+  line-height: 1.4;
+}

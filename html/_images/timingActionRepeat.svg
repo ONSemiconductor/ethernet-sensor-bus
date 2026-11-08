@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="340" viewBox="0 0 940 340" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Repeated timed action</title>
+  <rect width="940" height="340" fill="#ffffff"/>
+  <text xml:space="preserve" x="12" y="24">The first execution is scheduled at the absolute time <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">ptime</tspan> or <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">offset</tspan> after the directive was received.</text>
+  <line x1="40" y1="220" x2="898" y2="220" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="906,220 896,224 896,216" fill="#000000"/>
+  <text x="906" y="242" text-anchor="end">PTP time</text>
+  <line x1="90" y1="70" x2="90" y2="228" stroke="#888888" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="90" y="60" text-anchor="middle">Directive received</text>
+  <line x1="230" y1="96" x2="230" y2="228" stroke="#888888" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="219" y="194" width="22" height="26" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="230" y="212" text-anchor="middle">1</text>
+  <text x="230" y="250" text-anchor="middle">Execution 1</text>
+  <line x1="390" y1="96" x2="390" y2="228" stroke="#888888" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="379" y="194" width="22" height="26" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="390" y="212" text-anchor="middle">2</text>
+  <text x="390" y="250" text-anchor="middle">Execution 2</text>
+  <line x1="566" y1="96" x2="566" y2="228" stroke="#888888" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="555" y="194" width="22" height="26" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="566" y="212" text-anchor="middle">3</text>
+  <text x="566" y="250" text-anchor="middle">Execution 3</text>
+  <line x1="762" y1="96" x2="762" y2="228" stroke="#888888" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="751" y="194" width="22" height="26" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="762" y="212" text-anchor="middle">4</text>
+  <text x="762" y="250" text-anchor="middle">Execution 4</text>
+  <line x1="90" y1="96" x2="90" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="230" y1="96" x2="230" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="97" y1="120" x2="223" y2="120" stroke="#000000" stroke-width="1"/>
+  <polygon points="230,120 220,124 220,116" fill="#000000"/>
+  <polygon points="90,120 100,116 100,124" fill="#000000"/>
+  <text xml:space="preserve" x="160" y="114" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">offset</tspan></text>
+  <line x1="230" y1="96" x2="230" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="390" y1="96" x2="390" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="237" y1="120" x2="383" y2="120" stroke="#000000" stroke-width="1"/>
+  <polygon points="390,120 380,124 380,116" fill="#000000"/>
+  <polygon points="230,120 240,116 240,124" fill="#000000"/>
+  <text xml:space="preserve" x="310" y="114" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">period</tspan></text>
+  <line x1="390" y1="96" x2="390" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="566" y1="96" x2="566" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="397" y1="120" x2="559" y2="120" stroke="#000000" stroke-width="1"/>
+  <polygon points="566,120 556,124 556,116" fill="#000000"/>
+  <polygon points="390,120 400,116 400,124" fill="#000000"/>
+  <text xml:space="preserve" x="478" y="114" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">period</tspan> + <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">periodAdjNs</tspan></text>
+  <line x1="566" y1="96" x2="566" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="762" y1="96" x2="762" y2="128" stroke="#000000" stroke-width="1"/>
+  <line x1="573" y1="120" x2="755" y2="120" stroke="#000000" stroke-width="1"/>
+  <polygon points="762,120 752,124 752,116" fill="#000000"/>
+  <polygon points="566,120 576,116 576,124" fill="#000000"/>
+  <text xml:space="preserve" x="664" y="114" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">period</tspan> + 2 × <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">periodAdjNs</tspan></text>
+  <path d="M 219 268 Q 219 273 224 273 H 491 Q 496 273 496 278 Q 496 273 501 273 H 768 Q 773 273 773 268" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="496" y="302" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">repeatCount</tspan> = 3: the action is scheduled <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">repeatCount</tspan> + 1 = 4 times</text>
+  <text xml:space="preserve" x="12" y="328"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">periodAdjNs</tspan> is added to the period after every execution (here a positive value).</text>
+</svg>

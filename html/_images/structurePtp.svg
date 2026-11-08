@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="330" viewBox="0 0 940 330" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Clock synchronization loop of the PTP protocol</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="940" height="330" fill="#ffffff"/>
+  <rect class="blk" x="16" y="72" width="170" height="76" rx="6"/>
+  <text class="c" x="101" y="97.55" xml:space="preserve">Time master</text>
+  <text class="c" x="101" y="114.55" xml:space="preserve">of the network</text>
+  <text class="c" x="101" y="131.55" xml:space="preserve">(PTP messages)</text>
+  <circle class="blk" cx="292" cy="110" r="16"/>
+  <path class="arrow" d="M186,110 L276,110"/>
+  <text class="n" x="194" y="130" xml:space="preserve">master time</text>
+  <text class="b c" x="266" y="100" xml:space="preserve">+</text>
+  <text class="b c" x="304" y="144" xml:space="preserve">−</text>
+  <path class="arrow" d="M308,110 L352,110"/>
+  <rect class="blk" x="352" y="86" width="120" height="48" rx="6"/>
+  <text class="c" x="412" y="106.05" xml:space="preserve">Add</text>
+  <text class="c" x="412" y="123.05" xml:space="preserve"><tspan class="m">offsetNs</tspan></text>
+  <path class="arrow" d="M472,110 L526,110"/>
+  <circle class="dot" cx="495" cy="110" r="3.5"/>
+  <path class="arrow" d="M495,110 L495,162"/>
+  <text x="505" y="182" xml:space="preserve">error: <tspan class="m">fldStatus.err</tspan></text>
+  <rect class="blk" x="526" y="72" width="170" height="76" rx="6"/>
+  <text class="c" x="611" y="97.55" xml:space="preserve">PID controller</text>
+  <text class="c" x="611" y="114.55" xml:space="preserve"><tspan class="m">pidP</tspan> <tspan class="m">pidI</tspan></text>
+  <text class="c" x="611" y="131.55" xml:space="preserve"><tspan class="m">pidD</tspan> <tspan class="m">pidN</tspan></text>
+  <path class="arrow" d="M696,110 L740,110"/>
+  <rect class="blk" x="740" y="72" width="184" height="76" rx="6"/>
+  <text class="c" x="832" y="106.05" xml:space="preserve">Local PTP timer</text>
+  <text class="c" x="832" y="123.05" xml:space="preserve"><tspan class="m">fldStatus.val</tspan></text>
+  <path class="arrow" d="M832,148 L832,252 L292,252 L292,126"/>
+  <text class="c n" x="560" y="244" xml:space="preserve">local time</text>
+  <text x="12" y="288" xml:space="preserve">The timer drives timed actions and the timestamps of reports. <tspan class="m">fldStatus.synced</tspan> tells whether it is synchronized.</text>
+  <text x="12" y="310" xml:space="preserve">The synchronization is lost when no synchronization is received for <tspan class="m">syncTimeoutMs</tspan>.</text>
+</svg>

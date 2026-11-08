@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduler &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Higher-level behavior" href="behavior.html" />
+    <link rel="prev" title="Network" href="network.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="principle.html">Operating principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior.html">Higher-level behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hints.html">Usage hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protobuf.html">Protobuf encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generators.html">Code generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Scheduler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="scheduler">
+<span id="protogen-scheduler"></span><h1>Scheduler<a class="headerlink" href="#scheduler" title="Link to this heading"></a></h1>
+<p>The scheduler is the part of an RCP server that decides when an action runs. A client can request that an action runs at a given time, repeatedly, when an event occurs, or when another action has finished. The server keeps the action in its scheduler until it is due, runs it, and reports the result. The messages are defined in <a class="reference internal" href="../rcp.html"><span class="std std-doc">RCP Messages</span></a>.</p>
+<section id="synchronous-and-asynchronous-actions">
+<h2>Synchronous and asynchronous actions<a class="headerlink" href="#synchronous-and-asynchronous-actions" title="Link to this heading"></a></h2>
+<p>An action without a trigger and with <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.repeatCount</span></code></span></a> equal to 0 is synchronous. The server executes it as soon as the endpoint is free, and the report to the directive holds the final result. Every other action is asynchronous, including one with an empty <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-timed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">timed</span></code></span></a> message. The report to the directive acknowledges scheduling (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actPending</span></code></span></a>), not execution. Execution results follow in unsolicited reports, subject to <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.replyMode</span></code></span></a>. The figure shows both cases.</p>
+<p><img alt="" src="../_images/sequenceAction.svg" /></p>
+<p>If a client sets <a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverconfig-syncactionsenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerConfig.syncActionsEnable</span></code></span></a> to false, the server treats synchronous actions as asynchronous. It answers with <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actPending</span></code></span></a> and runs the action as soon as the endpoint is free.</p>
+</section>
+<section id="life-of-an-action">
+<h2>Life of an action<a class="headerlink" href="#life-of-an-action" title="Link to this heading"></a></h2>
+<p>The server first checks an action. It rejects an invalid action with an error result. Examples are an invalid parameter (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actinvalidparam"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actInvalidParam</span></code></span></a>), a command that the endpoint does not support (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actNotSupported</span></code></span></a>), and a scheduler with no room left (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actnoresources"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actNoResources</span></code></span></a>). Otherwise, it schedules an asynchronous action, which then waits for its trigger. When the trigger fires and the endpoint is free, the action runs and the server reports its result. A repeating action is scheduled again. After the last repetition, the server removes the action.</p>
+<p>An endpoint executes one action at a time. An action that is due while its endpoint is busy waits, unless it has a hard deadline, see Late actions. Actions for different endpoints can run at the same time. The figure shows the states of an action.</p>
+<p><img alt="" src="../_images/structureScheduler.svg" /></p>
+</section>
+<section id="triggers">
+<h2>Triggers<a class="headerlink" href="#triggers" title="Link to this heading"></a></h2>
+<p>The trigger of an action (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-trigger"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.trigger</span></code></span></a>) decides when the action runs. An action without a trigger runs as soon as the endpoint is free (best effort).</p>
+<p><img alt="" src="../_images/timingActionTriggers.svg" /></p>
+<ul class="simple">
+<li><p>A timed action (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed</span></code></span></a>) is due at its presentation time. It is either an absolute time (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed-ptime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed.ptime</span></code></span></a>) or an offset from the reception of the directive (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed-offset"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed.offset</span></code></span></a>). If neither is given, the action is due at once.</p></li>
+<li><p>An event action (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactionevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionEvent</span></code></span></a>) runs when the server asserts one of the listed events, optionally after a delay. Examples are the change of a GPIO pin and the crossing of an ADC threshold. The events and their numbers are implementation-specific.</p></li>
+<li><p>A dependent action (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiondependent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionDependent</span></code></span></a>) runs when another action has finished, optionally after a delay. The trigger type selects whether the action runs after any result of the other action, only after a success, or only after an error.</p></li>
+<li><p>A bound action (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-bind"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.bind</span></code></span></a>) runs together with another action, e.g., to start a PWM and a SPI controller together. A bound action addresses a different endpoint than the action it is bound to. Otherwise, the server rejects it.</p></li>
+</ul>
+</section>
+<section id="repetition">
+<h2>Repetition<a class="headerlink" href="#repetition" title="Link to this heading"></a></h2>
+<p>The field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.repeatCount</span></code></span></a> is the number of repetitions, so the action runs <code class="docutils literal notranslate"><span class="pre">repeatCount</span></code> plus one times. The value 0xFFFFFFFF repeats the action until it is canceled. A repeating action is always asynchronous.</p>
+<p>For a timed action, <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed-period"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed.period</span></code></span></a> sets the interval of the repetitions. The server adds the period to the presentation time of the previous execution, so a delay of one execution does not shift the following ones. After each execution, the server adds the signed number of nanoseconds in <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed-periodadjns"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed.periodAdjNs</span></code></span></a> to the period. This makes sequences that become faster or slower. The figure shows an example.</p>
+<p><img alt="" src="../_images/timingActionRepeat.svg" /></p>
+</section>
+<section id="time-base">
+<h2>Time base<a class="headerlink" href="#time-base" title="Link to this heading"></a></h2>
+<p>Timed actions use a timer of the server as their time base. The Precision Time Protocol (PTP) synchronizes the timer with the time of the network, see <a class="reference internal" href="../server/rcp_ptp.html"><span class="std std-doc">PTP</span></a>. Servers that follow the same time master can run actions at the same time. The client can also set the timer with <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opsetptptime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opSetPtpTime</span></code></span></a>, e.g., before it uses timed actions or enables PTP. The precision and the granularity of the timer are implementation-specific.</p>
+</section>
+<section id="late-actions">
+<h2>Late actions<a class="headerlink" href="#late-actions" title="Link to this heading"></a></h2>
+<p>An action is late if the server cannot run it at its presentation time, because that time is already in the past or because the endpoint is busy. The field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactiontimed-harddeadline"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed.hardDeadline</span></code></span></a> decides what happens to a late action:</p>
+<ul class="simple">
+<li><p>If it is <code class="docutils literal notranslate"><span class="pre">false</span></code>, the default, the server runs the action anyway. A successful execution returns the warning <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a>. A failed execution returns its error instead.</p></li>
+<li><p>If it is <code class="docutils literal notranslate"><span class="pre">true</span></code>, the server does not run the action. The result is the error <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-acttoolate"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actTooLate</span></code></span></a>.</p></li>
+</ul>
+<p>The result of an action can carry the time at which it ran (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactionresult-time"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.time</span></code></span></a>).</p>
+</section>
+<section id="results-and-replies">
+<h2>Results and replies<a class="headerlink" href="#results-and-replies" title="Link to this heading"></a></h2>
+<p>The field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.replyMode</span></code></span></a> filters the execution results of an asynchronous action: every execution, none, errors only, the last execution only, or errors and the last execution. It does not suppress the scheduling acknowledgement. The directive’s <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a> independently controls that report, see <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>. A synchronous action ignores <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">replyMode</span></code></span></a>.</p>
+<p>Warnings count as success, both for reply filtering and for dependent triggers. In particular, <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a> triggers <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactiondependenttype-actdepsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDepSuccess</span></code></span></a>, not <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactiondependenttype-actdeperror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDepError</span></code></span></a>, and does not by itself produce an <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionreplymode-actreplyonerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actReplyOnError</span></code></span></a> report.</p>
+</section>
+<section id="identifying-and-canceling-actions">
+<h2>Identifying and canceling actions<a class="headerlink" href="#identifying-and-canceling-actions" title="Link to this heading"></a></h2>
+<p>An action has two identifiers:</p>
+<ul class="simple">
+<li><p>The tag (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.tag</span></code></span></a>) is a label that the client chooses. It does not have to be unique, so several actions can share it. The client knows the tag in advance, e.g., to name the action in the trigger of another one. In a trigger, the tag 0 refers to the action that the server queued last, and a tag that several actions share refers to the first one found. The server returns the tag with every result.</p></li>
+<li><p>The unique ID (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.uid</span></code></span></a>) is generated by the server for every queued action and identifies exactly one action. The client learns it from the acknowledgement.</p></li>
+</ul>
+<p>The cancel operation (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactioncancel"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionCancel</span></code></span></a>) selects actions by one of them. A unique ID selects one action, and a tag selects all live actions that carry it. An action is live while it is scheduled or running. The result is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enaclresult-aclsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">aclSuccess</span></code></span></a> if a scheduled action is removed, <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enaclresult-aclpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">aclPending</span></code></span></a> if the action was already running and completes, and <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enaclresult-aclnotfound"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">aclNotFound</span></code></span></a> if no live action matches. The command <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opcancelallactions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opCancelAllActions</span></code></span></a> clears all scheduled actions, including those with repetitions left. A running action completes.</p>
+<p>When an action is removed, dependents still waiting for its completion are removed without a notification or an action result. An already-triggered dependent, including one waiting out its delay, finishes its current execution under its reply mode, with no further repetitions.</p>
+<p>The query <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryschedulerstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qrySchedulerStatus</span></code></span></a> lists the actions that the scheduler holds (<a class="reference internal" href="../server/rcp_core-protocol.html#protogen-esb-rcp-core-fldschedulerstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldSchedulerStatus</span></code></span></a>) with their IDs, tags, endpoints, remaining repetitions, and clients. The capacity of the scheduler is implementation-specific. If it is full, the server rejects a new asynchronous action with <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actnoresources"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actNoResources</span></code></span></a>.</p>
+<p>The settings <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-failsafe"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.failsafe</span></code></span></a> and <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-storetonvm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.storeToNvm</span></code></span></a> are described on the page <a class="reference internal" href="behavior.html"><span class="std std-doc">Higher-level behavior</span></a>.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>The first operation of this directive sets GPIO pin 0, which is configured as an output, one second after the reception of the directive. The action has a hard deadline, so the server drops it if it is late, and it has the tag 7. The second operation clears the pin 10 ms after the first action has succeeded and names the first action by its tag. Both actions are asynchronous. The server answers each with <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actPending</span></code></span></a> and reports the results later.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 10
+dir {
+   action {
+      hndl: 1
+      gpio { set: 0x01 }
+      timed { offset { sec: 1 }  hardDeadline: true }
+      tag: 7
+   }
+}
+dir {
+   action {
+      hndl: 1
+      gpio { clr: 0x01 }
+      action {
+         tag: 7
+         trigType: actDepSuccess
+         delay { nsec: 10000000 }
+      }
+   }
+}
+</pre></div>
+</div>
+<p>The next directive cancels all actions with the tag 7 and then reads what the scheduler still holds:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 11
+dir { cancel { tag: 7 } }
+dir { query { rcp: qrySchedulerStatus } }
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="network.html" class="btn btn-neutral float-left" title="Network" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="behavior.html" class="btn btn-neutral float-right" title="Higher-level behavior" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

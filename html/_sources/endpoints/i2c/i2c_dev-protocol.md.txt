@@ -1,0 +1,96 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.i2c.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.i2c.fldConfig`
+
+I2C bus configuration.
+
+**Fields**
+
+- (protogen.esb.i2c.fldConfig.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  The clock speed in hertz (Hz).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+- (protogen.esb.i2c.fldConfig.clockStretchingTimeout)=
+
+  **`clockStretchingTimeout`** — *optional* `uint32`\
+  If set, configures the timeout for clock stretching: the longest time that the RCP server waits for a target to
+  release SCL before it aborts the current transfer.
+  The timeout is given in quarter periods of the SCL clock.
+
+- (protogen.esb.i2c.fldConfig.clockStretching)=
+
+  **`clockStretching`** — *optional* `bool`\
+  If set, enables clock stretching on the bus.
+
+(protogen.esb.i2c.fldCmdXfer)=
+
+### fldCmdXfer
+
+*Message* `esb.i2c.fldCmdXfer`
+
+I2C transfer token, the building block of an I2C command.
+A token is either a write or a read transfer.
+
+```{note}
+This is a low-level I2C interface that gives the client direct control of the bus. The client implements
+the I2C protocol of the attached device(s), including the generation of the target address and the R/W bit.
+```
+
+**Fields**
+
+- (protogen.esb.i2c.fldCmdXfer.xft)=
+
+  **`xft`** — *oneof*
+
+  - (protogen.esb.i2c.fldCmdXfer.wdata)=
+
+    **`wdata`** — `bytes`\
+    If set, the I2C controller performs a write transfer of the specified
+    amount of data (size of [`wdata`](#protogen.esb.i2c.fldCmdXfer.wdata)). The controller expects an ACK from the
+    attached device for each byte transferred. Otherwise, the command fails
+    with the [`actIOError`](#protogen.esb.enActionResult.actIOError) code.
+
+  - (protogen.esb.i2c.fldCmdXfer.rsize)=
+
+    **`rsize`** — `uint32`\
+    Determines the transfer length in bytes. This amount of data is
+    appended to the data of the action result ([`fldActionResult.data`](#protogen.esb.fldActionResult.data)).
+
+- (protogen.esb.i2c.fldCmdXfer.restart)=
+
+  **`restart`** — `bool`\
+  If set, generates a repeated start condition before the current transfer occurs.
+
+(protogen.esb.i2c.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.i2c.fldCmd`
+
+Container for I2C commands.
+
+**Fields**
+
+- (protogen.esb.i2c.fldCmd.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  If set, overrides the clock speed in hertz (Hz) for this command only.
+  The RCP server is allowed to round the requested speed, as described for [`fldConfig.speedHz`](#protogen.esb.i2c.fldConfig.speedHz).
+
+- (protogen.esb.i2c.fldCmd.xfer)=
+
+  **`xfer`** — *repeated* [`fldCmdXfer`](#protogen.esb.i2c.fldCmdXfer)\
+  List of transfer tokens.

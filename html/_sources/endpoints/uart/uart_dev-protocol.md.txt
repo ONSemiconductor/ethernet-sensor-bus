@@ -1,0 +1,191 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.uart.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.uart.fldConfig`
+
+Message sent by the client to configure the UART.
+The line parameters [`speedBps`](#protogen.esb.uart.fldConfig.speedBps), [`numDataBits`](#protogen.esb.uart.fldConfig.numDataBits), [`numStopBits`](#protogen.esb.uart.fldConfig.numStopBits), and [`parityBit`](#protogen.esb.uart.fldConfig.parityBit) apply to both the receiver and the
+transmitter. The parameters with the prefix `tx` affect only the transmitter, and those with the prefix `rx` affect
+only the receiver. The flow control parameters are [`swFlowControl`](#protogen.esb.uart.fldConfig.swFlowControl), [`hwFlowControl`](#protogen.esb.uart.fldConfig.hwFlowControl), and [`hwFlowControlPolInv`](#protogen.esb.uart.fldConfig.hwFlowControlPolInv).
+
+**Fields**
+
+- (protogen.esb.uart.fldConfig.speedBps)=
+
+  **`speedBps`** — *optional* `uint32`\
+  The bit rate in bits per second (bps).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+- (protogen.esb.uart.fldConfig.numDataBits)=
+
+  **`numDataBits`** — *optional* `uint32`\
+  The number of data bits per word (e.g., 8 in 8N1).
+
+- (protogen.esb.uart.fldConfig.numStopBits)=
+
+  **`numStopBits`** — *optional* `uint32`\
+  The number of stop bits (e.g., 1 in 8N1).
+
+- (protogen.esb.uart.fldConfig.parityBit)=
+
+  **`parityBit`** — *optional* [`enParityBit`](#protogen.esb.uart.enParityBit)\
+  The type of the parity bit (e.g., N for none in 8N1).
+
+- (protogen.esb.uart.fldConfig.txPolInv)=
+
+  **`txPolInv`** — *optional* `bool`\
+  When false, the TX pin is active low. When true, the TX pin is active high.
+
+- (protogen.esb.uart.fldConfig.rxPolInv)=
+
+  **`rxPolInv`** — *optional* `bool`\
+  When false, the RX pin is active low. When true, the RX pin is active high.
+
+- (protogen.esb.uart.fldConfig.txDelayUs)=
+
+  **`txDelayUs`** — *optional* `uint32`\
+  The minimum pause in microseconds between two chunks of a block (see [`fldCmd.chunkSize`](#protogen.esb.uart.fldCmd.chunkSize)).
+
+- (protogen.esb.uart.fldConfig.swFlowControl)=
+
+  **`swFlowControl`** — *optional* `bool`\
+  If true, enables software flow control (XON/XOFF).
+
+- (protogen.esb.uart.fldConfig.hwFlowControl)=
+
+  **`hwFlowControl`** — *optional* `bool`\
+  If true, enables hardware flow control (RTS/CTS).
+
+- (protogen.esb.uart.fldConfig.hwFlowControlPolInv)=
+
+  **`hwFlowControlPolInv`** — *optional* `bool`\
+  If true, inverts the polarity of the hardware flow control signals (RTS/CTS).
+
+- (protogen.esb.uart.fldConfig.txBreakBitTime)=
+
+  **`txBreakBitTime`** — *optional* `uint32`\
+  The duration of a transmitted break in bit times.
+
+- (protogen.esb.uart.fldConfig.rxEnable)=
+
+  **`rxEnable`** — *optional* `bool`\
+  Enables the UART receiver. Received-data notifications are sent only when it is enabled.
+
+- (protogen.esb.uart.fldConfig.rxLength)=
+
+  **`rxLength`** — *optional* `uint32`\
+  The number of received words that triggers a notification (length-triggered mode). 0 selects the size of the
+  UART buffer. The configuration fails with the [`cfgInvalidParam`](#protogen.esb.enConfigResult.cfgInvalidParam) error code if the length exceeds the size of
+  the UART buffer.
+
+- (protogen.esb.uart.fldConfig.rxTimeoutEnable)=
+
+  **`rxTimeoutEnable`** — *optional* `bool`\
+  Enables the time-triggered mode.
+
+- (protogen.esb.uart.fldConfig.rxTimeoutBitTime)=
+
+  **`rxTimeoutBitTime`** — *optional* `uint32`\
+  The timeout of the time-triggered mode in bit times.
+
+- (protogen.esb.uart.fldConfig.rxTerminalByteEnable)=
+
+  **`rxTerminalByteEnable`** — *optional* `bool`\
+  Enables the terminator-triggered mode.
+
+- (protogen.esb.uart.fldConfig.rxTerminalByte)=
+
+  **`rxTerminalByte`** — *optional* `uint32`\
+  The terminal byte (e.g., 10 for the line feed `'\n'`).
+
+- (protogen.esb.uart.fldConfig.rxStartByteEnable)=
+
+  **`rxStartByteEnable`** — *optional* `bool`\
+  Enables the start-byte-triggered mode. The mode also needs [`rxTerminalByteEnable`](#protogen.esb.uart.fldConfig.rxTerminalByteEnable).
+
+- (protogen.esb.uart.fldConfig.rxStartByte)=
+
+  **`rxStartByte`** — *optional* `uint32`\
+  The start byte (e.g., 36 for `'$'`).
+
+- (protogen.esb.uart.fldConfig.rxSuppressLoopback)=
+
+  **`rxSuppressLoopback`** — *optional* `bool`\
+  If true, the UART discards one received word for each word it transmits, without checking whether the timing or
+  the data content of the received word is identical. On half-duplex links, this prevents the transmitted data from
+  being looped back to the client.
+
+  ```{note}
+  Enabling this makes it impossible to detect transmission errors, e.g., due to collisions.
+  ```
+
+(protogen.esb.uart.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.uart.fldCmd`
+
+Message sent by the client to transmit data over the UART.
+
+**Fields**
+
+- (protogen.esb.uart.fldCmd.txData)=
+
+  **`txData`** — `bytes`\
+  Bytes to send. At least 1 byte is required.
+
+- (protogen.esb.uart.fldCmd.txBreak)=
+
+  **`txBreak`** — `bool`\
+  If true, the UART sends a break before each chunk of data (see [`chunkSize`](#protogen.esb.uart.fldCmd.chunkSize)). With the default [`chunkSize`](#protogen.esb.uart.fldCmd.chunkSize), it
+  sends a single break.
+
+- (protogen.esb.uart.fldCmd.chunkSize)=
+
+  **`chunkSize`** — `uint32`\
+  If non-zero, the UART sends the data in chunks of this size, with the pause [`fldConfig.txDelayUs`](#protogen.esb.uart.fldConfig.txDelayUs) between the
+  chunks. If 0 (default), it sends the data in one chunk.
+
+  ```{note}
+  The maximum chunk size depends on the server (refer to the datasheet of the server).
+  ```
+
+## Enumerations
+
+(protogen.esb.uart.enParityBit)=
+
+### enParityBit
+
+*Enumeration* `esb.uart.enParityBit`
+
+Parity bit of a UART word.
+
+- (protogen.esb.uart.enParityBit.parityNone)=
+
+  **`parityNone`** — No parity bit.
+
+- (protogen.esb.uart.enParityBit.parityEven)=
+
+  **`parityEven`** — Even parity.
+
+- (protogen.esb.uart.enParityBit.parityOdd)=
+
+  **`parityOdd`** — Odd parity.
+
+- (protogen.esb.uart.enParityBit.parityMark)=
+
+  **`parityMark`** — Mark parity: the parity bit is always 1.
+
+- (protogen.esb.uart.enParityBit.paritySpace)=
+
+  **`paritySpace`** — Space parity: the parity bit is always 0.

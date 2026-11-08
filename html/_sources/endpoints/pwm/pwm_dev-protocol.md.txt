@@ -1,0 +1,96 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.pwm.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.pwm.fldConfig`
+
+**Fields**
+
+- (protogen.esb.pwm.fldConfig.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  The clock speed in hertz (Hz).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+- (protogen.esb.pwm.fldConfig.duty)=
+
+  **`duty`** — *optional* `fixed32`\
+  32-bit left-aligned duty cycle value {math}`X`:
+
+  - `0`: output stuck to GND.
+  - `0xFFFFFFFF`: output stuck to VCC.
+  - `0x80000000`: 50% (default).
+  - Otherwise: duty cycle = {math}`X` / {math}`2^{32}`.
+
+(protogen.esb.pwm.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.pwm.fldCmd`
+
+Container for PWM commands.
+
+**Fields**
+
+- (protogen.esb.pwm.fldCmd.op)=
+
+  **`op`** — *optional* [`enCmdOperation`](#protogen.esb.pwm.enCmdOperation)\
+  PWM operation.
+
+- (protogen.esb.pwm.fldCmd.duty)=
+
+  **`duty`** — *oneof*
+
+  - (protogen.esb.pwm.fldCmd.dutySet)=
+
+    **`dutySet`** — `fixed32`\
+    32-bit left-aligned duty cycle value, same as [`fldConfig.duty`](#protogen.esb.pwm.fldConfig.duty).
+
+  - (protogen.esb.pwm.fldCmd.dutyAdj)=
+
+    **`dutyAdj`** — `sint32`\
+    Adjust the duty cycle by this amount. Adjustments can be negative.
+    If the result would be invalid, i.e., exceeding the boundaries
+    of a 32-bit unsigned integer, the duty cycle is clipped.
+
+- (protogen.esb.pwm.fldCmd.freq)=
+
+  **`freq`** — *oneof*
+
+  - (protogen.esb.pwm.fldCmd.freqSet)=
+
+    **`freqSet`** — `uint32`\
+    Set frequency in hertz (Hz), same as [`fldConfig.speedHz`](#protogen.esb.pwm.fldConfig.speedHz).
+
+  - (protogen.esb.pwm.fldCmd.freqAdj)=
+
+    **`freqAdj`** — `sint32`\
+    Adjust frequency by this amount in hertz (Hz), can be negative.
+    Under-and overflows are handled as with [`dutyAdj`](#protogen.esb.pwm.fldCmd.dutyAdj).
+
+## Enumerations
+
+(protogen.esb.pwm.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.pwm.enCmdOperation`
+
+PWM operation types.
+
+- (protogen.esb.pwm.enCmdOperation.opStart)=
+
+  **`opStart`** — Start PWM.
+
+- (protogen.esb.pwm.enCmdOperation.opStop)=
+
+  **`opStop`** — Stop PWM.

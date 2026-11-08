@@ -1,0 +1,57 @@
+/**
+ * Copyright (c) 2024 onsemi
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+.onsemi-binding-compatible {
+  font-family: var(--monospace-font-family, monospace);
+}
+
+/* Compatible string shown in the binding page field list. */
+.rst-content dl.field-list > dd .onsemi-binding-compatible,
+.rst-content .field-body code.literal {
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+/* Property group tabs (Node-specific / Deprecated / Base), enhanced by JS. */
+.onsemi-proptab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 14px;
+  border-bottom: 2px solid var(--onsemi-border, #dbe7f0);
+}
+
+.onsemi-proptab-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--onsemi-text-light, #6c757d);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.onsemi-proptab-btn:hover {
+  color: var(--onsemi-text, inherit);
+}
+
+.onsemi-proptab-btn.active {
+  color: var(--onsemi-secondary, #f0690a);
+  border-bottom-color: var(--onsemi-secondary, #f0690a);
+}
+
+/* Once JS is ready, only the active panel shows; without JS, all panels show. */
+.onsemi-proptabs.onsemi-tabs-ready .onsemi-proptab {
+  display: none;
+}
+
+.onsemi-proptabs.onsemi-tabs-ready .onsemi-proptab.active {
+  display: block;
+}
+

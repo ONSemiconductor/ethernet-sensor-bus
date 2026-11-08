@@ -1,0 +1,51 @@
+(protogen.rcp_ptp)=
+
+# PTP
+
+**File:** `server/rcp_ptp.proto`
+
+**Package:** `esb.rcp.ptp`
+
+Precision Time Protocol (PTP) configuration and status of the RCP server.
+
+The RCP server has a PTP timer, a clock that is synchronized with the time of the network by the Precision Time
+Protocol (PTP, IEEE 802.1AS). The timer provides the time base of the server: actions can be scheduled at a point in
+time ([`fldActionTimed`](#protogen.esb.fldActionTimed)), and notifications and results carry timestamps ([`fldTstamp`](#protogen.esb.fldTstamp)). All servers
+of a network that follow the same time master share a common time, which allows synchronized actions on
+different servers. The configuration is part of the server configuration ([`rcp.dev.fldConfig.ptp`](#protogen.esb.rcp.dev.fldConfig.ptp)).
+
+## Synchronization
+
+While the PTP protocol is enabled, the server compares its timer with the time of the master and corrects the timer
+with a control loop, in which the error is the input of a PID controller. The parameters of the controller tune the
+loop, and an offset compensates systematic delays, such as the wire length.
+
+![](../../../../sw_proto_rcp/figures/server/structurePtp.svg)
+
+The client can also set the timer with a command, e.g., before it uses timed actions or enables the PTP protocol,
+see [`rcp.dev.enCmdOperation`](#protogen.esb.rcp.dev.enCmdOperation).
+
+## Example
+
+To enable the PTP protocol with the proportional gain 4.0 (`pidP: 64`), the integral gain 0.5 (`pidI: 8`), and an
+offset of 500 ns for the delay of the wire, to declare the loss of synchronization after one second without a
+synchronization message, and then to read the status:
+
+```text
+seq: 1
+dir {
+   config {
+      rcp {
+         ptp { enable: true  syncTimeoutMs: 1000  offsetNs: 500  pidP: 64  pidI: 8  pidD: 0  pidN: 0 }
+      }
+   }
+}
+dir { query { rcp: qryPtpStatus } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_ptp-protocol
+```

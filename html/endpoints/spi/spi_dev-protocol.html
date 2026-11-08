@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="I2C Driver" href="../i2c/i2c_dev.html" />
+    <link rel="prev" title="SPI Driver" href="spi_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="spi_dev.html">SPI Driver</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+          <li class="breadcrumb-item"><a href="spi_dev.html">SPI Driver</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldcmdxfer">
+<span id="protogen-esb-spi-fldcmdxfer"></span><h3>fldCmdXfer<a class="headerlink" href="#fldcmdxfer" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.spi.fldCmdXfer</span></code></p>
+<p>SPI transfer token, building block to perform I/O operations.
+Three transfer types are supported:</p>
+<ul class="simple">
+<li><p>full-duplex: a number of bytes (<a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-wdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">wdata</span></code></span></a>) is transferred via MOSI and the
+same number of bytes, sampled from MISO, is returned.</p></li>
+<li><p>write-only: as full-duplex, but the data from MISO is discarded and no
+buffer is returned to the client.</p></li>
+<li><p>read-only: no data is transferred on MOSI, which is set to the constant
+value <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-wpad"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">wpad</span></code></span></a> during the transfer. Instead, <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-rsize"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rsize</span></code></span></a> bytes are sampled from
+MISO and returned to the client.</p></li>
+</ul>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-spi-fldcmdxfer-xft"><strong><code class="docutils literal notranslate"><span class="pre">xft</span></code></strong> — <a class="reference internal" href="#protogen-esb-spi-enxfertype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enXferType</span></code></span></a><br />
+Selects the transfer type (full-duplex, write-only, read-only).</p>
+</li>
+<li><p id="protogen-esb-spi-fldcmdxfer-wdata"><strong><code class="docutils literal notranslate"><span class="pre">wdata</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+When <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-xft"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xft</span></code></span></a> is set to <a class="reference internal" href="#protogen-esb-spi-enxfertype-xferfullduplex"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xferFullDuplex</span></code></span></a> or <a class="reference internal" href="#protogen-esb-spi-enxfertype-xferwriteonly"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xferWriteOnly</span></code></span></a>, the size of the
+transfer is set by the length of <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-wdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">wdata</span></code></span></a>, which contains the data to
+be sent over the MOSI pin.</p>
+</li>
+<li><p id="protogen-esb-spi-fldcmdxfer-rsize"><strong><code class="docutils literal notranslate"><span class="pre">rsize</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+When <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-xft"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xft</span></code></span></a> is set to <a class="reference internal" href="#protogen-esb-spi-enxfertype-xferreadonly"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xferReadOnly</span></code></span></a>, <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-rsize"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rsize</span></code></span></a> determines the transfer length
+in bytes. This amount of data is appended to the data of the action result (<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldactionresult-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.data</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-spi-fldcmdxfer-wpad"><strong><code class="docutils literal notranslate"><span class="pre">wpad</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+When <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-xft"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xft</span></code></span></a> is set to <a class="reference internal" href="#protogen-esb-spi-enxfertype-xferreadonly"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">xferReadOnly</span></code></span></a>, the MOSI pin is set according to the
+value of <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer-wpad"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">wpad</span></code></span></a> (False = 0, True = 1) for the duration of the transfer.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig">
+<span id="protogen-esb-spi-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.spi.fldConfig</span></code></p>
+<p>SPI configuration message.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-spi-fldconfig-msbfirst"><strong><code class="docutils literal notranslate"><span class="pre">msbFirst</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, configures whether the data is sent/received MSB or LSB first.</p>
+</li>
+<li><p id="protogen-esb-spi-fldconfig-cpol"><strong><code class="docutils literal notranslate"><span class="pre">cpol</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, configures the clock polarity.</p>
+</li>
+<li><p id="protogen-esb-spi-fldconfig-cpha"><strong><code class="docutils literal notranslate"><span class="pre">cpha</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, configures the clock/data phase.</p>
+</li>
+<li><p id="protogen-esb-spi-fldconfig-cs"><strong><code class="docutils literal notranslate"><span class="pre">cs</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set, configures the default pin to be used as the chip-select.
+The number is the unique pin identifier as reported by
+<a class="reference internal" href="../../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qrypins"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryPins</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-spi-fldconfig-csdelay"><strong><code class="docutils literal notranslate"><span class="pre">csDelay</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+CS to SCLK delay in half clock periods.
+The same delay applies to both sides of the transfer.
+This is in addition to the minimum delay.</p>
+</li>
+<li><p id="protogen-esb-spi-fldconfig-speedhz"><strong><code class="docutils literal notranslate"><span class="pre">speedHz</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The clock speed in hertz (Hz).
+If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgSuccess</span></code></span></a> return code.
+The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgparamadjusted"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></span></a> warning code and the client can retrieve the actual (rounded) speed by querying the
+configuration of the endpoint.</p>
+</li>
+</ul>
+</section>
+<section id="fldcmd">
+<span id="protogen-esb-spi-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.spi.fldCmd</span></code></p>
+<p>Container for SPI commands.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-spi-fldcmd-param"><strong><code class="docutils literal notranslate"><span class="pre">param</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-spi-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig</span></code></span></a><br />
+If set, overrides the specified configuration fields for this command only.</p>
+</li>
+<li><p id="protogen-esb-spi-fldcmd-xfer"><strong><code class="docutils literal notranslate"><span class="pre">xfer</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-spi-fldcmdxfer"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmdXfer</span></code></span></a><br />
+List of transfer tokens.
+The chip-select is asserted on the first transfer token, and
+it is de-asserted after all tokens have been processed.</p>
+</li>
+<li><p id="protogen-esb-spi-fldcmd-cshold"><strong><code class="docutils literal notranslate"><span class="pre">csHold</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+Keep CS low after the transaction.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enxfertype">
+<span id="protogen-esb-spi-enxfertype"></span><h3>enXferType<a class="headerlink" href="#enxfertype" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.spi.enXferType</span></code></p>
+<p>SPI transfer type.</p>
+<ul class="simple">
+<li><p id="protogen-esb-spi-enxfertype-xferfullduplex"><strong><code class="docutils literal notranslate"><span class="pre">xferFullDuplex</span></code></strong> — Perform R/W concurrently.</p>
+</li>
+<li><p id="protogen-esb-spi-enxfertype-xferwriteonly"><strong><code class="docutils literal notranslate"><span class="pre">xferWriteOnly</span></code></strong> — Just write, discard data from MISO.</p>
+</li>
+<li><p id="protogen-esb-spi-enxfertype-xferreadonly"><strong><code class="docutils literal notranslate"><span class="pre">xferReadOnly</span></code></strong> — Just read, set MOSI to the PAD value.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spi_dev.html" class="btn btn-neutral float-left" title="SPI Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../i2c/i2c_dev.html" class="btn btn-neutral float-right" title="I2C Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

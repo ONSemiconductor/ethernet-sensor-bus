@@ -1,0 +1,66 @@
+(protogen.i2c)=
+
+# I2C Driver
+
+**File:** `endpoints/i2c/i2c_dev.proto`
+
+**Package:** `esb.i2c`
+
+I2C configuration, actions, queries, and notifications for RCP.
+
+An I2C endpoint is an inter-integrated circuit (I2C) controller. It drives the clock SCL and the bidirectional data
+line SDA of a bus on which one or more attached devices, called targets, respond. The pins are assigned to the
+endpoint with the pin configuration, see [`rcp.pins.enPinFuncI2c`](#protogen.esb.rcp.pins.enPinFuncI2c).
+
+The endpoint is a low-level interface: it generates the bus conditions and moves bytes, but it does not know the
+protocol of the attached targets. The client builds each bus transaction from transfer tokens, including the target
+address and the R/W bit that start it.
+
+## Bit timing
+
+The figure shows a write transaction of two bytes. The first byte holds the 7-bit target address and the R/W bit.
+After each byte the target answers with an acknowledge (ACK). A target that needs more time can hold SCL low, which
+is called clock stretching. In the example, the target stretches the clock during one bit.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingI2cBits.svg)
+
+The clock stretching timeout ([`fldConfig.clockStretchingTimeout`](#protogen.esb.i2c.fldConfig.clockStretchingTimeout)) limits how long the RCP server waits for a
+target to release SCL before it aborts the current transfer.
+
+## Transactions
+
+Each command is one transaction: a start condition, the transfer tokens in order, and a stop condition. A token
+either writes bytes or reads a number of bytes. A token can be preceded by a repeated start condition, which allows
+a transaction to change the direction without releasing the bus. The bytes that all read tokens return are
+collected, in order, in the reply to the command.
+
+The figure shows a typical register read of an EEPROM at the 7-bit address 0x50: the first token writes
+the address byte (with the R/W bit cleared) and the register address, the second token restarts and sends the
+address byte again with the R/W bit set, and the third token reads three bytes.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/sequenceI2cXfer.svg)
+
+## Example
+
+The register read of the figure:
+
+```text
+seq: 1
+dir {
+   action {
+      hndl: 3
+      i2c {
+         xfer { wdata: "\xA0\x10" }
+         xfer { restart: true  wdata: "\xA1" }
+         xfer { rsize: 3 }
+      }
+   }
+}
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+i2c_dev-protocol
+```

@@ -1,0 +1,32 @@
+# Server
+
+Messages that configure, control, and query the RCP server itself, as opposed to the endpoints that it contains.
+
+The pages group the messages by topic:
+
+- [RCP Server](rcp_dev.md): the containers of these messages and the commands that manage the server.
+- [Identification and Capabilities](rcp_info.md): the identity, the capabilities, and the list of endpoints.
+- [Core Operations](rcp_core.md): the identification number (DID), the network watchdog, the aggregation of notifications, the scheduler, and the NVM.
+- [Pins](rcp_pins.md): the pins of the server and their assignment to the functions of the endpoints.
+- [Network Configuration](rcp_net.md): the addresses, VLANs, and clients of the server and the access to its PHY.
+- [PTP](rcp_ptp.md): the PTP timer, the time base for timed actions and timestamps.
+- [PLCA](rcp_plca.md): the physical layer collision avoidance (PLCA) of 10BASE-T1S networks.
+- [Topology Discovery](rcp_tpd.md): the signal delays between the nodes of a 10BASE-T1S network.
+- [Vendor-Specific Features](rcp_vendor.md): the settings and the status that are specific to the vendor.
+
+A client reads [`rcp.info.fldCapabilities`](#protogen.esb.rcp.info.fldCapabilities) to find out which optional features a server has.
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+RCP Server <rcp_dev>
+Identification and Capabilities <rcp_info>
+Network Configuration <rcp_net>
+Pins <rcp_pins>
+PLCA <rcp_plca>
+PTP <rcp_ptp>
+Topology Discovery <rcp_tpd>
+Core Operations <rcp_core>
+Vendor-Specific Features <rcp_vendor>
+```

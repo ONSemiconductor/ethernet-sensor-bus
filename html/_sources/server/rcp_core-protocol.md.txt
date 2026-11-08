@@ -1,0 +1,275 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.core.fldConfigAggregation)=
+
+### fldConfigAggregation
+
+*Message* `esb.rcp.core.fldConfigAggregation`
+
+Message for configuring aggregation of notifications.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldConfigAggregation.hndl)=
+
+  **`hndl`** — `uint32`\
+  Handle of the endpoint generating notifications.
+
+- (protogen.esb.rcp.core.fldConfigAggregation.timeoutUs)=
+
+  **`timeoutUs`** — `uint32`\
+  Timeout in microseconds for aggregating multiple endpoint notifications into a single unsolicited notification
+  message. The RCP server schedules the message in its MAC TX queue no later than this time after the first
+  notification. Appending another notification does not restart the timer.
+  If 0 (default), the RCP server optimizes for latency and sends the message as soon as the endpoint generates an
+  event. Notifications can still be aggregated while an outgoing message waits in the MAC queue. A longer timeout
+  trades latency for bandwidth.
+  If endpoints have different timeouts, the earliest deadline applies. For examples, see the page [Core Operations](#protogen.rcp_core).
+
+  ```{note}
+  The message can be sent earlier if it exceeds the maximum allowed size (buffer full).
+  ```
+
+(protogen.esb.rcp.core.fldServerConfig)=
+
+### fldServerConfig
+
+*Message* `esb.rcp.core.fldServerConfig`
+
+Core settings of the RCP server.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldServerConfig.did)=
+
+  **`did`** — *optional* `uint32`\
+  If set, changes the identification number (DID) of the RCP server.
+  The DID selects the servers that execute an operation of a directive that is broadcast or multicast, see
+  [`fldOperation.deviceIdMask`](#protogen.esb.fldOperation.deviceIdMask).
+
+  ```{note}
+  A client can derive the DID from the hardware-unique identifier [`info.fldIdentity.sid`](#protogen.esb.rcp.info.fldIdentity.sid) that the query
+  [`dev.qryIdentity`](#protogen.esb.rcp.dev.enQuery.qryIdentity) returns. Some vendors do not provide a [`info.fldIdentity.sid`](#protogen.esb.rcp.info.fldIdentity.sid).
+  ```
+
+- (protogen.esb.rcp.core.fldServerConfig.watchdogTimeoutMs)=
+
+  **`watchdogTimeoutMs`** — *optional* `uint32`\
+  Configures the network watchdog functionality.
+  If set to 0 (default), the network watchdog feature is disabled.
+  If set to a non-zero value, the RCP server expects the client to send RCP
+  messages periodically. If no valid RCP messages are received within the
+  specified number of milliseconds since the last valid RCP
+  message was received, the watchdog event is triggered and the RCP server enters
+  fail-safe mode.
+  If fail-safe operations are defined when the fail-safe mode is entered,
+  they are executed. The client can define these fail-safe operations
+  after booting, or the RCP server can load them from the NVM.
+  The flag [`fldAction.failsafe`](#protogen.esb.fldAction.failsafe) selects fail-safe actions.
+
+- (protogen.esb.rcp.core.fldServerConfig.agg)=
+
+  **`agg`** — *repeated* [`fldConfigAggregation`](#protogen.esb.rcp.core.fldConfigAggregation)\
+  Aggregation configuration for each endpoint generating notifications.
+
+- (protogen.esb.rcp.core.fldServerConfig.unsolicitedOperationLimit)=
+
+  **`unsolicitedOperationLimit`** — *optional* `uint32`\
+  Configures the maximum number of notifications allowed within a single
+  notification message.
+  If set to 0 (default), there is no limit to the number of notifications
+  that can be stored in a single notification message.
+  If set to a non-zero value, the RCP server sends an unsolicited
+  notification message as soon as the number of pending notifications
+  reaches this limit.
+
+- (protogen.esb.rcp.core.fldServerConfig.syncActionsEnable)=
+
+  **`syncActionsEnable`** — *optional* `bool`\
+  In some applications, synchronous actions can negatively affect the
+  overall determinism of the system. Setting this option to false
+  forces the scheduler to treat synchronous actions as asynchronous.
+  This means that best-effort actions are scheduled asynchronously,
+  generate an immediate [`actPending`](#protogen.esb.enActionResult.actPending) reply, and run as soon
+  as possible. This option is enabled by default.
+
+- (protogen.esb.rcp.core.fldServerConfig.aggregationSizeBytes)=
+
+  **`aggregationSizeBytes`** — *optional* `uint32`\
+  Sets the threshold in bytes after which an unsolicited message is
+  scheduled to the MAC TX queue, regardless of how many notifications
+  are still pending.
+  If set to 0 (default) the RCP server implicitly limits the size
+  according to the maximum Ethernet frame size.
+  The RCP server tries to aggregate as many notifications as
+  possible in a single unsolicited message, also based on the
+  [`unsolicitedOperationLimit`](#protogen.esb.rcp.core.fldServerConfig.unsolicitedOperationLimit) and the [`fldConfigAggregation`](#protogen.esb.rcp.core.fldConfigAggregation) options.
+  When [`aggregationSizeBytes`](#protogen.esb.rcp.core.fldServerConfig.aggregationSizeBytes) is set to a non-zero value, if at any time
+  while aggregating notifications the size of the message exceeds this
+  value, the message is scheduled to be sent.
+  The actual message size can therefore exceed the [`aggregationSizeBytes`](#protogen.esb.rcp.core.fldServerConfig.aggregationSizeBytes)
+  value, depending on the configured buffer size of the endpoints
+  generating notifications.
+
+(protogen.esb.rcp.core.fldServerStatus)=
+
+### fldServerStatus
+
+*Message* `esb.rcp.core.fldServerStatus`
+
+Container to retrieve RCP server status information.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldServerStatus.liv)=
+
+  **`liv`** — `bool`\
+  If set, the RCP server operates normally, i.e., it is alive. The flag is cleared while the RCP server is in
+  fail-safe mode.
+
+- (protogen.esb.rcp.core.fldServerStatus.pwrOn)=
+
+  **`pwrOn`** — `bool`\
+  This flag is set when the RCP server powers on, and can only be cleared
+  by the client. Polling this flag detects unwanted resets of the
+  RCP server.
+  To clear this flag, use the [`dev.opClearPwron`](#protogen.esb.rcp.dev.enCmdOperation.opClearPwron) command.
+
+(protogen.esb.rcp.core.fldNvmStatus)=
+
+### fldNvmStatus
+
+*Message* `esb.rcp.core.fldNvmStatus`
+
+Container to retrieve NVM status information.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldNvmStatus.present)=
+
+  **`present`** — `bool`\
+  NVM is present and ready to be used.
+
+- (protogen.esb.rcp.core.fldNvmStatus.hasConfig)=
+
+  **`hasConfig`** — `bool`\
+  True if the NVM contains a valid configuration.
+
+- (protogen.esb.rcp.core.fldNvmStatus.storedActions)=
+
+  **`storedActions`** — `uint32`\
+  Number of actions stored in the NVM, 0 if loading them failed (see [`actionsError`](#protogen.esb.rcp.core.fldNvmStatus.actionsError)).
+
+- (protogen.esb.rcp.core.fldNvmStatus.actionsError)=
+
+  **`actionsError`** — `bool`\
+  True if loading the stored actions failed: a corrupted action (CRC mismatch), an NVM read error, or a missing
+  resource. No stored action is loaded then and [`storedActions`](#protogen.esb.rcp.core.fldNvmStatus.storedActions) is 0. The flag is also set when the scheduler
+  refuses a stored action. The other actions stay loaded then, and the count is kept.
+  It stays set until the stored actions are cleared or successfully loaded again.
+
+- (protogen.esb.rcp.core.fldNvmStatus.configError)=
+
+  **`configError`** — `bool`\
+  True if the stored configuration could not be loaded (e.g., a CRC mismatch). This is detected on boot and when
+  the configuration is restored. The stored configuration is not applied then ([`hasConfig`](#protogen.esb.rcp.core.fldNvmStatus.hasConfig) is false).
+  It stays set until the configuration is saved, cleared, or successfully loaded again.
+
+(protogen.esb.rcp.core.fldNvmOperation)=
+
+### fldNvmOperation
+
+*Message* `esb.rcp.core.fldNvmOperation`
+
+Message to perform user-NVM read/write operations.
+This message can be used to perform user-defined read/write accesses into
+the user-dedicated NVM in the server, if available.
+The RCP server does not interpret or use the user-dedicated NVM data for
+any purpose other than making it accessible to the user. Therefore, the
+format and structure of the user-dedicated NVM are entirely user-defined.
+The RCP server rejects attempts to read/write past the available
+user-dedicated NVM.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldNvmOperation.address)=
+
+  **`address`** — `uint32`\
+  Byte address in user-dedicated NVM.
+
+- (protogen.esb.rcp.core.fldNvmOperation.op)=
+
+  **`op`** — *oneof*\
+  Selects a read or a write.
+
+  - (protogen.esb.rcp.core.fldNvmOperation.rsize)=
+
+    **`rsize`** — `uint32`\
+    Length of data to read.
+
+  - (protogen.esb.rcp.core.fldNvmOperation.wdata)=
+
+    **`wdata`** — `bytes`\
+    Data to write to NVM.
+
+(protogen.esb.rcp.core.fldSchedulerStatus)=
+
+### fldSchedulerStatus
+
+*Message* `esb.rcp.core.fldSchedulerStatus`
+
+Container to retrieve information about the RCP server scheduler.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.actions)=
+
+  **`actions`** — *repeated* [`fldSchedulerItem`](#protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem)\
+  List of scheduled actions.
+
+(protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem)=
+
+### fldSchedulerStatus.fldSchedulerItem
+
+*Message* `esb.rcp.core.fldSchedulerStatus.fldSchedulerItem`
+
+Single instance of a scheduled action item.
+
+**Fields**
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.uid)=
+
+  **`uid`** — `uint32`\
+  Unique identifier of the scheduled action, see [`fldActionResult.uid`](#protogen.esb.fldActionResult.uid).
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.hndl)=
+
+  **`hndl`** — `uint32`\
+  Endpoint handle the action is associated with.
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.failsafe)=
+
+  **`failsafe`** — `bool`\
+  True if the action is a fail-safe mode action.
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.repeatCount)=
+
+  **`repeatCount`** — `uint32`\
+  Remaining repetitions (0xFFFFFFFF = infinite).
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.seq)=
+
+  **`seq`** — `uint32`\
+  Last sequence number of the (repeated) action.
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.clientId)=
+
+  **`clientId`** — `uint32`\
+  Client ID of the action.
+
+- (protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.tag)=
+
+  **`tag`** — *optional* `uint32`\
+  Tag given by the client, if any, see [`fldAction.tag`](#protogen.esb.fldAction.tag).

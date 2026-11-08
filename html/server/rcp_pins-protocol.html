@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PLCA" href="rcp_plca.html" />
+    <link rel="prev" title="Pins" href="rcp_pins.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_pins.html">Pins</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_pins.html">Pins</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="flddescriptors">
+<span id="protogen-esb-rcp-pins-flddescriptors"></span><h3>fldDescriptors<a class="headerlink" href="#flddescriptors" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.fldDescriptors</span></code></p>
+<p>RCP server pin descriptors.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-flddescriptors-dsc"><strong><code class="docutils literal notranslate"><span class="pre">dsc</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-pins-flddescriptors-flddescriptor"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldDescriptor</span></code></span></a><br />
+List of pin descriptors.</p>
+</li>
+</ul>
+</section>
+<section id="flddescriptors-flddescriptor">
+<span id="protogen-esb-rcp-pins-flddescriptors-flddescriptor"></span><h3>fldDescriptors.fldDescriptor<a class="headerlink" href="#flddescriptors-flddescriptor" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.fldDescriptors.fldDescriptor</span></code></p>
+<p>Single instance of a pin descriptor.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-num"><strong><code class="docutils literal notranslate"><span class="pre">num</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unique pin identifier within the controller.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-caps"><strong><code class="docutils literal notranslate"><span class="pre">caps</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Pin capabilities.
+<a class="reference internal" href="#protogen-esb-rcp-pins-flddescriptors-flddescriptor-caps"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">caps</span></code></span></a> is a bit mask, according to the <a class="reference internal" href="#protogen-esb-rcp-pins-encapability"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCapability</span></code></span></a> enum.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fun"><strong><code class="docutils literal notranslate"><span class="pre">fun</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldFunction</span></code></span></a><br />
+List of endpoints/functions the pin can be associated with.
+If not present (empty), all handles and functions are supported.
+On a server with a static mapping, the list holds the one endpoint and function that the pin is fixed to.</p>
+</li>
+</ul>
+</section>
+<section id="flddescriptors-flddescriptor-fldfunction">
+<span id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction"></span><h3>fldDescriptors.fldDescriptor.fldFunction<a class="headerlink" href="#flddescriptors-flddescriptor-fldfunction" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction</span></code></p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Handle of the endpoint.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-sub"><strong><code class="docutils literal notranslate"><span class="pre">sub</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-uart"><strong><code class="docutils literal notranslate"><span class="pre">uart</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncuart"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncUart</span></code></span></a><br />
+UART/LIN subfunction.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-spi"><strong><code class="docutils literal notranslate"><span class="pre">spi</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncspi"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncSpi</span></code></span></a><br />
+SPI/ADC subfunction.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-i2c"><strong><code class="docutils literal notranslate"><span class="pre">i2c</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfunci2c"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncI2c</span></code></span></a><br />
+I2C subfunction.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-pcm"><strong><code class="docutils literal notranslate"><span class="pre">pcm</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncpcm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncPcm</span></code></span></a><br />
+PCM subfunction.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-flddescriptors-flddescriptor-fldfunction-pdm"><strong><code class="docutils literal notranslate"><span class="pre">pdm</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncpdm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncPdm</span></code></span></a><br />
+PDM subfunction.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldconfig">
+<span id="protogen-esb-rcp-pins-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.fldConfig</span></code></p>
+<p>Container for the pin configuration message.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-fldconfig-pin"><strong><code class="docutils literal notranslate"><span class="pre">pin</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-pins-fldconfig-fldconfigitem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfigItem</span></code></span></a><br />
+List of pin configurations.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig-fldconfigitem">
+<span id="protogen-esb-rcp-pins-fldconfig-fldconfigitem"></span><h3>fldConfig.fldConfigItem<a class="headerlink" href="#fldconfig-fldconfigitem" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.fldConfig.fldConfigItem</span></code></p>
+<p>Single instance of a pin configuration.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-num"><strong><code class="docutils literal notranslate"><span class="pre">num</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unique pin identifier within the RCP server, as reported by <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qrypins"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dev.qryPins</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set, associates the pin with a specific endpoint instance.
+The exact pin function within the specified endpoint (e.g., SPI MISO
+or SPI MOSI) can be fixed based on the specified endpoint handle, or
+it can be further specified using the <a class="reference internal" href="#protogen-esb-rcp-pins-fldconfig-fldconfigitem-fun"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fun</span></code></span></a> parameter (within this
+message), if supported by the server hardware.
+If the pin cannot be associated with the specified endpoint instance,
+the configuration operation fails with the <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></span></a> error code.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-pullmode"><strong><code class="docutils literal notranslate"><span class="pre">pullMode</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-rcp-pins-enpull"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPull</span></code></span></a><br />
+If set, enables or disables the pin’s pull-up/down resistor when
+the endpoint supports it and the pin is in push-pull mode.
+If the pin does not support the specified <a class="reference internal" href="#protogen-esb-rcp-pins-fldconfig-fldconfigitem-pullmode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pullMode</span></code></span></a>, the configuration
+operation fails with the <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></span></a> error code.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-drivermode"><strong><code class="docutils literal notranslate"><span class="pre">driverMode</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-rcp-pins-endriver"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enDriver</span></code></span></a><br />
+If set, changes the pin driver configuration.
+If the pin does not support the specified <a class="reference internal" href="#protogen-esb-rcp-pins-fldconfig-fldconfigitem-drivermode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">driverMode</span></code></span></a>, the
+configuration operation fails with the <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></span></a> error code.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-padstrength"><strong><code class="docutils literal notranslate"><span class="pre">padStrength</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set, defines the pad strength in microamperes (uA).
+The specific server may round this parameter to the nearest
+supported value.
+To retrieve the actual value set by the HW, the client can use the
+<a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qrypinconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dev.qryPinConfig</span></code></span></a> query.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-fun"><strong><code class="docutils literal notranslate"><span class="pre">fun</span></code></strong> — <em>oneof</em><br />
+If set, defines the pin function within the endpoint specified by
+the <a class="reference internal" href="#protogen-esb-rcp-pins-fldconfig-fldconfigitem-hndl"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">hndl</span></code></span></a> field. If a server implementation does not support the
+explicit selection of the pin function (i.e., the endpoint’s
+pin locations are fixed) and this field is set, the configuration
+fails with the <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enconfigresult-cfgnotsupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></span></a> error code.</p>
+<ul>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-uart"><strong><code class="docutils literal notranslate"><span class="pre">uart</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncuart"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncUart</span></code></span></a><br />
+UART/LIN pin functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-spi"><strong><code class="docutils literal notranslate"><span class="pre">spi</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncspi"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncSpi</span></code></span></a><br />
+SPI/ADC pin functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-i2c"><strong><code class="docutils literal notranslate"><span class="pre">i2c</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfunci2c"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncI2c</span></code></span></a><br />
+I2C pin functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-pcm"><strong><code class="docutils literal notranslate"><span class="pre">pcm</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncpcm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncPcm</span></code></span></a><br />
+PCM pin functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-pdm"><strong><code class="docutils literal notranslate"><span class="pre">pdm</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-pins-enpinfuncpdm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enPinFuncPdm</span></code></span></a><br />
+PDM pin functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-fldconfig-fldconfigitem-gpio"><strong><code class="docutils literal notranslate"><span class="pre">gpio</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+GPIO pin index (0-based index within the controller).</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="encapability">
+<span id="protogen-esb-rcp-pins-encapability"></span><h3>enCapability<a class="headerlink" href="#encapability" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enCapability</span></code></p>
+<p>Capabilities of a pin, used as bit mask values.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-encapability-capnone"><strong><code class="docutils literal notranslate"><span class="pre">capNone</span></code></strong> — No capabilities.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capinput"><strong><code class="docutils literal notranslate"><span class="pre">capInput</span></code></strong> — Pin can be configured as input.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capoutput"><strong><code class="docutils literal notranslate"><span class="pre">capOutput</span></code></strong> — Pin can be configured as output.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capdrvpushpull"><strong><code class="docutils literal notranslate"><span class="pre">capDrvPushPull</span></code></strong> — Pin supports push-pull driver mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capdrvopendrain"><strong><code class="docutils literal notranslate"><span class="pre">capDrvOpenDrain</span></code></strong> — Pin supports open-drain driver mode (cannot drive strong ‘1’).</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capdrvopensource"><strong><code class="docutils literal notranslate"><span class="pre">capDrvOpenSource</span></code></strong> — Pin supports open-source driver mode (cannot drive strong ‘0’).</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-captristate"><strong><code class="docutils literal notranslate"><span class="pre">capTristate</span></code></strong> — Pin supports tristate mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-caprpu"><strong><code class="docutils literal notranslate"><span class="pre">capRpu</span></code></strong> — Pin has a weak pull-up resistor.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-caprpd"><strong><code class="docutils literal notranslate"><span class="pre">capRpd</span></code></strong> — Pin has a weak pull-down resistor.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-encapability-capirq"><strong><code class="docutils literal notranslate"><span class="pre">capIrq</span></code></strong> — Pin can be used as an IRQ source for notifications.</p>
+</li>
+</ul>
+</section>
+<section id="enpinfuncuart">
+<span id="protogen-esb-rcp-pins-enpinfuncuart"></span><h3>enPinFuncUart<a class="headerlink" href="#enpinfuncuart" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPinFuncUart</span></code></p>
+<p>Pin functions for the UART and LIN endpoints.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpinfuncuart-pinuarttx"><strong><code class="docutils literal notranslate"><span class="pre">pinUartTx</span></code></strong> — Transmit Data.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncuart-pinuartrx"><strong><code class="docutils literal notranslate"><span class="pre">pinUartRx</span></code></strong> — Receive Data.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncuart-pinuartrts"><strong><code class="docutils literal notranslate"><span class="pre">pinUartRts</span></code></strong> — Ready To Send.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncuart-pinuartcts"><strong><code class="docutils literal notranslate"><span class="pre">pinUartCts</span></code></strong> — Clear To Send.</p>
+</li>
+</ul>
+</section>
+<section id="enpinfuncspi">
+<span id="protogen-esb-rcp-pins-enpinfuncspi"></span><h3>enPinFuncSpi<a class="headerlink" href="#enpinfuncspi" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPinFuncSpi</span></code></p>
+<p>Pin functions for the SPI and the ADC endpoints.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpinfuncspi-pinspisclk"><strong><code class="docutils literal notranslate"><span class="pre">pinSpiSclk</span></code></strong> — Serial Clock.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncspi-pinspimosi"><strong><code class="docutils literal notranslate"><span class="pre">pinSpiMosi</span></code></strong> — Master Out Slave In.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncspi-pinspimiso"><strong><code class="docutils literal notranslate"><span class="pre">pinSpiMiso</span></code></strong> — Master In Slave Out.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncspi-pinspics"><strong><code class="docutils literal notranslate"><span class="pre">pinSpiCs</span></code></strong> — Chip-Select.</p>
+</li>
+</ul>
+</section>
+<section id="enpinfunci2c">
+<span id="protogen-esb-rcp-pins-enpinfunci2c"></span><h3>enPinFuncI2c<a class="headerlink" href="#enpinfunci2c" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPinFuncI2c</span></code></p>
+<p>Pin functions for the I2C endpoint.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpinfunci2c-pini2cscl"><strong><code class="docutils literal notranslate"><span class="pre">pinI2cScl</span></code></strong> — Serial Clock.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfunci2c-pini2csda"><strong><code class="docutils literal notranslate"><span class="pre">pinI2cSda</span></code></strong> — Bidirectional serial data.</p>
+</li>
+</ul>
+</section>
+<section id="enpinfuncpcm">
+<span id="protogen-esb-rcp-pins-enpinfuncpcm"></span><h3>enPinFuncPcm<a class="headerlink" href="#enpinfuncpcm" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPinFuncPcm</span></code></p>
+<p>Pin functions for the PCM audio endpoint.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpinfuncpcm-pinpcmsck"><strong><code class="docutils literal notranslate"><span class="pre">pinPcmSck</span></code></strong> — Serial Clock.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncpcm-pinpcmsd"><strong><code class="docutils literal notranslate"><span class="pre">pinPcmSd</span></code></strong> — Serial Data.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncpcm-pinpcmws"><strong><code class="docutils literal notranslate"><span class="pre">pinPcmWs</span></code></strong> — Word-Select / LR / Frame.</p>
+</li>
+</ul>
+</section>
+<section id="enpinfuncpdm">
+<span id="protogen-esb-rcp-pins-enpinfuncpdm"></span><h3>enPinFuncPdm<a class="headerlink" href="#enpinfuncpdm" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPinFuncPdm</span></code></p>
+<p>Pin functions for the PDM endpoint.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpinfuncpdm-pinpdmdin"><strong><code class="docutils literal notranslate"><span class="pre">pinPdmDin</span></code></strong> — Data In.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpinfuncpdm-pinpdmclk"><strong><code class="docutils literal notranslate"><span class="pre">pinPdmClk</span></code></strong> — Clock Out.</p>
+</li>
+</ul>
+</section>
+<section id="enpull">
+<span id="protogen-esb-rcp-pins-enpull"></span><h3>enPull<a class="headerlink" href="#enpull" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enPull</span></code></p>
+<p>Pin pull-up/down mode.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-enpull-pullnone"><strong><code class="docutils literal notranslate"><span class="pre">pullNone</span></code></strong> — Disable pull-up/down.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpull-pullup"><strong><code class="docutils literal notranslate"><span class="pre">pullUp</span></code></strong> — Enable pull-up resistor.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-enpull-pulldw"><strong><code class="docutils literal notranslate"><span class="pre">pullDw</span></code></strong> — Enable pull-down resistor.</p>
+</li>
+</ul>
+</section>
+<section id="endriver">
+<span id="protogen-esb-rcp-pins-endriver"></span><h3>enDriver<a class="headerlink" href="#endriver" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.pins.enDriver</span></code></p>
+<p>GPIO/PWM pin driver mode.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-pins-endriver-drvpushpull"><strong><code class="docutils literal notranslate"><span class="pre">drvPushPull</span></code></strong> — Push-pull: actively drives both ‘0’ and ‘1’.</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-endriver-drvopendrain"><strong><code class="docutils literal notranslate"><span class="pre">drvOpenDrain</span></code></strong> — Open-drain: actively drives ‘0’ only (cannot drive strong ‘1’).</p>
+</li>
+<li><p id="protogen-esb-rcp-pins-endriver-drvopensource"><strong><code class="docutils literal notranslate"><span class="pre">drvOpenSource</span></code></strong> — Open-source: actively drives ‘1’ only (cannot drive strong ‘0’).</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_pins.html" class="btn btn-neutral float-left" title="Pins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_plca.html" class="btn btn-neutral float-right" title="PLCA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

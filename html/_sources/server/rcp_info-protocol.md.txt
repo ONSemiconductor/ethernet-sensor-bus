@@ -1,0 +1,143 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.info.fldIdentity)=
+
+### fldIdentity
+
+*Message* `esb.rcp.info.fldIdentity`
+
+RCP server identity records.
+
+**Fields**
+
+- (protogen.esb.rcp.info.fldIdentity.rcpVersion)=
+
+  **`rcpVersion`** — [`fldVersion`](#protogen.esb.fldVersion)\
+  The current RCP protocol version implemented by the RCP server.
+
+- (protogen.esb.rcp.info.fldIdentity.macAddr)=
+
+  **`macAddr`** — `bytes`\
+  The factory-default MAC address of the server.
+
+  ```{warning}
+  This can differ from the actual MAC address the RCP server
+  is using if the client configured a new MAC address using [`net.fldConfig`](#protogen.esb.rcp.net.fldConfig).
+  ```
+
+  ```{note}
+  Some vendor implementations do not provide a default (globally-unique) MAC
+  address permanently stored in the RCP server.
+  ```
+
+- (protogen.esb.rcp.info.fldIdentity.vendor)=
+
+  **`vendor`** — *optional* `string`\
+  Optional UTF-8 string containing the RCP server vendor name.
+
+- (protogen.esb.rcp.info.fldIdentity.pid)=
+
+  **`pid`** — *optional* `uint32`\
+  Optional product identifier (managed by the vendor).
+
+- (protogen.esb.rcp.info.fldIdentity.version)=
+
+  **`version`** — *optional* `uint32`\
+  Optional product version identifier (managed by the vendor).
+
+- (protogen.esb.rcp.info.fldIdentity.serial)=
+
+  **`serial`** — *optional* `string`\
+  Optional product serial number/string (managed by the vendor).
+
+- (protogen.esb.rcp.info.fldIdentity.date)=
+
+  **`date`** — *optional* `uint32`\
+  Optional manufacturing date in UNIX format (seconds since 1st Jan 1970 00:00:00).
+
+- (protogen.esb.rcp.info.fldIdentity.sid)=
+
+  **`sid`** — *optional* `uint32`\
+  Optional system-level unique identifier (not to be confused with the DID).
+
+(protogen.esb.rcp.info.fldCapabilities)=
+
+### fldCapabilities
+
+*Message* `esb.rcp.info.fldCapabilities`
+
+RCP server capability records.
+
+**Fields**
+
+- (protogen.esb.rcp.info.fldCapabilities.supportedPhyModes)=
+
+  **`supportedPhyModes`** — *repeated* [`net.enPhyMode`](#protogen.esb.rcp.net.enPhyMode)\
+  List of communication standards supported by the PHY.
+
+- (protogen.esb.rcp.info.fldCapabilities.plcaSupported)=
+
+  **`plcaSupported`** — `bool`\
+  If set, indicates the RCP server supports Physical Layer Collision
+  Avoidance (PLCA) for the PHY modes that support it (e.g., 10BASE-T1S).
+
+- (protogen.esb.rcp.info.fldCapabilities.topologyDiscoverySupported)=
+
+  **`topologyDiscoverySupported`** — `bool`\
+  If set, the RCP server supports the Topology Discovery feature for
+  the PHY modes that support it (e.g., 10BASE-T1S).
+
+- (protogen.esb.rcp.info.fldCapabilities.sqiSupported)=
+
+  **`sqiSupported`** — `bool`\
+  If set, the RCP server supports the SQI feature for the PHY modes that
+  support it (e.g., 100BASE-T1 and 10BASE-T1S).
+
+- (protogen.esb.rcp.info.fldCapabilities.wakeSleepSupported)=
+
+  **`wakeSleepSupported`** — `bool`\
+  If set, the RCP server supports the OPEN Alliance TC10 wake/sleep feature
+  for the PHY modes that support it (e.g., 100BASE-T1 and 10BASE-T1S).
+
+(protogen.esb.rcp.info.fldInterfaces)=
+
+### fldInterfaces
+
+*Message* `esb.rcp.info.fldInterfaces`
+
+RCP interface descriptors.
+
+**Fields**
+
+- (protogen.esb.rcp.info.fldInterfaces.dsc)=
+
+  **`dsc`** — *repeated* [`fldInterfaceDescriptor`](#protogen.esb.rcp.info.fldInterfaces.fldInterfaceDescriptor)\
+  List of endpoint descriptors.
+  Each interface has a type and a unique ID (handle) that can be used for
+  configuration and actions.
+
+(protogen.esb.rcp.info.fldInterfaces.fldInterfaceDescriptor)=
+
+### fldInterfaces.fldInterfaceDescriptor
+
+*Message* `esb.rcp.info.fldInterfaces.fldInterfaceDescriptor`
+
+Single instance of an endpoint descriptor.
+
+**Fields**
+
+- (protogen.esb.rcp.info.fldInterfaces.fldInterfaceDescriptor.hndl)=
+
+  **`hndl`** — `uint32`\
+  The unique endpoint identifier (handle).
+
+  ```{note}
+  This number cannot be 0 as it is reserved for the RCP server itself.
+  ```
+
+- (protogen.esb.rcp.info.fldInterfaces.fldInterfaceDescriptor.type)=
+
+  **`type`** — [`enEndpointType`](#protogen.esb.enEndpointType)\
+  Endpoint type (SPI, I2C, ...)

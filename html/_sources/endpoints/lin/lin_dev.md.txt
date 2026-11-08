@@ -1,0 +1,47 @@
+(protogen.lin)=
+
+# LIN Driver
+
+**File:** `endpoints/lin/lin_dev.proto`
+
+**Package:** `esb.lin`
+
+LIN configuration, actions, queries, and notifications for RCP.
+
+A LIN endpoint is the commander of a local interconnect network (LIN) bus, also called the master. A LIN frame
+consists of a header and a response. The endpoint always sends the header. The response comes either from the
+endpoint itself or from a target (responder). The endpoint uses the pins TX and RX of the UART pin functions, which
+the client connects to a LIN transceiver, see [`rcp.pins.enPinFuncUart`](#protogen.esb.rcp.pins.enPinFuncUart).
+
+## Frame
+
+Every byte on the bus has a start bit, eight data bits (LSb first), and a stop bit. A frame starts with the break, a
+long low level followed by a delimiter. The synchronization byte 0x55 lets the target measure the bit
+time. The protected identifier (PID) holds the six-bit frame identifier and two parity bits. The response holds the
+data bytes and a checksum.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingLinFrame.svg)
+
+## Commands
+
+A command sends one frame. It either publishes the response, with the bytes that the endpoint sends, or requests it,
+with the number of bytes that the target sends. The bytes read are returned in the reply to the command. The
+endpoint can calculate the parity bits of the identifier and the checksum of the response itself, or leave both to
+the client.
+
+## Example
+
+To read a four-byte response from the frame with the identifier 0x12 at 19200 bits per second (bps):
+
+```text
+seq: 1
+dir { config { hndl: 8  lin { speedBps: 19200  identifierParity: true  checksumType: checksumEnhanced } } }
+dir { action { hndl: 8  lin { frameId: 0x12  rsize: 4 } } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+lin_dev-protocol
+```

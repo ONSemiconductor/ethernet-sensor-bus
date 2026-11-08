@@ -1,0 +1,59 @@
+(protogen.pcm)=
+
+# PCM Audio Driver
+
+**File:** `endpoints/pcm/pcm_dev.proto`
+
+**Package:** `esb.pcm`
+
+PCM audio interface configuration, actions, queries, and notifications for RCP.
+
+A PCM audio endpoint streams digital audio as pulse-code modulation (PCM) samples: either to a converter or codec
+(output) or from a source such as a microphone (input). The frame format is either I2S, with two channels, or
+time-division multiplexing (TDM), with several channels. The endpoint uses the pins SCK (bit clock), SD (serial
+data), and WS (word select, also called frame sync or FS), see [`rcp.pins.enPinFuncPcm`](#protogen.esb.rcp.pins.enPinFuncPcm). Before streaming, the
+client configures the endpoint with a [`fldConfig`](#protogen.esb.pcm.fldConfig) message.
+
+## Frame formats
+
+The audio is organized in frames. One frame carries one sample of every channel, so the frame rate is the sample
+rate. In I2S mode, a frame has two channels, left and right, and the level of FS tells which of them is on SD. In
+TDM mode, a frame has several channels, up to the maximum that the server supports, which follow each other, and FS
+marks the start of the frame.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingPcmFrame.svg)
+
+The alignment of FS with the first data bit, the polarity of FS and of the bit clock, and the bit order of the
+samples are configurable. A channel slot can be longer than the sample. The padding bits are not part of the audio
+and can be ignored to save bandwidth.
+
+## Streaming
+
+The client starts and stops the stream with a command. In output mode, the audio samples are sent to the endpoint in
+the command. In input mode, the endpoint collects the received samples in a buffer and delivers them to the client
+in notifications, see [`fldNotif.data`](#protogen.esb.fldNotif.data).
+
+## Example
+
+To receive stereo audio at 48 kHz with 24 bits per sample, MSb first:
+
+```text
+seq: 1
+dir {
+   config {
+      hndl: 5
+      pcm {
+         dir: dirIn  fsMode: fsModeI2s  sampleRateHz: 48000  bitsPerSample: 24  msbFirst: true
+         rxBufferSizeBytes: 1024
+      }
+   }
+}
+dir { action { hndl: 5  pcm { op: opStart } } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+pcm_dev-protocol
+```

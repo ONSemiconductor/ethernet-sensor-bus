@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) 2026 onsemi
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Styling for C-API cross-references resolved by the doxybridge extension.
+ * Symbol links inherit the theme's site link color (onsemi orange); only the
+ * RTD inline-literal "code chip" box is removed so the monospaced symbol reads
+ * as an ordinary link.
+ */
+
+/* Symbol links (:c:func:, :c:macro:, :c:type:, ...): keep the monospaced symbol
+   but render it as an ordinary site link (the theme's orange link color), with
+   no underline and without the RTD inline-literal "code chip" box. */
+a.c-api-ref,
+a.c-api-ref:visited {
+  text-decoration: none;
+}
+
+/* The last selector is a 3-class selector that outspecifies the theme's dark
+   rule `html[data-theme="dark"] .wy-nav-content code` (also !important). */
+a.c-api-ref code,
+a.c-api-ref code.xref,
+a.c-api-ref .pre,
+a.c-api-ref code.xref.literal {
+  color: inherit;
+  /* !important: the RTD theme re-applies the code-chip background/border at
+     higher specificity under html[data-theme="dark"], which would otherwise
+     box the symbol in dark mode only. */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-weight: inherit;
+}
+
+/* Dark mode: the RTD theme boxes every inline <code> with a very specific,
+   !important rule (html[data-theme="dark"] code.docutils.literal.notranslate),
+   so strip the box from API-symbol links with a selector that outspecifies it. */
+html[data-theme="dark"] a.c-api-ref code,
+html[data-theme="dark"] a.c-api-ref code.docutils.literal,
+html[data-theme="dark"] a.c-api-ref code.docutils.literal.notranslate,
+html[data-theme="dark"] a.c-api-ref .pre {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Group links (:c:group:) render the group's human title, not a symbol, so
+   drop the monospace treatment and flag the outbound jump into the API docs. */
+a.c-api-ref.doxygroup {
+  font-weight: 600;
+}
+
+a.c-api-ref.doxygroup::after {
+  content: " \2197"; /* north-east arrow */
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* Symbols with no onsemi Doxygen page (e.g. upstream Zephyr macros): plain,
+   slightly muted inline code so they read as intentional literals. */
+code.c-api-unresolved {
+  opacity: 0.85;
+}

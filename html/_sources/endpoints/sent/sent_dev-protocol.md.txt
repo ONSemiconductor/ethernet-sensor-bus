@@ -1,0 +1,81 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.sent.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.sent.fldConfig`
+
+SENT configuration message.
+
+**Fields**
+
+- (protogen.esb.sent.fldConfig.bufferSizeBytes)=
+
+  **`bufferSizeBytes`** — *optional* `uint32`\
+  Size of the SENT data buffer in bytes. The endpoint flushes the data to the client when the buffer is full.
+
+- (protogen.esb.sent.fldConfig.polInv)=
+
+  **`polInv`** — *optional* `bool`\
+  If true, inverts the polarity of the SENT signal.
+
+- (protogen.esb.sent.fldConfig.expectPause)=
+
+  **`expectPause`** — *optional* `bool`\
+  If true, expects a pause field after the nibble transmission.
+
+- (protogen.esb.sent.fldConfig.frameLength)=
+
+  **`frameLength`** — *optional* `uint32`\
+  Expected length of the SENT frame in nibbles.
+
+- (protogen.esb.sent.fldConfig.timeoutEnable)=
+
+  **`timeoutEnable`** — *optional* `bool`\
+  If true, enables the reception timeout: when no edge occurs on the SENT signal for the time set by [`timeout`](#protogen.esb.sent.fldConfig.timeout),
+  the endpoint flushes the buffer to the client before it is full, in a notification with the code [`ntfIOError`](#protogen.esb.enNotifResult.ntfIOError).
+
+- (protogen.esb.sent.fldConfig.timeout)=
+
+  **`timeout`** — *optional* `uint32`\
+  The time without an edge on the SENT signal after which the reception times out, see [`timeoutEnable`](#protogen.esb.sent.fldConfig.timeoutEnable).
+  It is given as a number of ticks. The tick time is the one that the receiver measures
+  from the synchronization pulse. The timer restarts with every edge, so the reception times out if the timeout is
+  shorter than the longest pulse, which is the pause pulse if the sensor sends one.
+  The number of ticks per step and the valid range are server-dependent. Refer to the datasheet.
+
+(protogen.esb.sent.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.sent.fldCmd`
+
+Container for SENT commands.
+
+**Fields**
+
+- (protogen.esb.sent.fldCmd.op)=
+
+  **`op`** — *optional* [`enCmdOperation`](#protogen.esb.sent.enCmdOperation)\
+  SENT operation.
+
+## Enumerations
+
+(protogen.esb.sent.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.sent.enCmdOperation`
+
+SENT operation types.
+
+- (protogen.esb.sent.enCmdOperation.opStart)=
+
+  **`opStart`** — Start SENT.
+
+- (protogen.esb.sent.enCmdOperation.opStop)=
+
+  **`opStop`** — Stop SENT.

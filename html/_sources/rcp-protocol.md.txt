@@ -1,0 +1,1068 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.fldConfig`
+
+Container for all configuration operations.
+
+**Fields**
+
+- (protogen.esb.fldConfig.hndl)=
+
+  **`hndl`** — `uint32`\
+  Unique non-zero handle of the endpoint, or 0 for the RCP server itself.
+
+- (protogen.esb.fldConfig.dev)=
+
+  **`dev`** — *oneof*\
+  Configuration matching the type of the endpoint at [`hndl`](#protogen.esb.fldConfig.hndl).
+
+  - (protogen.esb.fldConfig.rcp)=
+
+    **`rcp`** — [`rcp.dev.fldConfig`](#protogen.esb.rcp.dev.fldConfig)\
+    Configuration of the RCP server itself.
+
+  - (protogen.esb.fldConfig.gpio)=
+
+    **`gpio`** — [`gpio.fldConfig`](#protogen.esb.gpio.fldConfig)\
+    Configuration of a GPIO controller.
+
+  - (protogen.esb.fldConfig.i2c)=
+
+    **`i2c`** — [`i2c.fldConfig`](#protogen.esb.i2c.fldConfig)\
+    Configuration of an I2C controller.
+
+  - (protogen.esb.fldConfig.spi)=
+
+    **`spi`** — [`spi.fldConfig`](#protogen.esb.spi.fldConfig)\
+    Configuration of a SPI controller.
+
+  - (protogen.esb.fldConfig.uart)=
+
+    **`uart`** — [`uart.fldConfig`](#protogen.esb.uart.fldConfig)\
+    Configuration of a UART controller.
+
+  - (protogen.esb.fldConfig.pcm)=
+
+    **`pcm`** — [`pcm.fldConfig`](#protogen.esb.pcm.fldConfig)\
+    Configuration of a PCM audio controller.
+
+  - (protogen.esb.fldConfig.pdm)=
+
+    **`pdm`** — [`pdm.fldConfig`](#protogen.esb.pdm.fldConfig)\
+    Configuration of a PDM controller.
+
+  - (protogen.esb.fldConfig.adc)=
+
+    **`adc`** — [`adc.fldConfig`](#protogen.esb.adc.fldConfig)\
+    Configuration of an ADC controller.
+
+  - (protogen.esb.fldConfig.sent)=
+
+    **`sent`** — [`sent.fldConfig`](#protogen.esb.sent.fldConfig)\
+    Configuration of a SENT controller.
+
+  - (protogen.esb.fldConfig.lin)=
+
+    **`lin`** — [`lin.fldConfig`](#protogen.esb.lin.fldConfig)\
+    Configuration of a LIN controller.
+
+  - (protogen.esb.fldConfig.pwm)=
+
+    **`pwm`** — [`pwm.fldConfig`](#protogen.esb.pwm.fldConfig)\
+    Configuration of a PWM controller.
+
+(protogen.esb.fldActionTimed)=
+
+### fldActionTimed
+
+*Message* `esb.fldActionTimed`
+
+Configuration of timed actions.
+
+**Fields**
+
+- (protogen.esb.fldActionTimed.start)=
+
+  **`start`** — *oneof*\
+  Presentation time of the first execution. If absent, the action runs as soon as the endpoint is free.
+
+  ```{note}
+  The granularity and precision of the PTP timer are implementation-specific.
+  Refer to the datasheet of the server for details.
+  ```
+
+  - (protogen.esb.fldActionTimed.ptime)=
+
+    **`ptime`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+    Absolute time: the operation is executed when the internal PTP timer crosses this presentation time.
+
+  - (protogen.esb.fldActionTimed.offset)=
+
+    **`offset`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+    Relative time: the RCP server captures the precise time at which the
+    directive is received from the network, then schedules the operation
+    to be executed at that time plus this offset.
+
+- (protogen.esb.fldActionTimed.period)=
+
+  **`period`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+  Repeat interval of this timed action.
+  It is only used if the [`fldAction.repeatCount`](#protogen.esb.fldAction.repeatCount) field is greater than 0. The RCP server
+  then calculates each subsequent presentation time by adding this interval to the previous
+  presentation time. Delays in execution and duration of the action do not affect the interval.
+  The [`periodAdjNs`](#protogen.esb.fldActionTimed.periodAdjNs) field can change the interval after every execution.
+
+- (protogen.esb.fldActionTimed.hardDeadline)=
+
+  **`hardDeadline`** — `bool`\
+  Decides whether a late action is dropped or executed. An action is late if it cannot be
+  scheduled at the specified time. This happens if [`ptime`](#protogen.esb.fldActionTimed.ptime) lies in the past,
+  or if the endpoint is busy executing other operations at the desired scheduling time.
+
+  If set to true, a late action is not executed. Its result code is [`actTooLate`](#protogen.esb.enActionResult.actTooLate),
+  an error code.
+
+  If set to false (or not set), a late action is always executed, even if
+  the required deadline cannot be met. However, in this case its result code is
+  [`actDelayed`](#protogen.esb.enActionResult.actDelayed), a warning code, if execution succeeds. A failed execution returns its error instead.
+
+  ```{note}
+  This field does not guarantee that the RCP server sends a reply. Whether and
+  when the result code is reported depends on the [`fldAction.replyMode`](#protogen.esb.fldAction.replyMode) of the action.
+  The warning [`actDelayed`](#protogen.esb.enActionResult.actDelayed) is treated as a successful execution, so [`actReplyOnError`](#protogen.esb.enActionReplyMode.actReplyOnError)
+  reports [`actTooLate`](#protogen.esb.enActionResult.actTooLate) but not [`actDelayed`](#protogen.esb.enActionResult.actDelayed).
+  Reply modes that report only on the last action of a series can defer the result.
+  ```
+
+- (protogen.esb.fldActionTimed.periodAdjNs)=
+
+  **`periodAdjNs`** — `sint32`\
+  If set, the specified adjustment time in nanoseconds is added/subtracted
+  from the repeating period after each time the action is re-scheduled.
+  This allows creating sequences of operations that repeat faster or slower
+  in a linear fashion.
+
+  ```{note}
+  This option is only used in conjunction with the [`period`](#protogen.esb.fldActionTimed.period) parameter.
+  If this one is not specified, the [`periodAdjNs`](#protogen.esb.fldActionTimed.periodAdjNs) field is ignored.
+  ```
+
+(protogen.esb.fldActionEvent)=
+
+### fldActionEvent
+
+*Message* `esb.fldActionEvent`
+
+Configuration for event-triggered actions.
+
+**Fields**
+
+- (protogen.esb.fldActionEvent.events)=
+
+  **`events`** — *repeated* `uint32`\
+  Actions can optionally be triggered on specific events.
+  If the [`events`](#protogen.esb.fldActionEvent.events) array is not empty, the action is executed when the RCP
+  server asserts any of the events contained therein.
+  The list of available events and associated IDs is implementation-specific.
+  Refer to the datasheet of the server for details.
+
+- (protogen.esb.fldActionEvent.delay)=
+
+  **`delay`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+  If set, this optional parameter defines the delay in PTP time format
+  between the time the event was asserted and the time the action is scheduled.
+
+(protogen.esb.fldActionDependent)=
+
+### fldActionDependent
+
+*Message* `esb.fldActionDependent`
+
+Configuration for an action triggered by the completion of a parent action.
+If the parent is removed while this action is waiting for its completion, this action is removed without a
+notification or an action result. An already-triggered execution, including its delay, completes under
+[`fldAction.replyMode`](#protogen.esb.fldAction.replyMode) but does not repeat.
+
+**Fields**
+
+- (protogen.esb.fldActionDependent.tag)=
+
+  **`tag`** — `uint32`\
+  Tag of the parent action to wait for. The tag 0 refers to the previously queued action.
+  See [`fldAction.tag`](#protogen.esb.fldAction.tag) for how a tag is resolved.
+
+- (protogen.esb.fldActionDependent.trigType)=
+
+  **`trigType`** — [`enActionDependentType`](#protogen.esb.enActionDependentType)\
+  The trigger type (see [`enActionDependentType`](#protogen.esb.enActionDependentType)).
+
+- (protogen.esb.fldActionDependent.delay)=
+
+  **`delay`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+  If set, the actual execution of the action is further delayed by the
+  specified amount of time after the completion of the parent action.
+
+(protogen.esb.fldAction)=
+
+### fldAction
+
+*Message* `esb.fldAction`
+
+Container for an action that an endpoint or the RCP server executes.
+
+**Fields**
+
+- (protogen.esb.fldAction.trigger)=
+
+  **`trigger`** — *oneof*\
+  Selects when the action runs. Without a trigger, it runs as soon as the endpoint is free.
+  An action without a trigger and with [`repeatCount`](#protogen.esb.fldAction.repeatCount) equal to 0 is synchronous, unless
+  [`rcp.core.fldServerConfig.syncActionsEnable`](#protogen.esb.rcp.core.fldServerConfig.syncActionsEnable) is false. Its execution result is returned in the reply to the
+  directive. All other actions are asynchronous, including one with an empty [`timed`](#protogen.esb.fldAction.timed) message.
+  A queued asynchronous action returns [`actPending`](#protogen.esb.enActionResult.actPending). Its execution results follow in unsolicited reports,
+  subject to [`replyMode`](#protogen.esb.fldAction.replyMode).
+
+  - (protogen.esb.fldAction.timed)=
+
+    **`timed`** — [`fldActionTimed`](#protogen.esb.fldActionTimed)\
+    Execute at a specific time, as defined by [`fldActionTimed`](#protogen.esb.fldActionTimed).
+
+  - (protogen.esb.fldAction.event)=
+
+    **`event`** — [`fldActionEvent`](#protogen.esb.fldActionEvent)\
+    Execute upon the assertion of one or more events, as defined by [`fldActionEvent`](#protogen.esb.fldActionEvent).
+
+  - (protogen.esb.fldAction.action)=
+
+    **`action`** — [`fldActionDependent`](#protogen.esb.fldActionDependent)\
+    Execute after the completion of another action, as defined by [`fldActionDependent`](#protogen.esb.fldActionDependent).
+
+  - (protogen.esb.fldAction.bind)=
+
+    **`bind`** — `uint32`\
+    Execute concurrently with the action that has the specified tag (see [`tag`](#protogen.esb.fldAction.tag)). The tag 0 refers to the
+    previously queued action. Bound actions refer to different endpoints (handles). Otherwise, the RCP
+    server rejects the action.
+
+- (protogen.esb.fldAction.repeatCount)=
+
+  **`repeatCount`** — `uint32`\
+  If set to a non-zero value, the RCP server automatically re-schedules
+  the operation based on the specified trigger type.
+  The total number of times the action is scheduled is [`repeatCount`](#protogen.esb.fldAction.repeatCount) + 1.
+  If [`repeatCount`](#protogen.esb.fldAction.repeatCount) is set to 0, or not set (default), the action is executed
+  once.
+  If [`repeatCount`](#protogen.esb.fldAction.repeatCount) is set to its maximum value (0xffffffff), the action is
+  re-scheduled indefinitely, or until canceled.
+
+  ```{note}
+  Setting this parameter to a non-zero value makes the action
+  asynchronous regardless of the [`trigger`](#protogen.esb.fldAction.trigger) type.
+  ```
+
+- (protogen.esb.fldAction.replyMode)=
+
+  **`replyMode`** — [`enActionReplyMode`](#protogen.esb.enActionReplyMode)\
+  Reply mode for this action, see [`enActionReplyMode`](#protogen.esb.enActionReplyMode).
+  If the action is synchronous, this parameter is ignored. For the
+  definition of synchronous actions, see the [`trigger`](#protogen.esb.fldAction.trigger) field documentation.
+
+- (protogen.esb.fldAction.failsafe)=
+
+  **`failsafe`** — `bool`\
+  If set, the action is executed only if the RCP server is in fail-safe
+  mode. Fail-safe mode can be triggered by the network watchdog or other
+  implementation-specific conditions (refer to the datasheet of the server).
+  For asynchronous operations (see the [`trigger`](#protogen.esb.fldAction.trigger) field documentation), this
+  parameter adds fail-safe mode as an additional condition for scheduling.
+  For synchronous operations, if this parameter is set and the system is
+  not currently in fail-safe mode, the action is rejected with the
+  [`actFailsafeError`](#protogen.esb.enActionResult.actFailsafeError) error code. If this parameter is not set, the action is
+  rejected if the system is currently in fail-safe mode.
+  This feature can be useful for implementing functional safety and safe
+  operation of the server in case, for example, of loss of network
+  connectivity.
+
+- (protogen.esb.fldAction.storeToNvm)=
+
+  **`storeToNvm`** — `bool`\
+  If set, the action is saved in non-volatile memory and loaded on
+  server POR or reboot.
+
+  ```{warning}
+  Actions stored to NVM are not loaded into RAM at the same time.
+  The command [`rcp.dev.opLoadStoredActions`](#protogen.esb.rcp.dev.enCmdOperation.opLoadStoredActions) loads all saved actions.
+  ```
+
+- (protogen.esb.fldAction.tag)=
+
+  **`tag`** — `uint32`\
+  Optional label that the client gives to the action. It does not have to be unique: several actions can carry the
+  same tag, and 0 means that the action has no tag.
+  The tag is how other operations refer to this action:
+  - the triggers [`action`](#protogen.esb.fldAction.action) (dependent) and [`bind`](#protogen.esb.fldAction.bind) of later actions
+  - the cancel operation by tag, see [`fldActionCancel.tag`](#protogen.esb.fldActionCancel.tag)
+
+  When more than one live action carries the same tag, a trigger refers to the first one found, while canceling by
+  tag cancels all of them.
+  In contrast, the RCP server assigns every queued action a unique [`fldActionResult.uid`](#protogen.esb.fldActionResult.uid), which the client only
+  learns from the acknowledgement. It refers to exactly one action, see [`fldActionCancel.uid`](#protogen.esb.fldActionCancel.uid).
+
+- (protogen.esb.fldAction.hndl)=
+
+  **`hndl`** — `uint32`\
+  Handle of the endpoint, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+  The datasheet of the server and the query [`rcp.dev.qryInterfaces`](#protogen.esb.rcp.dev.enQuery.qryInterfaces) list the endpoints with their handles and
+  types.
+
+- (protogen.esb.fldAction.dev)=
+
+  **`dev`** — *oneof*\
+  The endpoint-specific command.
+
+  - (protogen.esb.fldAction.rcp)=
+
+    **`rcp`** — [`rcp.dev.fldCmd`](#protogen.esb.rcp.dev.fldCmd)\
+    Commands for RCP functionality.
+
+  - (protogen.esb.fldAction.gpio)=
+
+    **`gpio`** — [`gpio.fldCmd`](#protogen.esb.gpio.fldCmd)\
+    Commands for GPIO interfaces.
+
+  - (protogen.esb.fldAction.spi)=
+
+    **`spi`** — [`spi.fldCmd`](#protogen.esb.spi.fldCmd)\
+    Commands for SPI interfaces.
+
+  - (protogen.esb.fldAction.i2c)=
+
+    **`i2c`** — [`i2c.fldCmd`](#protogen.esb.i2c.fldCmd)\
+    Commands for I2C interfaces.
+
+  - (protogen.esb.fldAction.pwm)=
+
+    **`pwm`** — [`pwm.fldCmd`](#protogen.esb.pwm.fldCmd)\
+    Commands for PWM interfaces.
+
+  - (protogen.esb.fldAction.pcm)=
+
+    **`pcm`** — [`pcm.fldCmd`](#protogen.esb.pcm.fldCmd)\
+    Commands for PCM audio interfaces.
+
+  - (protogen.esb.fldAction.uart)=
+
+    **`uart`** — [`uart.fldCmd`](#protogen.esb.uart.fldCmd)\
+    Commands for UART interfaces.
+
+  - (protogen.esb.fldAction.pdm)=
+
+    **`pdm`** — [`pdm.fldCmd`](#protogen.esb.pdm.fldCmd)\
+    Commands for PDM interfaces.
+
+  - (protogen.esb.fldAction.adc)=
+
+    **`adc`** — [`adc.fldCmd`](#protogen.esb.adc.fldCmd)\
+    Commands for ADC interfaces.
+
+  - (protogen.esb.fldAction.sent)=
+
+    **`sent`** — [`sent.fldCmd`](#protogen.esb.sent.fldCmd)\
+    Commands for SENT interfaces.
+
+  - (protogen.esb.fldAction.lin)=
+
+    **`lin`** — [`lin.fldCmd`](#protogen.esb.lin.fldCmd)\
+    Commands for LIN interfaces.
+
+(protogen.esb.fldActionResult)=
+
+### fldActionResult
+
+*Message* `esb.fldActionResult`
+
+Result of an action.
+The RCP server returns it as a direct reply to an action ([`fldAction`](#protogen.esb.fldAction)). Such a reply reports either the execution
+of a synchronous action or the scheduling of an asynchronous action.
+The server also returns it when an asynchronous action has run. Such an unsolicited result reports the execution.
+
+**Fields**
+
+- (protogen.esb.fldActionResult.code)=
+
+  **`code`** — [`enActionResult`](#protogen.esb.enActionResult)\
+  Result code of the action.
+
+- (protogen.esb.fldActionResult.tag)=
+
+  **`tag`** — *optional* `uint32`\
+  The tag that the client gave in [`fldAction.tag`](#protogen.esb.fldAction.tag), only present if it was not zero.
+  It is not necessarily unique, use the [`uid`](#protogen.esb.fldActionResult.uid) to tell actions apart.
+
+- (protogen.esb.fldActionResult.seq)=
+
+  **`seq`** — *optional* `fixed32`\
+  The RCP server generates a sequence number for each reply of an asynchronous action (see [`uid`](#protogen.esb.fldActionResult.uid)). The number
+  increases by one with each reply. Each action has its own series, so the number is not globally unique. The
+  client can use it to detect missing or misordered replies of each action independently.
+
+- (protogen.esb.fldActionResult.time)=
+
+  **`time`** — *optional* [`fldTstamp`](#protogen.esb.fldTstamp)\
+  Optional timestamp in PTP format that the RCP server captures when it executes specific types of actions
+  (e.g., GPIO capture). The RCP server can also set it if an event triggered the action or if the action was
+  late.
+
+- (protogen.esb.fldActionResult.triggerId)=
+
+  **`triggerId`** — *optional* `uint32`\
+  For the result of an event-triggered action, this field specifies the trigger ID that became active.
+
+  ```{warning}
+  If multiple events trigger the action at the same time, only the one with the highest priority, i.e.,
+  the lowest event identifier, is reported as [`triggerId`](#protogen.esb.fldActionResult.triggerId).
+  ```
+
+- (protogen.esb.fldActionResult.res)=
+
+  **`res`** — *oneof*\
+  Endpoint-specific reply data.
+
+  - (protogen.esb.fldActionResult.gpio)=
+
+    **`gpio`** — `uint32`\
+    Result generated by GPIOs.
+
+  - (protogen.esb.fldActionResult.data)=
+
+    **`data`** — `bytes`\
+    Generic binary data (multiple endpoints).
+
+  - (protogen.esb.fldActionResult.rcp)=
+
+    **`rcp`** — [`rcp.dev.fldCmdResult`](#protogen.esb.rcp.dev.fldCmdResult)\
+    Result of RCP commands.
+
+- (protogen.esb.fldActionResult.uid)=
+
+  **`uid`** — *optional* `uint32`\
+  Unique non-zero ID generated by the RCP server for every queued action. It is included in the
+  acknowledgement of the action and in every result of that action. Live actions never share a uid.
+  Unlike the [`tag`](#protogen.esb.fldActionResult.tag), which the client chooses, the client only learns it from the acknowledgement.
+
+(protogen.esb.fldQuery)=
+
+### fldQuery
+
+*Message* `esb.fldQuery`
+
+Container for a query of the RCP server or of an endpoint.
+
+**Fields**
+
+- (protogen.esb.fldQuery.hndl)=
+
+  **`hndl`** — `uint32`\
+  Handle of the endpoint to query, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+  The datasheet of the server and the query [`rcp.dev.qryInterfaces`](#protogen.esb.rcp.dev.enQuery.qryInterfaces) list the endpoints with their handles and
+  types.
+
+- (protogen.esb.fldQuery.qry)=
+
+  **`qry`** — *oneof*\
+  The RCP server supports synchronous queries to retrieve static or dynamic
+  information about the RCP server itself or one of its endpoints.
+  If none of the options is selected and [`hndl`](#protogen.esb.fldQuery.hndl) is non-zero, the query returns
+  the configuration of the specified endpoint.
+
+  - (protogen.esb.fldQuery.rcp)=
+
+    **`rcp`** — [`rcp.dev.enQuery`](#protogen.esb.rcp.dev.enQuery)\
+    Query of the RCP server itself.
+
+  - (protogen.esb.fldQuery.ep)=
+
+    **`ep`** — [`enEndpointQuery`](#protogen.esb.enEndpointQuery)\
+    Query of an endpoint.
+
+(protogen.esb.fldQueryResult)=
+
+### fldQueryResult
+
+*Message* `esb.fldQueryResult`
+
+Container for the result of a query.
+
+**Fields**
+
+- (protogen.esb.fldQueryResult.code)=
+
+  **`code`** — [`enQueryResult`](#protogen.esb.enQueryResult)\
+  Return code of the query.
+
+- (protogen.esb.fldQueryResult.res)=
+
+  **`res`** — *oneof*\
+  Content of the specific query reply.
+
+  ```{note}
+  [`config`](#protogen.esb.fldQueryResult.config) does not use the field [`fldConfig.rcp`](#protogen.esb.fldConfig.rcp). To retrieve the configuration of the RCP server, use the
+  individual queries and the field [`rcp`](#protogen.esb.fldQueryResult.rcp) of this message.
+  ```
+
+  - (protogen.esb.fldQueryResult.rcp)=
+
+    **`rcp`** — [`rcp.dev.fldQueryResult`](#protogen.esb.rcp.dev.fldQueryResult)\
+    Reply to RCP server queries.
+
+  - (protogen.esb.fldQueryResult.config)=
+
+    **`config`** — [`fldConfig`](#protogen.esb.fldConfig)\
+    Reply to endpoints config queries.
+
+  - (protogen.esb.fldQueryResult.epInfo)=
+
+    **`epInfo`** — [`fldEndpointNotifInfo`](#protogen.esb.fldEndpointNotifInfo)\
+    Reply to endpoint status query.
+
+(protogen.esb.fldNotif)=
+
+### fldNotif
+
+*Message* `esb.fldNotif`
+
+Notifications sent by the server, including endpoint events and received stream data.
+Each endpoint sends its notifications only to its notification owner, identified by [`fldEndpointNotifInfo`](#protogen.esb.fldEndpointNotifInfo).
+This message also carries directive-decoding errors.
+
+**Fields**
+
+- (protogen.esb.fldNotif.code)=
+
+  **`code`** — [`enNotifResult`](#protogen.esb.enNotifResult)\
+  Result code of the notification.
+
+- (protogen.esb.fldNotif.hndl)=
+
+  **`hndl`** — `uint32`\
+  Endpoint that generated the notification.
+
+- (protogen.esb.fldNotif.seq)=
+
+  **`seq`** — `fixed32`\
+  The RCP server generates a sequence number for each notification of an endpoint. The number increases by one
+  with each notification. Each endpoint has its own series, so the number is not globally unique. The client can
+  use it to detect missing or misordered notifications of each endpoint independently.
+
+- (protogen.esb.fldNotif.time)=
+
+  **`time`** — *optional* [`fldTstamp`](#protogen.esb.fldTstamp)\
+  Optional timestamp in PTP format, captured by the RCP server when
+  triggering specific types of notifications (e.g., GPIO capture).
+
+- (protogen.esb.fldNotif.ntf)=
+
+  **`ntf`** — *oneof*\
+  Data supplied by the notifying endpoint.
+
+  - (protogen.esb.fldNotif.gpio)=
+
+    **`gpio`** — [`gpio.fldNotif`](#protogen.esb.gpio.fldNotif)\
+    GPIO change status notification.
+
+  - (protogen.esb.fldNotif.data)=
+
+    **`data`** — `bytes`\
+    Endpoint bytes (streaming).
+
+  - (protogen.esb.fldNotif.adc)=
+
+    **`adc`** — [`adc.fldNotif`](#protogen.esb.adc.fldNotif)\
+    ADC specific notifications.
+
+(protogen.esb.fldActionCancel)=
+
+### fldActionCancel
+
+*Message* `esb.fldActionCancel`
+
+Selects live actions to cancel, either by tag or by uid. An action is live while scheduled or running.
+A scheduled action is removed. A running action completes its current execution without further repetitions.
+
+**Fields**
+
+- (protogen.esb.fldActionCancel.by)=
+
+  **`by`** — *oneof*\
+  Identifier used to select live actions.
+
+  - (protogen.esb.fldActionCancel.tag)=
+
+    **`tag`** — `uint32`\
+    Cancel all live actions that have this tag, see [`fldAction.tag`](#protogen.esb.fldAction.tag).
+
+  - (protogen.esb.fldActionCancel.uid)=
+
+    **`uid`** — `uint32`\
+    Cancel the action that has this uid, see [`fldActionResult.uid`](#protogen.esb.fldActionResult.uid).
+
+(protogen.esb.fldOperation)=
+
+### fldOperation
+
+*Message* `esb.fldOperation`
+
+One operation of a directive.
+
+**Fields**
+
+- (protogen.esb.fldOperation.deviceIdMask)=
+
+  **`deviceIdMask`** — *optional* `uint32`\
+  Optional mask to select which RCP servers execute the operation.
+  If not set, all receiving RCP servers execute the operation.
+  If set, the receiving RCP server executes the operation only if the bitwise AND of its own DID and the mask
+  is not zero.
+  All other RCP servers receiving the directive ignore this operation and add no result for it to the report.
+  For an example, see the page [Core Operations](#protogen.rcp_core).
+  This feature is useful when using broadcast and multicast messages on
+  the network containing operations for multiple RCP servers. This allows
+  the client to save bandwidth and reduce latency while keeping strict control over
+  which server does what.
+  The DID is set with [`rcp.core.fldServerConfig.did`](#protogen.esb.rcp.core.fldServerConfig.did).
+
+- (protogen.esb.fldOperation.op)=
+
+  **`op`** — *oneof*\
+  Selects the operation type.
+
+  - (protogen.esb.fldOperation.action)=
+
+    **`action`** — [`fldAction`](#protogen.esb.fldAction)\
+    Action to perform.
+
+  - (protogen.esb.fldOperation.query)=
+
+    **`query`** — [`fldQuery`](#protogen.esb.fldQuery)\
+    Query to perform.
+
+  - (protogen.esb.fldOperation.config)=
+
+    **`config`** — [`fldConfig`](#protogen.esb.fldConfig)\
+    Configuration to apply.
+
+  - (protogen.esb.fldOperation.cancel)=
+
+    **`cancel`** — [`fldActionCancel`](#protogen.esb.fldActionCancel)\
+    Actions to cancel.
+
+(protogen.esb.fldOperationResult)=
+
+### fldOperationResult
+
+*Message* `esb.fldOperationResult`
+
+Container for the result of an operation.
+It is a direct response to an operation, an unsolicited action result, or a notification.
+
+**Fields**
+
+- (protogen.esb.fldOperationResult.res)=
+
+  **`res`** — *oneof*
+
+  - (protogen.esb.fldOperationResult.action)=
+
+    **`action`** — [`fldActionResult`](#protogen.esb.fldActionResult)\
+    Result of an action.
+
+  - (protogen.esb.fldOperationResult.query)=
+
+    **`query`** — [`fldQueryResult`](#protogen.esb.fldQueryResult)\
+    Result of a query.
+
+  - (protogen.esb.fldOperationResult.config)=
+
+    **`config`** — [`enConfigResult`](#protogen.esb.enConfigResult)\
+    Result of a configuration.
+
+  - (protogen.esb.fldOperationResult.cancel)=
+
+    **`cancel`** — [`enAclResult`](#protogen.esb.enAclResult)\
+    Result of an action cancel.
+
+  - (protogen.esb.fldOperationResult.notif)=
+
+    **`notif`** — [`fldNotif`](#protogen.esb.fldNotif)\
+    Unsolicited notification or directive-decoding error.
+
+(protogen.esb.msgDirective)=
+
+### msgDirective
+
+*Message* `esb.msgDirective`
+
+Top-level message from the client to the RCP server.
+The server decodes the whole message before handling its operations. It rejects the whole directive for a decoding
+error. No operation is executed, and the reply contains one
+[`fldNotif`](#protogen.esb.fldNotif) describing the error.
+
+**Fields**
+
+- (protogen.esb.msgDirective.seq)=
+
+  **`seq`** — `fixed32`\
+  Sequence number used to correlate directives and reports.
+  A non-zero value is echoed in [`msgReport.seq`](#protogen.esb.msgReport.seq). 0 (default) suppresses the normal reply, but not unsolicited
+  reports or the error report for a directive rejected during decoding.
+  The number does not suppress duplicate execution. Receiving the same directive again can execute it again.
+
+- (protogen.esb.msgDirective.dir)=
+
+  **`dir`** — *repeated* [`fldOperation`](#protogen.esb.fldOperation)\
+  Operations handled in list order. An asynchronous action is queued at its position, not awaited.
+  An operation error neither rolls back earlier operations nor prevents later operations from being handled.
+  If a reply is requested, it contains one result per operation in the same order, except for an operation
+  ignored because of [`fldOperation.deviceIdMask`](#protogen.esb.fldOperation.deviceIdMask).
+
+(protogen.esb.msgReport)=
+
+### msgReport
+
+*Message* `esb.msgReport`
+
+Top-level message from the RCP server to the client.
+
+**Fields**
+
+- (protogen.esb.msgReport.seq)=
+
+  **`seq`** — `fixed32`\
+  Echoes [`msgDirective.seq`](#protogen.esb.msgDirective.seq) in a reply. In an unsolicited report, it is 0.
+  For a directive rejected during decoding, it carries the directive's sequence number only if the server read
+  it before detecting the error. Otherwise, it is 0.
+
+- (protogen.esb.msgReport.res)=
+
+  **`res`** — *repeated* [`fldOperationResult`](#protogen.esb.fldOperationResult)\
+  A reply contains one result per operation, in directive order, except for operations ignored because of
+  [`fldOperation.deviceIdMask`](#protogen.esb.fldOperation.deviceIdMask). A directive rejected during decoding produces one [`fldNotif`](#protogen.esb.fldNotif) instead.
+  An unsolicited report contains asynchronous action results or endpoint notifications.
+
+(protogen.esb.msgRcp)=
+
+### msgRcp
+
+*Message* `esb.msgRcp`
+
+Combination of the top-level messages [`msgDirective`](#protogen.esb.msgDirective) and [`msgReport`](#protogen.esb.msgReport).
+Neither side sends this message. Tools such as Wireshark use it to decode the messages of both directions, so the
+field set of [`msgRcp`](#protogen.esb.msgRcp) is the union of the fields of the two messages.
+
+```{note}
+The three messages use identical field numbers, so that Wireshark decodes them properly.
+```
+
+A client could use this message as a top-level message and omit the [`res`](#protogen.esb.msgRcp.res) or the [`dir`](#protogen.esb.msgRcp.dir) field depending on the
+direction, but it should use the dedicated messages [`msgDirective`](#protogen.esb.msgDirective) and [`msgReport`](#protogen.esb.msgReport).
+The encoders and decoders inside the RCP server never use this message.
+
+**Fields**
+
+- (protogen.esb.msgRcp.seq)=
+
+  **`seq`** — `fixed32`\
+  The interpretation depends on the direction.
+
+- (protogen.esb.msgRcp.dir)=
+
+  **`dir`** — *repeated* [`fldOperation`](#protogen.esb.fldOperation)\
+  List of operations to perform.
+
+- (protogen.esb.msgRcp.res)=
+
+  **`res`** — *repeated* [`fldOperationResult`](#protogen.esb.fldOperationResult)\
+  List of operation results.
+
+## Enumerations
+
+(protogen.esb.enActionDependentType)=
+
+### enActionDependentType
+
+*Enumeration* `esb.enActionDependentType`
+
+Actions can optionally be triggered on completion of other actions. This
+allows, for example, defining daisy chains of timed operations to be
+executed as a reaction to specific events, in sequence.
+
+- (protogen.esb.enActionDependentType.actDepDefault)=
+
+  **`actDepDefault`** — Execute as soon as the parent action finishes, regardless of its result code.
+
+- (protogen.esb.enActionDependentType.actDepSuccess)=
+
+  **`actDepSuccess`** — Execute only if the parent action succeeded: [`actSuccess`](#protogen.esb.enActionResult.actSuccess) or a warning such as [`actDelayed`](#protogen.esb.enActionResult.actDelayed).
+
+- (protogen.esb.enActionDependentType.actDepError)=
+
+  **`actDepError`** — Execute only if the parent action failed, i.e., its result code is an error.
+
+(protogen.esb.enActionReplyMode)=
+
+### enActionReplyMode
+
+*Enumeration* `esb.enActionReplyMode`
+
+Selects which execution results of an asynchronous action are sent in unsolicited reports.
+It does not affect the reply to the directive, which is controlled by [`msgDirective.seq`](#protogen.esb.msgDirective.seq).
+Warnings, including [`actDelayed`](#protogen.esb.enActionResult.actDelayed), count as success rather than an error.
+
+- (protogen.esb.enActionReplyMode.actReplyDefault)=
+
+  **`actReplyDefault`** — Report every execution.
+
+- (protogen.esb.enActionReplyMode.actReplyNever)=
+
+  **`actReplyNever`** — Report no executions.
+
+- (protogen.esb.enActionReplyMode.actReplyOnError)=
+
+  **`actReplyOnError`** — Report only executions that fail.
+
+- (protogen.esb.enActionReplyMode.actReplyOnLast)=
+
+  **`actReplyOnLast`** — Report only the last execution of this action.
+
+- (protogen.esb.enActionReplyMode.actReplyOnErrorOrLast)=
+
+  **`actReplyOnErrorOrLast`** — Report executions that fail and the last execution of this action.
+
+(protogen.esb.enActionResult)=
+
+### enActionResult
+
+*Enumeration* `esb.enActionResult`
+
+Global enum for action results.
+
+- (protogen.esb.enActionResult.actSuccess)=
+
+  **`actSuccess`** — Action was successfully executed.
+
+- (protogen.esb.enActionResult.actPending)=
+
+  **`actPending`** — Action has been successfully scheduled.
+
+- (protogen.esb.enActionResult.actDelayed)=
+
+  **`actDelayed`** — Action was successful but executed past its due time.
+
+- (protogen.esb.enActionResult.actTooLate)=
+
+  **`actTooLate`** — Action was not executed because it missed its hard deadline.
+
+- (protogen.esb.enActionResult.actNoResources)=
+
+  **`actNoResources`** — Not enough server resources to perform the action.
+
+- (protogen.esb.enActionResult.actInvalidParam)=
+
+  **`actInvalidParam`** — A parameter value is invalid or out of range, or a combination of parameters violates the
+  constraints of the requested operation.
+
+- (protogen.esb.enActionResult.actNotSupported)=
+
+  **`actNotSupported`** — The requested operation or feature is not supported by this server.
+
+- (protogen.esb.enActionResult.actFailsafeError)=
+
+  **`actFailsafeError`** — Operating mode mismatch for the synchronous operation.
+
+- (protogen.esb.enActionResult.actInternalError)=
+
+  **`actInternalError`** — Unspecified internal error.
+
+- (protogen.esb.enActionResult.actCmdFailed)=
+
+  **`actCmdFailed`** — The execution of the command associated with the action failed.
+
+- (protogen.esb.enActionResult.actEndpointNotEnabled)=
+
+  **`actEndpointNotEnabled`** — Action failed because the endpoint is not enabled.
+
+- (protogen.esb.enActionResult.actTimeoutError)=
+
+  **`actTimeoutError`** — Action failed because the execution of the action timed out.
+
+- (protogen.esb.enActionResult.actCsumError)=
+
+  **`actCsumError`** — Action failed because of an invalid checksum.
+
+- (protogen.esb.enActionResult.actIOError)=
+
+  **`actIOError`** — Action failed because of a hardware/bus error.
+
+- (protogen.esb.enActionResult.actStreamNotStarted)=
+
+  **`actStreamNotStarted`** — Action failed because the stream is not started.
+
+- (protogen.esb.enActionResult.actStreamAlreadyStarted)=
+
+  **`actStreamAlreadyStarted`** — Action failed because the stream is already started.
+
+- (protogen.esb.enActionResult.actNvmNotPresent)=
+
+  **`actNvmNotPresent`** — Unable to access NVM because it is not present.
+
+(protogen.esb.enQueryResult)=
+
+### enQueryResult
+
+*Enumeration* `esb.enQueryResult`
+
+Global enum for query result code.
+
+- (protogen.esb.enQueryResult.qrySuccess)=
+
+  **`qrySuccess`** — Query was successful.
+
+- (protogen.esb.enQueryResult.qryUnknownDevice)=
+
+  **`qryUnknownDevice`** — The specified handle is invalid.
+
+- (protogen.esb.enQueryResult.qryInvalidParam)=
+
+  **`qryInvalidParam`** — A parameter value is invalid or out of range, or a combination of parameters violates the
+  constraints of the requested operation.
+
+- (protogen.esb.enQueryResult.qryInternalError)=
+
+  **`qryInternalError`** — Unspecified internal error.
+
+- (protogen.esb.enQueryResult.qryEndpointNotEnabled)=
+
+  **`qryEndpointNotEnabled`** — The query targets an endpoint that is not enabled.
+
+- (protogen.esb.enQueryResult.qryNotSupported)=
+
+  **`qryNotSupported`** — The requested operation or feature is not supported by this server.
+
+(protogen.esb.enNotifResult)=
+
+### enNotifResult
+
+*Enumeration* `esb.enNotifResult`
+
+Result codes for endpoint notifications and directive decoding errors.
+
+- (protogen.esb.enNotifResult.ntfSuccess)=
+
+  **`ntfSuccess`** — Notification was successful.
+
+- (protogen.esb.enNotifResult.ntfIOError)=
+
+  **`ntfIOError`** — Hardware/bus error.
+
+- (protogen.esb.enNotifResult.ntfBufferOverrun)=
+
+  **`ntfBufferOverrun`** — Buffer overrun occurred.
+
+- (protogen.esb.enNotifResult.ntfProtocolError)=
+
+  **`ntfProtocolError`** — The server could not decode the received message.
+
+- (protogen.esb.enNotifResult.ntfProtocolTooLarge)=
+
+  **`ntfProtocolTooLarge`** — The received message exceeds a limit of the server.
+
+- (protogen.esb.enNotifResult.ntfProtocolUnsupported)=
+
+  **`ntfProtocolUnsupported`** — The received message has an unknown field or several members of a oneof.
+
+- (protogen.esb.enNotifResult.ntfInternalError)=
+
+  **`ntfInternalError`** — Unspecified internal error.
+
+- (protogen.esb.enNotifResult.ntfFlushed)=
+
+  **`ntfFlushed`** — Endpoint was flushed (e.g., UART break).
+
+- (protogen.esb.enNotifResult.ntfCsumError)=
+
+  **`ntfCsumError`** — Checksum error (e.g., UART parity error).
+
+- (protogen.esb.enNotifResult.ntfFrameError)=
+
+  **`ntfFrameError`** — Frame error (e.g., UART framing error).
+
+- (protogen.esb.enNotifResult.ntfOutOfMemory)=
+
+  **`ntfOutOfMemory`** — Out of memory error.
+
+(protogen.esb.enConfigResult)=
+
+### enConfigResult
+
+*Enumeration* `esb.enConfigResult`
+
+Global enum for configuration result.
+
+- (protogen.esb.enConfigResult.cfgSuccess)=
+
+  **`cfgSuccess`** — Configuration was successful (default).
+
+- (protogen.esb.enConfigResult.cfgParamAdjusted)=
+
+  **`cfgParamAdjusted`** — Configuration was successful, but some parameters were adjusted by the server.
+
+- (protogen.esb.enConfigResult.cfgNotSupported)=
+
+  **`cfgNotSupported`** — The requested operation or feature is not supported by this server.
+
+- (protogen.esb.enConfigResult.cfgInvalidParam)=
+
+  **`cfgInvalidParam`** — A parameter value is invalid or out of range, or a combination of parameters violates the
+  constraints of the requested operation.
+
+- (protogen.esb.enConfigResult.cfgInternalError)=
+
+  **`cfgInternalError`** — Unspecified internal error.
+
+- (protogen.esb.enConfigResult.cfgBusy)=
+
+  **`cfgBusy`** — Server is busy and cannot accept the configuration at the moment.
+
+- (protogen.esb.enConfigResult.cfgNotAllowed)=
+
+  **`cfgNotAllowed`** — Configuration not allowed for the item being configured because it is read-only.
+
+(protogen.esb.enAclResult)=
+
+### enAclResult
+
+*Enumeration* `esb.enAclResult`
+
+Global enum for action cancel result.
+
+- (protogen.esb.enAclResult.aclSuccess)=
+
+  **`aclSuccess`** — Action cancel operation was successful.
+
+- (protogen.esb.enAclResult.aclPending)=
+
+  **`aclPending`** — Action cancel operation was successful, but the action was already in progress.
+
+- (protogen.esb.enAclResult.aclNotFound)=
+
+  **`aclNotFound`** — Action cancel operation failed because the action was not found.
+
+- (protogen.esb.enAclResult.aclInternalError)=
+
+  **`aclInternalError`** — Unspecified internal error.

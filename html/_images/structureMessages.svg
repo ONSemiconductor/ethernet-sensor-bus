@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="572" viewBox="0 0 960 572" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Structure of a directive and of the report that answers it</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .opt { fill: #ffffff; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 7 5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="960" height="572" fill="#ffffff"/>
+  <rect class="act" x="16" y="16" width="928" height="226" rx="8"/>
+  <text class="b" x="30" y="42" xml:space="preserve"><tspan class="mb">msgDirective</tspan></text>
+  <text x="150.8" y="42" xml:space="preserve">client to RCP server</text>
+  <rect class="blk" x="30" y="80" width="120" height="40" rx="6"/>
+  <text class="c" x="90" y="104.55" xml:space="preserve"><tspan class="m">seq</tspan></text>
+  <text class="c n" x="90" y="140" xml:space="preserve">non-zero: the server</text>
+  <text class="c n" x="90" y="155" xml:space="preserve">answers with a report</text>
+  <rect class="grp" x="170" y="60" width="760" height="142" rx="8"/>
+  <text x="182" y="80" xml:space="preserve"><tspan class="m">dir</tspan>: list of operations, executed in order</text>
+  <rect class="blk" x="182" y="94" width="232" height="66" rx="6"/>
+  <path class="end" d="M182,124 V100 A6,6 0 0 1 188,94 H408 A6,6 0 0 1 414,100 V124 Z"/>
+  <text class="b c" x="298" y="113.9" xml:space="preserve"><tspan class="mb">fldOperation</tspan></text>
+  <text class="c" x="298" y="146.55" xml:space="preserve"><tspan class="m">action</tspan>: <tspan class="m">fldAction</tspan></text>
+  <text class="c n" x="298" y="182" xml:space="preserve">command for an endpoint or the server</text>
+  <rect class="blk" x="430" y="94" width="232" height="66" rx="6"/>
+  <path class="end" d="M430,124 V100 A6,6 0 0 1 436,94 H656 A6,6 0 0 1 662,100 V124 Z"/>
+  <text class="b c" x="546" y="113.9" xml:space="preserve"><tspan class="mb">fldOperation</tspan></text>
+  <text class="c" x="546" y="146.55" xml:space="preserve"><tspan class="m">query</tspan>: <tspan class="m">fldQuery</tspan></text>
+  <text class="c n" x="546" y="182" xml:space="preserve">request for information</text>
+  <rect class="blk" x="678" y="94" width="232" height="66" rx="6"/>
+  <path class="end" d="M678,124 V100 A6,6 0 0 1 684,94 H904 A6,6 0 0 1 910,100 V124 Z"/>
+  <text class="b c" x="794" y="113.9" xml:space="preserve"><tspan class="mb">fldOperation</tspan></text>
+  <text class="c" x="794" y="146.55" xml:space="preserve"><tspan class="m">config</tspan>: <tspan class="m">fldConfig</tspan></text>
+  <text class="c n" x="794" y="182" xml:space="preserve">settings of an endpoint or the server</text>
+  <text x="30" y="226" xml:space="preserve">Each operation holds exactly one of <tspan class="m">action</tspan>, <tspan class="m">query</tspan>, <tspan class="m">config</tspan> or <tspan class="m">cancel</tspan>. The optional <tspan class="m">deviceIdMask</tspan> selects the servers that execute it.</text>
+  <rect class="act" x="16" y="312" width="928" height="244" rx="8"/>
+  <text class="b" x="30" y="338" xml:space="preserve"><tspan class="mb">msgReport</tspan></text>
+  <text x="124.1" y="338" xml:space="preserve">RCP server to client</text>
+  <rect class="blk" x="30" y="376" width="120" height="40" rx="6"/>
+  <text class="c" x="90" y="400.55" xml:space="preserve"><tspan class="m">seq</tspan></text>
+  <text class="c n" x="90" y="436" xml:space="preserve">echoes the <tspan class="mn">seq</tspan></text>
+  <text class="c n" x="90" y="451" xml:space="preserve">of the directive</text>
+  <rect class="grp" x="170" y="356" width="760" height="142" rx="8"/>
+  <text x="182" y="376" xml:space="preserve"><tspan class="m">res</tspan>: one result per operation, in the same order</text>
+  <rect class="blk" x="182" y="390" width="232" height="66" rx="6"/>
+  <path class="end" d="M182,420 V396 A6,6 0 0 1 188,390 H408 A6,6 0 0 1 414,396 V420 Z"/>
+  <text class="b c" x="298" y="409.9" xml:space="preserve"><tspan class="mb">fldOperationResult</tspan></text>
+  <text class="c" x="298" y="442.55" xml:space="preserve"><tspan class="m">action</tspan>: <tspan class="m">fldActionResult</tspan></text>
+  <text class="c n" x="298" y="478" xml:space="preserve">outcome or scheduling of the action</text>
+  <rect class="blk" x="430" y="390" width="232" height="66" rx="6"/>
+  <path class="end" d="M430,420 V396 A6,6 0 0 1 436,390 H656 A6,6 0 0 1 662,396 V420 Z"/>
+  <text class="b c" x="546" y="409.9" xml:space="preserve"><tspan class="mb">fldOperationResult</tspan></text>
+  <text class="c" x="546" y="442.55" xml:space="preserve"><tspan class="m">query</tspan>: <tspan class="m">fldQueryResult</tspan></text>
+  <text class="c n" x="546" y="478" xml:space="preserve">requested information</text>
+  <rect class="blk" x="678" y="390" width="232" height="66" rx="6"/>
+  <path class="end" d="M678,420 V396 A6,6 0 0 1 684,390 H904 A6,6 0 0 1 910,396 V420 Z"/>
+  <text class="b c" x="794" y="409.9" xml:space="preserve"><tspan class="mb">fldOperationResult</tspan></text>
+  <text class="c" x="794" y="442.55" xml:space="preserve"><tspan class="m">config</tspan>: <tspan class="m">enConfigResult</tspan></text>
+  <text class="c n" x="794" y="478" xml:space="preserve">outcome of the configuration</text>
+  <text x="30" y="522" xml:space="preserve">Besides these three results, <tspan class="m">cancel</tspan> returns <tspan class="m">enAclResult</tspan>.</text>
+  <text x="30" y="540" xml:space="preserve">Unsolicited reports carry no <tspan class="m">seq</tspan>: <tspan class="m">notif</tspan> (<tspan class="m">fldNotif</tspan>) or the final <tspan class="m">fldActionResult</tspan> of an asynchronous action.</text>
+  <path class="arrow" d="M298,242 L298,312"/>
+  <path class="arrow" d="M546,242 L546,312"/>
+  <path class="arrow" d="M794,242 L794,312"/>
+  <text x="30" y="270" xml:space="preserve">The server answers</text>
+  <text x="30" y="287" xml:space="preserve">every operation</text>
+</svg>

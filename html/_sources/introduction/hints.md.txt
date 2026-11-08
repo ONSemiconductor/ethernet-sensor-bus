@@ -1,0 +1,43 @@
+(protogen.hints)=
+
+# Usage hints
+
+This page gives recommendations for the development of clients.
+
+## Discover the server first
+
+Send one directive with the queries [`rcp.dev.qryIdentity`](#protogen.esb.rcp.dev.enQuery.qryIdentity), [`rcp.dev.qryCapabilities`](#protogen.esb.rcp.dev.enQuery.qryCapabilities), and [`rcp.dev.qryInterfaces`](#protogen.esb.rcp.dev.enQuery.qryInterfaces). The server answers them in the same order. The identity holds the protocol version, the capabilities list the optional features, and the interfaces give the handles and types of the endpoints, which every other operation needs. The last two queries are optional. A server that does not implement them answers [`qryNotSupported`](#protogen.esb.enQueryResult.qryNotSupported), and the client has to know the endpoints in advance. Sent as a broadcast, the same directive finds all RCP servers on the network.
+
+## Make directives easy to match and to repeat
+
+- Set a non-zero sequence number and use a new one for every directive whose reply you need.
+- Raw Ethernet and UDP do not guarantee delivery. A missing report leaves the outcome unknown. Repeat the directive only if it is safe to execute it twice in the current state. Prefer setting and clearing pins over toggling them. Do not retry a transfer blindly.
+- Batch operations to reduce round trips, but do not treat their order as a success condition. If an action depends on a successful configuration, check the configuration result before sending the action, see [Messages](messages.md).
+- Check the result of every operation, also the warnings. A warning means that the operation succeeded, but the server did something other than requested.
+
+## Timing and scheduling
+
+- Make sure that the timer of the server is valid before using timed actions. Wait until the PTP status reports it as synchronized, or set the timer, see [Scheduler](scheduler.md).
+- Send timed actions early. Use [`fldActionTimed.hardDeadline`](#protogen.esb.fldActionTimed.hardDeadline) only for an action that is useless when it is late.
+- Use a repeating action with a period instead of many single actions, and a bound action to start different endpoints together.
+- For a dependent action, queue its parent first and leave time to queue the dependent before the parent completes. A future timed parent and its dependent can share one directive. Use a distinct tag for each parent.
+- Limit the reports of a repeating action with [`fldAction.replyMode`](#protogen.esb.fldAction.replyMode).
+- Give related actions a tag and cancel them by it. At the start of a session, look at [`rcp.dev.qrySchedulerStatus`](#protogen.esb.rcp.dev.enQuery.qrySchedulerStatus). The command [`rcp.dev.opCancelAllActions`](#protogen.esb.rcp.dev.enCmdOperation.opCancelAllActions) clears all pending actions, also those of other clients.
+
+## Safety and storage
+
+- To reach a safe state when the client is lost, enable the network watchdog, define fail-safe actions, and store them in the NVM so that they exist from power-up, see [Core Operations](../server/rcp_core.md) and [Higher-level behavior](behavior.md).
+- Send a message at least three times per watchdog timeout, so that a single lost message does not trigger the fail-safe mode. Test the fail-safe actions with [`rcp.dev.opEnterFailsafe`](#protogen.esb.rcp.dev.enCmdOperation.opEnterFailsafe).
+- Save the configuration when it is final. Load stored actions only once.
+
+## Several servers and the network
+
+- Give every server a DID, e.g., one bit per server or one bit per group, before you use DID masks, see [Core Operations](../server/rcp_core.md). The unique ID of its hardware ([`rcp.info.fldIdentity.sid`](#protogen.esb.rcp.info.fldIdentity.sid)) tells the servers apart before they have a DID.
+- After changing the MAC address or the IP address of a server, send the following directives to the new address, see [Network](network.md).
+- Configure the VLANs of a server before moving it into a tagged network. With the default empty list, the server drops all tagged frames.
+
+## Handling messages
+
+- Do not compare messages by their bytes. Two correct encoders can produce different bytes for the same message, see [Protobuf encoding](protobuf.md). Decode the messages and compare the fields.
+- Expect fields in reports that your library does not know. A server that implements a newer version of the schema can send them, and Protocol Buffers libraries skip them.
+- Send operations that use fields of a newer schema in a directive of their own. A server that does not know such a field rejects the whole directive, see [Messages](messages.md).

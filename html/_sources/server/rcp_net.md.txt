@@ -1,0 +1,79 @@
+(protogen.rcp_net)=
+
+# Network Configuration
+
+**File:** `server/rcp_net.proto`
+
+**Package:** `esb.rcp.net`
+
+Network (MAC and PHY) configuration and status of the RCP server.
+
+This file defines the addresses, the VLANs, and the clients of the RCP server and the access to its PHY. The
+configuration is part of the server configuration ([`rcp.dev.fldConfig.net`](#protogen.esb.rcp.dev.fldConfig.net), [`rcp.dev.fldConfig.client`](#protogen.esb.rcp.dev.fldConfig.client), and
+[`rcp.dev.fldConfig.phyReg`](#protogen.esb.rcp.dev.fldConfig.phyReg)). The page [Network](#protogen.network) describes how the server accepts and answers frames.
+
+## Subnet
+
+The subnet prefix length ([`fldConfig.subnetPrefixLength`](#protogen.esb.rcp.net.fldConfig.subnetPrefixLength)) determines the subnet mask and also affects the
+subnet broadcast address. For example, the IP address 192.168.1.1 with a prefix length of 24 results in
+192.168.1.1/24, which means that the subnet mask is 255.255.255.0.
+
+## VLANs
+
+The server remembers the VLAN of each client. Clients with the same MAC or IP address but different VLAN IDs are
+different clients. Replies use the VLAN of the request, and unsolicited notifications use the VLAN that the client
+used when it subscribed.
+
+## Clients
+
+The server learns a client from the messages that it receives from it and numbers it with a unique, non-zero client
+ID. A client with an IPv4 address is identified by this address, its port, and its VLAN ID, any other client by its
+MAC address and VLAN ID. The client ID tells who uses an endpoint ([`fldEndpointNotifInfo`](#protogen.esb.fldEndpointNotifInfo)) and who scheduled an
+action ([`rcp.core.fldSchedulerStatus`](#protogen.esb.rcp.core.fldSchedulerStatus)). The server sends the notifications of the endpoint and the results of the
+action to that client.
+
+The client configuration ([`rcp.dev.fldConfig.client`](#protogen.esb.rcp.dev.fldConfig.client)) registers clients in advance, so that the server knows
+their addresses before they send a message. It is saved with the server configuration (see
+[`rcp.dev.opSaveConfig`](#protogen.esb.rcp.dev.enCmdOperation.opSaveConfig)), so the server knows these clients again after a restart, with the same client IDs. The
+query [`rcp.dev.qryClientStatus`](#protogen.esb.rcp.dev.enQuery.qryClientStatus) returns the clients that the server knows, with their client IDs.
+
+## PHY registers
+
+The registers of the PHY are accessed over the management data input/output (MDIO) interface. A list of accesses
+writes or reads registers, and the values read come back in the order of the accesses. The command
+[`rcp.dev.opManagePhyRegisters`](#protogen.esb.rcp.dev.enCmdOperation.opManagePhyRegisters) executes the accesses once. In the server configuration ([`rcp.dev.fldConfig.phyReg`](#protogen.esb.rcp.dev.fldConfig.phyReg)),
+the same message configures PHY registers.
+
+## Example
+
+To accept the VLANs 10 and 20 in addition to untagged frames and to send ARP or DHCP in VLAN 10:
+
+```text
+seq: 1
+dir { config { rcp { net { vlanIds: [10, 20]  defaultVlanId: 10 } } } }
+```
+
+To register two clients, one in VLAN 10 and one with the IPv4 address 192.168.1.10 (`0xC0A8010A`) and the UDP port
+5000, and then to read the clients that the server knows, with their client IDs:
+
+```text
+seq: 2
+dir {
+   config {
+      rcp {
+         client {
+            clients { macAddr: "\x00\x01\x02\x03\x04\x05"  vlanId: 10 }
+            clients { macAddr: "\x00\x01\x02\x03\x04\x06"  ipAddr: 0xC0A8010A  port: 5000 }
+         }
+      }
+   }
+}
+dir { query { rcp: qryClientStatus } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_net-protocol
+```

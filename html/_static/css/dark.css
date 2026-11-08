@@ -1,0 +1,497 @@
+/* Dark Mode Theme */
+html[data-theme="dark"] {
+    --onsemi-text: #e8e9ea;
+    --onsemi-primary: #4a9fd1;        /* Light blue for dark mode */
+    --onsemi-secondary: #f0690a;      /* Orange accent - keep consistent */
+    --onsemi-secondary-dark: #d85a08; /* Darker orange for hover states */
+    --onsemi-border: #30363d;         /* Dark border color */
+    --onsemi-border-light: #2a2f36;   /* Light border in dark mode */
+    --onsemi-border-lightest: #21262d; /* Lightest border in dark mode */
+    --onsemi-input-border: #3d4149;   /* Input field border */
+    --onsemi-input-bg: #1a1d23;       /* Input field background */
+    --onsemi-accent-light: rgba(248, 175, 123, 0.3); /* Light orange accent (darker in dark mode) */
+    --color-white: #ffffff;           /* Pure white (same in both modes) */
+    --syntax-string: #ffffff;         /* Syntax highlighting: string literals (white in dark mode) */
+    --syntax-tag: #79c0ff;            /* Syntax highlighting: HTML/XML tags (light blue in dark mode) */
+    --onsemi-primary-dark: #1a3040;   /* Darker primary for hover states in dark mode */
+    --onsemi-shadow: rgba(0, 0, 0, 0.4); /* Shadow color in dark mode */
+    --onsemi-light: #0d1117;          /* Dark background */
+    --onsemi-light-alt: #161b22;      /* Slightly lighter dark background */
+    --onsemi-content-bg: #0d1117;     /* Dark content background */
+    --onsemi-link: #58a6ff;
+    --onsemi-link-hover: #79c0ff;
+    --onsemi-link-visited: #bc8cff;
+    
+    /* Dark backgrounds */
+    --navbar-background-color: #1a1d23;
+    --navbar-background-color-hover: #2d3139;
+    --navbar-background-color-active: #f0690a;
+    --navbar-current-background-color: #2d3139;
+    --navbar-current-background-color-hover: #3d4149;
+    --navbar-level-1-color: #c9d1d9;
+    --navbar-level-2-color: #c9d1d9;
+    --navbar-level-3-color: #c9d1d9;
+    --navbar-heading-color: #c9d1d9;
+
+    /* Admonition colors - Dark mode */
+    --admonition-note-title-bg-color: #6ab0de;
+    --admonition-note-bg-color: #1a2832;
+    --admonition-note-border-color: #6ab0de;
+    --admonition-note-title-text-color: #ffffff;
+    
+    --admonition-warning-title-bg-color: #f0690a;
+    --admonition-warning-bg-color: #2d1f14;
+    --admonition-warning-border-color: #f0b37e;
+    --admonition-warning-title-text-color: #ffffff;
+    
+    --admonition-attention-title-bg-color: #BD4A2E;
+    --admonition-attention-bg-color: #2d1814;
+    --admonition-attention-border-color: #e9a499;
+    --admonition-attention-title-text-color: #ffffff;
+    
+    --admonition-error-title-bg-color: #BD4A2E;
+    --admonition-error-bg-color: #2d1814;
+    --admonition-error-border-color: #e9a499;
+    --admonition-error-title-text-color: #ffffff;
+    
+    --admonition-hint-title-bg-color: #039669;
+    --admonition-hint-bg-color: #14221d;
+    --admonition-hint-border-color: #039669;
+    --admonition-hint-title-text-color: #ffffff;
+    
+    --admonition-important-title-bg-color: #f0690a;
+    --admonition-important-bg-color: #2d1f14;
+    --admonition-important-border-color: #f0b37e;
+    --admonition-important-title-text-color: #ffffff;
+
+    /* Table colors - Dark mode */
+    --table-header-bg: #2e3236;
+    --table-header-color: rgba(255, 255, 255, 0.85);
+    --table-row-odd-bg: #3b3e41;
+    --table-row-even-bg: #2e3236;
+    --table-border-color: #505356;
+    --table-hover-bg: #44474a;
+}
+
+/* Force dark theme colors when data-theme is dark */
+html[data-theme="dark"] body {
+    background-color: var(--onsemi-light) !important;
+    color: var(--onsemi-text) !important;
+}
+
+html[data-theme="dark"] .wy-nav-content {
+    background-color: var(--onsemi-content-bg) !important;
+}
+
+html[data-theme="dark"] .wy-side-nav-search {
+    background-color: var(--navbar-background-color) !important;
+    border-bottom-color: #2a2f36 !important;
+}
+
+html[data-theme="dark"] .wy-side-nav-search input[type="search"] {
+    background-color: #2d3139 !important;
+    color: #e8e9ea !important;
+    border-color: #3d4149 !important;
+}
+
+html[data-theme="dark"] .wy-menu-vertical a {
+    color: var(--navbar-level-1-color) !important;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease !important;
+}
+
+html[data-theme="dark"] .wy-menu-vertical a:hover {
+    background-color: var(--navbar-background-color-hover) !important;
+    color: var(--navbar-hover-color) !important;
+    border-left-color: var(--navbar-hover-color) !important;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease !important;
+}
+
+/* Dark mode table styling */
+html[data-theme="dark"] table.docutils thead th,
+html[data-theme="dark"] .rst-content table.docutils thead th {
+    background-color: var(--table-header-bg) !important;
+    color: var(--table-header-color) !important;
+}
+
+html[data-theme="dark"] table.docutils {
+    border-color: var(--table-border-color) !important;
+}
+
+html[data-theme="dark"] table.docutils td {
+    border-bottom-color: var(--table-border-color) !important;
+    color: var(--onsemi-text) !important;
+}
+
+html[data-theme="dark"] .rst-content table.docutils:not(.field-list) tr:nth-child(2n-1) td {
+    background-color: var(--table-row-odd-bg) !important;
+}
+
+html[data-theme="dark"] .rst-content table.docutils:not(.field-list) tr:nth-child(2n) td {
+    background-color: var(--table-row-even-bg) !important;
+}
+
+html[data-theme="dark"] table.docutils tbody tr:hover {
+    background-color: var(--table-hover-bg) !important;
+}
+
+html[data-theme="dark"] table.docutils tbody tr:hover td {
+    background-color: var(--table-hover-bg) !important;
+}
+
+/* Inline code inside table cells — dark mode */
+html[data-theme="dark"] table.docutils td code,
+html[data-theme="dark"] table.docutils td tt,
+html[data-theme="dark"] .rst-content table.docutils td code {
+    background-color: #434649 !important;
+    border: none !important;
+}
+
+/* Match light-mode behavior on nested levels and the expand chevron */
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l2 > a:hover,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l2 > a:focus,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l3 > a:hover,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l3 > a:focus,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l4 > a:hover,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l4 > a:focus {
+    color: var(--navbar-hover-color) !important;
+}
+
+html[data-theme="dark"] .wy-menu-vertical a:hover button.toctree-expand,
+html[data-theme="dark"] .wy-menu-vertical a:focus button.toctree-expand,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l2 a:hover button.toctree-expand,
+html[data-theme="dark"] .wy-menu-vertical li.toctree-l2 a:focus button.toctree-expand {
+    color: var(--navbar-hover-color) !important;
+}
+
+html[data-theme="dark"] .wy-nav-content-wrap {
+    background: var(--onsemi-light) !important;
+}
+
+html[data-theme="dark"] .rst-content {
+    color: var(--onsemi-text) !important;
+}
+
+html[data-theme="dark"] .search li a {
+    color: var(--onsemi-text) !important;
+}
+
+html[data-theme="dark"] .search li:hover {
+    background-color: var(--onsemi-light-alt) !important;
+}
+
+html[data-theme="dark"] .search .context {
+    color: #9aa3ad !important;
+}
+
+html[data-theme="dark"] .wy-menu-vertical p.caption,
+html[data-theme="dark"] .wy-menu-vertical header {
+    background-color: var(--navbar-background-color) !important;
+    border-bottom-color: #2a2f36 !important;
+    color: var(--onsemi-text) !important;
+    /* Keep same layout as light mode - no flexbox overrides */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.75px;
+    /* Use same padding and margins as light mode */
+    padding: 0.45rem 1.5rem 0.2rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 0.1px solid #2a2f36;
+}
+
+html[data-theme="dark"] .rst-content table.docutils {
+    background-color: #161b22 !important;
+    border-color: #30363d !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+html[data-theme="dark"] .rst-content table.docutils td,
+html[data-theme="dark"] .rst-content table.docutils th {
+    border-color: #30363d !important;
+    background-color: #161b22 !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+html[data-theme="dark"] .rst-content code,
+html[data-theme="dark"] .rst-content tt,
+html[data-theme="dark"] code.docutils.literal,
+html[data-theme="dark"] code.docutils.literal.notranslate,
+html[data-theme="dark"] p code,
+html[data-theme="dark"] li code,
+html[data-theme="dark"] td code,
+html[data-theme="dark"] dd code,
+html[data-theme="dark"] .wy-nav-content code,
+html[data-theme="dark"] .wy-nav-content tt {
+    background-color: #1f2937 !important;
+    color: #f0690a !important;
+    border-color: #30363d !important;
+    font-size: 1.0em !important;
+}
+
+html[data-theme="dark"] .rst-content pre {
+    background-color: #1f2937 !important;
+    border-color: #30363d !important;
+}
+
+html[data-theme="dark"] .rst-content pre code {
+    color: #e8e9ea !important;
+    background-color: transparent !important;
+}
+
+html[data-theme="dark"] .rst-content h1,
+html[data-theme="dark"] .rst-content h2,
+html[data-theme="dark"] .rst-content h4,
+html[data-theme="dark"] .rst-content h5,
+html[data-theme="dark"] .rst-content h6 {
+    color: #e8e9ea !important;
+    transition: color 0.3s ease !important;
+}
+
+html[data-theme="dark"] #search-se-menu {
+    background: #1a1d23 !important;
+    border-color: #30363d !important;
+}
+
+html[data-theme="dark"] #search-se-menu li {
+    color: #e8e9ea !important;
+}
+
+html[data-theme="dark"] #search-se-menu li:hover {
+    background-color: #2d3139 !important;
+}
+
+html[data-theme="dark"] #search-se-menu li.selected {
+    background-color: #3d4149 !important;
+}
+
+/* Dark-mode line colors */
+html[data-theme="dark"] .wy-nav-top {
+    border-bottom: 1px solid #2a2f36 !important;
+}
+
+html[data-theme="dark"] .rst-footer-buttons {
+    border-top: 1px solid #2a2f36 !important;
+}
+
+html[data-theme="dark"] .search li {
+    border-bottom: 1px solid #2a2f36 !important;
+}
+
+/* Search results filter styling */
+html[data-theme="dark"] #search-file-filter {
+    background-color: #161b22 !important;
+    border-color: #2a2f36 !important;
+    color: #e8e9ea !important;
+}
+
+html[data-theme="dark"] #search-file-filter label {
+    color: #e8e9ea !important;
+}
+
+html[data-theme="dark"] #file-filter-select {
+    background-color: #2d3139 !important;
+    color: #e8e9ea !important;
+    border-color: #3d4149 !important;
+}
+
+html[data-theme="dark"] #filter-stats {
+    color: #9aa3ad !important;
+}
+
+/* Dark mode guilabel, menuselection, and kbd overrides */
+html[data-theme="dark"] .rst-content .guilabel,
+html[data-theme="dark"] .rst-content .menuselection {
+    background: #1a2832 !important;
+    border: 1px solid #3d6178 !important;
+    color: #e8e9ea !important;
+}
+
+html[data-theme="dark"] .rst-content :not(dl.option-list) > :not(dt):not(kbd):not(.kbd) > .kbd,
+html[data-theme="dark"] .rst-content :not(dl.option-list) > :not(dt):not(kbd):not(.kbd) > kbd,
+html[data-theme="dark"] .rst-content kbd,
+html[data-theme="dark"] .rst-content .kbd {
+    background-color: #2d3139 !important;
+    border: 1px solid #3d4149 !important;
+    box-shadow: 0 2px #1a1d23 !important;
+    color: #e8e9ea !important;
+}
+
+/* Dark mode logo switcher */
+html[data-theme="dark"] .wy-side-nav-search a img.logo {
+    content: url('../images/onsemi_logo_light.png') !important;
+}
+
+/* ========================================================================
+   Syntax Highlight Token Overrides (dark mode)
+   - Override Pygments "sphinx" theme colors for readability on dark backgrounds
+   ======================================================================== */
+html[data-theme="dark"] .highlight .nf,
+html[data-theme="dark"] .rst-content .highlight .nf {
+    color: #79c0ff !important;  /* Function names - light blue */
+}
+
+html[data-theme="dark"] .highlight .n,
+html[data-theme="dark"] .rst-content .highlight .n {
+    color: #e8e9ea !important;  /* Names/identifiers - light gray */
+}
+
+html[data-theme="dark"] .highlight .kt,
+html[data-theme="dark"] .rst-content .highlight .kt {
+    color: #ff7b72 !important;  /* Keyword types (void, uint32_t) - soft red */
+}
+
+html[data-theme="dark"] .highlight .cp,
+html[data-theme="dark"] .highlight .cpf,
+html[data-theme="dark"] .rst-content .highlight .cp,
+html[data-theme="dark"] .rst-content .highlight .cpf {
+    color: #a5d6ff !important;  /* Preprocessor (#define, #include) - pale blue */
+}
+
+html[data-theme="dark"] .highlight .cm,
+html[data-theme="dark"] .rst-content .highlight .cm {
+    color: #8b949e !important;  /* Multi-line comments - muted gray */
+}
+
+html[data-theme="dark"] .highlight .c1,
+html[data-theme="dark"] .rst-content .highlight .c1 {
+    color: #8b949e !important;  /* Single-line comments - muted gray */
+}
+
+html[data-theme="dark"] .highlight .mi,
+html[data-theme="dark"] .highlight .mh,
+html[data-theme="dark"] .rst-content .highlight .mi,
+html[data-theme="dark"] .rst-content .highlight .mh {
+    color: #79c0ff !important;  /* Integer/hex literals - light blue */
+}
+
+html[data-theme="dark"] .highlight .s,
+html[data-theme="dark"] .highlight .s2,
+html[data-theme="dark"] .highlight .s1,
+html[data-theme="dark"] .rst-content .highlight .s,
+html[data-theme="dark"] .rst-content .highlight .s2,
+html[data-theme="dark"] .rst-content .highlight .s1 {
+    color: #a5d6ff !important;  /* Strings - pale blue */
+}
+
+html[data-theme="dark"] .highlight .o,
+html[data-theme="dark"] .rst-content .highlight .o {
+    color: #e8e9ea !important;  /* Operators - light gray */
+}
+
+html[data-theme="dark"] .highlight .p,
+html[data-theme="dark"] .rst-content .highlight .p {
+    color: #e8e9ea !important;  /* Punctuation - light gray */
+}
+
+html[data-theme="dark"] .highlight .w,
+html[data-theme="dark"] .rst-content .highlight .w {
+    color: #e8e9ea !important;  /* Whitespace - light gray */
+}
+
+/* Generic/console tokens (e.g. `.. code-block:: console` output and prompts) */
+html[data-theme="dark"] .highlight .go,
+html[data-theme="dark"] .rst-content .highlight .go {
+    color: #c9d1d9 !important;  /* Command / generic output - readable light gray */
+}
+
+html[data-theme="dark"] .highlight .gp,
+html[data-theme="dark"] .rst-content .highlight .gp {
+    color: #7ee787 !important;  /* Shell prompt ($, #) - green */
+}
+
+html[data-theme="dark"] .highlight .gi,
+html[data-theme="dark"] .rst-content .highlight .gi {
+    color: #7ee787 !important;  /* Inserted lines - green */
+}
+
+html[data-theme="dark"] .highlight .gd,
+html[data-theme="dark"] .highlight .gt,
+html[data-theme="dark"] .highlight .gr,
+html[data-theme="dark"] .rst-content .highlight .gd,
+html[data-theme="dark"] .rst-content .highlight .gt,
+html[data-theme="dark"] .rst-content .highlight .gr {
+    color: #ff7b72 !important;  /* Deleted / traceback / error - soft red */
+}
+
+html[data-theme="dark"] .highlight .gh,
+html[data-theme="dark"] .highlight .gu,
+html[data-theme="dark"] .rst-content .highlight .gh,
+html[data-theme="dark"] .rst-content .highlight .gu {
+    color: #79c0ff !important;  /* Generic headings - light blue */
+}
+
+/* Dark mode h3 background styling */
+html[data-theme="dark"] h3,
+html[data-theme="dark"] .rst-content h3 {
+    background-color: var(--onsemi-content-bg) !important;  /* Use CSS variable */
+    color: #ffffff !important;              /* White text on dark background */
+    border-left-color: var(--onsemi-secondary) !important; /* Keep blue left border */
+    font-weight: 600 !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease !important;
+}
+
+/* Dark mode admonition content text - ensure readability */
+html[data-theme="dark"] .admonition p,
+html[data-theme="dark"] .admonition li,
+html[data-theme="dark"] .admonition dd,
+html[data-theme="dark"] .admonition dt,
+html[data-theme="dark"] .rst-content .admonition p,
+html[data-theme="dark"] .rst-content .admonition li {
+    color: #e8e9ea !important;
+}
+
+/* =========================================================
+   Dark mode: Previous/Next Navigation Buttons
+   ========================================================= */
+html[data-theme="dark"] .rst-footer-buttons {
+    border-top-color: #2a2f36 !important;
+}
+
+html[data-theme="dark"] .btn-neutral {
+    background-color: var(--onsemi-secondary) !important;
+    color: var(--color-white) !important;
+    border-color: var(--onsemi-secondary) !important;
+    box-shadow: none !important;
+    scrollbar-color: var(--onsemi-accent-1) var(--onsemi-light) !important;
+    transition: all 0.3s ease !important;
+}
+
+html[data-theme="dark"] .btn-neutral:hover,
+html[data-theme="dark"] .btn-neutral:focus {
+    background-color: var(--onsemi-secondary-dark) !important;
+    border-color: var(--onsemi-secondary-dark) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+html[data-theme="dark"] .btn-neutral:visited {
+    color: var(--color-white) !important;
+}
+
+/* Downloads / Version Flyout Panel - Dark Mode */
+html[data-theme="dark"] .rst-versions {
+    background: #0d1117;
+}
+
+html[data-theme="dark"] .rst-versions .rst-current-version {
+    background: #161b22;
+    color: #e8e9ea;
+}
+
+html[data-theme="dark"] .rst-versions .rst-other-versions {
+    background: #0d1117;
+    color: rgba(232, 233, 234, 0.85);
+}
+
+html[data-theme="dark"] .rst-versions .rst-other-versions dl dt {
+    color: rgba(232, 233, 234, 0.5);
+}
+
+html[data-theme="dark"] .rst-versions .rst-other-versions dl dd a {
+    color: rgba(232, 233, 234, 0.85);
+}
+
+html[data-theme="dark"] .rst-versions .rst-other-versions dl dd a:hover {
+    color: var(--onsemi-secondary, #f0690a);
+}

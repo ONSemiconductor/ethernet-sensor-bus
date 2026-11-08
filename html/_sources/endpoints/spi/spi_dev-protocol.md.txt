@@ -1,0 +1,144 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.spi.fldCmdXfer)=
+
+### fldCmdXfer
+
+*Message* `esb.spi.fldCmdXfer`
+
+SPI transfer token, building block to perform I/O operations.
+Three transfer types are supported:
+- full-duplex: a number of bytes ([`wdata`](#protogen.esb.spi.fldCmdXfer.wdata)) is transferred via MOSI and the
+  same number of bytes, sampled from MISO, is returned.
+- write-only: as full-duplex, but the data from MISO is discarded and no
+  buffer is returned to the client.
+- read-only: no data is transferred on MOSI, which is set to the constant
+  value [`wpad`](#protogen.esb.spi.fldCmdXfer.wpad) during the transfer. Instead, [`rsize`](#protogen.esb.spi.fldCmdXfer.rsize) bytes are sampled from
+  MISO and returned to the client.
+
+**Fields**
+
+- (protogen.esb.spi.fldCmdXfer.xft)=
+
+  **`xft`** — [`enXferType`](#protogen.esb.spi.enXferType)\
+  Selects the transfer type (full-duplex, write-only, read-only).
+
+- (protogen.esb.spi.fldCmdXfer.wdata)=
+
+  **`wdata`** — `bytes`\
+  When [`xft`](#protogen.esb.spi.fldCmdXfer.xft) is set to [`xferFullDuplex`](#protogen.esb.spi.enXferType.xferFullDuplex) or [`xferWriteOnly`](#protogen.esb.spi.enXferType.xferWriteOnly), the size of the
+  transfer is set by the length of [`wdata`](#protogen.esb.spi.fldCmdXfer.wdata), which contains the data to
+  be sent over the MOSI pin.
+
+- (protogen.esb.spi.fldCmdXfer.rsize)=
+
+  **`rsize`** — `uint32`\
+  When [`xft`](#protogen.esb.spi.fldCmdXfer.xft) is set to [`xferReadOnly`](#protogen.esb.spi.enXferType.xferReadOnly), [`rsize`](#protogen.esb.spi.fldCmdXfer.rsize) determines the transfer length
+  in bytes. This amount of data is appended to the data of the action result ([`fldActionResult.data`](#protogen.esb.fldActionResult.data)).
+
+- (protogen.esb.spi.fldCmdXfer.wpad)=
+
+  **`wpad`** — `bool`\
+  When [`xft`](#protogen.esb.spi.fldCmdXfer.xft) is set to [`xferReadOnly`](#protogen.esb.spi.enXferType.xferReadOnly), the MOSI pin is set according to the
+  value of [`wpad`](#protogen.esb.spi.fldCmdXfer.wpad) (False = 0, True = 1) for the duration of the transfer.
+
+(protogen.esb.spi.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.spi.fldConfig`
+
+SPI configuration message.
+
+**Fields**
+
+- (protogen.esb.spi.fldConfig.msbFirst)=
+
+  **`msbFirst`** — *optional* `bool`\
+  If set, configures whether the data is sent/received MSB or LSB first.
+
+- (protogen.esb.spi.fldConfig.cpol)=
+
+  **`cpol`** — *optional* `bool`\
+  If set, configures the clock polarity.
+
+- (protogen.esb.spi.fldConfig.cpha)=
+
+  **`cpha`** — *optional* `bool`\
+  If set, configures the clock/data phase.
+
+- (protogen.esb.spi.fldConfig.cs)=
+
+  **`cs`** — *optional* `uint32`\
+  If set, configures the default pin to be used as the chip-select.
+  The number is the unique pin identifier as reported by
+  [`rcp.dev.qryPins`](#protogen.esb.rcp.dev.enQuery.qryPins).
+
+- (protogen.esb.spi.fldConfig.csDelay)=
+
+  **`csDelay`** — *optional* `uint32`\
+  CS to SCLK delay in half clock periods.
+  The same delay applies to both sides of the transfer.
+  This is in addition to the minimum delay.
+
+- (protogen.esb.spi.fldConfig.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  The clock speed in hertz (Hz).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+(protogen.esb.spi.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.spi.fldCmd`
+
+Container for SPI commands.
+
+**Fields**
+
+- (protogen.esb.spi.fldCmd.param)=
+
+  **`param`** — *optional* [`fldConfig`](#protogen.esb.spi.fldConfig)\
+  If set, overrides the specified configuration fields for this command only.
+
+- (protogen.esb.spi.fldCmd.xfer)=
+
+  **`xfer`** — *repeated* [`fldCmdXfer`](#protogen.esb.spi.fldCmdXfer)\
+  List of transfer tokens.
+  The chip-select is asserted on the first transfer token, and
+  it is de-asserted after all tokens have been processed.
+
+- (protogen.esb.spi.fldCmd.csHold)=
+
+  **`csHold`** — `bool`\
+  Keep CS low after the transaction.
+
+## Enumerations
+
+(protogen.esb.spi.enXferType)=
+
+### enXferType
+
+*Enumeration* `esb.spi.enXferType`
+
+SPI transfer type.
+
+- (protogen.esb.spi.enXferType.xferFullDuplex)=
+
+  **`xferFullDuplex`** — Perform R/W concurrently.
+
+- (protogen.esb.spi.enXferType.xferWriteOnly)=
+
+  **`xferWriteOnly`** — Just write, discard data from MISO.
+
+- (protogen.esb.spi.enXferType.xferReadOnly)=
+
+  **`xferReadOnly`** — Just read, set MOSI to the PAD value.

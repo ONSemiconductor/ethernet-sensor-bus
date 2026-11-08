@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="677" height="166" viewBox="-1.6 0 89.6 22" font-family="Arial, Helvetica, sans-serif" font-size="1.7198">
+  <title>UART word: start bit, seven data bits, parity bit and two stop bits</title>
+  <defs>
+    <marker id="Arrow2Mstart" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 8" markerWidth="1.3229" markerHeight="1.0583" refX="2.64" refY="4" overflow="visible">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <marker id="Arrow2Mend" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 8" markerWidth="1.3229" markerHeight="1.0583" refX="7.36" refY="4" overflow="visible">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+  </defs>
+  <rect x="-1.6" width="89.6" height="22" fill="#ffffff"/>
+  <g transform="translate(-52,-3)">
+    <path d="m 66,16.998163 9,0 1,4 h 4 l 1,-4 h 4" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linejoin="round"/>
+    <path id="path22618" d="m 85,16.998163 1,4 h 4 l 1,-4 h 4" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linecap="round" stroke-linejoin="round"/>
+    <use xlink:href="#path22618" transform="matrix(1,0,0,-1,0,37.996326)"/>
+    <text xml:space="preserve" x="78" y="23.7376" text-anchor="middle">Start</text>
+    <text xml:space="preserve" x="88" y="19.7358" text-anchor="middle">B1</text>
+    <text xml:space="preserve" x="93" y="19.7358" text-anchor="middle">B2</text>
+    <text xml:space="preserve" x="98" y="19.7358" text-anchor="middle">B3</text>
+    <use xlink:href="#path22618" transform="matrix(1,0,0,-1,10,37.996326)"/>
+    <use xlink:href="#path22618" transform="translate(10)"/>
+    <text xml:space="preserve" x="103" y="19.7358" text-anchor="middle">B4</text>
+    <text xml:space="preserve" x="108" y="19.7358" text-anchor="middle">B5</text>
+    <use xlink:href="#path22618" transform="matrix(1,0,0,-1,20,37.996326)"/>
+    <use xlink:href="#path22618" transform="translate(20)"/>
+    <text xml:space="preserve" x="113" y="19.7358" text-anchor="middle">B6</text>
+    <text xml:space="preserve" x="118" y="19.7358" text-anchor="middle">P</text>
+    <path d="M 85,20.998163 H 79.999998" fill="none" stroke="#000000" stroke-width="0.264583"/>
+    <path d="M 80.5,10.999998 V 18" fill="none" stroke="#000000" stroke-width="0.132292"/>
+    <path d="m 80.5,12 h 5" fill="none" stroke="#000000" stroke-width="0.264583" marker-start="url(#Arrow2Mend)" marker-end="url(#Arrow2Mstart)"/>
+    <text xml:space="preserve" x="82" y="10.7376"><tspan font-style="italic">t</tspan><tspan dy="0.3969" font-size="1.3229">B</tspan></text>
+    <path d="M 85.5,10.999998 V 18" fill="none" stroke="#000000" stroke-width="0.132292"/>
+    <path d="m 140,16.998163 h -19 l -1,4 h -4" fill="none" stroke="#000000" stroke-width="0.264583"/>
+    <path d="m 115,16.998163 1,4" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linecap="round"/>
+    <path d="m 115,20.998163 1,-4 5,0.0018" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linecap="round"/>
+    <path d="M 75.5,5 V 18" fill="none" stroke="#000000" stroke-width="0.132292"/>
+    <path d="m 76,6 h 54" fill="none" stroke="#000000" stroke-width="0.264583" marker-start="url(#Arrow2Mstart)" marker-end="url(#Arrow2Mend)"/>
+    <path d="M 130.5,4.999998 V 18" fill="none" stroke="#000000" stroke-width="0.132292"/>
+    <text xml:space="preserve" x="94" y="4.7376">Word length <tspan font-style="italic">t</tspan><tspan dy="0.3969" font-size="1.3229">W</tspan></text>
+    <text xml:space="preserve" x="83" y="19.7358" text-anchor="middle">B0</text>
+    <g>
+      <text xml:space="preserve" x="52" y="19.5969" font-size="1.8521" font-weight="bold">TX</text>
+      <path d="M 66,20.998163 190,21" fill="none" stroke="#888888" stroke-width="0.132292"/>
+      <text xml:space="preserve" x="58" y="17.2376">Mark</text>
+      <text xml:space="preserve" x="58" y="21.2376">Space</text>
+    </g>
+    <text xml:space="preserve" x="117" y="23.7376" text-anchor="middle">Parity</text>
+    <text xml:space="preserve" x="123" y="19.7358" text-anchor="middle">S</text>
+    <text xml:space="preserve" x="128" y="19.7358" text-anchor="middle">S</text>
+    <text xml:space="preserve" x="127" y="23.7376" text-anchor="middle">Stop (2×)</text>
+    <text xml:space="preserve" x="88" y="10.9876" dy="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.046772167">(Bit time, applies 11×)</text>
+    <text xml:space="preserve" x="70" y="19.7376" text-anchor="middle">Idle</text>
+    <text xml:space="preserve" x="137" y="19.7376" text-anchor="middle">Idle</text>
+  </g>
+</svg>

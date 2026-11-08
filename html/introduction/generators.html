@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code generators &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RCP Messages" href="../rcp.html" />
+    <link rel="prev" title="Protobuf encoding" href="protobuf.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="principle.html">Operating principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.html">Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior.html">Higher-level behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hints.html">Usage hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protobuf.html">Protobuf encoding</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Code generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Code generators</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="code-generators">
+<span id="protogen-generators"></span><h1>Code generators<a class="headerlink" href="#code-generators" title="Link to this heading"></a></h1>
+<p>A <em>code generator</em> reads the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and writes a library for one programming language: message types, encoders, and decoders. Compatible generators share the protobuf wire format, but the library does not implement the behavior of RCP. The bytes of one message can differ, see <a class="reference internal" href="protobuf.html"><span class="std std-doc">Protobuf encoding</span></a>.</p>
+<p>A generator has to support proto3 with <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields, <code class="docutils literal notranslate"><span class="pre">oneof</span></code> groups, <code class="docutils literal notranslate"><span class="pre">repeated</span></code> fields, nested messages, <code class="docutils literal notranslate"><span class="pre">reserved</span></code> field numbers, and imports between files in subfolders.</p>
+<p>A server also needs the directive validation described in <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>. A decoder that silently skips unknown fields or keeps only the last <code class="docutils literal notranslate"><span class="pre">oneof</span></code> member loses information needed for those checks. Check it during decoding, before any operation executes.</p>
+<section id="the-protocol-buffers-compiler">
+<h2>The Protocol Buffers compiler<a class="headerlink" href="#the-protocol-buffers-compiler" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">protoc</span></code>, the Protocol Buffers compiler, parses and checks the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and runs the generators. The option <code class="docutils literal notranslate"><span class="pre">--&lt;language&gt;_out=&lt;directory&gt;</span></code> selects a built-in generator. A generator that is a separate plugin program <code class="docutils literal notranslate"><span class="pre">protoc-gen-&lt;name&gt;</span></code> is selected with <code class="docutils literal notranslate"><span class="pre">--&lt;name&gt;_out</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>protoc -I protocol --python_out=generated/python \
+    $(find protocol -name '*.proto')
+</pre></div>
+</div>
+</section>
+<section id="generators-from-google">
+<h2>Generators from Google<a class="headerlink" href="#generators-from-google" title="Link to this heading"></a></h2>
+<p>The built-in generators of <code class="docutils literal notranslate"><span class="pre">protoc</span></code> are made for general-purpose computers. The code that they write needs the runtime library of Google for the language, in a version that is compatible with <code class="docutils literal notranslate"><span class="pre">protoc</span></code>, see <a class="reference external" href="https://protobuf.dev/support/cross-version-runtime-guarantee/">Cross-Version Runtime Guarantee</a>, and the messages are objects that the library allocates dynamically.</p>
+<p>The following Python script uses the code that <code class="docutils literal notranslate"><span class="pre">--python_out</span></code> generated and the package <code class="docutils literal notranslate"><span class="pre">protobuf</span></code> to build and encode the directive that queries the identity of an RCP server. Run it with <code class="docutils literal notranslate"><span class="pre">generated/python</span></code> on the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rcp_pb2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">server</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcp_dev_pb2</span>
+
+<span class="n">directive</span> <span class="o">=</span> <span class="n">rcp_pb2</span><span class="o">.</span><span class="n">msgDirective</span><span class="p">(</span><span class="n">seq</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">directive</span><span class="o">.</span><span class="n">dir</span><span class="o">.</span><span class="n">add</span><span class="p">()</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">rcp</span> <span class="o">=</span> <span class="n">rcp_dev_pb2</span><span class="o">.</span><span class="n">qryIdentity</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">directive</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+<span class="c1"># data: 0D 01 00 00 00 12 04 1A 02 10 0A</span>
+</pre></div>
+</div>
+</section>
+<section id="generators-for-small-systems">
+<h2>Generators for small systems<a class="headerlink" href="#generators-for-small-systems" title="Link to this heading"></a></h2>
+<p>The firmware of a microcontroller often has no room for a general-purpose runtime and cannot allocate memory dynamically. Other projects write the code for these targets, and the list of <a class="reference external" href="https://github.com/protocolbuffers/protobuf/blob/main/docs/third_party.md">third-party add-ons</a> on the Protocol Buffers website names many. Examples are <a class="reference external" href="https://koti.kapsi.fi/jpa/nanopb/">Nanopb</a> and <a class="reference external" href="https://github.com/protobuf-c/protobuf-c">protobuf-c</a> for C, and <a class="reference external" href="https://embeddedproto.com/">EmbeddedProto</a> for C++. Check that the generator supports <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields.</p>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://protobuf.dev/reference/">Reference Guides</a>: the guides of all languages that Google supports.</p></li>
+<li><p><a class="reference external" href="https://github.com/protocolbuffers/protobuf/blob/main/docs/third_party.md">Third-Party Add-ons</a>: generators, build integrations, and tools from other projects.</p></li>
+<li><p><a class="reference external" href="https://protobuf.dev/installation/">Protoc Installation</a>: how to install the compiler.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="protobuf.html" class="btn btn-neutral float-left" title="Protobuf encoding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../rcp.html" class="btn btn-neutral float-right" title="RCP Messages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

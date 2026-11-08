@@ -1,0 +1,33 @@
+(protogen.rcp_common)=
+
+# Common Definitions
+
+**File:** `rcp_common.proto`
+
+**Package:** `esb`
+
+Definitions that several files of the RCP protocol share.
+
+This file holds the few definitions that other files share: endpoint types and queries, notification ownership,
+the timestamp, and the version.
+
+## Endpoints
+
+The type of an endpoint tells which messages describe it: [GPIO Driver](#protogen.gpio), [UART Driver](#protogen.uart), [SPI Driver](#protogen.spi), [I2C Driver](#protogen.i2c), [ADC Driver](#protogen.adc),
+[PWM Driver](#protogen.pwm), [PDM Driver](#protogen.pdm), [PCM Audio Driver](#protogen.pcm), [LIN Driver](#protogen.lin), or [SENT Driver](#protogen.sent). The server lists its endpoints with their handles and types in
+the result of the query [`rcp.dev.qryInterfaces`](#protogen.esb.rcp.dev.enQuery.qryInterfaces) (see [Identification and Capabilities](#protogen.rcp_info)).
+
+## Timestamps and versions
+
+Time is expressed in the format of the Precision Time Protocol (PTP, IEEE 802.1AS), see [PTP](#protogen.rcp_ptp). Besides
+absolute times of the PTP timer, the protocol also uses it for time spans, such as the offset, the period, and the
+delays of an action.
+
+The server reports the version of the RCP protocol that it implements in its identity (see [Identification and Capabilities](#protogen.rcp_info)).
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_common-protocol
+```

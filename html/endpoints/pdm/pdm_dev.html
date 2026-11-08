@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDM Driver &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Protocol" href="pdm_dev-protocol.html" />
+    <link rel="prev" title="Protocol" href="../pcm/pcm_dev-protocol.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PDM Driver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pdm_dev-protocol.html">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+      <li class="breadcrumb-item active">PDM Driver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="pdm-driver">
+<span id="protogen-pdm"></span><h1>PDM Driver<a class="headerlink" href="#pdm-driver" title="Link to this heading"></a></h1>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">endpoints/pdm/pdm_dev.proto</span></code></p>
+<p><strong>Package:</strong> <code class="docutils literal notranslate"><span class="pre">esb.pdm</span></code></p>
+<p>PDM configuration, actions, queries, and notifications for RCP.</p>
+<p>A PDM endpoint receives a pulse-density modulation (PDM) stream, for example from a digital microphone. The endpoint
+drives the clock CLK and samples the data line DATA, see the pin functions <a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncpdm"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.enPinFuncPdm</span></code></span></a>.</p>
+<section id="principle">
+<h2>Principle<a class="headerlink" href="#principle" title="Link to this heading"></a></h2>
+<p>A PDM stream is a one-bit stream with a high bit rate. The amplitude of the signal is encoded in the density of the
+1 bits: many 1 bits stand for a large positive value, many 0 bits for a large negative value. Converting the stream
+to audio samples with a lower rate requires filtering and decimation. This conversion is not part of the protocol.
+The endpoint streams the sampled bits to the client.</p>
+</section>
+<section id="clock-and-sampling-edge">
+<h2>Clock and sampling edge<a class="headerlink" href="#clock-and-sampling-edge" title="Link to this heading"></a></h2>
+<p>The endpoint takes over DATA on the rising edge, on the falling edge, or on both edges of the clock. With both
+edges, two bits are received per clock period, so the bit rate is twice the clock speed.</p>
+<p><img alt="" src="../../_images/timingPdm.svg" /></p>
+</section>
+<section id="streaming">
+<h2>Streaming<a class="headerlink" href="#streaming" title="Link to this heading"></a></h2>
+<p>The client starts and stops the stream with a command. The endpoint collects the sampled bits in a buffer and
+delivers them to the client in notifications, see <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a>.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To record a PDM microphone with a 3.072 MHz clock, sampled on the rising edge:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
+dir { config { hndl: 6  pdm { speedHz: 3072000  samplingEdge: samplingRising  bufferSizeBytes: 1024 } } }
+dir { action { hndl: 6  pdm { op: opStart } } }
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../pcm/pcm_dev-protocol.html" class="btn btn-neutral float-left" title="Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pdm_dev-protocol.html" class="btn btn-neutral float-right" title="Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

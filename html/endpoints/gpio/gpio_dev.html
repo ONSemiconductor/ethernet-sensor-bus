@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPIO Driver &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Protocol" href="gpio_dev-protocol.html" />
+    <link rel="prev" title="Endpoints" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GPIO Driver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio_dev-protocol.html">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+      <li class="breadcrumb-item active">GPIO Driver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="gpio-driver">
+<span id="protogen-gpio"></span><h1>GPIO Driver<a class="headerlink" href="#gpio-driver" title="Link to this heading"></a></h1>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">endpoints/gpio/gpio_dev.proto</span></code></p>
+<p><strong>Package:</strong> <code class="docutils literal notranslate"><span class="pre">esb.gpio</span></code></p>
+<p>GPIO configuration, actions, queries, and notifications for RCP.</p>
+<p>A GPIO endpoint is a controller for a group of general-purpose input/output (GPIO) pins. Because commands and
+notifications use 32-bit masks, a controller handles up to 32 pins.</p>
+<section id="pins-and-masks">
+<h2>Pins and masks<a class="headerlink" href="#pins-and-masks" title="Link to this heading"></a></h2>
+<p>The GPIO number of a pin is its bit position in the masks of commands and notifications: GPIO #0 is the least
+significant bit (LSb). The pin configuration assigns the GPIO numbers to the physical pins and sets their electrical
+properties, see <a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-fldconfig-fldconfigitem-gpio"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.fldConfig.fldConfigItem.gpio</span></code></span></a>.</p>
+<p>A command combines operations on any number of pins: it configures the direction of the pins, reads their state, and
+drives, clears, or toggles them. A pin is only affected by an operation if its bit is set in the mask of that
+operation. For example, a <a class="reference internal" href="gpio_dev-protocol.html#protogen-esb-gpio-fldcmd-clr"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.clr</span></code></span></a> mask of 0x09 (binary 00001001) clears GPIO #0 and GPIO #3 at the same
+time. The states that a command reads are returned in the action result, see <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldactionresult-gpio"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.gpio</span></code></span></a>.</p>
+</section>
+<section id="pin-change-events">
+<h2>Pin change events<a class="headerlink" href="#pin-change-events" title="Link to this heading"></a></h2>
+<p>An input can report its changes to the client without being polled. Its configuration selects the changes that
+generate an event (see <a class="reference internal" href="gpio_dev-protocol.html#protogen-esb-gpio-fldpinconfig-event"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldPinConfig.event</span></code></span></a>). An event generates a notification, unless the pin is configured as
+quiet (see <a class="reference internal" href="gpio_dev-protocol.html#protogen-esb-gpio-fldpinconfig-quiet"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldPinConfig.quiet</span></code></span></a>), and it can trigger actions, see <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldactionevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionEvent</span></code></span></a>. The figure shows a pin and
+the notifications that each event type generates:</p>
+<p><img alt="" src="../../_images/timingGpioNotif.svg" /></p>
+<p>A notification carries the state of all pins of the controller and tells which of them changed.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To report the rising edges of GPIO #3 and to drive GPIO #0 high:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
+dir { config { hndl: 1  gpio { pin { num: 3  event: changeEvtRising  debounceNs: 1000 } } } }
+dir { action { hndl: 1  gpio { out: 0x01  set: 0x01 } } }
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Endpoints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gpio_dev-protocol.html" class="btn btn-neutral float-right" title="Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

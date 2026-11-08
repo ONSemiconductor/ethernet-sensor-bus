@@ -1,0 +1,19 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.vendor.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.vendor.fldConfig`
+
+Vendor-specific configuration.
+
+(protogen.esb.rcp.vendor.fldStatus)=
+
+### fldStatus
+
+*Message* `esb.rcp.vendor.fldStatus`
+
+Vendor-specific status.

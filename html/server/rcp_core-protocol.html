@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vendor-Specific Features" href="rcp_vendor.html" />
+    <link rel="prev" title="Core Operations" href="rcp_core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_core.html">Core Operations</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_core.html">Core Operations</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldconfigaggregation">
+<span id="protogen-esb-rcp-core-fldconfigaggregation"></span><h3>fldConfigAggregation<a class="headerlink" href="#fldconfigaggregation" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldConfigAggregation</span></code></p>
+<p>Message for configuring aggregation of notifications.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-rcp-core-fldconfigaggregation-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Handle of the endpoint generating notifications.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldconfigaggregation-timeoutus"><strong><code class="docutils literal notranslate"><span class="pre">timeoutUs</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Timeout in microseconds for aggregating multiple endpoint notifications into a single unsolicited notification
+message. The RCP server schedules the message in its MAC TX queue no later than this time after the first
+notification. Appending another notification does not restart the timer.
+If 0 (default), the RCP server optimizes for latency and sends the message as soon as the endpoint generates an
+event. Notifications can still be aggregated while an outgoing message waits in the MAC queue. A longer timeout
+trades latency for bandwidth.
+If endpoints have different timeouts, the earliest deadline applies. For examples, see the page <a class="reference internal" href="rcp_core.html#protogen-rcp-core"><span class="std std-ref">Core Operations</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The message can be sent earlier if it exceeds the maximum allowed size (buffer full).</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="fldserverconfig">
+<span id="protogen-esb-rcp-core-fldserverconfig"></span><h3>fldServerConfig<a class="headerlink" href="#fldserverconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldServerConfig</span></code></p>
+<p>Core settings of the RCP server.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-did"><strong><code class="docutils literal notranslate"><span class="pre">did</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set, changes the identification number (DID) of the RCP server.
+The DID selects the servers that execute an operation of a directive that is broadcast or multicast, see
+<a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldoperation-deviceidmask"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.deviceIdMask</span></code></span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A client can derive the DID from the hardware-unique identifier <a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity-sid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">info.fldIdentity.sid</span></code></span></a> that the query
+<a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryidentity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dev.qryIdentity</span></code></span></a> returns. Some vendors do not provide a <a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity-sid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">info.fldIdentity.sid</span></code></span></a>.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-watchdogtimeoutms"><strong><code class="docutils literal notranslate"><span class="pre">watchdogTimeoutMs</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Configures the network watchdog functionality.
+If set to 0 (default), the network watchdog feature is disabled.
+If set to a non-zero value, the RCP server expects the client to send RCP
+messages periodically. If no valid RCP messages are received within the
+specified number of milliseconds since the last valid RCP
+message was received, the watchdog event is triggered and the RCP server enters
+fail-safe mode.
+If fail-safe operations are defined when the fail-safe mode is entered,
+they are executed. The client can define these fail-safe operations
+after booting, or the RCP server can load them from the NVM.
+The flag <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-failsafe"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.failsafe</span></code></span></a> selects fail-safe actions.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-agg"><strong><code class="docutils literal notranslate"><span class="pre">agg</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-core-fldconfigaggregation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfigAggregation</span></code></span></a><br />
+Aggregation configuration for each endpoint generating notifications.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-unsolicitedoperationlimit"><strong><code class="docutils literal notranslate"><span class="pre">unsolicitedOperationLimit</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Configures the maximum number of notifications allowed within a single
+notification message.
+If set to 0 (default), there is no limit to the number of notifications
+that can be stored in a single notification message.
+If set to a non-zero value, the RCP server sends an unsolicited
+notification message as soon as the number of pending notifications
+reaches this limit.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-syncactionsenable"><strong><code class="docutils literal notranslate"><span class="pre">syncActionsEnable</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+In some applications, synchronous actions can negatively affect the
+overall determinism of the system. Setting this option to false
+forces the scheduler to treat synchronous actions as asynchronous.
+This means that best-effort actions are scheduled asynchronously,
+generate an immediate <a class="reference internal" href="../rcp-protocol.html#protogen-esb-enactionresult-actpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actPending</span></code></span></a> reply, and run as soon
+as possible. This option is enabled by default.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverconfig-aggregationsizebytes"><strong><code class="docutils literal notranslate"><span class="pre">aggregationSizeBytes</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Sets the threshold in bytes after which an unsolicited message is
+scheduled to the MAC TX queue, regardless of how many notifications
+are still pending.
+If set to 0 (default) the RCP server implicitly limits the size
+according to the maximum Ethernet frame size.
+The RCP server tries to aggregate as many notifications as
+possible in a single unsolicited message, also based on the
+<a class="reference internal" href="#protogen-esb-rcp-core-fldserverconfig-unsolicitedoperationlimit"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">unsolicitedOperationLimit</span></code></span></a> and the <a class="reference internal" href="#protogen-esb-rcp-core-fldconfigaggregation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfigAggregation</span></code></span></a> options.
+When <a class="reference internal" href="#protogen-esb-rcp-core-fldserverconfig-aggregationsizebytes"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">aggregationSizeBytes</span></code></span></a> is set to a non-zero value, if at any time
+while aggregating notifications the size of the message exceeds this
+value, the message is scheduled to be sent.
+The actual message size can therefore exceed the <a class="reference internal" href="#protogen-esb-rcp-core-fldserverconfig-aggregationsizebytes"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">aggregationSizeBytes</span></code></span></a>
+value, depending on the configured buffer size of the endpoints
+generating notifications.</p>
+</li>
+</ul>
+</section>
+<section id="fldserverstatus">
+<span id="protogen-esb-rcp-core-fldserverstatus"></span><h3>fldServerStatus<a class="headerlink" href="#fldserverstatus" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldServerStatus</span></code></p>
+<p>Container to retrieve RCP server status information.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-core-fldserverstatus-liv"><strong><code class="docutils literal notranslate"><span class="pre">liv</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the RCP server operates normally, i.e., it is alive. The flag is cleared while the RCP server is in
+fail-safe mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldserverstatus-pwron"><strong><code class="docutils literal notranslate"><span class="pre">pwrOn</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+This flag is set when the RCP server powers on, and can only be cleared
+by the client. Polling this flag detects unwanted resets of the
+RCP server.
+To clear this flag, use the <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opclearpwron"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dev.opClearPwron</span></code></span></a> command.</p>
+</li>
+</ul>
+</section>
+<section id="fldnvmstatus">
+<span id="protogen-esb-rcp-core-fldnvmstatus"></span><h3>fldNvmStatus<a class="headerlink" href="#fldnvmstatus" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldNvmStatus</span></code></p>
+<p>Container to retrieve NVM status information.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-core-fldnvmstatus-present"><strong><code class="docutils literal notranslate"><span class="pre">present</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+NVM is present and ready to be used.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmstatus-hasconfig"><strong><code class="docutils literal notranslate"><span class="pre">hasConfig</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+True if the NVM contains a valid configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmstatus-storedactions"><strong><code class="docutils literal notranslate"><span class="pre">storedActions</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Number of actions stored in the NVM, 0 if loading them failed (see <a class="reference internal" href="#protogen-esb-rcp-core-fldnvmstatus-actionserror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actionsError</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmstatus-actionserror"><strong><code class="docutils literal notranslate"><span class="pre">actionsError</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+True if loading the stored actions failed: a corrupted action (CRC mismatch), an NVM read error, or a missing
+resource. No stored action is loaded then and <a class="reference internal" href="#protogen-esb-rcp-core-fldnvmstatus-storedactions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">storedActions</span></code></span></a> is 0. The flag is also set when the scheduler
+refuses a stored action. The other actions stay loaded then, and the count is kept.
+It stays set until the stored actions are cleared or successfully loaded again.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmstatus-configerror"><strong><code class="docutils literal notranslate"><span class="pre">configError</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+True if the stored configuration could not be loaded (e.g., a CRC mismatch). This is detected on boot and when
+the configuration is restored. The stored configuration is not applied then (<a class="reference internal" href="#protogen-esb-rcp-core-fldnvmstatus-hasconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">hasConfig</span></code></span></a> is false).
+It stays set until the configuration is saved, cleared, or successfully loaded again.</p>
+</li>
+</ul>
+</section>
+<section id="fldnvmoperation">
+<span id="protogen-esb-rcp-core-fldnvmoperation"></span><h3>fldNvmOperation<a class="headerlink" href="#fldnvmoperation" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldNvmOperation</span></code></p>
+<p>Message to perform user-NVM read/write operations.
+This message can be used to perform user-defined read/write accesses into
+the user-dedicated NVM in the server, if available.
+The RCP server does not interpret or use the user-dedicated NVM data for
+any purpose other than making it accessible to the user. Therefore, the
+format and structure of the user-dedicated NVM are entirely user-defined.
+The RCP server rejects attempts to read/write past the available
+user-dedicated NVM.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-core-fldnvmoperation-address"><strong><code class="docutils literal notranslate"><span class="pre">address</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Byte address in user-dedicated NVM.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmoperation-op"><strong><code class="docutils literal notranslate"><span class="pre">op</span></code></strong> — <em>oneof</em><br />
+Selects a read or a write.</p>
+<ul>
+<li><p id="protogen-esb-rcp-core-fldnvmoperation-rsize"><strong><code class="docutils literal notranslate"><span class="pre">rsize</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Length of data to read.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldnvmoperation-wdata"><strong><code class="docutils literal notranslate"><span class="pre">wdata</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Data to write to NVM.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldschedulerstatus">
+<span id="protogen-esb-rcp-core-fldschedulerstatus"></span><h3>fldSchedulerStatus<a class="headerlink" href="#fldschedulerstatus" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldSchedulerStatus</span></code></p>
+<p>Container to retrieve information about the RCP server scheduler.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-actions"><strong><code class="docutils literal notranslate"><span class="pre">actions</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldSchedulerItem</span></code></span></a><br />
+List of scheduled actions.</p>
+</li>
+</ul>
+</section>
+<section id="fldschedulerstatus-fldscheduleritem">
+<span id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem"></span><h3>fldSchedulerStatus.fldSchedulerItem<a class="headerlink" href="#fldschedulerstatus-fldscheduleritem" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.core.fldSchedulerStatus.fldSchedulerItem</span></code></p>
+<p>Single instance of a scheduled action item.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-uid"><strong><code class="docutils literal notranslate"><span class="pre">uid</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unique identifier of the scheduled action, see <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.uid</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Endpoint handle the action is associated with.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-failsafe"><strong><code class="docutils literal notranslate"><span class="pre">failsafe</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+True if the action is a fail-safe mode action.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-repeatcount"><strong><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Remaining repetitions (0xFFFFFFFF = infinite).</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Last sequence number of the (repeated) action.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-clientid"><strong><code class="docutils literal notranslate"><span class="pre">clientId</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Client ID of the action.</p>
+</li>
+<li><p id="protogen-esb-rcp-core-fldschedulerstatus-fldscheduleritem-tag"><strong><code class="docutils literal notranslate"><span class="pre">tag</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Tag given by the client, if any, see <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.tag</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_core.html" class="btn btn-neutral float-left" title="Core Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_vendor.html" class="btn btn-neutral float-right" title="Vendor-Specific Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

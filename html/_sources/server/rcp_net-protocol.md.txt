@@ -1,0 +1,383 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.net.fldStatus)=
+
+### fldStatus
+
+*Message* `esb.rcp.net.fldStatus`
+
+Network status records.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldStatus.phyMode)=
+
+  **`phyMode`** — [`enPhyMode`](#protogen.esb.rcp.net.enPhyMode)\
+  Current mode the embedded PHY is operating in.
+
+- (protogen.esb.rcp.net.fldStatus.lnkMode)=
+
+  **`lnkMode`** — [`enLinkMode`](#protogen.esb.rcp.net.enLinkMode)\
+  Current Ethernet link mode.
+
+- (protogen.esb.rcp.net.fldStatus.lnkSpeed)=
+
+  **`lnkSpeed`** — [`enLinkSpeed`](#protogen.esb.rcp.net.enLinkSpeed)\
+  Current Ethernet link speed.
+
+- (protogen.esb.rcp.net.fldStatus.ipAddr)=
+
+  **`ipAddr`** — *optional* `fixed32`\
+  Current IPv4 address.
+
+- (protogen.esb.rcp.net.fldStatus.sqi)=
+
+  **`sqi`** — *optional* `uint32`\
+  Current value of SQI+.
+
+- (protogen.esb.rcp.net.fldStatus.subnetPrefixLength)=
+
+  **`subnetPrefixLength`** — *optional* `uint32`\
+  Current subnet prefix length.
+
+(protogen.esb.rcp.net.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.net.fldConfig`
+
+Network configuration container.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldConfig.macAddr)=
+
+  **`macAddr`** — *optional* `bytes`\
+  Configured MAC address.
+  If set, the RCP server uses the specified MAC address for communications.
+  When the MAC address changes, the RCP server sends the reply to the configuration operation with the old MAC
+  address as source address.
+  If not configured (default), the RCP server uses the factory-default MAC address, if available. Otherwise, it
+  uses a fixed or randomly generated MAC address.
+
+- (protogen.esb.rcp.net.fldConfig.ipAddr)=
+
+  **`ipAddr`** — *optional* `fixed32`\
+  If set, changes the current IPv4 address of the RCP server.
+  When the IPv4 address changes, the RCP server sends the reply to the configuration operation with the old IP
+  address as source address.
+  If [`ipAddr`](#protogen.esb.rcp.net.fldConfig.ipAddr) is 0.0.0.0, the RCP server acquires an IPv4 address with DHCP or BOOTP.
+  If it is 255.255.255.255, IPv4 is disabled.
+  When IPv4 is enabled, the RCP server answers directives that arrive on the UDP port 7771 (0x1E5B) and uses the
+  source port of the client as the destination port.
+
+  ```{warning}
+  Setting the IP address to 127.x.x.x fails with the [`cfgInvalidParam`](#protogen.esb.enConfigResult.cfgInvalidParam) code.
+  ```
+
+- (protogen.esb.rcp.net.fldConfig.subnetPrefixLength)=
+
+  **`subnetPrefixLength`** — *optional* `uint32`\
+  Configures the subnetwork prefix length, which determines the subnet mask.
+  This also affects the subnet broadcast address.
+  For an example, see the page [Network Configuration](#protogen.rcp_net).
+
+- (protogen.esb.rcp.net.fldConfig.multicastAddrs)=
+
+  **`multicastAddrs`** — *repeated* [`fldMulticastItem`](#protogen.esb.rcp.net.fldConfig.fldMulticastItem)\
+  List of the multicast addresses that the RCP server accepts.
+
+- (protogen.esb.rcp.net.fldConfig.vlanIds)=
+
+  **`vlanIds`** — *repeated* `uint32`\
+  If set, specifies a list of VLANs that the RCP server accepts.
+  If this list is empty, the RCP server accepts only untagged
+  frames, and silently drops all VLAN-tagged ones.
+  The RCP server tracks the VLAN ID for the purpose of replying to clients:
+  - Clients with the same MAC/IP address and different VLAN ID are considered
+    different clients.
+  - Replies preserve the original VLAN used by the client to communicate with
+    the RCP server.
+
+  Unsolicited RCP notifications use the VLAN that the client used for
+  subscribing to the specific notification / endpoint.
+
+- (protogen.esb.rcp.net.fldConfig.defaultVlanId)=
+
+  **`defaultVlanId`** — *optional* `uint32`\
+  The VLAN ID to be used for unsolicited non-RCP protocol frames, for
+  example ARP announcements or DHCP.
+  If set to 0 (default), non-RCP protocols use untagged frames.
+
+- (protogen.esb.rcp.net.fldConfig.gratuitousArpEnable)=
+
+  **`gratuitousArpEnable`** — *optional* `bool`\
+  If set to true, the server sends an ARP announcement after a successful
+  IP address change.
+  If set to false (default), the server does not announce its IP address
+  on boot, regardless of the DHCP or static IP settings.
+
+(protogen.esb.rcp.net.fldConfig.fldMulticastItem)=
+
+### fldConfig.fldMulticastItem
+
+*Message* `esb.rcp.net.fldConfig.fldMulticastItem`
+
+Single entry of the multicast address list.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldConfig.fldMulticastItem.addr)=
+
+  **`addr`** — *oneof*
+
+  - (protogen.esb.rcp.net.fldConfig.fldMulticastItem.ipAddr)=
+
+    **`ipAddr`** — `fixed32`\
+    Multicast IPv4 address.
+
+  - (protogen.esb.rcp.net.fldConfig.fldMulticastItem.macAddr)=
+
+    **`macAddr`** — `bytes`\
+    Multicast MAC address.
+
+(protogen.esb.rcp.net.fldClientConfigItem)=
+
+### fldClientConfigItem
+
+*Message* `esb.rcp.net.fldClientConfigItem`
+
+Address of a client that the RCP server registers in advance.
+If the client has an IPv4 address, the RCP server identifies it by this address, its UDP port, and its VLAN ID, and
+sends its messages to it in UDP datagrams. Otherwise, the RCP server identifies the client by its MAC address and
+its VLAN ID, and sends its messages to it in raw Ethernet frames.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldClientConfigItem.macAddr)=
+
+  **`macAddr`** — `bytes`\
+  MAC address of the client.
+  The RCP server uses it as the destination address of the Ethernet frames that carry its messages to the client.
+
+- (protogen.esb.rcp.net.fldClientConfigItem.vlanId)=
+
+  **`vlanId`** — `uint32`\
+  VLAN ID of the client. If 0 (default), the client does not use a VLAN, and the RCP server sends its messages
+  to it in untagged frames. Otherwise, it sends them in frames that carry this VLAN ID in their tag.
+
+- (protogen.esb.rcp.net.fldClientConfigItem.ipAddr)=
+
+  **`ipAddr`** — *optional* `fixed32`\
+  IPv4 address of the client.
+  If set to a non-zero address, the RCP server sends its messages to the client in UDP datagrams to this address
+  and to the [`port`](#protogen.esb.rcp.net.fldClientConfigItem.port).
+
+- (protogen.esb.rcp.net.fldClientConfigItem.port)=
+
+  **`port`** — *optional* `uint32`\
+  UDP port of the client, to which the RCP server sends its UDP datagrams. It is only used if [`ipAddr`](#protogen.esb.rcp.net.fldClientConfigItem.ipAddr) is set.
+
+(protogen.esb.rcp.net.fldClientConfig)=
+
+### fldClientConfig
+
+*Message* `esb.rcp.net.fldClientConfig`
+
+Registers clients in advance, i.e., before they send their first message.
+The RCP server learns a client from the messages that it receives from it. A registered client is known to the RCP
+server before it sends a message, so the RCP server can send messages to it without having received one from it
+first, e.g., the results of a stored action that it loads on boot.
+The client configuration is part of the server configuration. If it is saved (see [`rcp.dev.opSaveConfig`](#protogen.esb.rcp.dev.enCmdOperation.opSaveConfig)), the
+RCP server knows the clients again after a restart, with the same client IDs, so that the stored actions that it
+loads still report to their clients.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldClientConfig.clients)=
+
+  **`clients`** — *repeated* [`fldClientConfigItem`](#protogen.esb.rcp.net.fldClientConfigItem)\
+  Clients to register.
+  For each entry, the RCP server adds the client and assigns a client ID to it. If the RCP server already knows the
+  client, it keeps the client ID.
+  The query [`rcp.dev.qryClientStatus`](#protogen.esb.rcp.dev.enQuery.qryClientStatus) returns the client IDs.
+
+(protogen.esb.rcp.net.fldClientStatusItem)=
+
+### fldClientStatusItem
+
+*Message* `esb.rcp.net.fldClientStatusItem`
+
+A client that the RCP server knows, with the client ID that the RCP server assigned to it.
+The address fields have the same meaning as those of [`fldClientConfigItem`](#protogen.esb.rcp.net.fldClientConfigItem).
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldClientStatusItem.clientId)=
+
+  **`clientId`** — `uint32`\
+  Client ID that the RCP server assigned to the client. It is unique among the clients that the RCP server knows.
+  The ID identifies the notification owner of an endpoint ([`fldEndpointNotifInfo.clientId`](#protogen.esb.fldEndpointNotifInfo.clientId)) or the client that
+  scheduled an action ([`rcp.core.fldSchedulerStatus.fldSchedulerItem.clientId`](#protogen.esb.rcp.core.fldSchedulerStatus.fldSchedulerItem.clientId)).
+
+- (protogen.esb.rcp.net.fldClientStatusItem.macAddr)=
+
+  **`macAddr`** — `bytes`\
+  MAC address of the client, 6 bytes.
+
+- (protogen.esb.rcp.net.fldClientStatusItem.vlanId)=
+
+  **`vlanId`** — *optional* `uint32`\
+  VLAN ID of the client. Not set if the client does not use a VLAN.
+
+- (protogen.esb.rcp.net.fldClientStatusItem.ipAddr)=
+
+  **`ipAddr`** — *optional* `fixed32`\
+  IPv4 address of the client. Not set if the client does not have an IPv4 address.
+
+- (protogen.esb.rcp.net.fldClientStatusItem.port)=
+
+  **`port`** — *optional* `uint32`\
+  UDP port of the client. Set together with [`ipAddr`](#protogen.esb.rcp.net.fldClientStatusItem.ipAddr).
+
+(protogen.esb.rcp.net.fldClientStatus)=
+
+### fldClientStatus
+
+*Message* `esb.rcp.net.fldClientStatus`
+
+Status of the clients of the RCP server, returned by the query [`rcp.dev.qryClientStatus`](#protogen.esb.rcp.dev.enQuery.qryClientStatus).
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldClientStatus.clients)=
+
+  **`clients`** — *repeated* [`fldClientStatusItem`](#protogen.esb.rcp.net.fldClientStatusItem)\
+  The clients that the RCP server knows: the ones that it learned from their messages, and the ones that were
+  registered with [`fldClientConfig`](#protogen.esb.rcp.net.fldClientConfig).
+
+(protogen.esb.rcp.net.fldMdioConfig)=
+
+### fldMdioConfig
+
+*Message* `esb.rcp.net.fldMdioConfig`
+
+MDIO access container.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldMdioConfig.phyAddr)=
+
+  **`phyAddr`** — `uint32`\
+  PHY MDIO address.
+
+- (protogen.esb.rcp.net.fldMdioConfig.mmd)=
+
+  **`mmd`** — *optional* `uint32`\
+  MMD address (0 = Clause 22).
+
+- (protogen.esb.rcp.net.fldMdioConfig.regAddress)=
+
+  **`regAddress`** — `uint32`\
+  Register address.
+
+- (protogen.esb.rcp.net.fldMdioConfig.data)=
+
+  **`data`** — *optional* `uint32`\
+  Register data for write operations.
+
+(protogen.esb.rcp.net.fldPhyReg)=
+
+### fldPhyReg
+
+*Message* `esb.rcp.net.fldPhyReg`
+
+Container for a list of MDIO register accesses.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldPhyReg.mdioList)=
+
+  **`mdioList`** — *repeated* [`fldMdioConfig`](#protogen.esb.rcp.net.fldMdioConfig)\
+  List of MDIO accesses.
+
+- (protogen.esb.rcp.net.fldPhyReg.key)=
+
+  **`key`** — *optional* `uint32`\
+  Key that gives access to vendor-specific capabilities of the PHY. The meaning of the key and of the accesses that
+  it enables is implementation-specific (refer to the datasheet of the server).
+
+(protogen.esb.rcp.net.fldPhyData)=
+
+### fldPhyData
+
+*Message* `esb.rcp.net.fldPhyData`
+
+Container for MDIO register read data.
+
+**Fields**
+
+- (protogen.esb.rcp.net.fldPhyData.data)=
+
+  **`data`** — *repeated* `uint32`\
+  List of MDIO register data for read operations.
+
+## Enumerations
+
+(protogen.esb.rcp.net.enPhyMode)=
+
+### enPhyMode
+
+*Enumeration* `esb.rcp.net.enPhyMode`
+
+Embedded Ethernet PHY modes.
+
+- (protogen.esb.rcp.net.enPhyMode.phyUnknown)=
+
+  **`phyUnknown`** — Unknown or no PHY.
+
+- (protogen.esb.rcp.net.enPhyMode.phy10BASE_T1S)=
+
+  **`phy10BASE_T1S`** — 10BASE-T1S PHY.
+
+- (protogen.esb.rcp.net.enPhyMode.phy100BASE_T1)=
+
+  **`phy100BASE_T1`** — 100BASE-T1 PHY.
+
+(protogen.esb.rcp.net.enLinkMode)=
+
+### enLinkMode
+
+*Enumeration* `esb.rcp.net.enLinkMode`
+
+Ethernet link modes.
+
+- (protogen.esb.rcp.net.enLinkMode.lnkModeUnknown)=
+
+  **`lnkModeUnknown`** — Unknown or no link mode.
+
+- (protogen.esb.rcp.net.enLinkMode.lnkModeHalfDuplex)=
+
+  **`lnkModeHalfDuplex`** — Half duplex link.
+
+(protogen.esb.rcp.net.enLinkSpeed)=
+
+### enLinkSpeed
+
+*Enumeration* `esb.rcp.net.enLinkSpeed`
+
+Embedded Ethernet link speeds.
+
+- (protogen.esb.rcp.net.enLinkSpeed.lnkSpeedUnknown)=
+
+  **`lnkSpeedUnknown`** — Unknown or no link speed.
+
+- (protogen.esb.rcp.net.enLinkSpeed.lnkSpeed10M)=
+
+  **`lnkSpeed10M`** — 10 Mbps supported.
+
+- (protogen.esb.rcp.net.enLinkSpeed.lnkSpeed100M)=
+
+  **`lnkSpeed100M`** — 100 Mbps supported.

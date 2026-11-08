@@ -1,0 +1,102 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.lin.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.lin.fldConfig`
+
+LIN configuration message.
+
+**Fields**
+
+- (protogen.esb.lin.fldConfig.speedBps)=
+
+  **`speedBps`** — *optional* `uint32`\
+  The bit rate in bits per second (bps).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+- (protogen.esb.lin.fldConfig.identifierParity)=
+
+  **`identifierParity`** — *optional* `bool`\
+  If set to true, the endpoint automatically calculates and appends the parity bits to the identifier.
+  Otherwise, the [`fldCmd.frameId`](#protogen.esb.lin.fldCmd.frameId) field includes the parity bits.
+
+- (protogen.esb.lin.fldConfig.checksumType)=
+
+  **`checksumType`** — *optional* [`enChecksumType`](#protogen.esb.lin.enChecksumType)\
+  LIN checksum type.
+
+- (protogen.esb.lin.fldConfig.rxSuppressLoopback)=
+
+  **`rxSuppressLoopback`** — *optional* `bool`\
+  If used with a LIN transceiver that loops back the transmitted data to the receiver,
+  setting this to true suppresses the loopback.
+
+- (protogen.esb.lin.fldConfig.txBreakBitTime)=
+
+  **`txBreakBitTime`** — *optional* `uint32`\
+  The break condition duration in bit times.
+
+(protogen.esb.lin.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.lin.fldCmd`
+
+Container for LIN command.
+
+**Fields**
+
+- (protogen.esb.lin.fldCmd.mode)=
+
+  **`mode`** — *oneof*
+
+  - (protogen.esb.lin.fldCmd.wdata)=
+
+    **`wdata`** — `bytes`\
+    Bytes to send. If checksum is enabled, checksum byte(s) are appended automatically.
+
+  - (protogen.esb.lin.fldCmd.rsize)=
+
+    **`rsize`** — `uint32`\
+    Number of bytes to read. If checksum is enabled, checksum byte(s) are read and verified automatically.
+
+- (protogen.esb.lin.fldCmd.frameId)=
+
+  **`frameId`** — `uint32`\
+  Identifier of the LIN frame. If [`fldConfig.identifierParity`](#protogen.esb.lin.fldConfig.identifierParity) is false, it includes the parity bits.
+
+- (protogen.esb.lin.fldCmd.checksumType)=
+
+  **`checksumType`** — *optional* [`enChecksumType`](#protogen.esb.lin.enChecksumType)\
+  If set, overrides the checksum configuration for this command.
+
+## Enumerations
+
+(protogen.esb.lin.enChecksumType)=
+
+### enChecksumType
+
+*Enumeration* `esb.lin.enChecksumType`
+
+Checksum type for LIN messages.
+
+- (protogen.esb.lin.enChecksumType.checksumNone)=
+
+  **`checksumNone`** — Checksum disabled. The client has to handle it.
+
+- (protogen.esb.lin.enChecksumType.checksumClassic)=
+
+  **`checksumClassic`** — Classic checksum (without identifier).
+
+- (protogen.esb.lin.enChecksumType.checksumEnhanced)=
+
+  **`checksumEnhanced`** — Enhanced checksum (with identifier).

@@ -1,0 +1,962 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b611b094"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Common Definitions" href="rcp_common.html" />
+    <link rel="prev" title="RCP Messages" href="rcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = 'gsearch.html';
+    var searchPath = 'search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="./pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="rcp.html">RCP Messages</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="rcp.html">RCP Messages</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldconfig">
+<span id="protogen-esb-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldConfig</span></code></p>
+<p>Container for all configuration operations.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldconfig-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unique non-zero handle of the endpoint, or 0 for the RCP server itself.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-dev"><strong><code class="docutils literal notranslate"><span class="pre">dev</span></code></strong> — <em>oneof</em><br />
+Configuration matching the type of the endpoint at <a class="reference internal" href="#protogen-esb-fldconfig-hndl"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">hndl</span></code></span></a>.</p>
+<ul>
+<li><p id="protogen-esb-fldconfig-rcp"><strong><code class="docutils literal notranslate"><span class="pre">rcp</span></code></strong> — <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.fldConfig</span></code></span></a><br />
+Configuration of the RCP server itself.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-gpio"><strong><code class="docutils literal notranslate"><span class="pre">gpio</span></code></strong> — <a class="reference internal" href="endpoints/gpio/gpio_dev-protocol.html#protogen-esb-gpio-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">gpio.fldConfig</span></code></span></a><br />
+Configuration of a GPIO controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-i2c"><strong><code class="docutils literal notranslate"><span class="pre">i2c</span></code></strong> — <a class="reference internal" href="endpoints/i2c/i2c_dev-protocol.html#protogen-esb-i2c-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">i2c.fldConfig</span></code></span></a><br />
+Configuration of an I2C controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-spi"><strong><code class="docutils literal notranslate"><span class="pre">spi</span></code></strong> — <a class="reference internal" href="endpoints/spi/spi_dev-protocol.html#protogen-esb-spi-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">spi.fldConfig</span></code></span></a><br />
+Configuration of a SPI controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-uart"><strong><code class="docutils literal notranslate"><span class="pre">uart</span></code></strong> — <a class="reference internal" href="endpoints/uart/uart_dev-protocol.html#protogen-esb-uart-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">uart.fldConfig</span></code></span></a><br />
+Configuration of a UART controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-pcm"><strong><code class="docutils literal notranslate"><span class="pre">pcm</span></code></strong> — <a class="reference internal" href="endpoints/pcm/pcm_dev-protocol.html#protogen-esb-pcm-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pcm.fldConfig</span></code></span></a><br />
+Configuration of a PCM audio controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-pdm"><strong><code class="docutils literal notranslate"><span class="pre">pdm</span></code></strong> — <a class="reference internal" href="endpoints/pdm/pdm_dev-protocol.html#protogen-esb-pdm-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pdm.fldConfig</span></code></span></a><br />
+Configuration of a PDM controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-adc"><strong><code class="docutils literal notranslate"><span class="pre">adc</span></code></strong> — <a class="reference internal" href="endpoints/adc/adc_dev-protocol.html#protogen-esb-adc-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">adc.fldConfig</span></code></span></a><br />
+Configuration of an ADC controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-sent"><strong><code class="docutils literal notranslate"><span class="pre">sent</span></code></strong> — <a class="reference internal" href="endpoints/sent/sent_dev-protocol.html#protogen-esb-sent-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">sent.fldConfig</span></code></span></a><br />
+Configuration of a SENT controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-lin"><strong><code class="docutils literal notranslate"><span class="pre">lin</span></code></strong> — <a class="reference internal" href="endpoints/lin/lin_dev-protocol.html#protogen-esb-lin-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">lin.fldConfig</span></code></span></a><br />
+Configuration of a LIN controller.</p>
+</li>
+<li><p id="protogen-esb-fldconfig-pwm"><strong><code class="docutils literal notranslate"><span class="pre">pwm</span></code></strong> — <a class="reference internal" href="endpoints/pwm/pwm_dev-protocol.html#protogen-esb-pwm-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pwm.fldConfig</span></code></span></a><br />
+Configuration of a PWM controller.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldactiontimed">
+<span id="protogen-esb-fldactiontimed"></span><h3>fldActionTimed<a class="headerlink" href="#fldactiontimed" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldActionTimed</span></code></p>
+<p>Configuration of timed actions.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-fldactiontimed-start"><strong><code class="docutils literal notranslate"><span class="pre">start</span></code></strong> — <em>oneof</em><br />
+Presentation time of the first execution. If absent, the action runs as soon as the endpoint is free.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The granularity and precision of the PTP timer are implementation-specific.
+Refer to the datasheet of the server for details.</p>
+</div>
+<ul class="simple">
+<li><p id="protogen-esb-fldactiontimed-ptime"><strong><code class="docutils literal notranslate"><span class="pre">ptime</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+Absolute time: the operation is executed when the internal PTP timer crosses this presentation time.</p>
+</li>
+<li><p id="protogen-esb-fldactiontimed-offset"><strong><code class="docutils literal notranslate"><span class="pre">offset</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+Relative time: the RCP server captures the precise time at which the
+directive is received from the network, then schedules the operation
+to be executed at that time plus this offset.</p>
+</li>
+</ul>
+</li>
+<li><p id="protogen-esb-fldactiontimed-period"><strong><code class="docutils literal notranslate"><span class="pre">period</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+Repeat interval of this timed action.
+It is only used if the <a class="reference internal" href="#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.repeatCount</span></code></span></a> field is greater than 0. The RCP server
+then calculates each subsequent presentation time by adding this interval to the previous
+presentation time. Delays in execution and duration of the action do not affect the interval.
+The <a class="reference internal" href="#protogen-esb-fldactiontimed-periodadjns"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">periodAdjNs</span></code></span></a> field can change the interval after every execution.</p>
+</li>
+<li><p id="protogen-esb-fldactiontimed-harddeadline"><strong><code class="docutils literal notranslate"><span class="pre">hardDeadline</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+Decides whether a late action is dropped or executed. An action is late if it cannot be
+scheduled at the specified time. This happens if <a class="reference internal" href="#protogen-esb-fldactiontimed-ptime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ptime</span></code></span></a> lies in the past,
+or if the endpoint is busy executing other operations at the desired scheduling time.</p>
+<p>If set to true, a late action is not executed. Its result code is <a class="reference internal" href="#protogen-esb-enactionresult-acttoolate"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actTooLate</span></code></span></a>,
+an error code.</p>
+<p>If set to false (or not set), a late action is always executed, even if
+the required deadline cannot be met. However, in this case its result code is
+<a class="reference internal" href="#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a>, a warning code, if execution succeeds. A failed execution returns its error instead.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This field does not guarantee that the RCP server sends a reply. Whether and
+when the result code is reported depends on the <a class="reference internal" href="#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.replyMode</span></code></span></a> of the action.
+The warning <a class="reference internal" href="#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a> is treated as a successful execution, so <a class="reference internal" href="#protogen-esb-enactionreplymode-actreplyonerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actReplyOnError</span></code></span></a>
+reports <a class="reference internal" href="#protogen-esb-enactionresult-acttoolate"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actTooLate</span></code></span></a> but not <a class="reference internal" href="#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a>.
+Reply modes that report only on the last action of a series can defer the result.</p>
+</div>
+</li>
+<li><p id="protogen-esb-fldactiontimed-periodadjns"><strong><code class="docutils literal notranslate"><span class="pre">periodAdjNs</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">sint32</span></code><br />
+If set, the specified adjustment time in nanoseconds is added/subtracted
+from the repeating period after each time the action is re-scheduled.
+This allows creating sequences of operations that repeat faster or slower
+in a linear fashion.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This option is only used in conjunction with the <a class="reference internal" href="#protogen-esb-fldactiontimed-period"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">period</span></code></span></a> parameter.
+If this one is not specified, the <a class="reference internal" href="#protogen-esb-fldactiontimed-periodadjns"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">periodAdjNs</span></code></span></a> field is ignored.</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="fldactionevent">
+<span id="protogen-esb-fldactionevent"></span><h3>fldActionEvent<a class="headerlink" href="#fldactionevent" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldActionEvent</span></code></p>
+<p>Configuration for event-triggered actions.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldactionevent-events"><strong><code class="docutils literal notranslate"><span class="pre">events</span></code></strong> — <em>repeated</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Actions can optionally be triggered on specific events.
+If the <a class="reference internal" href="#protogen-esb-fldactionevent-events"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">events</span></code></span></a> array is not empty, the action is executed when the RCP
+server asserts any of the events contained therein.
+The list of available events and associated IDs is implementation-specific.
+Refer to the datasheet of the server for details.</p>
+</li>
+<li><p id="protogen-esb-fldactionevent-delay"><strong><code class="docutils literal notranslate"><span class="pre">delay</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+If set, this optional parameter defines the delay in PTP time format
+between the time the event was asserted and the time the action is scheduled.</p>
+</li>
+</ul>
+</section>
+<section id="fldactiondependent">
+<span id="protogen-esb-fldactiondependent"></span><h3>fldActionDependent<a class="headerlink" href="#fldactiondependent" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldActionDependent</span></code></p>
+<p>Configuration for an action triggered by the completion of a parent action.
+If the parent is removed while this action is waiting for its completion, this action is removed without a
+notification or an action result. An already-triggered execution, including its delay, completes under
+<a class="reference internal" href="#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.replyMode</span></code></span></a> but does not repeat.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldactiondependent-tag"><strong><code class="docutils literal notranslate"><span class="pre">tag</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Tag of the parent action to wait for. The tag 0 refers to the previously queued action.
+See <a class="reference internal" href="#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.tag</span></code></span></a> for how a tag is resolved.</p>
+</li>
+<li><p id="protogen-esb-fldactiondependent-trigtype"><strong><code class="docutils literal notranslate"><span class="pre">trigType</span></code></strong> — <a class="reference internal" href="#protogen-esb-enactiondependenttype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enActionDependentType</span></code></span></a><br />
+The trigger type (see <a class="reference internal" href="#protogen-esb-enactiondependenttype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enActionDependentType</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-fldactiondependent-delay"><strong><code class="docutils literal notranslate"><span class="pre">delay</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+If set, the actual execution of the action is further delayed by the
+specified amount of time after the completion of the parent action.</p>
+</li>
+</ul>
+</section>
+<section id="fldaction">
+<span id="protogen-esb-fldaction"></span><h3>fldAction<a class="headerlink" href="#fldaction" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldAction</span></code></p>
+<p>Container for an action that an endpoint or the RCP server executes.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-fldaction-trigger"><strong><code class="docutils literal notranslate"><span class="pre">trigger</span></code></strong> — <em>oneof</em><br />
+Selects when the action runs. Without a trigger, it runs as soon as the endpoint is free.
+An action without a trigger and with <a class="reference internal" href="#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></span></a> equal to 0 is synchronous, unless
+<a class="reference internal" href="server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverconfig-syncactionsenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerConfig.syncActionsEnable</span></code></span></a> is false. Its execution result is returned in the reply to the
+directive. All other actions are asynchronous, including one with an empty <a class="reference internal" href="#protogen-esb-fldaction-timed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">timed</span></code></span></a> message.
+A queued asynchronous action returns <a class="reference internal" href="#protogen-esb-enactionresult-actpending"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actPending</span></code></span></a>. Its execution results follow in unsolicited reports,
+subject to <a class="reference internal" href="#protogen-esb-fldaction-replymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">replyMode</span></code></span></a>.</p>
+<ul class="simple">
+<li><p id="protogen-esb-fldaction-timed"><strong><code class="docutils literal notranslate"><span class="pre">timed</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldactiontimed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed</span></code></span></a><br />
+Execute at a specific time, as defined by <a class="reference internal" href="#protogen-esb-fldactiontimed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionTimed</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldaction-event"><strong><code class="docutils literal notranslate"><span class="pre">event</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldactionevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionEvent</span></code></span></a><br />
+Execute upon the assertion of one or more events, as defined by <a class="reference internal" href="#protogen-esb-fldactionevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionEvent</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldaction-action"><strong><code class="docutils literal notranslate"><span class="pre">action</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldactiondependent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionDependent</span></code></span></a><br />
+Execute after the completion of another action, as defined by <a class="reference internal" href="#protogen-esb-fldactiondependent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionDependent</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldaction-bind"><strong><code class="docutils literal notranslate"><span class="pre">bind</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Execute concurrently with the action that has the specified tag (see <a class="reference internal" href="#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">tag</span></code></span></a>). The tag 0 refers to the
+previously queued action. Bound actions refer to different endpoints (handles). Otherwise, the RCP
+server rejects the action.</p>
+</li>
+</ul>
+</li>
+<li><p id="protogen-esb-fldaction-repeatcount"><strong><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+If set to a non-zero value, the RCP server automatically re-schedules
+the operation based on the specified trigger type.
+The total number of times the action is scheduled is <a class="reference internal" href="#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></span></a> + 1.
+If <a class="reference internal" href="#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></span></a> is set to 0, or not set (default), the action is executed
+once.
+If <a class="reference internal" href="#protogen-esb-fldaction-repeatcount"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">repeatCount</span></code></span></a> is set to its maximum value (0xffffffff), the action is
+re-scheduled indefinitely, or until canceled.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Setting this parameter to a non-zero value makes the action
+asynchronous regardless of the <a class="reference internal" href="#protogen-esb-fldaction-trigger"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">trigger</span></code></span></a> type.</p>
+</div>
+</li>
+<li><p id="protogen-esb-fldaction-replymode"><strong><code class="docutils literal notranslate"><span class="pre">replyMode</span></code></strong> — <a class="reference internal" href="#protogen-esb-enactionreplymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enActionReplyMode</span></code></span></a><br />
+Reply mode for this action, see <a class="reference internal" href="#protogen-esb-enactionreplymode"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enActionReplyMode</span></code></span></a>.
+If the action is synchronous, this parameter is ignored. For the
+definition of synchronous actions, see the <a class="reference internal" href="#protogen-esb-fldaction-trigger"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">trigger</span></code></span></a> field documentation.</p>
+</li>
+<li><p id="protogen-esb-fldaction-failsafe"><strong><code class="docutils literal notranslate"><span class="pre">failsafe</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the action is executed only if the RCP server is in fail-safe
+mode. Fail-safe mode can be triggered by the network watchdog or other
+implementation-specific conditions (refer to the datasheet of the server).
+For asynchronous operations (see the <a class="reference internal" href="#protogen-esb-fldaction-trigger"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">trigger</span></code></span></a> field documentation), this
+parameter adds fail-safe mode as an additional condition for scheduling.
+For synchronous operations, if this parameter is set and the system is
+not currently in fail-safe mode, the action is rejected with the
+<a class="reference internal" href="#protogen-esb-enactionresult-actfailsafeerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actFailsafeError</span></code></span></a> error code. If this parameter is not set, the action is
+rejected if the system is currently in fail-safe mode.
+This feature can be useful for implementing functional safety and safe
+operation of the server in case, for example, of loss of network
+connectivity.</p>
+</li>
+<li><p id="protogen-esb-fldaction-storetonvm"><strong><code class="docutils literal notranslate"><span class="pre">storeToNvm</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, the action is saved in non-volatile memory and loaded on
+server POR or reboot.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Actions stored to NVM are not loaded into RAM at the same time.
+The command <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-oploadstoredactions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opLoadStoredActions</span></code></span></a> loads all saved actions.</p>
+</div>
+</li>
+<li><p id="protogen-esb-fldaction-tag"><strong><code class="docutils literal notranslate"><span class="pre">tag</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional label that the client gives to the action. It does not have to be unique: several actions can carry the
+same tag, and 0 means that the action has no tag.
+The tag is how other operations refer to this action:</p>
+<ul class="simple">
+<li><p>the triggers <a class="reference internal" href="#protogen-esb-fldaction-action"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">action</span></code></span></a> (dependent) and <a class="reference internal" href="#protogen-esb-fldaction-bind"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">bind</span></code></span></a> of later actions</p></li>
+<li><p>the cancel operation by tag, see <a class="reference internal" href="#protogen-esb-fldactioncancel-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionCancel.tag</span></code></span></a></p></li>
+</ul>
+<p>When more than one live action carries the same tag, a trigger refers to the first one found, while canceling by
+tag cancels all of them.
+In contrast, the RCP server assigns every queued action a unique <a class="reference internal" href="#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.uid</span></code></span></a>, which the client only
+learns from the acknowledgement. It refers to exactly one action, see <a class="reference internal" href="#protogen-esb-fldactioncancel-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionCancel.uid</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldaction-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Handle of the endpoint, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+The datasheet of the server and the query <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryinterfaces"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryInterfaces</span></code></span></a> list the endpoints with their handles and
+types.</p>
+</li>
+<li><p id="protogen-esb-fldaction-dev"><strong><code class="docutils literal notranslate"><span class="pre">dev</span></code></strong> — <em>oneof</em><br />
+The endpoint-specific command.</p>
+<ul class="simple">
+<li><p id="protogen-esb-fldaction-rcp"><strong><code class="docutils literal notranslate"><span class="pre">rcp</span></code></strong> — <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.fldCmd</span></code></span></a><br />
+Commands for RCP functionality.</p>
+</li>
+<li><p id="protogen-esb-fldaction-gpio"><strong><code class="docutils literal notranslate"><span class="pre">gpio</span></code></strong> — <a class="reference internal" href="endpoints/gpio/gpio_dev-protocol.html#protogen-esb-gpio-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">gpio.fldCmd</span></code></span></a><br />
+Commands for GPIO interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-spi"><strong><code class="docutils literal notranslate"><span class="pre">spi</span></code></strong> — <a class="reference internal" href="endpoints/spi/spi_dev-protocol.html#protogen-esb-spi-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">spi.fldCmd</span></code></span></a><br />
+Commands for SPI interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-i2c"><strong><code class="docutils literal notranslate"><span class="pre">i2c</span></code></strong> — <a class="reference internal" href="endpoints/i2c/i2c_dev-protocol.html#protogen-esb-i2c-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">i2c.fldCmd</span></code></span></a><br />
+Commands for I2C interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-pwm"><strong><code class="docutils literal notranslate"><span class="pre">pwm</span></code></strong> — <a class="reference internal" href="endpoints/pwm/pwm_dev-protocol.html#protogen-esb-pwm-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pwm.fldCmd</span></code></span></a><br />
+Commands for PWM interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-pcm"><strong><code class="docutils literal notranslate"><span class="pre">pcm</span></code></strong> — <a class="reference internal" href="endpoints/pcm/pcm_dev-protocol.html#protogen-esb-pcm-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pcm.fldCmd</span></code></span></a><br />
+Commands for PCM audio interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-uart"><strong><code class="docutils literal notranslate"><span class="pre">uart</span></code></strong> — <a class="reference internal" href="endpoints/uart/uart_dev-protocol.html#protogen-esb-uart-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">uart.fldCmd</span></code></span></a><br />
+Commands for UART interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-pdm"><strong><code class="docutils literal notranslate"><span class="pre">pdm</span></code></strong> — <a class="reference internal" href="endpoints/pdm/pdm_dev-protocol.html#protogen-esb-pdm-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pdm.fldCmd</span></code></span></a><br />
+Commands for PDM interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-adc"><strong><code class="docutils literal notranslate"><span class="pre">adc</span></code></strong> — <a class="reference internal" href="endpoints/adc/adc_dev-protocol.html#protogen-esb-adc-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">adc.fldCmd</span></code></span></a><br />
+Commands for ADC interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-sent"><strong><code class="docutils literal notranslate"><span class="pre">sent</span></code></strong> — <a class="reference internal" href="endpoints/sent/sent_dev-protocol.html#protogen-esb-sent-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">sent.fldCmd</span></code></span></a><br />
+Commands for SENT interfaces.</p>
+</li>
+<li><p id="protogen-esb-fldaction-lin"><strong><code class="docutils literal notranslate"><span class="pre">lin</span></code></strong> — <a class="reference internal" href="endpoints/lin/lin_dev-protocol.html#protogen-esb-lin-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">lin.fldCmd</span></code></span></a><br />
+Commands for LIN interfaces.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldactionresult">
+<span id="protogen-esb-fldactionresult"></span><h3>fldActionResult<a class="headerlink" href="#fldactionresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldActionResult</span></code></p>
+<p>Result of an action.
+The RCP server returns it as a direct reply to an action (<a class="reference internal" href="#protogen-esb-fldaction"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction</span></code></span></a>). Such a reply reports either the execution
+of a synchronous action or the scheduling of an asynchronous action.
+The server also returns it when an asynchronous action has run. Such an unsolicited result reports the execution.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-fldactionresult-code"><strong><code class="docutils literal notranslate"><span class="pre">code</span></code></strong> — <a class="reference internal" href="#protogen-esb-enactionresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enActionResult</span></code></span></a><br />
+Result code of the action.</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-tag"><strong><code class="docutils literal notranslate"><span class="pre">tag</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The tag that the client gave in <a class="reference internal" href="#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.tag</span></code></span></a>, only present if it was not zero.
+It is not necessarily unique, use the <a class="reference internal" href="#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">uid</span></code></span></a> to tell actions apart.</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+The RCP server generates a sequence number for each reply of an asynchronous action (see <a class="reference internal" href="#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">uid</span></code></span></a>). The number
+increases by one with each reply. Each action has its own series, so the number is not globally unique. The
+client can use it to detect missing or misordered replies of each action independently.</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-time"><strong><code class="docutils literal notranslate"><span class="pre">time</span></code></strong> — <em>optional</em> <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+Optional timestamp in PTP format that the RCP server captures when it executes specific types of actions
+(e.g., GPIO capture). The RCP server can also set it if an event triggered the action or if the action was
+late.</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-triggerid"><strong><code class="docutils literal notranslate"><span class="pre">triggerId</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+For the result of an event-triggered action, this field specifies the trigger ID that became active.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If multiple events trigger the action at the same time, only the one with the highest priority, i.e.,
+the lowest event identifier, is reported as <a class="reference internal" href="#protogen-esb-fldactionresult-triggerid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">triggerId</span></code></span></a>.</p>
+</div>
+</li>
+<li><p id="protogen-esb-fldactionresult-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>oneof</em><br />
+Endpoint-specific reply data.</p>
+<ul class="simple">
+<li><p id="protogen-esb-fldactionresult-gpio"><strong><code class="docutils literal notranslate"><span class="pre">gpio</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Result generated by GPIOs.</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-data"><strong><code class="docutils literal notranslate"><span class="pre">data</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Generic binary data (multiple endpoints).</p>
+</li>
+<li><p id="protogen-esb-fldactionresult-rcp"><strong><code class="docutils literal notranslate"><span class="pre">rcp</span></code></strong> — <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-fldcmdresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.fldCmdResult</span></code></span></a><br />
+Result of RCP commands.</p>
+</li>
+</ul>
+</li>
+<li><p id="protogen-esb-fldactionresult-uid"><strong><code class="docutils literal notranslate"><span class="pre">uid</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Unique non-zero ID generated by the RCP server for every queued action. It is included in the
+acknowledgement of the action and in every result of that action. Live actions never share a uid.
+Unlike the <a class="reference internal" href="#protogen-esb-fldactionresult-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">tag</span></code></span></a>, which the client chooses, the client only learns it from the acknowledgement.</p>
+</li>
+</ul>
+</section>
+<section id="fldquery">
+<span id="protogen-esb-fldquery"></span><h3>fldQuery<a class="headerlink" href="#fldquery" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldQuery</span></code></p>
+<p>Container for a query of the RCP server or of an endpoint.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldquery-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Handle of the endpoint to query, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+The datasheet of the server and the query <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryinterfaces"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.qryInterfaces</span></code></span></a> list the endpoints with their handles and
+types.</p>
+</li>
+<li><p id="protogen-esb-fldquery-qry"><strong><code class="docutils literal notranslate"><span class="pre">qry</span></code></strong> — <em>oneof</em><br />
+The RCP server supports synchronous queries to retrieve static or dynamic
+information about the RCP server itself or one of its endpoints.
+If none of the options is selected and <a class="reference internal" href="#protogen-esb-fldquery-hndl"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">hndl</span></code></span></a> is non-zero, the query returns
+the configuration of the specified endpoint.</p>
+<ul>
+<li><p id="protogen-esb-fldquery-rcp"><strong><code class="docutils literal notranslate"><span class="pre">rcp</span></code></strong> — <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.enQuery</span></code></span></a><br />
+Query of the RCP server itself.</p>
+</li>
+<li><p id="protogen-esb-fldquery-ep"><strong><code class="docutils literal notranslate"><span class="pre">ep</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-enendpointquery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enEndpointQuery</span></code></span></a><br />
+Query of an endpoint.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldqueryresult">
+<span id="protogen-esb-fldqueryresult"></span><h3>fldQueryResult<a class="headerlink" href="#fldqueryresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldQueryResult</span></code></p>
+<p>Container for the result of a query.</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><p id="protogen-esb-fldqueryresult-code"><strong><code class="docutils literal notranslate"><span class="pre">code</span></code></strong> — <a class="reference internal" href="#protogen-esb-enqueryresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enQueryResult</span></code></span></a><br />
+Return code of the query.</p>
+</li>
+<li><p id="protogen-esb-fldqueryresult-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>oneof</em><br />
+Content of the specific query reply.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#protogen-esb-fldqueryresult-config"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">config</span></code></span></a> does not use the field <a class="reference internal" href="#protogen-esb-fldconfig-rcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rcp</span></code></span></a>. To retrieve the configuration of the RCP server, use the
+individual queries and the field <a class="reference internal" href="#protogen-esb-fldqueryresult-rcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp</span></code></span></a> of this message.</p>
+</div>
+<ul class="simple">
+<li><p id="protogen-esb-fldqueryresult-rcp"><strong><code class="docutils literal notranslate"><span class="pre">rcp</span></code></strong> — <a class="reference internal" href="server/rcp_dev-protocol.html#protogen-esb-rcp-dev-fldqueryresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.fldQueryResult</span></code></span></a><br />
+Reply to RCP server queries.</p>
+</li>
+<li><p id="protogen-esb-fldqueryresult-config"><strong><code class="docutils literal notranslate"><span class="pre">config</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig</span></code></span></a><br />
+Reply to endpoints config queries.</p>
+</li>
+<li><p id="protogen-esb-fldqueryresult-epinfo"><strong><code class="docutils literal notranslate"><span class="pre">epInfo</span></code></strong> — <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldendpointnotifinfo"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldEndpointNotifInfo</span></code></span></a><br />
+Reply to endpoint status query.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldnotif">
+<span id="protogen-esb-fldnotif"></span><h3>fldNotif<a class="headerlink" href="#fldnotif" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldNotif</span></code></p>
+<p>Notifications sent by the server, including endpoint events and received stream data.
+Each endpoint sends its notifications only to its notification owner, identified by <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldendpointnotifinfo"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldEndpointNotifInfo</span></code></span></a>.
+This message also carries directive-decoding errors.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldnotif-code"><strong><code class="docutils literal notranslate"><span class="pre">code</span></code></strong> — <a class="reference internal" href="#protogen-esb-ennotifresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enNotifResult</span></code></span></a><br />
+Result code of the notification.</p>
+</li>
+<li><p id="protogen-esb-fldnotif-hndl"><strong><code class="docutils literal notranslate"><span class="pre">hndl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Endpoint that generated the notification.</p>
+</li>
+<li><p id="protogen-esb-fldnotif-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+The RCP server generates a sequence number for each notification of an endpoint. The number increases by one
+with each notification. Each endpoint has its own series, so the number is not globally unique. The client can
+use it to detect missing or misordered notifications of each endpoint independently.</p>
+</li>
+<li><p id="protogen-esb-fldnotif-time"><strong><code class="docutils literal notranslate"><span class="pre">time</span></code></strong> — <em>optional</em> <a class="reference internal" href="rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+Optional timestamp in PTP format, captured by the RCP server when
+triggering specific types of notifications (e.g., GPIO capture).</p>
+</li>
+<li><p id="protogen-esb-fldnotif-ntf"><strong><code class="docutils literal notranslate"><span class="pre">ntf</span></code></strong> — <em>oneof</em><br />
+Data supplied by the notifying endpoint.</p>
+<ul>
+<li><p id="protogen-esb-fldnotif-gpio"><strong><code class="docutils literal notranslate"><span class="pre">gpio</span></code></strong> — <a class="reference internal" href="endpoints/gpio/gpio_dev-protocol.html#protogen-esb-gpio-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">gpio.fldNotif</span></code></span></a><br />
+GPIO change status notification.</p>
+</li>
+<li><p id="protogen-esb-fldnotif-data"><strong><code class="docutils literal notranslate"><span class="pre">data</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Endpoint bytes (streaming).</p>
+</li>
+<li><p id="protogen-esb-fldnotif-adc"><strong><code class="docutils literal notranslate"><span class="pre">adc</span></code></strong> — <a class="reference internal" href="endpoints/adc/adc_dev-protocol.html#protogen-esb-adc-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">adc.fldNotif</span></code></span></a><br />
+ADC specific notifications.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldactioncancel">
+<span id="protogen-esb-fldactioncancel"></span><h3>fldActionCancel<a class="headerlink" href="#fldactioncancel" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldActionCancel</span></code></p>
+<p>Selects live actions to cancel, either by tag or by uid. An action is live while scheduled or running.
+A scheduled action is removed. A running action completes its current execution without further repetitions.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldactioncancel-by"><strong><code class="docutils literal notranslate"><span class="pre">by</span></code></strong> — <em>oneof</em><br />
+Identifier used to select live actions.</p>
+<ul>
+<li><p id="protogen-esb-fldactioncancel-tag"><strong><code class="docutils literal notranslate"><span class="pre">tag</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Cancel all live actions that have this tag, see <a class="reference internal" href="#protogen-esb-fldaction-tag"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.tag</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldactioncancel-uid"><strong><code class="docutils literal notranslate"><span class="pre">uid</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Cancel the action that has this uid, see <a class="reference internal" href="#protogen-esb-fldactionresult-uid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult.uid</span></code></span></a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldoperation">
+<span id="protogen-esb-fldoperation"></span><h3>fldOperation<a class="headerlink" href="#fldoperation" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldOperation</span></code></p>
+<p>One operation of a directive.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldoperation-deviceidmask"><strong><code class="docutils literal notranslate"><span class="pre">deviceIdMask</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Optional mask to select which RCP servers execute the operation.
+If not set, all receiving RCP servers execute the operation.
+If set, the receiving RCP server executes the operation only if the bitwise AND of its own DID and the mask
+is not zero.
+All other RCP servers receiving the directive ignore this operation and add no result for it to the report.
+For an example, see the page <a class="reference internal" href="server/rcp_core.html#protogen-rcp-core"><span class="std std-ref">Core Operations</span></a>.
+This feature is useful when using broadcast and multicast messages on
+the network containing operations for multiple RCP servers. This allows
+the client to save bandwidth and reduce latency while keeping strict control over
+which server does what.
+The DID is set with <a class="reference internal" href="server/rcp_core-protocol.html#protogen-esb-rcp-core-fldserverconfig-did"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.core.fldServerConfig.did</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-fldoperation-op"><strong><code class="docutils literal notranslate"><span class="pre">op</span></code></strong> — <em>oneof</em><br />
+Selects the operation type.</p>
+<ul>
+<li><p id="protogen-esb-fldoperation-action"><strong><code class="docutils literal notranslate"><span class="pre">action</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldaction"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction</span></code></span></a><br />
+Action to perform.</p>
+</li>
+<li><p id="protogen-esb-fldoperation-query"><strong><code class="docutils literal notranslate"><span class="pre">query</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldquery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery</span></code></span></a><br />
+Query to perform.</p>
+</li>
+<li><p id="protogen-esb-fldoperation-config"><strong><code class="docutils literal notranslate"><span class="pre">config</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig</span></code></span></a><br />
+Configuration to apply.</p>
+</li>
+<li><p id="protogen-esb-fldoperation-cancel"><strong><code class="docutils literal notranslate"><span class="pre">cancel</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldactioncancel"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionCancel</span></code></span></a><br />
+Actions to cancel.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldoperationresult">
+<span id="protogen-esb-fldoperationresult"></span><h3>fldOperationResult<a class="headerlink" href="#fldoperationresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.fldOperationResult</span></code></p>
+<p>Container for the result of an operation.
+It is a direct response to an operation, an unsolicited action result, or a notification.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-fldoperationresult-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-fldoperationresult-action"><strong><code class="docutils literal notranslate"><span class="pre">action</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldactionresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionResult</span></code></span></a><br />
+Result of an action.</p>
+</li>
+<li><p id="protogen-esb-fldoperationresult-query"><strong><code class="docutils literal notranslate"><span class="pre">query</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldqueryresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQueryResult</span></code></span></a><br />
+Result of a query.</p>
+</li>
+<li><p id="protogen-esb-fldoperationresult-config"><strong><code class="docutils literal notranslate"><span class="pre">config</span></code></strong> — <a class="reference internal" href="#protogen-esb-enconfigresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enConfigResult</span></code></span></a><br />
+Result of a configuration.</p>
+</li>
+<li><p id="protogen-esb-fldoperationresult-cancel"><strong><code class="docutils literal notranslate"><span class="pre">cancel</span></code></strong> — <a class="reference internal" href="#protogen-esb-enaclresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enAclResult</span></code></span></a><br />
+Result of an action cancel.</p>
+</li>
+<li><p id="protogen-esb-fldoperationresult-notif"><strong><code class="docutils literal notranslate"><span class="pre">notif</span></code></strong> — <a class="reference internal" href="#protogen-esb-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif</span></code></span></a><br />
+Unsolicited notification or directive-decoding error.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="msgdirective">
+<span id="protogen-esb-msgdirective"></span><h3>msgDirective<a class="headerlink" href="#msgdirective" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.msgDirective</span></code></p>
+<p>Top-level message from the client to the RCP server.
+The server decodes the whole message before handling its operations. It rejects the whole directive for a decoding
+error. No operation is executed, and the reply contains one
+<a class="reference internal" href="#protogen-esb-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif</span></code></span></a> describing the error.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-msgdirective-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+Sequence number used to correlate directives and reports.
+A non-zero value is echoed in <a class="reference internal" href="#protogen-esb-msgreport-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgReport.seq</span></code></span></a>. 0 (default) suppresses the normal reply, but not unsolicited
+reports or the error report for a directive rejected during decoding.
+The number does not suppress duplicate execution. Receiving the same directive again can execute it again.</p>
+</li>
+<li><p id="protogen-esb-msgdirective-dir"><strong><code class="docutils literal notranslate"><span class="pre">dir</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-fldoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation</span></code></span></a><br />
+Operations handled in list order. An asynchronous action is queued at its position, not awaited.
+An operation error neither rolls back earlier operations nor prevents later operations from being handled.
+If a reply is requested, it contains one result per operation in the same order, except for an operation
+ignored because of <a class="reference internal" href="#protogen-esb-fldoperation-deviceidmask"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.deviceIdMask</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+<section id="msgreport">
+<span id="protogen-esb-msgreport"></span><h3>msgReport<a class="headerlink" href="#msgreport" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.msgReport</span></code></p>
+<p>Top-level message from the RCP server to the client.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-msgreport-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+Echoes <a class="reference internal" href="#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a> in a reply. In an unsolicited report, it is 0.
+For a directive rejected during decoding, it carries the directive’s sequence number only if the server read
+it before detecting the error. Otherwise, it is 0.</p>
+</li>
+<li><p id="protogen-esb-msgreport-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-fldoperationresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperationResult</span></code></span></a><br />
+A reply contains one result per operation, in directive order, except for operations ignored because of
+<a class="reference internal" href="#protogen-esb-fldoperation-deviceidmask"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.deviceIdMask</span></code></span></a>. A directive rejected during decoding produces one <a class="reference internal" href="#protogen-esb-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif</span></code></span></a> instead.
+An unsolicited report contains asynchronous action results or endpoint notifications.</p>
+</li>
+</ul>
+</section>
+<section id="msgrcp">
+<span id="protogen-esb-msgrcp"></span><h3>msgRcp<a class="headerlink" href="#msgrcp" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.msgRcp</span></code></p>
+<p>Combination of the top-level messages <a class="reference internal" href="#protogen-esb-msgdirective"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective</span></code></span></a> and <a class="reference internal" href="#protogen-esb-msgreport"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgReport</span></code></span></a>.
+Neither side sends this message. Tools such as Wireshark use it to decode the messages of both directions, so the
+field set of <a class="reference internal" href="#protogen-esb-msgrcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgRcp</span></code></span></a> is the union of the fields of the two messages.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The three messages use identical field numbers, so that Wireshark decodes them properly.</p>
+</div>
+<p>A client could use this message as a top-level message and omit the <a class="reference internal" href="#protogen-esb-msgrcp-res"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">res</span></code></span></a> or the <a class="reference internal" href="#protogen-esb-msgrcp-dir"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">dir</span></code></span></a> field depending on the
+direction, but it should use the dedicated messages <a class="reference internal" href="#protogen-esb-msgdirective"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective</span></code></span></a> and <a class="reference internal" href="#protogen-esb-msgreport"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgReport</span></code></span></a>.
+The encoders and decoders inside the RCP server never use this message.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-msgrcp-seq"><strong><code class="docutils literal notranslate"><span class="pre">seq</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">fixed32</span></code><br />
+The interpretation depends on the direction.</p>
+</li>
+<li><p id="protogen-esb-msgrcp-dir"><strong><code class="docutils literal notranslate"><span class="pre">dir</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-fldoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation</span></code></span></a><br />
+List of operations to perform.</p>
+</li>
+<li><p id="protogen-esb-msgrcp-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-fldoperationresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperationResult</span></code></span></a><br />
+List of operation results.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enactiondependenttype">
+<span id="protogen-esb-enactiondependenttype"></span><h3>enActionDependentType<a class="headerlink" href="#enactiondependenttype" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enActionDependentType</span></code></p>
+<p>Actions can optionally be triggered on completion of other actions. This
+allows, for example, defining daisy chains of timed operations to be
+executed as a reaction to specific events, in sequence.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enactiondependenttype-actdepdefault"><strong><code class="docutils literal notranslate"><span class="pre">actDepDefault</span></code></strong> — Execute as soon as the parent action finishes, regardless of its result code.</p>
+</li>
+<li><p id="protogen-esb-enactiondependenttype-actdepsuccess"><strong><code class="docutils literal notranslate"><span class="pre">actDepSuccess</span></code></strong> — Execute only if the parent action succeeded: <a class="reference internal" href="#protogen-esb-enactionresult-actsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actSuccess</span></code></span></a> or a warning such as <a class="reference internal" href="#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-enactiondependenttype-actdeperror"><strong><code class="docutils literal notranslate"><span class="pre">actDepError</span></code></strong> — Execute only if the parent action failed, i.e., its result code is an error.</p>
+</li>
+</ul>
+</section>
+<section id="enactionreplymode">
+<span id="protogen-esb-enactionreplymode"></span><h3>enActionReplyMode<a class="headerlink" href="#enactionreplymode" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enActionReplyMode</span></code></p>
+<p>Selects which execution results of an asynchronous action are sent in unsolicited reports.
+It does not affect the reply to the directive, which is controlled by <a class="reference internal" href="#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a>.
+Warnings, including <a class="reference internal" href="#protogen-esb-enactionresult-actdelayed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></span></a>, count as success rather than an error.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enactionreplymode-actreplydefault"><strong><code class="docutils literal notranslate"><span class="pre">actReplyDefault</span></code></strong> — Report every execution.</p>
+</li>
+<li><p id="protogen-esb-enactionreplymode-actreplynever"><strong><code class="docutils literal notranslate"><span class="pre">actReplyNever</span></code></strong> — Report no executions.</p>
+</li>
+<li><p id="protogen-esb-enactionreplymode-actreplyonerror"><strong><code class="docutils literal notranslate"><span class="pre">actReplyOnError</span></code></strong> — Report only executions that fail.</p>
+</li>
+<li><p id="protogen-esb-enactionreplymode-actreplyonlast"><strong><code class="docutils literal notranslate"><span class="pre">actReplyOnLast</span></code></strong> — Report only the last execution of this action.</p>
+</li>
+<li><p id="protogen-esb-enactionreplymode-actreplyonerrororlast"><strong><code class="docutils literal notranslate"><span class="pre">actReplyOnErrorOrLast</span></code></strong> — Report executions that fail and the last execution of this action.</p>
+</li>
+</ul>
+</section>
+<section id="enactionresult">
+<span id="protogen-esb-enactionresult"></span><h3>enActionResult<a class="headerlink" href="#enactionresult" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enActionResult</span></code></p>
+<p>Global enum for action results.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enactionresult-actsuccess"><strong><code class="docutils literal notranslate"><span class="pre">actSuccess</span></code></strong> — Action was successfully executed.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actpending"><strong><code class="docutils literal notranslate"><span class="pre">actPending</span></code></strong> — Action has been successfully scheduled.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actdelayed"><strong><code class="docutils literal notranslate"><span class="pre">actDelayed</span></code></strong> — Action was successful but executed past its due time.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-acttoolate"><strong><code class="docutils literal notranslate"><span class="pre">actTooLate</span></code></strong> — Action was not executed because it missed its hard deadline.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actnoresources"><strong><code class="docutils literal notranslate"><span class="pre">actNoResources</span></code></strong> — Not enough server resources to perform the action.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actinvalidparam"><strong><code class="docutils literal notranslate"><span class="pre">actInvalidParam</span></code></strong> — A parameter value is invalid or out of range, or a combination of parameters violates the
+constraints of the requested operation.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actnotsupported"><strong><code class="docutils literal notranslate"><span class="pre">actNotSupported</span></code></strong> — The requested operation or feature is not supported by this server.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actfailsafeerror"><strong><code class="docutils literal notranslate"><span class="pre">actFailsafeError</span></code></strong> — Operating mode mismatch for the synchronous operation.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actinternalerror"><strong><code class="docutils literal notranslate"><span class="pre">actInternalError</span></code></strong> — Unspecified internal error.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actcmdfailed"><strong><code class="docutils literal notranslate"><span class="pre">actCmdFailed</span></code></strong> — The execution of the command associated with the action failed.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actendpointnotenabled"><strong><code class="docutils literal notranslate"><span class="pre">actEndpointNotEnabled</span></code></strong> — Action failed because the endpoint is not enabled.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-acttimeouterror"><strong><code class="docutils literal notranslate"><span class="pre">actTimeoutError</span></code></strong> — Action failed because the execution of the action timed out.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actcsumerror"><strong><code class="docutils literal notranslate"><span class="pre">actCsumError</span></code></strong> — Action failed because of an invalid checksum.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actioerror"><strong><code class="docutils literal notranslate"><span class="pre">actIOError</span></code></strong> — Action failed because of a hardware/bus error.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actstreamnotstarted"><strong><code class="docutils literal notranslate"><span class="pre">actStreamNotStarted</span></code></strong> — Action failed because the stream is not started.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actstreamalreadystarted"><strong><code class="docutils literal notranslate"><span class="pre">actStreamAlreadyStarted</span></code></strong> — Action failed because the stream is already started.</p>
+</li>
+<li><p id="protogen-esb-enactionresult-actnvmnotpresent"><strong><code class="docutils literal notranslate"><span class="pre">actNvmNotPresent</span></code></strong> — Unable to access NVM because it is not present.</p>
+</li>
+</ul>
+</section>
+<section id="enqueryresult">
+<span id="protogen-esb-enqueryresult"></span><h3>enQueryResult<a class="headerlink" href="#enqueryresult" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enQueryResult</span></code></p>
+<p>Global enum for query result code.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enqueryresult-qrysuccess"><strong><code class="docutils literal notranslate"><span class="pre">qrySuccess</span></code></strong> — Query was successful.</p>
+</li>
+<li><p id="protogen-esb-enqueryresult-qryunknowndevice"><strong><code class="docutils literal notranslate"><span class="pre">qryUnknownDevice</span></code></strong> — The specified handle is invalid.</p>
+</li>
+<li><p id="protogen-esb-enqueryresult-qryinvalidparam"><strong><code class="docutils literal notranslate"><span class="pre">qryInvalidParam</span></code></strong> — A parameter value is invalid or out of range, or a combination of parameters violates the
+constraints of the requested operation.</p>
+</li>
+<li><p id="protogen-esb-enqueryresult-qryinternalerror"><strong><code class="docutils literal notranslate"><span class="pre">qryInternalError</span></code></strong> — Unspecified internal error.</p>
+</li>
+<li><p id="protogen-esb-enqueryresult-qryendpointnotenabled"><strong><code class="docutils literal notranslate"><span class="pre">qryEndpointNotEnabled</span></code></strong> — The query targets an endpoint that is not enabled.</p>
+</li>
+<li><p id="protogen-esb-enqueryresult-qrynotsupported"><strong><code class="docutils literal notranslate"><span class="pre">qryNotSupported</span></code></strong> — The requested operation or feature is not supported by this server.</p>
+</li>
+</ul>
+</section>
+<section id="ennotifresult">
+<span id="protogen-esb-ennotifresult"></span><h3>enNotifResult<a class="headerlink" href="#ennotifresult" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enNotifResult</span></code></p>
+<p>Result codes for endpoint notifications and directive decoding errors.</p>
+<ul class="simple">
+<li><p id="protogen-esb-ennotifresult-ntfsuccess"><strong><code class="docutils literal notranslate"><span class="pre">ntfSuccess</span></code></strong> — Notification was successful.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfioerror"><strong><code class="docutils literal notranslate"><span class="pre">ntfIOError</span></code></strong> — Hardware/bus error.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfbufferoverrun"><strong><code class="docutils literal notranslate"><span class="pre">ntfBufferOverrun</span></code></strong> — Buffer overrun occurred.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfprotocolerror"><strong><code class="docutils literal notranslate"><span class="pre">ntfProtocolError</span></code></strong> — The server could not decode the received message.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfprotocoltoolarge"><strong><code class="docutils literal notranslate"><span class="pre">ntfProtocolTooLarge</span></code></strong> — The received message exceeds a limit of the server.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfprotocolunsupported"><strong><code class="docutils literal notranslate"><span class="pre">ntfProtocolUnsupported</span></code></strong> — The received message has an unknown field or several members of a oneof.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfinternalerror"><strong><code class="docutils literal notranslate"><span class="pre">ntfInternalError</span></code></strong> — Unspecified internal error.</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfflushed"><strong><code class="docutils literal notranslate"><span class="pre">ntfFlushed</span></code></strong> — Endpoint was flushed (e.g., UART break).</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfcsumerror"><strong><code class="docutils literal notranslate"><span class="pre">ntfCsumError</span></code></strong> — Checksum error (e.g., UART parity error).</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfframeerror"><strong><code class="docutils literal notranslate"><span class="pre">ntfFrameError</span></code></strong> — Frame error (e.g., UART framing error).</p>
+</li>
+<li><p id="protogen-esb-ennotifresult-ntfoutofmemory"><strong><code class="docutils literal notranslate"><span class="pre">ntfOutOfMemory</span></code></strong> — Out of memory error.</p>
+</li>
+</ul>
+</section>
+<section id="enconfigresult">
+<span id="protogen-esb-enconfigresult"></span><h3>enConfigResult<a class="headerlink" href="#enconfigresult" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enConfigResult</span></code></p>
+<p>Global enum for configuration result.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enconfigresult-cfgsuccess"><strong><code class="docutils literal notranslate"><span class="pre">cfgSuccess</span></code></strong> — Configuration was successful (default).</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfgparamadjusted"><strong><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></strong> — Configuration was successful, but some parameters were adjusted by the server.</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfgnotsupported"><strong><code class="docutils literal notranslate"><span class="pre">cfgNotSupported</span></code></strong> — The requested operation or feature is not supported by this server.</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfginvalidparam"><strong><code class="docutils literal notranslate"><span class="pre">cfgInvalidParam</span></code></strong> — A parameter value is invalid or out of range, or a combination of parameters violates the
+constraints of the requested operation.</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfginternalerror"><strong><code class="docutils literal notranslate"><span class="pre">cfgInternalError</span></code></strong> — Unspecified internal error.</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfgbusy"><strong><code class="docutils literal notranslate"><span class="pre">cfgBusy</span></code></strong> — Server is busy and cannot accept the configuration at the moment.</p>
+</li>
+<li><p id="protogen-esb-enconfigresult-cfgnotallowed"><strong><code class="docutils literal notranslate"><span class="pre">cfgNotAllowed</span></code></strong> — Configuration not allowed for the item being configured because it is read-only.</p>
+</li>
+</ul>
+</section>
+<section id="enaclresult">
+<span id="protogen-esb-enaclresult"></span><h3>enAclResult<a class="headerlink" href="#enaclresult" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.enAclResult</span></code></p>
+<p>Global enum for action cancel result.</p>
+<ul class="simple">
+<li><p id="protogen-esb-enaclresult-aclsuccess"><strong><code class="docutils literal notranslate"><span class="pre">aclSuccess</span></code></strong> — Action cancel operation was successful.</p>
+</li>
+<li><p id="protogen-esb-enaclresult-aclpending"><strong><code class="docutils literal notranslate"><span class="pre">aclPending</span></code></strong> — Action cancel operation was successful, but the action was already in progress.</p>
+</li>
+<li><p id="protogen-esb-enaclresult-aclnotfound"><strong><code class="docutils literal notranslate"><span class="pre">aclNotFound</span></code></strong> — Action cancel operation failed because the action was not found.</p>
+</li>
+<li><p id="protogen-esb-enaclresult-aclinternalerror"><strong><code class="docutils literal notranslate"><span class="pre">aclInternalError</span></code></strong> — Unspecified internal error.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp.html" class="btn btn-neutral float-left" title="RCP Messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_common.html" class="btn btn-neutral float-right" title="Common Definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

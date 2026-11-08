@@ -1,0 +1,32 @@
+(protogen.pwm)=
+
+# PWM Driver
+
+**File:** `endpoints/pwm/pwm_dev.proto`
+
+**Package:** `esb.pwm`
+
+PWM configuration and actions for RCP.
+
+A PWM endpoint generates a periodic square wave with a configurable frequency and duty cycle.
+
+After configuration, the endpoint is stopped and its output pin is low. A [`fldCmd`](#protogen.esb.pwm.fldCmd) message with [`fldCmd.op`](#protogen.esb.pwm.fldCmd.op) set to
+[`opStart`](#protogen.esb.pwm.enCmdOperation.opStart) starts PWM. The command can set a frequency {math}`f_{PWM}` and a duty cycle {math}`D` at the same time (0 ≤ {math}`D` ≤ 1).
+When the endpoint processes the start instruction, it first emits a low pulse lasting {math}`t_{LOW}` = (1 - {math}`D`) /
+{math}`f_{PWM}`, then a high pulse lasting {math}`t_{HIGH}` = {math}`D` / {math}`f_{PWM}`.
+
+A new [`fldCmd`](#protogen.esb.pwm.fldCmd) message can change the PWM frequency and the duty cycle at any time. To avoid glitches, the endpoint
+applies the new values at the end of a full cycle. Similarly, [`fldCmd.op`](#protogen.esb.pwm.fldCmd.op) = [`opStop`](#protogen.esb.pwm.enCmdOperation.opStop) pulls the output pin low only
+after the active low-high cycle has completed.
+
+The figure shows the output pin when PWM is started, when the frequency and the duty cycle are changed, and when
+PWM is stopped:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingPwm.svg)
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+pwm_dev-protocol
+```

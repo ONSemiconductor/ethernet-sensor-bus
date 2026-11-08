@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UART Driver &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Protocol" href="uart_dev-protocol.html" />
+    <link rel="prev" title="Protocol" href="../pwm/pwm_dev-protocol.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">UART Driver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="uart_dev-protocol.html">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+      <li class="breadcrumb-item active">UART Driver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="uart-driver">
+<span id="protogen-uart"></span><h1>UART Driver<a class="headerlink" href="#uart-driver" title="Link to this heading"></a></h1>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">endpoints/uart/uart_dev.proto</span></code></p>
+<p><strong>Package:</strong> <code class="docutils literal notranslate"><span class="pre">esb.uart</span></code></p>
+<p>UART configuration, actions, and notifications for RCP.</p>
+<p>A UART endpoint is a universal asynchronous receiver-transmitter (UART). It sends and receives blocks of data
+words. The transmitter and the receiver work independently, but both use the same line configuration. The client
+configures the endpoint with a <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig</span></code></span></a> message before it uses it. The pins TX and RX and, for hardware
+flow control, CTS and RTS are assigned to the endpoint with the pin configuration, see <a class="reference internal" href="../../server/rcp_pins-protocol.html#protogen-esb-rcp-pins-enpinfuncuart"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.pins.enPinFuncUart</span></code></span></a>.</p>
+<section id="transmission-timing">
+<h2>Transmission timing<a class="headerlink" href="#transmission-timing" title="Link to this heading"></a></h2>
+<p>The UART sends blocks of words on the pin TX. By default, the idle level is high (called “mark”), and start bits and
+breaks are low (called “space”). Setting <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txpolinv"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txPolInv</span></code></span></a> inverts the polarity of the pin, including the data
+bits.</p>
+<p>A UART word consists of a start bit, data bits, an optional parity bit, and stop bits. The least significant bit is
+sent first. The parameters <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-speedbps"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.speedBps</span></code></span></a>, <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numdatabits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numDataBits</span></code></span></a>, <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-paritybit"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.parityBit</span></code></span></a>, and
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numstopbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numStopBits</span></code></span></a> configure how the word is structured in time. The figure shows a word with seven data bits,
+even parity, and two stop bits.</p>
+<p><img alt="" src="../../_images/timingUartWord.svg" /></p>
+<p>The bit time is <span class="math notranslate nohighlight">\(t_B\)</span> = 1 / <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-speedbps"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.speedBps</span></code></span></a>. The word time <span class="math notranslate nohighlight">\(t_W\)</span> is the time from the start of the start bit to
+the end of the last stop bit:</p>
+<p><span class="math notranslate nohighlight">\(t_W\)</span> = (1 + <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numdatabits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numDataBits</span></code></span></a> + {1 if <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-paritybit"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.parityBit</span></code></span></a> is not <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-enparitybit-paritynone"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">parityNone</span></code></span></a>} + <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numstopbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numStopBits</span></code></span></a>)
+× <span class="math notranslate nohighlight">\(t_B\)</span></p>
+<p>The UART sends one block of data words for each <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd</span></code></span></a> message. In the simplest case, the command contains only
+the data to send, and the UART concatenates all words without a pause between them. The block time <span class="math notranslate nohighlight">\(t_{BLK}\)</span> is
+then Length(<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txData</span></code></span></a>) × <span class="math notranslate nohighlight">\(t_W\)</span>:</p>
+<p><img alt="" src="../../_images/timingUartBlockSingle.svg" /></p>
+<p>The client can set <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txbreak"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txBreak</span></code></span></a> to send a break before the data. A break is a space that lasts
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txbreakbittime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txBreakBitTime</span></code></span></a> bit times. The client should choose a break that is longer than the longest space of
+normal data, so that a UART receiver can tell the break from an all-zero word. A mark follows the break and
+separates it from the start bit of the first word, which is a space as well. The mark lasts as long as the stop bits
+of a word, i.e., <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numstopbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numStopBits</span></code></span></a> bit times. The figure shows three words with a break:</p>
+<p><img alt="" src="../../_images/timingUartBlockBreak.svg" /></p>
+<p>The block time is now <span class="math notranslate nohighlight">\(t_{BLK}\)</span> = <span class="math notranslate nohighlight">\(t_B\)</span> × (<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txbreakbittime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txBreakBitTime</span></code></span></a> + <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numstopbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numStopBits</span></code></span></a>) +
+Length(<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txData</span></code></span></a>) × <span class="math notranslate nohighlight">\(t_W\)</span>.</p>
+<p><a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-chunksize"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.chunkSize</span></code></span></a> splits a block into smaller “chunks”. Each chunk contains that many words, except for the last
+one, which is smaller if the block size is not a multiple of the chunk size. With the default chunk size of 0, a
+block consists of one chunk. The UART concatenates the words of a chunk as before, adds the pause
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txdelayus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txDelayUs</span></code></span></a> between the chunks, and sends the break, if commanded, before each chunk:</p>
+<p><img alt="" src="../../_images/timingUartBlockChunks.svg" /></p>
+<p>In the general case, the block time is</p>
+<p><span class="math notranslate nohighlight">\(t_{BLK}\)</span> = <span class="math notranslate nohighlight">\(t_B\)</span> × (<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txbreakbittime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txBreakBitTime</span></code></span></a> + <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-numstopbits"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.numStopBits</span></code></span></a>) × <span class="math notranslate nohighlight">\(N_{Ch}\)</span> +
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-txdelayus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.txDelayUs</span></code></span></a> / <span class="math notranslate nohighlight">\(10^6\)</span> × (<span class="math notranslate nohighlight">\(N_{Ch}\)</span> - 1) + Length(<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txData</span></code></span></a>) × <span class="math notranslate nohighlight">\(t_W\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(N_{Ch}\)</span> is the number of chunks in the block: <span class="math notranslate nohighlight">\(N_{Ch}\)</span> = <span class="math notranslate nohighlight">\(\lceil\)</span> Length(<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txdata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txData</span></code></span></a>) /
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-chunksize"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.chunkSize</span></code></span></a> <span class="math notranslate nohighlight">\(\rceil\)</span>, or 1 if <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-chunksize"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.chunkSize</span></code></span></a> is 0. Without <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldcmd-txbreak"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.txBreak</span></code></span></a>, the first term is omitted.</p>
+</section>
+<section id="reception">
+<h2>Reception<a class="headerlink" href="#reception" title="Link to this heading"></a></h2>
+<p>The UART receives on the pin RX while <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxEnable</span></code></span></a> is set. The receiver uses the same nominal timing as the
+transmitter. Details such as the sampling moment, oversampling, and resynchronization are implementation-specific
+(refer to the datasheet of the server).</p>
+<p>The receiver validates each word. A word without the expected stop bits is a framing error, and a word with a wrong
+parity bit is a parity error. The receiver reports both with a notification (criterion 2 below).</p>
+<p>To save bandwidth between the client and the RCP server, the receiver buffers the received words before it sends
+them. It sends a <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif</span></code></span></a> notification to the client as soon as one of six criteria is met. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> holds
+the accumulated words from the buffer unless stated otherwise. The client should evaluate <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> to process
+the notification correctly.</p>
+<p>The receiver checks the criteria in this order:</p>
+<ol class="arabic simple">
+<li><p>The endpoint could not process the received data quickly enough and lost data. This can happen when the link
+between the client and the RCP server is overloaded and notifications cannot be sent as fast as the UART
+receives words. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfbufferoverrun"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfBufferOverrun</span></code></span></a>. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> can contain the words received after the
+data loss. If the word received after the loss is corrupted, e.g., by a parity error, <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is empty
+and another notification follows immediately, according to criterion 2. Likewise, if a break follows the overrun
+immediately, a second notification with empty data and the code <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfflushed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfFlushed</span></code></span></a> follows immediately.</p></li>
+<li><p>The receiver detects a parity error or a framing error. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfcsumerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfCsumError</span></code></span></a> or <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfframeerror"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfFrameError</span></code></span></a>,
+and the last byte of <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is the erroneous word, which is likely corrupted.</p></li>
+<li><p>The receiver detects a break. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfflushed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfFlushed</span></code></span></a>, and the last byte of <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is the last
+word received before the break. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is empty if the receiver got no word before the break. The
+minimum duration of a space that the receiver detects as a break is implementation-specific (refer to the
+datasheet of the server).</p></li>
+<li><p>The number of words in the buffer equals or exceeds <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxlength"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxLength</span></code></span></a>. This criterion is met intrinsically if
+the buffer is full. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfSuccess</span></code></span></a>.</p></li>
+<li><p>The last word in the buffer was received more than <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxtimeoutbittime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTimeoutBitTime</span></code></span></a> bit times ago, and
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxtimeoutenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTimeoutEnable</span></code></span></a> is set. <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfSuccess</span></code></span></a>.</p></li>
+<li><p>The last received word equals <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxterminalbyte"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTerminalByte</span></code></span></a>, and <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxterminalbyteenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTerminalByteEnable</span></code></span></a> is set.
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> is <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfSuccess</span></code></span></a>, and the last byte of <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is the terminal byte.</p></li>
+</ol>
+</section>
+<section id="reception-filtering">
+<h2>Reception filtering<a class="headerlink" href="#reception-filtering" title="Link to this heading"></a></h2>
+<p>The receiver can filter the received data, so that the client receives only fragments of a data stream.</p>
+<p>By default, the receiver collects all received words. Setting <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxstartbyteenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxStartByteEnable</span></code></span></a> makes the receiver
+ignore incoming data until it correctly receives the start byte <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxstartbyte"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxStartByte</span></code></span></a>. The receiver puts the start
+byte into the buffer and collects the data again until it receives the terminal byte <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxterminalbyte"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTerminalByte</span></code></span></a>.
+After that, it ignores incoming data again until the next start byte.</p>
+<p>The receiver treats a start byte that arrives while it is collecting like any other word. It keeps ignoring data when
+a terminal byte arrives while it is ignoring.</p>
+<p>The notifications include the start byte and the terminal byte that change the filtering state. As a consequence,
+after the client sets <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxstartbyteenable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxStartByteEnable</span></code></span></a>, the first received byte is always the start byte. After a
+terminal byte, the next received byte is always a start byte.</p>
+<p>Filtering affects only the collection of valid data and not the notification criteria above:</p>
+<ul class="simple">
+<li><p>A break that arrives while the receiver is ignoring data still causes a notification with the code <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfflushed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfFlushed</span></code></span></a>.
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> is empty, because the receiver has collected no words (criterion 3). A break that arrives while
+the receiver is collecting causes a separate notification as well.</p></li>
+<li><p>Parity and framing errors are always reported to the client. While the receiver is collecting, the behavior is the
+same as without filtering, and all bytes in <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> are valid except the last. While the receiver is
+ignoring, <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a> contains only the erroneous byte.</p></li>
+<li><p>When the receiver starts ignoring data, it always sends a notification, and the last byte is
+<a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-rxterminalbyte"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.rxTerminalByte</span></code></span></a> (criterion 6).</p></li>
+</ul>
+<p>Only correctly received words change the filtering state. Errors have two consequences:</p>
+<ul class="simple">
+<li><p>A start byte with a framing or parity error does not start the collection, and the client misses the fragment.</p></li>
+<li><p>A terminal byte with an error does not stop the collection, and the client keeps receiving notifications that it
+would rather ignore.</p></li>
+</ul>
+</section>
+<section id="flow-control">
+<h2>Flow control<a class="headerlink" href="#flow-control" title="Link to this heading"></a></h2>
+<p>The UART supports hardware and software flow control, which can be enabled together.</p>
+<p>Setting <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-hwflowcontrol"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.hwFlowControl</span></code></span></a> enables hardware flow control. The signal CTS needs an input pin
+and the signal RTS an output pin.</p>
+<p>While CTS is active, the transmitter may send data. Otherwise, it holds the pending data. The transmitter stops
+per word, not per block, so unfinished commands stay pending as long as CTS is inactive:</p>
+<p><img alt="" src="../../_images/timingUartBlockHwFlow.svg" /></p>
+<p>The receiver signals through RTS whether it can accept further words. RTS is active after initialization. It becomes
+inactive when the endpoint cannot guarantee that further incoming words can be processed without data loss. If RTS
+becomes inactive while a word is being received, the receiver still accepts that word without data loss.</p>
+<p>By default, CTS and RTS are active low. <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-hwflowcontrolpolinv"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.hwFlowControlPolInv</span></code></span></a> inverts their polarity.</p>
+<p>Software flow control throttles the transmitter only. <a class="reference internal" href="uart_dev-protocol.html#protogen-esb-uart-fldconfig-swflowcontrol"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.swFlowControl</span></code></span></a> enables it. It needs no additional
+hardware signal and relies on in-band signaling in the data that the UART receives. When the incoming data stream
+contains an “XOFF” character (0x13, 19), the transmitter finishes the ongoing word, if any, and stops until it
+receives an “XON” character (0x11, 17):</p>
+<p><img alt="" src="../../_images/timingUartBlockSwFlow.svg" /></p>
+<p>For both kinds of flow control, the transmitter handles a break like a data word. If the transmission is suspended
+while a break is being sent, the transmitter completes the break and waits before the first data word:</p>
+<p><img alt="" src="../../_images/timingUartBlockHwFlowBreak.svg" /></p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To configure the UART for 115200 bps, 8 data bits, no parity, and one stop bit, to receive lines that end with a
+line feed, and to send a command line:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
+dir {
+   config {
+      hndl: 7
+      uart {
+         speedBps: 115200  numDataBits: 8  numStopBits: 1  parityBit: parityNone
+         rxEnable: true  rxTerminalByteEnable: true  rxTerminalByte: 10
+      }
+   }
+}
+dir { action { hndl: 7  uart { txData: "AT\r\n" } } }
+</pre></div>
+</div>
+<p>The receiver collects words until the terminal byte 0x0A (line feed) and then sends a notification with
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-code"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.code</span></code></span></a> set to <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-ennotifresult-ntfsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ntfSuccess</span></code></span></a> and the received line in <a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldnotif-data"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif.data</span></code></span></a>.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../pwm/pwm_dev-protocol.html" class="btn btn-neutral float-left" title="Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="uart_dev-protocol.html" class="btn btn-neutral float-right" title="Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

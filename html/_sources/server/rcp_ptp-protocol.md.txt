@@ -1,0 +1,99 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.ptp.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.ptp.fldConfig`
+
+PTP protocol settings. The gains [`pidP`](#protogen.esb.rcp.ptp.fldConfig.pidP), [`pidI`](#protogen.esb.rcp.ptp.fldConfig.pidI), and [`pidD`](#protogen.esb.rcp.ptp.fldConfig.pidD) have four fractional bits: the gain is the field value
+divided by 16. The supported coefficients and their ranges are server-dependent. Refer to the datasheet.
+The PID controller adds three terms: the error multiplied by the proportional gain, the sum of the errors
+multiplied by the integral gain, and the change of the error since the previous synchronization message
+multiplied by the derivative gain. The sum is shifted left by N bits, i.e., multiplied by 2 to the power of N,
+and adjusts the rate of the PTP timer.
+
+**Fields**
+
+- (protogen.esb.rcp.ptp.fldConfig.enable)=
+
+  **`enable`** — *optional* `bool`\
+  If set, enables or disables the PTP protocol.
+  While the protocol is enabled, the RCP server corrects its PTP timer with the time of the PTP master.
+  While it is disabled, the RCP server does not correct the timer, but the client can still set the timer with
+  the command [`rcp.dev.opSetPtpTime`](#protogen.esb.rcp.dev.enCmdOperation.opSetPtpTime).
+
+- (protogen.esb.rcp.ptp.fldConfig.syncTimeoutMs)=
+
+  **`syncTimeoutMs`** — *optional* `uint32`\
+  If set, configures the timeout for losing synchronization in milliseconds.
+  If the RCP server receives no synchronization message from the PTP master within this time, it declares the
+  loss of synchronization and clears [`fldStatus.synced`](#protogen.esb.rcp.ptp.fldStatus.synced) until the next synchronization message arrives.
+  If 0, the timeout is disabled, and the RCP server never declares the loss of synchronization.
+
+- (protogen.esb.rcp.ptp.fldConfig.offsetNs)=
+
+  **`offsetNs`** — *optional* `uint32`\
+  If set, configures the error offset for synchronization in nanoseconds.
+  This value is added to the calculated error before it is used for clock
+  adjustment, effectively shifting the clock reference point.
+  This can be used to compensate for systematic delays in the system,
+  for example the wire length.
+  The error that the RCP server reports in [`fldStatus.err`](#protogen.esb.rcp.ptp.fldStatus.err) does not include the offset.
+
+- (protogen.esb.rcp.ptp.fldConfig.pidP)=
+
+  **`pidP`** — *optional* `uint32`\
+  If set, sets the "P" coefficient of the PID algorithm, i.e., the proportional gain by which the error is
+  multiplied.
+
+- (protogen.esb.rcp.ptp.fldConfig.pidI)=
+
+  **`pidI`** — *optional* `uint32`\
+  If set, sets the "I" coefficient of the PID algorithm, i.e., the integral gain by which the sum of the errors
+  since the start of the synchronization is multiplied.
+
+- (protogen.esb.rcp.ptp.fldConfig.pidD)=
+
+  **`pidD`** — *optional* `uint32`\
+  If set, sets the "D" coefficient of the PID algorithm, i.e., the derivative gain by which the change of the
+  error since the previous synchronization message is multiplied.
+
+- (protogen.esb.rcp.ptp.fldConfig.pidN)=
+
+  **`pidN`** — *optional* `uint32`\
+  If set, sets the N shift of the PID algorithm: the sum of the three terms of the controller is shifted left by
+  N bits, i.e., multiplied by 2 to the power of N, before it adjusts the rate of the PTP timer. The shift scales
+  the three gains together.
+
+(protogen.esb.rcp.ptp.fldStatus)=
+
+### fldStatus
+
+*Message* `esb.rcp.ptp.fldStatus`
+
+PTP protocol status, returned by the query [`rcp.dev.qryPtpStatus`](#protogen.esb.rcp.dev.enQuery.qryPtpStatus).
+
+**Fields**
+
+- (protogen.esb.rcp.ptp.fldStatus.val)=
+
+  **`val`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+  The current value of the PTP timer, read when the RCP server handles the query.
+  If the timer is neither synchronized (see [`synced`](#protogen.esb.rcp.ptp.fldStatus.synced)) nor set with a command, its value does not correspond
+  to the time of the master.
+
+- (protogen.esb.rcp.ptp.fldStatus.err)=
+
+  **`err`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+  The calculated error: the difference between the time of the PTP master and the PTP timer, determined with the
+  last synchronization message and compensated with [`fldConfig.offsetNs`](#protogen.esb.rcp.ptp.fldConfig.offsetNs).
+  It is an absolute value, so its sign is not reported.
+
+- (protogen.esb.rcp.ptp.fldStatus.synced)=
+
+  **`synced`** — `bool`\
+  If set, the PTP timer is currently synchronized: the RCP server received a synchronization message from the PTP
+  master, and it has not declared the loss of synchronization since, see [`fldConfig.syncTimeoutMs`](#protogen.esb.rcp.ptp.fldConfig.syncTimeoutMs).

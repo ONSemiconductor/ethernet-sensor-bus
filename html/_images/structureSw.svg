@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="692" viewBox="0 0 880 692" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Software structure of a client and an RCP server</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="880" height="692" fill="#ffffff"/>
+  <rect class="act" x="16" y="16" width="760" height="232" rx="8"/>
+  <text class="b" x="30" y="38" xml:space="preserve">Client</text>
+  <rect class="blk" x="36" y="60" width="110" height="168" rx="6"/>
+  <text class="c" x="91" y="140.05" xml:space="preserve">User</text>
+  <text class="c" x="91" y="157.05" xml:space="preserve">application</text>
+  <rect class="blk" x="186" y="96" width="130" height="96" rx="6"/>
+  <text class="c" x="251" y="140.05" xml:space="preserve">Abstraction</text>
+  <text class="c" x="251" y="157.05" xml:space="preserve">library</text>
+  <rect class="blk" x="400" y="60" width="130" height="72" rx="6"/>
+  <text class="c" x="465" y="92.05" xml:space="preserve">Protobuf</text>
+  <text class="c" x="465" y="109.05" xml:space="preserve">encoder</text>
+  <rect class="blk" x="400" y="156" width="130" height="72" rx="6"/>
+  <text class="c" x="465" y="188.05" xml:space="preserve">Protobuf</text>
+  <text class="c" x="465" y="205.05" xml:space="preserve">decoder</text>
+  <rect class="blk" x="620" y="60" width="124" height="168" rx="6"/>
+  <text class="c" x="682" y="140.05" xml:space="preserve">Networking</text>
+  <text class="c" x="682" y="157.05" xml:space="preserve">stack</text>
+  <path class="arrow" d="M146,80 L400,80"/>
+  <path class="arrow" d="M146,114 L186,114"/>
+  <path class="arrow" d="M316,114 L400,114"/>
+  <path class="arrow" d="M400,174 L316,174"/>
+  <path class="arrow" d="M186,174 L146,174"/>
+  <path class="arrow" d="M400,210 L146,210"/>
+  <text class="c n" x="358" y="134" xml:space="preserve">Data</text>
+  <text class="c n" x="358" y="149" xml:space="preserve">structures</text>
+  <path class="arrow" d="M530,96 L620,96"/>
+  <path class="arrow" d="M620,192 L530,192"/>
+  <text class="c n" x="575" y="126" xml:space="preserve">UDP or</text>
+  <text class="c n" x="575" y="141" xml:space="preserve">Ethernet</text>
+  <text class="c n" x="575" y="156" xml:space="preserve">payloads</text>
+  <path class="blk" d="M390,330 A24,24 0 0 1 364,302 A26,26 0 0 1 396,272 A30,30 0 0 1 450,266 A28,28 0 0 1 500,280 A24,24 0 0 1 522,308 A22,22 0 0 1 496,330 H390 Z"/>
+  <text class="b c" x="442" y="297" xml:space="preserve">Network</text>
+  <path class="dash" d="M402,336 L396,354"/>
+  <path class="dash" d="M418,336 L412,354"/>
+  <path class="dash" d="M434,336 L428,354"/>
+  <path class="dash" d="M450,336 L444,354"/>
+  <path class="dash" d="M466,336 L460,354"/>
+  <path class="arrow2" d="M682,228 L682,290 L518,290"/>
+  <text class="n" x="694" y="272" xml:space="preserve">UDP or Ethernet packets</text>
+  <rect class="act" x="16" y="372" width="760" height="232" rx="8"/>
+  <text class="b" x="30" y="394" xml:space="preserve">RCP server</text>
+  <rect class="blk" x="36" y="416" width="124" height="168" rx="6"/>
+  <text class="c" x="98" y="496.05" xml:space="preserve">Networking</text>
+  <text class="c" x="98" y="513.05" xml:space="preserve">stack</text>
+  <rect class="blk" x="230" y="416" width="130" height="72" rx="6"/>
+  <text class="c" x="295" y="448.05" xml:space="preserve">Protobuf</text>
+  <text class="c" x="295" y="465.05" xml:space="preserve">decoder</text>
+  <rect class="blk" x="230" y="512" width="130" height="72" rx="6"/>
+  <text class="c" x="295" y="544.05" xml:space="preserve">Protobuf</text>
+  <text class="c" x="295" y="561.05" xml:space="preserve">encoder</text>
+  <rect class="blk" x="430" y="416" width="130" height="168" rx="6"/>
+  <text class="c" x="495" y="496.05" xml:space="preserve">RCP</text>
+  <text class="c" x="495" y="513.05" xml:space="preserve">interpreter</text>
+  <rect class="blk" x="620" y="416" width="124" height="168" rx="6"/>
+  <text class="c" x="682" y="504.55" xml:space="preserve">Endpoints</text>
+  <path class="arrow" d="M160,452 L230,452"/>
+  <path class="arrow" d="M230,548 L160,548"/>
+  <text class="c n" x="195" y="482" xml:space="preserve">UDP or</text>
+  <text class="c n" x="195" y="497" xml:space="preserve">Ethernet</text>
+  <text class="c n" x="195" y="512" xml:space="preserve">payloads</text>
+  <path class="arrow" d="M360,452 L430,452"/>
+  <path class="arrow" d="M430,548 L360,548"/>
+  <path class="arrow2" d="M560,500 L620,500"/>
+  <path class="line" d="M744,432 L776,432"/>
+  <circle class="blk" cx="776" cy="432" r="3.5"/>
+  <path class="line" d="M744,448 L776,448"/>
+  <circle class="blk" cx="776" cy="448" r="3.5"/>
+  <path class="arrow2" d="M780,440 L812,440"/>
+  <text x="820" y="444.5" xml:space="preserve">UART</text>
+  <path class="line" d="M744,484 L776,484"/>
+  <circle class="blk" cx="776" cy="484" r="3.5"/>
+  <path class="arrow" d="M812,484 L780,484"/>
+  <text x="820" y="488.5" xml:space="preserve">SENT</text>
+  <path class="line" d="M744,520 L776,520"/>
+  <circle class="blk" cx="776" cy="520" r="3.5"/>
+  <path class="arrow" d="M812,520 L780,520"/>
+  <text x="820" y="524.5" xml:space="preserve">ADC</text>
+  <path class="line" d="M744,556 L776,556"/>
+  <circle class="blk" cx="776" cy="556" r="3.5"/>
+  <path class="arrow" d="M780,556 L812,556"/>
+  <text x="820" y="560.5" xml:space="preserve">PWM</text>
+  <path class="arrow2" d="M362,290 L140,290 L140,416"/>
+  <path class="line" d="M226,618 Q226,623 231,623 H290 Q295,623 295,628 Q295,623 300,623 H359 Q364,623 364,618"/>
+  <path class="line" d="M426,618 Q426,623 431,623 H490 Q495,623 495,628 Q495,623 500,623 H559 Q564,623 564,618"/>
+  <text class="c" x="295" y="648" xml:space="preserve">Automatically generated</text>
+  <text class="c" x="295" y="665" xml:space="preserve">from <tspan class="m">.proto</tspan> files</text>
+  <text class="c" x="495" y="648" xml:space="preserve">Behavior follows</text>
+  <text class="c" x="495" y="665" xml:space="preserve">protocol specification</text>
+</svg>

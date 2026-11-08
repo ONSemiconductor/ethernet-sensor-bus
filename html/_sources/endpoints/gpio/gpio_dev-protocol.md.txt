@@ -1,0 +1,146 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.gpio.fldPinConfig)=
+
+### fldPinConfig
+
+*Message* `esb.gpio.fldPinConfig`
+
+Configuration message for GPIO pins.
+
+**Fields**
+
+- (protogen.esb.gpio.fldPinConfig.num)=
+
+  **`num`** — `uint32`\
+  Index of the pin within the controller, starting from 0. It is the GPIO number of the pin, which is its bit
+  position in the masks of [`fldCmd`](#protogen.esb.gpio.fldCmd) and [`fldNotif`](#protogen.esb.gpio.fldNotif).
+
+- (protogen.esb.gpio.fldPinConfig.event)=
+
+  **`event`** — *optional* [`enChangeEvent`](#protogen.esb.gpio.enChangeEvent)\
+  Configures which changes of the pin generate an event.
+  An event generates an unsolicited notification, unless [`quiet`](#protogen.esb.gpio.fldPinConfig.quiet) is set, and it can trigger actions, see
+  [`fldActionEvent`](#protogen.esb.fldActionEvent).
+  If PTP is configured and enabled, the notification contains the value
+  of the PTP timer at the time the pin changed its state.
+
+- (protogen.esb.gpio.fldPinConfig.quiet)=
+
+  **`quiet`** — *optional* `bool`\
+  If set, suppresses notification reports for this pin.
+  The change event can still be used to trigger other actions.
+
+- (protogen.esb.gpio.fldPinConfig.debounceNs)=
+
+  **`debounceNs`** — *optional* `uint32`\
+  Debounce time in nanoseconds.
+
+(protogen.esb.gpio.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.gpio.fldConfig`
+
+GPIO configuration message.
+
+**Fields**
+
+- (protogen.esb.gpio.fldConfig.pin)=
+
+  **`pin`** — *repeated* [`fldPinConfig`](#protogen.esb.gpio.fldPinConfig)\
+  Configuration for each GPIO pin.
+
+(protogen.esb.gpio.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.gpio.fldCmd`
+
+Container for GPIO commands.
+Each field is a mask with one bit per GPIO. A set bit applies the operation of the field
+to the GPIO whose number equals the bit position, starting with bit 0 (LSb).
+For an example, see the page [GPIO Driver](#protogen.gpio).
+
+**Fields**
+
+- (protogen.esb.gpio.fldCmd.out)=
+
+  **`out`** — `uint32`\
+  Mask of pins to (re)configure as output.
+
+- (protogen.esb.gpio.fldCmd.inp)=
+
+  **`inp`** — `uint32`\
+  Mask of pins to (re)configure as input.
+
+- (protogen.esb.gpio.fldCmd.get)=
+
+  **`get`** — `uint32`\
+  Mask of pins to get state for.
+
+- (protogen.esb.gpio.fldCmd.set)=
+
+  **`set`** — `uint32`\
+  Mask of pins to set state for.
+
+- (protogen.esb.gpio.fldCmd.clr)=
+
+  **`clr`** — `uint32`\
+  Mask of pins to clear state for.
+
+- (protogen.esb.gpio.fldCmd.tgl)=
+
+  **`tgl`** — `uint32`\
+  Mask of pins to toggle state for.
+
+(protogen.esb.gpio.fldNotif)=
+
+### fldNotif
+
+*Message* `esb.gpio.fldNotif`
+
+GPIO change notification.
+
+**Fields**
+
+- (protogen.esb.gpio.fldNotif.state)=
+
+  **`state`** — `uint32`\
+  Current state of all GPIO pins for this controller (endpoint).
+  The LSb represents the status of GPIO #0 within this controller.
+
+- (protogen.esb.gpio.fldNotif.change)=
+
+  **`change`** — `uint32`\
+  Mask of pins that changed state.
+  A bit set in the mask at position N (starting from LSb) indicates
+  that the GPIO #N changed state since the last notification.
+
+## Enumerations
+
+(protogen.esb.gpio.enChangeEvent)=
+
+### enChangeEvent
+
+*Enumeration* `esb.gpio.enChangeEvent`
+
+Pin change that generates an event.
+
+- (protogen.esb.gpio.enChangeEvent.changeEvtNone)=
+
+  **`changeEvtNone`** — No event (default).
+
+- (protogen.esb.gpio.enChangeEvent.changeEvtRising)=
+
+  **`changeEvtRising`** — Generate an event when the pin transitions from 0 to 1.
+
+- (protogen.esb.gpio.enChangeEvent.changeEvtFalling)=
+
+  **`changeEvtFalling`** — Generate an event when the pin transitions from 1 to 0.
+
+- (protogen.esb.gpio.enChangeEvent.changeEvtToggle)=
+
+  **`changeEvtToggle`** — Generate an event any time the pin changes state.

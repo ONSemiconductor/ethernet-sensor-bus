@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Identification and Capabilities" href="rcp_info.html" />
+    <link rel="prev" title="RCP Server" href="rcp_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="rcp_dev.html">RCP Server</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_tpd.html">Topology Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+          <li class="breadcrumb-item"><a href="rcp_dev.html">RCP Server</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldconfig">
+<span id="protogen-esb-rcp-dev-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.fldConfig</span></code></p>
+<p>Container of all RCP server configurations.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-dev-fldconfig-cfg"><strong><code class="docutils literal notranslate"><span class="pre">cfg</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-rcp-dev-fldconfig-server"><strong><code class="docutils literal notranslate"><span class="pre">server</span></code></strong> — <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldserverconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldServerConfig</span></code></span></a><br />
+RCP server configuration (e.g., DID).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-ptp"><strong><code class="docutils literal notranslate"><span class="pre">ptp</span></code></strong> — <a class="reference internal" href="rcp_ptp-protocol.html#protogen-esb-rcp-ptp-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ptp.fldConfig</span></code></span></a><br />
+PTP protocol configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-plca"><strong><code class="docutils literal notranslate"><span class="pre">plca</span></code></strong> — <a class="reference internal" href="rcp_plca-protocol.html#protogen-esb-rcp-plca-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">plca.fldConfig</span></code></span></a><br />
+PLCA configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-pins"><strong><code class="docutils literal notranslate"><span class="pre">pins</span></code></strong> — <a class="reference internal" href="rcp_pins-protocol.html#protogen-esb-rcp-pins-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pins.fldConfig</span></code></span></a><br />
+RCP pins configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-net"><strong><code class="docutils literal notranslate"><span class="pre">net</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldConfig</span></code></span></a><br />
+Network configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-phyreg"><strong><code class="docutils literal notranslate"><span class="pre">phyReg</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldphyreg"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldPhyReg</span></code></span></a><br />
+PHY registers configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-vendor"><strong><code class="docutils literal notranslate"><span class="pre">vendor</span></code></strong> — <a class="reference internal" href="rcp_vendor-protocol.html#protogen-esb-rcp-vendor-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">vendor.fldConfig</span></code></span></a><br />
+Vendor-specific configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldconfig-client"><strong><code class="docutils literal notranslate"><span class="pre">client</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldclientconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldClientConfig</span></code></span></a><br />
+Client configuration.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldcmd">
+<span id="protogen-esb-rcp-dev-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.fldCmd</span></code></p>
+<p>Container for all RCP server commands.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-dev-fldcmd-op"><strong><code class="docutils literal notranslate"><span class="pre">op</span></code></strong> — <a class="reference internal" href="#protogen-esb-rcp-dev-encmdoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enCmdOperation</span></code></span></a><br />
+Management operation to perform.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldcmd-param"><strong><code class="docutils literal notranslate"><span class="pre">param</span></code></strong> — <em>oneof</em><br />
+Command-specific parameters.</p>
+<ul>
+<li><p id="protogen-esb-rcp-dev-fldcmd-topdisc"><strong><code class="docutils literal notranslate"><span class="pre">topDisc</span></code></strong> — <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">tpd.fldCmd</span></code></span></a><br />
+Topology discovery (<a class="reference internal" href="#protogen-esb-rcp-dev-encmdoperation-optopologydiscovery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">opTopologyDiscovery</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldcmd-phyreg"><strong><code class="docutils literal notranslate"><span class="pre">phyReg</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldphyreg"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldPhyReg</span></code></span></a><br />
+PHY registers access (<a class="reference internal" href="#protogen-esb-rcp-dev-encmdoperation-opmanagephyregisters"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">opManagePhyRegisters</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldcmd-time"><strong><code class="docutils literal notranslate"><span class="pre">time</span></code></strong> — <a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a><br />
+PTP time set (<a class="reference internal" href="#protogen-esb-rcp-dev-encmdoperation-opsetptptime"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">opSetPtpTime</span></code></span></a>).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldcmd-nvmop"><strong><code class="docutils literal notranslate"><span class="pre">nvmOp</span></code></strong> — <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldNvmOperation</span></code></span></a><br />
+NVM operation parameters.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldcmdresult">
+<span id="protogen-esb-rcp-dev-fldcmdresult"></span><h3>fldCmdResult<a class="headerlink" href="#fldcmdresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.fldCmdResult</span></code></p>
+<p>Container for results of RCP commands.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-dev-fldcmdresult-res"><strong><code class="docutils literal notranslate"><span class="pre">res</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-rcp-dev-fldcmdresult-topdiscresult"><strong><code class="docutils literal notranslate"><span class="pre">topDiscResult</span></code></strong> — <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmdresult"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">tpd.fldCmdResult</span></code></span></a><br />
+Topology discovery result.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldcmdresult-phydata"><strong><code class="docutils literal notranslate"><span class="pre">phyData</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldphydata"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldPhyData</span></code></span></a><br />
+PHY register data.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fldqueryresult">
+<span id="protogen-esb-rcp-dev-fldqueryresult"></span><h3>fldQueryResult<a class="headerlink" href="#fldqueryresult" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.fldQueryResult</span></code></p>
+<p>Container for the results of all queries of the RCP server.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-rep"><strong><code class="docutils literal notranslate"><span class="pre">rep</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-identity"><strong><code class="docutils literal notranslate"><span class="pre">identity</span></code></strong> — <a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldidentity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">info.fldIdentity</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryidentity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryIdentity</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-capabilities"><strong><code class="docutils literal notranslate"><span class="pre">capabilities</span></code></strong> — <a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldcapabilities"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">info.fldCapabilities</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qrycapabilities"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryCapabilities</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-interfaces"><strong><code class="docutils literal notranslate"><span class="pre">interfaces</span></code></strong> — <a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldinterfaces"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">info.fldInterfaces</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryinterfaces"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryInterfaces</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-pins"><strong><code class="docutils literal notranslate"><span class="pre">pins</span></code></strong> — <a class="reference internal" href="rcp_pins-protocol.html#protogen-esb-rcp-pins-flddescriptors"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">pins.fldDescriptors</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qrypins"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryPins</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-server"><strong><code class="docutils literal notranslate"><span class="pre">server</span></code></strong> — <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldserverstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldServerStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryserverstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryServerStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-net"><strong><code class="docutils literal notranslate"><span class="pre">net</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qrynetstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryNetStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-ptp"><strong><code class="docutils literal notranslate"><span class="pre">ptp</span></code></strong> — <a class="reference internal" href="rcp_ptp-protocol.html#protogen-esb-rcp-ptp-fldstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">ptp.fldStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryptpstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryPtpStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-plca"><strong><code class="docutils literal notranslate"><span class="pre">plca</span></code></strong> — <a class="reference internal" href="rcp_plca-protocol.html#protogen-esb-rcp-plca-fldstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">plca.fldStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryplcastatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryPlcaStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-scheduler"><strong><code class="docutils literal notranslate"><span class="pre">scheduler</span></code></strong> — <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldschedulerstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldSchedulerStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryschedulerstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qrySchedulerStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-nvm"><strong><code class="docutils literal notranslate"><span class="pre">nvm</span></code></strong> — <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldNvmStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qrynvmstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryNvmStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-vendor"><strong><code class="docutils literal notranslate"><span class="pre">vendor</span></code></strong> — <a class="reference internal" href="rcp_vendor-protocol.html#protogen-esb-rcp-vendor-fldstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">vendor.fldStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryvendorstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryVendorStatus</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-fldqueryresult-client"><strong><code class="docutils literal notranslate"><span class="pre">client</span></code></strong> — <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldclientstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldClientStatus</span></code></span></a><br />
+Reply to <a class="reference internal" href="#protogen-esb-rcp-dev-enquery-qryclientstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryClientStatus</span></code></span></a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="encmdoperation">
+<span id="protogen-esb-rcp-dev-encmdoperation"></span><h3>enCmdOperation<a class="headerlink" href="#encmdoperation" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.enCmdOperation</span></code></p>
+<p>RCP server management operations.</p>
+<ul>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opnone"><strong><code class="docutils literal notranslate"><span class="pre">opNone</span></code></strong> — This operation is a no-op and does not alter the state of the RCP server.
+However, it counts as a network watchdog refresh message, so the
+client can use it as a keep-alive message.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opresetdevice"><strong><code class="docutils literal notranslate"><span class="pre">opResetDevice</span></code></strong> — Reset the RCP server.
+If set, the RCP server reboots, clearing all dynamic configuration
+and resetting all internal states and variables.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opsaveconfig"><strong><code class="docutils literal notranslate"><span class="pre">opSaveConfig</span></code></strong> — Saves the current RCP configuration into non-volatile memory.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-oprestoreconfig"><strong><code class="docutils literal notranslate"><span class="pre">opRestoreConfig</span></code></strong> — Restores the last saved RCP configuration from non-volatile memory.
+If the operation fails, the current configuration does not change.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opsleep"><strong><code class="docutils literal notranslate"><span class="pre">opSleep</span></code></strong> — Commands the RCP server to enter deep-sleep mode.
+In deep-sleep mode, all RCP server functions are switched off, and all
+dynamic configuration and states are lost. A portion of the RCP server
+stays powered to detect wakeup signals from local sources or from the
+Ethernet bus. The wakeup signal triggers a full (re)boot of the server.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-oprestorefactoryconfig"><strong><code class="docutils literal notranslate"><span class="pre">opRestoreFactoryConfig</span></code></strong> — Forces the RCP server to erase the NVM content and reboot.
+The default HW configuration is then applied when the system comes
+back to life.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opclearpwron"><strong><code class="docutils literal notranslate"><span class="pre">opClearPwron</span></code></strong> — This command clears the <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldserverstatus-pwron"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldServerStatus.pwrOn</span></code></span></a> flag in the RCP server status.
+See <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldserverstatus"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldServerStatus</span></code></span></a> for more information.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-optopologydiscovery"><strong><code class="docutils literal notranslate"><span class="pre">opTopologyDiscovery</span></code></strong> — Commands the RCP server to initiate topology discovery if the HW
+supports it. 10BASE-T1S PHYs can provide this feature.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opmanagephyregisters"><strong><code class="docutils literal notranslate"><span class="pre">opManagePhyRegisters</span></code></strong> — Initiates an MDIO read or write operation to configure the PHY.
+See also <a class="reference internal" href="rcp_net-protocol.html#protogen-esb-rcp-net-fldmdioconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">net.fldMdioConfig</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opsetptptime"><strong><code class="docutils literal notranslate"><span class="pre">opSetPtpTime</span></code></strong><br />
+Sets the value for the internal PTP timer.
+Setting the PTP timer with this command can yield an error of several
+milliseconds, depending on the client latency and the network conditions.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting the PTP timer with this method can make scheduled
+actions fail or be delayed for a long time, depending on the
+direction of the time shift.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opclearstoredactions"><strong><code class="docutils literal notranslate"><span class="pre">opClearStoredActions</span></code></strong> — Clears all actions that are currently stored in the NVM.
+It does not affect actions loaded into volatile memory.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opentersilent"><strong><code class="docutils literal notranslate"><span class="pre">opEnterSilent</span></code></strong><br />
+Enter silent mode. Features such as 10BASE-T1S topology
+discovery or cable fault detection need the line to be silent.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The server sends back a confirmation once it has entered
+silent mode, unless suppressed explicitly.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opexitsilent"><strong><code class="docutils literal notranslate"><span class="pre">opExitSilent</span></code></strong> — Leave silent mode.
+If the server was not in silent mode, this command is ignored.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-openterfailsafe"><strong><code class="docutils literal notranslate"><span class="pre">opEnterFailsafe</span></code></strong> — Forces the RCP server into fail-safe mode.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opcancelallactions"><strong><code class="docutils literal notranslate"><span class="pre">opCancelAllActions</span></code></strong> — Resets the RCP server scheduler, clearing all
+pending scheduled actions. This includes actions with a repetition count
+that still have pending executions.
+A running action always completes.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opglobalwakeup"><strong><code class="docutils literal notranslate"><span class="pre">opGlobalWakeup</span></code></strong><br />
+Makes the PHY send a global wakeup signal on the Ethernet line to
+wake up all sleeping nodes on the same network segment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ethernet switches and PHYs can be programmed to propagate the wakeup
+signal further.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-oploadstoredactions"><strong><code class="docutils literal notranslate"><span class="pre">opLoadStoredActions</span></code></strong><br />
+Loads the stored actions from non-volatile memory.
+Existing actions loaded in RAM are not canceled.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Executing this operation multiple times causes actions to
+be loaded multiple times into RAM.</p>
+</div>
+</li>
+<li><p id="protogen-esb-rcp-dev-encmdoperation-opmanageuserdata"><strong><code class="docutils literal notranslate"><span class="pre">opManageUserData</span></code></strong> — Access the user-dedicated NVM, i.e., write or read user data to/from
+non-volatile memory.
+See <a class="reference internal" href="rcp_core-protocol.html#protogen-esb-rcp-core-fldnvmoperation"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">core.fldNvmOperation</span></code></span></a>.</p>
+</li>
+</ul>
+</section>
+<section id="enquery">
+<span id="protogen-esb-rcp-dev-enquery"></span><h3>enQuery<a class="headerlink" href="#enquery" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.rcp.dev.enQuery</span></code></p>
+<p>Queries of the RCP server.
+Queries indicated with [M] are mandatory, meaning that ESB-compliant
+servers implement them.
+Queries marked with [H] are mandatory if the specific HW supports it.
+Queries marked with [O] are optional to implement.</p>
+<ul class="simple">
+<li><p id="protogen-esb-rcp-dev-enquery-qryserverconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryServerConfig</span></code></strong> — [M] Get current RCP server configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryptpconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryPtpConfig</span></code></strong> — [H] Get current PTP protocol configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryplcaconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryPlcaConfig</span></code></strong> — [H] Get current PLCA configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrypinconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryPinConfig</span></code></strong> — [M] Get current RCP pins configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrynetconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryNetConfig</span></code></strong> — [M] Get current network configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryregconfig"><strong><code class="docutils literal notranslate"><span class="pre">qryRegConfig</span></code></strong> — [H] Get default register configuration.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryidentity"><strong><code class="docutils literal notranslate"><span class="pre">qryIdentity</span></code></strong> — [M] Get basic server information (vendor, serial, …).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrycapabilities"><strong><code class="docutils literal notranslate"><span class="pre">qryCapabilities</span></code></strong> — [O] Get server capabilities (supported features).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryinterfaces"><strong><code class="docutils literal notranslate"><span class="pre">qryInterfaces</span></code></strong> — [O] Retrieve a list of supported endpoints (SPI, I2C, …).</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrypins"><strong><code class="docutils literal notranslate"><span class="pre">qryPins</span></code></strong> — [O] Retrieve a list of pins and supported functions.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryserverstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryServerStatus</span></code></strong> — [H] Get state of the server, whether fail-safe mode was activated or not.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrynetstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryNetStatus</span></code></strong> — [O] Get current network status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryptpstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryPtpStatus</span></code></strong> — [H] Get current PTP protocol status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryplcastatus"><strong><code class="docutils literal notranslate"><span class="pre">qryPlcaStatus</span></code></strong> — [H] Get current PLCA status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryschedulerstatus"><strong><code class="docutils literal notranslate"><span class="pre">qrySchedulerStatus</span></code></strong> — [M] Get RCP Scheduler status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qrynvmstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryNvmStatus</span></code></strong> — [H] Get RCP NVM status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryvendorstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryVendorStatus</span></code></strong> — [O] Get current vendor-specific status.</p>
+</li>
+<li><p id="protogen-esb-rcp-dev-enquery-qryclientstatus"><strong><code class="docutils literal notranslate"><span class="pre">qryClientStatus</span></code></strong> — [M] Get current client status.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_dev.html" class="btn btn-neutral float-left" title="RCP Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_info.html" class="btn btn-neutral float-right" title="Identification and Capabilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

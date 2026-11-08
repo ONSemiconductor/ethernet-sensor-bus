@@ -1,0 +1,412 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.rcp.dev.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.rcp.dev.fldConfig`
+
+Container of all RCP server configurations.
+
+**Fields**
+
+- (protogen.esb.rcp.dev.fldConfig.cfg)=
+
+  **`cfg`** — *oneof*
+
+  - (protogen.esb.rcp.dev.fldConfig.server)=
+
+    **`server`** — [`core.fldServerConfig`](#protogen.esb.rcp.core.fldServerConfig)\
+    RCP server configuration (e.g., DID).
+
+  - (protogen.esb.rcp.dev.fldConfig.ptp)=
+
+    **`ptp`** — [`ptp.fldConfig`](#protogen.esb.rcp.ptp.fldConfig)\
+    PTP protocol configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.plca)=
+
+    **`plca`** — [`plca.fldConfig`](#protogen.esb.rcp.plca.fldConfig)\
+    PLCA configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.pins)=
+
+    **`pins`** — [`pins.fldConfig`](#protogen.esb.rcp.pins.fldConfig)\
+    RCP pins configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.net)=
+
+    **`net`** — [`net.fldConfig`](#protogen.esb.rcp.net.fldConfig)\
+    Network configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.phyReg)=
+
+    **`phyReg`** — [`net.fldPhyReg`](#protogen.esb.rcp.net.fldPhyReg)\
+    PHY registers configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.vendor)=
+
+    **`vendor`** — [`vendor.fldConfig`](#protogen.esb.rcp.vendor.fldConfig)\
+    Vendor-specific configuration.
+
+  - (protogen.esb.rcp.dev.fldConfig.client)=
+
+    **`client`** — [`net.fldClientConfig`](#protogen.esb.rcp.net.fldClientConfig)\
+    Client configuration.
+
+(protogen.esb.rcp.dev.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.rcp.dev.fldCmd`
+
+Container for all RCP server commands.
+
+**Fields**
+
+- (protogen.esb.rcp.dev.fldCmd.op)=
+
+  **`op`** — [`enCmdOperation`](#protogen.esb.rcp.dev.enCmdOperation)\
+  Management operation to perform.
+
+- (protogen.esb.rcp.dev.fldCmd.param)=
+
+  **`param`** — *oneof*\
+  Command-specific parameters.
+
+  - (protogen.esb.rcp.dev.fldCmd.topDisc)=
+
+    **`topDisc`** — [`tpd.fldCmd`](#protogen.esb.rcp.tpd.fldCmd)\
+    Topology discovery ([`opTopologyDiscovery`](#protogen.esb.rcp.dev.enCmdOperation.opTopologyDiscovery)).
+
+  - (protogen.esb.rcp.dev.fldCmd.phyReg)=
+
+    **`phyReg`** — [`net.fldPhyReg`](#protogen.esb.rcp.net.fldPhyReg)\
+    PHY registers access ([`opManagePhyRegisters`](#protogen.esb.rcp.dev.enCmdOperation.opManagePhyRegisters)).
+
+  - (protogen.esb.rcp.dev.fldCmd.time)=
+
+    **`time`** — [`fldTstamp`](#protogen.esb.fldTstamp)\
+    PTP time set ([`opSetPtpTime`](#protogen.esb.rcp.dev.enCmdOperation.opSetPtpTime)).
+
+  - (protogen.esb.rcp.dev.fldCmd.nvmOp)=
+
+    **`nvmOp`** — [`core.fldNvmOperation`](#protogen.esb.rcp.core.fldNvmOperation)\
+    NVM operation parameters.
+
+(protogen.esb.rcp.dev.fldCmdResult)=
+
+### fldCmdResult
+
+*Message* `esb.rcp.dev.fldCmdResult`
+
+Container for results of RCP commands.
+
+**Fields**
+
+- (protogen.esb.rcp.dev.fldCmdResult.res)=
+
+  **`res`** — *oneof*
+
+  - (protogen.esb.rcp.dev.fldCmdResult.topDiscResult)=
+
+    **`topDiscResult`** — [`tpd.fldCmdResult`](#protogen.esb.rcp.tpd.fldCmdResult)\
+    Topology discovery result.
+
+  - (protogen.esb.rcp.dev.fldCmdResult.phyData)=
+
+    **`phyData`** — [`net.fldPhyData`](#protogen.esb.rcp.net.fldPhyData)\
+    PHY register data.
+
+(protogen.esb.rcp.dev.fldQueryResult)=
+
+### fldQueryResult
+
+*Message* `esb.rcp.dev.fldQueryResult`
+
+Container for the results of all queries of the RCP server.
+
+**Fields**
+
+- (protogen.esb.rcp.dev.fldQueryResult.rep)=
+
+  **`rep`** — *oneof*
+
+  - (protogen.esb.rcp.dev.fldQueryResult.identity)=
+
+    **`identity`** — [`info.fldIdentity`](#protogen.esb.rcp.info.fldIdentity)\
+    Reply to [`qryIdentity`](#protogen.esb.rcp.dev.enQuery.qryIdentity).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.capabilities)=
+
+    **`capabilities`** — [`info.fldCapabilities`](#protogen.esb.rcp.info.fldCapabilities)\
+    Reply to [`qryCapabilities`](#protogen.esb.rcp.dev.enQuery.qryCapabilities).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.interfaces)=
+
+    **`interfaces`** — [`info.fldInterfaces`](#protogen.esb.rcp.info.fldInterfaces)\
+    Reply to [`qryInterfaces`](#protogen.esb.rcp.dev.enQuery.qryInterfaces).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.pins)=
+
+    **`pins`** — [`pins.fldDescriptors`](#protogen.esb.rcp.pins.fldDescriptors)\
+    Reply to [`qryPins`](#protogen.esb.rcp.dev.enQuery.qryPins).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.server)=
+
+    **`server`** — [`core.fldServerStatus`](#protogen.esb.rcp.core.fldServerStatus)\
+    Reply to [`qryServerStatus`](#protogen.esb.rcp.dev.enQuery.qryServerStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.net)=
+
+    **`net`** — [`net.fldStatus`](#protogen.esb.rcp.net.fldStatus)\
+    Reply to [`qryNetStatus`](#protogen.esb.rcp.dev.enQuery.qryNetStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.ptp)=
+
+    **`ptp`** — [`ptp.fldStatus`](#protogen.esb.rcp.ptp.fldStatus)\
+    Reply to [`qryPtpStatus`](#protogen.esb.rcp.dev.enQuery.qryPtpStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.plca)=
+
+    **`plca`** — [`plca.fldStatus`](#protogen.esb.rcp.plca.fldStatus)\
+    Reply to [`qryPlcaStatus`](#protogen.esb.rcp.dev.enQuery.qryPlcaStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.scheduler)=
+
+    **`scheduler`** — [`core.fldSchedulerStatus`](#protogen.esb.rcp.core.fldSchedulerStatus)\
+    Reply to [`qrySchedulerStatus`](#protogen.esb.rcp.dev.enQuery.qrySchedulerStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.nvm)=
+
+    **`nvm`** — [`core.fldNvmStatus`](#protogen.esb.rcp.core.fldNvmStatus)\
+    Reply to [`qryNvmStatus`](#protogen.esb.rcp.dev.enQuery.qryNvmStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.vendor)=
+
+    **`vendor`** — [`vendor.fldStatus`](#protogen.esb.rcp.vendor.fldStatus)\
+    Reply to [`qryVendorStatus`](#protogen.esb.rcp.dev.enQuery.qryVendorStatus).
+
+  - (protogen.esb.rcp.dev.fldQueryResult.client)=
+
+    **`client`** — [`net.fldClientStatus`](#protogen.esb.rcp.net.fldClientStatus)\
+    Reply to [`qryClientStatus`](#protogen.esb.rcp.dev.enQuery.qryClientStatus).
+
+## Enumerations
+
+(protogen.esb.rcp.dev.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.rcp.dev.enCmdOperation`
+
+RCP server management operations.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opNone)=
+
+  **`opNone`** — This operation is a no-op and does not alter the state of the RCP server.
+  However, it counts as a network watchdog refresh message, so the
+  client can use it as a keep-alive message.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opResetDevice)=
+
+  **`opResetDevice`** — Reset the RCP server.
+  If set, the RCP server reboots, clearing all dynamic configuration
+  and resetting all internal states and variables.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opSaveConfig)=
+
+  **`opSaveConfig`** — Saves the current RCP configuration into non-volatile memory.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opRestoreConfig)=
+
+  **`opRestoreConfig`** — Restores the last saved RCP configuration from non-volatile memory.
+  If the operation fails, the current configuration does not change.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opSleep)=
+
+  **`opSleep`** — Commands the RCP server to enter deep-sleep mode.
+  In deep-sleep mode, all RCP server functions are switched off, and all
+  dynamic configuration and states are lost. A portion of the RCP server
+  stays powered to detect wakeup signals from local sources or from the
+  Ethernet bus. The wakeup signal triggers a full (re)boot of the server.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opRestoreFactoryConfig)=
+
+  **`opRestoreFactoryConfig`** — Forces the RCP server to erase the NVM content and reboot.
+  The default HW configuration is then applied when the system comes
+  back to life.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opClearPwron)=
+
+  **`opClearPwron`** — This command clears the [`core.fldServerStatus.pwrOn`](#protogen.esb.rcp.core.fldServerStatus.pwrOn) flag in the RCP server status.
+  See [`core.fldServerStatus`](#protogen.esb.rcp.core.fldServerStatus) for more information.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opTopologyDiscovery)=
+
+  **`opTopologyDiscovery`** — Commands the RCP server to initiate topology discovery if the HW
+  supports it. 10BASE-T1S PHYs can provide this feature.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opManagePhyRegisters)=
+
+  **`opManagePhyRegisters`** — Initiates an MDIO read or write operation to configure the PHY.
+  See also [`net.fldMdioConfig`](#protogen.esb.rcp.net.fldMdioConfig).
+
+- (protogen.esb.rcp.dev.enCmdOperation.opSetPtpTime)=
+
+  **`opSetPtpTime`**\
+  Sets the value for the internal PTP timer.
+  Setting the PTP timer with this command can yield an error of several
+  milliseconds, depending on the client latency and the network conditions.
+
+  ```{warning}
+  Setting the PTP timer with this method can make scheduled
+  actions fail or be delayed for a long time, depending on the
+  direction of the time shift.
+  ```
+
+- (protogen.esb.rcp.dev.enCmdOperation.opClearStoredActions)=
+
+  **`opClearStoredActions`** — Clears all actions that are currently stored in the NVM.
+  It does not affect actions loaded into volatile memory.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opEnterSilent)=
+
+  **`opEnterSilent`**\
+  Enter silent mode. Features such as 10BASE-T1S topology
+  discovery or cable fault detection need the line to be silent.
+
+  ```{note}
+  The server sends back a confirmation once it has entered
+  silent mode, unless suppressed explicitly.
+  ```
+
+- (protogen.esb.rcp.dev.enCmdOperation.opExitSilent)=
+
+  **`opExitSilent`** — Leave silent mode.
+  If the server was not in silent mode, this command is ignored.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opEnterFailsafe)=
+
+  **`opEnterFailsafe`** — Forces the RCP server into fail-safe mode.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opCancelAllActions)=
+
+  **`opCancelAllActions`** — Resets the RCP server scheduler, clearing all
+  pending scheduled actions. This includes actions with a repetition count
+  that still have pending executions.
+  A running action always completes.
+
+- (protogen.esb.rcp.dev.enCmdOperation.opGlobalWakeup)=
+
+  **`opGlobalWakeup`**\
+  Makes the PHY send a global wakeup signal on the Ethernet line to
+  wake up all sleeping nodes on the same network segment.
+
+  ```{note}
+  Ethernet switches and PHYs can be programmed to propagate the wakeup
+  signal further.
+  ```
+
+- (protogen.esb.rcp.dev.enCmdOperation.opLoadStoredActions)=
+
+  **`opLoadStoredActions`**\
+  Loads the stored actions from non-volatile memory.
+  Existing actions loaded in RAM are not canceled.
+
+  ```{warning}
+  Executing this operation multiple times causes actions to
+  be loaded multiple times into RAM.
+  ```
+
+- (protogen.esb.rcp.dev.enCmdOperation.opManageUserData)=
+
+  **`opManageUserData`** — Access the user-dedicated NVM, i.e., write or read user data to/from
+  non-volatile memory.
+  See [`core.fldNvmOperation`](#protogen.esb.rcp.core.fldNvmOperation).
+
+(protogen.esb.rcp.dev.enQuery)=
+
+### enQuery
+
+*Enumeration* `esb.rcp.dev.enQuery`
+
+Queries of the RCP server.
+Queries indicated with [M] are mandatory, meaning that ESB-compliant
+servers implement them.
+Queries marked with [H] are mandatory if the specific HW supports it.
+Queries marked with [O] are optional to implement.
+
+- (protogen.esb.rcp.dev.enQuery.qryServerConfig)=
+
+  **`qryServerConfig`** — [M] Get current RCP server configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryPtpConfig)=
+
+  **`qryPtpConfig`** — [H] Get current PTP protocol configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryPlcaConfig)=
+
+  **`qryPlcaConfig`** — [H] Get current PLCA configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryPinConfig)=
+
+  **`qryPinConfig`** — [M] Get current RCP pins configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryNetConfig)=
+
+  **`qryNetConfig`** — [M] Get current network configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryRegConfig)=
+
+  **`qryRegConfig`** — [H] Get default register configuration.
+
+- (protogen.esb.rcp.dev.enQuery.qryIdentity)=
+
+  **`qryIdentity`** — [M] Get basic server information (vendor, serial, ...).
+
+- (protogen.esb.rcp.dev.enQuery.qryCapabilities)=
+
+  **`qryCapabilities`** — [O] Get server capabilities (supported features).
+
+- (protogen.esb.rcp.dev.enQuery.qryInterfaces)=
+
+  **`qryInterfaces`** — [O] Retrieve a list of supported endpoints (SPI, I2C, ...).
+
+- (protogen.esb.rcp.dev.enQuery.qryPins)=
+
+  **`qryPins`** — [O] Retrieve a list of pins and supported functions.
+
+- (protogen.esb.rcp.dev.enQuery.qryServerStatus)=
+
+  **`qryServerStatus`** — [H] Get state of the server, whether fail-safe mode was activated or not.
+
+- (protogen.esb.rcp.dev.enQuery.qryNetStatus)=
+
+  **`qryNetStatus`** — [O] Get current network status.
+
+- (protogen.esb.rcp.dev.enQuery.qryPtpStatus)=
+
+  **`qryPtpStatus`** — [H] Get current PTP protocol status.
+
+- (protogen.esb.rcp.dev.enQuery.qryPlcaStatus)=
+
+  **`qryPlcaStatus`** — [H] Get current PLCA status.
+
+- (protogen.esb.rcp.dev.enQuery.qrySchedulerStatus)=
+
+  **`qrySchedulerStatus`** — [M] Get RCP Scheduler status.
+
+- (protogen.esb.rcp.dev.enQuery.qryNvmStatus)=
+
+  **`qryNvmStatus`** — [H] Get RCP NVM status.
+
+- (protogen.esb.rcp.dev.enQuery.qryVendorStatus)=
+
+  **`qryVendorStatus`** — [O] Get current vendor-specific status.
+
+- (protogen.esb.rcp.dev.enQuery.qryClientStatus)=
+
+  **`qryClientStatus`** — [M] Get current client status.

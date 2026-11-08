@@ -1,0 +1,69 @@
+(protogen.spi)=
+
+# SPI Driver
+
+**File:** `endpoints/spi/spi_dev.proto`
+
+**Package:** `esb.spi`
+
+SPI configuration, actions, queries, and notifications for RCP.
+
+An SPI endpoint is a serial peripheral interface (SPI) controller, also called the "master". It drives the clock
+SCLK and the chip-select CS, shifts data out on MOSI, and samples MISO. The client first configures the bus with a
+[`fldConfig`](#protogen.esb.spi.fldConfig) message and then performs bus transactions with [`fldCmd`](#protogen.esb.spi.fldCmd) commands. The pins SCLK, MOSI, MISO, and
+CS are assigned to the endpoint with the pin configuration, see [`rcp.pins.enPinFuncSpi`](#protogen.esb.rcp.pins.enPinFuncSpi).
+
+## Clock polarity and phase
+
+The clock polarity and the clock phase select one of the four SPI modes. The polarity is the idle level of SCLK. The
+phase decides which clock edge samples the data: the leading edge (the first edge after the idle level) or the
+trailing edge (the second edge of each clock period). The transmitter changes its data on the other edge. The figure
+shows the four modes with the most significant bit (MSb) first. The circles mark the sampling edges.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingSpiModes.svg)
+
+## Transactions
+
+Each command is one SPI transaction. The chip-select is asserted before the first transfer token and released after
+the last one, unless the command keeps it asserted so that a following command can continue the transaction. The
+tokens are executed in order. A token writes bytes, reads bytes, or does both at the same time. The bytes that all
+tokens return are concatenated, in the order of the tokens, in the reply to the command.
+
+The figure shows a command with two tokens: a write-only token that sends one byte, followed by a read-only token
+that reads two bytes while MOSI stays at a constant level. SCLK runs continuously from the first to the last bit. CS
+is asserted a configurable delay before the first clock edge and released the same delay after the last one. The
+hardware can add a minimum delay on top of this. Refer to the datasheet of the server.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingSpiXfer.svg)
+
+A command uses the configuration of the endpoint. It can override some of the parameters for itself, e.g., to use a
+lower clock speed for one device.
+
+## Example
+
+To read a two-byte identifier from a device with the command byte 0x9F in SPI mode 0, at 1 MHz:
+
+```text
+seq: 1
+dir {
+   config { hndl: 2  spi { cpol: false  cpha: false  msbFirst: true  speedHz: 1000000 } }
+}
+dir {
+   action {
+      hndl: 2
+      spi {
+         xfer { xft: xferWriteOnly  wdata: "\x9F" }
+         xfer { xft: xferReadOnly   rsize: 2 }
+      }
+   }
+}
+```
+
+The identifier is returned in [`fldActionResult.data`](#protogen.esb.fldActionResult.data).
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+spi_dev-protocol
+```

@@ -1,0 +1,372 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.adc.fldInterfaceSerial)=
+
+### fldInterfaceSerial
+
+*Message* `esb.adc.fldInterfaceSerial`
+
+The ESB protocol allows ADC endpoints to be internal or external to the
+RCP server. This interface allows configuration of an external ADC endpoint.
+The external ADC serial interface assumes the ADC has only three pins,
+similar to an SPI interface. In fact, the pin configuration message is the
+same as that of an SPI endpoint (see [`rcp.pins.enPinFuncSpi`](#protogen.esb.rcp.pins.enPinFuncSpi)).
+- [`rcp.pins.pinSpiSclk`](#protogen.esb.rcp.pins.enPinFuncSpi.pinSpiSclk): the clock from the RCP server to the external ADC
+- [`rcp.pins.pinSpiMiso`](#protogen.esb.rcp.pins.enPinFuncSpi.pinSpiMiso): the ADC serial data output pin (input to RCP server)
+- [`rcp.pins.pinSpiCs`](#protogen.esb.rcp.pins.enPinFuncSpi.pinSpiCs):   the chip-select, marking the start of the sampling period
+
+The parameters [`dataBits`](#protogen.esb.adc.fldInterfaceSerial.dataBits), [`leftPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.leftPaddingBits), [`rightPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.rightPaddingBits), [`cpol`](#protogen.esb.adc.fldInterfaceSerial.cpol), [`cpha`](#protogen.esb.adc.fldInterfaceSerial.cpha) and
+[`msbFirst`](#protogen.esb.adc.fldInterfaceSerial.msbFirst) define the length of a single acquisition.
+For an example, see the page [ADC Driver](#protogen.adc).
+
+The RCP server starts the conversion by asserting the chip select (CS). The [`leftPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.leftPaddingBits) defines how many
+clock cycles to wait before the first valid data bit appears at the ADC data pin. This allows time for the ADC to
+perform sample & hold, depending on the ADC type and performance.
+The [`dataBits`](#protogen.esb.adc.fldInterfaceSerial.dataBits) parameter tells the RCP server how many data bits to sample. This should be set according to the
+ADC resolution.
+Finally, the [`rightPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.rightPaddingBits) parameter sets how many clock cycles to wait before de-asserting the
+chip-select. Some ADCs require these extra clock cycles to reset the internal state before a new conversion can
+happen.
+The total number of clock cycles for a single acquisition is therefore
+the sum of [`leftPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.leftPaddingBits), [`dataBits`](#protogen.esb.adc.fldInterfaceSerial.dataBits), and [`rightPaddingBits`](#protogen.esb.adc.fldInterfaceSerial.rightPaddingBits).
+The [`cpol`](#protogen.esb.adc.fldInterfaceSerial.cpol), [`cpha`](#protogen.esb.adc.fldInterfaceSerial.cpha) and [`msbFirst`](#protogen.esb.adc.fldInterfaceSerial.msbFirst) parameters are the same as those used for a normal SPI
+interface. See [`spi.fldConfig`](#protogen.esb.spi.fldConfig) for more information.
+
+**Fields**
+
+- (protogen.esb.adc.fldInterfaceSerial.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  The clock speed in hertz (Hz).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+- (protogen.esb.adc.fldInterfaceSerial.dataBits)=
+
+  **`dataBits`** — *optional* `uint32`\
+  Number of bits in each ADC sample.
+
+- (protogen.esb.adc.fldInterfaceSerial.leftPaddingBits)=
+
+  **`leftPaddingBits`** — *optional* `uint32`\
+  Number of clock cycles before the first data bit.
+
+- (protogen.esb.adc.fldInterfaceSerial.rightPaddingBits)=
+
+  **`rightPaddingBits`** — *optional* `uint32`\
+  Number of clock cycles after the last data bit.
+
+- (protogen.esb.adc.fldInterfaceSerial.cpol)=
+
+  **`cpol`** — *optional* `bool`\
+  Clock polarity (same as SPI CPOL).
+
+- (protogen.esb.adc.fldInterfaceSerial.cpha)=
+
+  **`cpha`** — *optional* `bool`\
+  Clock phase (same as SPI CPHA).
+
+- (protogen.esb.adc.fldInterfaceSerial.msbFirst)=
+
+  **`msbFirst`** — *optional* `bool`\
+  If true, ADC data is captured MSb first.
+
+- (protogen.esb.adc.fldInterfaceSerial.csDelay)=
+
+  **`csDelay`** — *optional* `uint32`\
+  CS to SCLK delay in half clock periods.
+  This parameter defines the additional delay between the chip select
+  assertion and the first clock edge, as well as the delay between the
+  last clock edge and the de-assertion of the chip-select.
+  The total delay is calculated as ([`csDelay`](#protogen.esb.adc.fldInterfaceSerial.csDelay) + 1) / (2 * [`speedHz`](#protogen.esb.adc.fldInterfaceSerial.speedHz)) seconds.
+
+(protogen.esb.adc.fldThresholdConfig)=
+
+### fldThresholdConfig
+
+*Message* `esb.adc.fldThresholdConfig`
+
+Each ADC channel has configurable thresholds to generate internal events and
+notifications. The thresholds evaluate the value at the ADC filter output,
+that is, after all configured on-chip post-processing except decimation.
+When a threshold is enabled and triggered, it generates an internal event
+that can be used to fire pre-configured (re)actions for use cases requiring
+low latency. In addition to the internal event, a threshold can be
+configured to send a notification message when triggered.
+
+**Fields**
+
+- (protogen.esb.adc.fldThresholdConfig.value)=
+
+  **`value`** — *optional* `uint32`\
+  Unsigned threshold value, see [`enValueType`](#protogen.esb.adc.enValueType).
+
+- (protogen.esb.adc.fldThresholdConfig.event)=
+
+  **`event`** — *optional* [`enThresholdEvent`](#protogen.esb.adc.enThresholdEvent)\
+  Configures which threshold crossings generate an event.
+
+- (protogen.esb.adc.fldThresholdConfig.notify)=
+
+  **`notify`** — *optional* `bool`\
+  If set, sends a notification to the client when an event occurs.
+
+(protogen.esb.adc.fldChannelConfig)=
+
+### fldChannelConfig
+
+*Message* `esb.adc.fldChannelConfig`
+
+Configuration for each ADC channel post-processor.
+
+**Fields**
+
+- (protogen.esb.adc.fldChannelConfig.fltLP)=
+
+  **`fltLP`** — *optional* `uint32`\
+  Filter factor for the ADC channel. This value determines the strength of
+  the low-pass filter applied to the ADC samples.
+  The filter transfer function is:
+  OUT[i] = (IN[i] + [`fltLP`](#protogen.esb.adc.fldChannelConfig.fltLP) * OUT[i - 1]) / ([`fltLP`](#protogen.esb.adc.fldChannelConfig.fltLP) + 1 )
+  Setting [`fltLP`](#protogen.esb.adc.fldChannelConfig.fltLP) to 0 (default) disables low-pass filtering (OUT[i] = IN[i]).
+
+- (protogen.esb.adc.fldChannelConfig.decimationFactor)=
+
+  **`decimationFactor`** — *optional* `uint32`\
+  Decimation factor for the ADC channel.
+  This value determines the number of samples reported to the client.
+  The decimator reports 1 sample every {math}`2^N` samples, where {math}`N` is [`decimationFactor`](#protogen.esb.adc.fldChannelConfig.decimationFactor).
+  Setting [`decimationFactor`](#protogen.esb.adc.fldChannelConfig.decimationFactor) = 0 (default) disables decimation (all samples
+  are reported to the client).
+  Decimation affects streamed samples only. Thresholds evaluate the filtered samples before decimation,
+  see [`fldThresholdConfig`](#protogen.esb.adc.fldThresholdConfig).
+
+- (protogen.esb.adc.fldChannelConfig.initialValue)=
+
+  **`initialValue`** — *optional* `uint32`\
+  Initial value for the ADC channel filter output.
+  This value is the initial output value of the ADC
+  post-processing block when the ADC starts. This can be used to avoid glitches on the
+  configured thresholds.
+
+- (protogen.esb.adc.fldChannelConfig.valueType)=
+
+  **`valueType`** — *optional* [`enValueType`](#protogen.esb.adc.enValueType)\
+  Configures the value type of the ADC samples for this channel.
+
+- (protogen.esb.adc.fldChannelConfig.threshold1)=
+
+  **`threshold1`** — *optional* [`fldThresholdConfig`](#protogen.esb.adc.fldThresholdConfig)\
+  Threshold configuration for the first threshold event.
+
+- (protogen.esb.adc.fldChannelConfig.threshold2)=
+
+  **`threshold2`** — *optional* [`fldThresholdConfig`](#protogen.esb.adc.fldThresholdConfig)\
+  Threshold configuration for the second threshold event.
+
+- (protogen.esb.adc.fldChannelConfig.channelId)=
+
+  **`channelId`** — *optional* `uint32`\
+  If the ADC device supports multiple channels, this parameter represents
+  the channel number identifier, that is, the channel multiplexer (MUX) selector number.
+  This identifier can be used to instruct the ADC to sample channels in a
+  specific order / sequence.
+
+(protogen.esb.adc.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.adc.fldConfig`
+
+ADC post-processing configuration.
+
+**Fields**
+
+- (protogen.esb.adc.fldConfig.sampleRateHz)=
+
+  **`sampleRateHz`** — *optional* `uint32`\
+  The ADC sample rate in hertz (Hz).
+  This parameter configures the speed at which ADC samples are fed into
+  the ADC post-processing block. If an external ADC interface is used, the
+  time interval between two CS pin assertions is 1 / [`sampleRateHz`](#protogen.esb.adc.fldConfig.sampleRateHz).
+  If the requested frequency is fully supported by the RCP server, the
+  configuration is accepted with the [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested frequency to
+  the nearest supported speed within a reasonable tolerance (refer to
+  the datasheet of the server). In this case, the configuration is
+  accepted with the [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve
+  the actual (rounded) speed by querying the configuration of the endpoint.
+
+  ```{note}
+  On some implementations, the sample rate can be synchronous to the
+  internal PTP clock.
+  ```
+
+  ```{warning}
+  Do not confuse the sample rate with the external ADC clock speed,
+  which is configured with the [`fldInterfaceSerial`](#protogen.esb.adc.fldInterfaceSerial) message.
+  ```
+
+- (protogen.esb.adc.fldConfig.bufferSizeBytes)=
+
+  **`bufferSizeBytes`** — *optional* `uint32`\
+  This parameter sets the size in bytes of the internal ADC buffer.
+  When the amount of sampled data exceeds [`bufferSizeBytes`](#protogen.esb.adc.fldConfig.bufferSizeBytes), the RCP server
+  sends out a notification message including all the captured samples.
+
+- (protogen.esb.adc.fldConfig.channels)=
+
+  **`channels`** — *repeated* [`fldChannelConfig`](#protogen.esb.adc.fldChannelConfig)\
+  Configuration for each channel.
+
+- (protogen.esb.adc.fldConfig.interface)=
+
+  **`interface`** — *oneof*\
+  Defines the ADC physical interface.
+  If none of the options is selected, the configuration targets the first
+  available internal ADC.
+
+  - (protogen.esb.adc.fldConfig.serial)=
+
+    **`serial`** — [`fldInterfaceSerial`](#protogen.esb.adc.fldInterfaceSerial)\
+    Configuration for the SPI ADC interface.
+
+(protogen.esb.adc.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.adc.fldCmd`
+
+Container for ADC commands.
+
+**Fields**
+
+- (protogen.esb.adc.fldCmd.op)=
+
+  **`op`** — *optional* [`enCmdOperation`](#protogen.esb.adc.enCmdOperation)\
+  ADC operation.
+
+- (protogen.esb.adc.fldCmd.quiet)=
+
+  **`quiet`** — `bool`\
+  If set, suppresses data streaming to the client.
+
+(protogen.esb.adc.fldNotif)=
+
+### fldNotif
+
+*Message* `esb.adc.fldNotif`
+
+Container for ADC event notifications.
+
+**Fields**
+
+- (protogen.esb.adc.fldNotif.channelId)=
+
+  **`channelId`** — `uint32`\
+  ID of the channel that generated the event.
+
+- (protogen.esb.adc.fldNotif.event)=
+
+  **`event`** — [`enNotifEvent`](#protogen.esb.adc.enNotifEvent)\
+  Type of the event.
+
+- (protogen.esb.adc.fldNotif.value)=
+
+  **`value`** — `uint32`\
+  Value that triggered the event.
+
+## Enumerations
+
+(protogen.esb.adc.enThresholdEvent)=
+
+### enThresholdEvent
+
+*Enumeration* `esb.adc.enThresholdEvent`
+
+Threshold crossing that generates an event.
+
+- (protogen.esb.adc.enThresholdEvent.thresholdEvtNone)=
+
+  **`thresholdEvtNone`** — No trigger (disables the threshold).
+
+- (protogen.esb.adc.enThresholdEvent.thresholdEvtAbove)=
+
+  **`thresholdEvtAbove`** — Trigger if the filtered output rises above [`fldThresholdConfig.value`](#protogen.esb.adc.fldThresholdConfig.value).
+
+- (protogen.esb.adc.enThresholdEvent.thresholdEvtBelow)=
+
+  **`thresholdEvtBelow`** — Trigger if the output falls below [`fldThresholdConfig.value`](#protogen.esb.adc.fldThresholdConfig.value).
+
+- (protogen.esb.adc.enThresholdEvent.thresholdEvtCrossing)=
+
+  **`thresholdEvtCrossing`** — Trigger if the output crosses [`fldThresholdConfig.value`](#protogen.esb.adc.fldThresholdConfig.value) in either direction.
+
+(protogen.esb.adc.enValueType)=
+
+### enValueType
+
+*Enumeration* `esb.adc.enValueType`
+
+This enumeration defines the ADC data format as produced by the internal
+or external ADC endpoint. This setting affects the ADC post-processing
+and filtering arithmetic.
+
+```{note}
+The threshold value ([`fldThresholdConfig.value`](#protogen.esb.adc.fldThresholdConfig.value)), the initial value ([`fldChannelConfig.initialValue`](#protogen.esb.adc.fldChannelConfig.initialValue))
+and the value in a notification ([`fldNotif.value`](#protogen.esb.adc.fldNotif.value)) are unsigned integers, regardless of the selected format.
+```
+
+- (protogen.esb.adc.enValueType.valueUnsigned)=
+
+  **`valueUnsigned`** — Standard n-bit unsigned sample data (10010101 = 149 dec.)
+
+- (protogen.esb.adc.enValueType.valueComplement)=
+
+  **`valueComplement`** — Signed two's complement number (10010101 = -107 dec.)
+
+- (protogen.esb.adc.enValueType.valueSignBit)=
+
+  **`valueSignBit`** — Sign bit plus integer part, i.e., the MSb is used as sign bit (10010101 = -21 dec.)
+
+(protogen.esb.adc.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.adc.enCmdOperation`
+
+ADC operation types.
+
+- (protogen.esb.adc.enCmdOperation.opStart)=
+
+  **`opStart`** — Start the ADC in free-running mode.
+
+- (protogen.esb.adc.enCmdOperation.opStop)=
+
+  **`opStop`** — Stop the ADC.
+
+- (protogen.esb.adc.enCmdOperation.opSingle)=
+
+  **`opSingle`** — Capture a single buffer, then stop.
+
+(protogen.esb.adc.enNotifEvent)=
+
+### enNotifEvent
+
+*Enumeration* `esb.adc.enNotifEvent`
+
+Type of ADC event.
+
+- (protogen.esb.adc.enNotifEvent.eventThreshold1)=
+
+  **`eventThreshold1`** — An event occurred on threshold 1.
+
+- (protogen.esb.adc.enNotifEvent.eventThreshold2)=
+
+  **`eventThreshold2`** — An event occurred on threshold 2.

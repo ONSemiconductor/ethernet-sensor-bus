@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SPI Driver" href="../spi/spi_dev.html" />
+    <link rel="prev" title="GPIO Driver" href="gpio_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="gpio_dev.html">GPIO Driver</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lin/lin_dev.html">LIN Driver</a></li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+          <li class="breadcrumb-item"><a href="gpio_dev.html">GPIO Driver</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldpinconfig">
+<span id="protogen-esb-gpio-fldpinconfig"></span><h3>fldPinConfig<a class="headerlink" href="#fldpinconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.gpio.fldPinConfig</span></code></p>
+<p>Configuration message for GPIO pins.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-gpio-fldpinconfig-num"><strong><code class="docutils literal notranslate"><span class="pre">num</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Index of the pin within the controller, starting from 0. It is the GPIO number of the pin, which is its bit
+position in the masks of <a class="reference internal" href="#protogen-esb-gpio-fldcmd"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd</span></code></span></a> and <a class="reference internal" href="#protogen-esb-gpio-fldnotif"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldNotif</span></code></span></a>.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldpinconfig-event"><strong><code class="docutils literal notranslate"><span class="pre">event</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-gpio-enchangeevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enChangeEvent</span></code></span></a><br />
+Configures which changes of the pin generate an event.
+An event generates an unsolicited notification, unless <a class="reference internal" href="#protogen-esb-gpio-fldpinconfig-quiet"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">quiet</span></code></span></a> is set, and it can trigger actions, see
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-fldactionevent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldActionEvent</span></code></span></a>.
+If PTP is configured and enabled, the notification contains the value
+of the PTP timer at the time the pin changed its state.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldpinconfig-quiet"><strong><code class="docutils literal notranslate"><span class="pre">quiet</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set, suppresses notification reports for this pin.
+The change event can still be used to trigger other actions.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldpinconfig-debouncens"><strong><code class="docutils literal notranslate"><span class="pre">debounceNs</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Debounce time in nanoseconds.</p>
+</li>
+</ul>
+</section>
+<section id="fldconfig">
+<span id="protogen-esb-gpio-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.gpio.fldConfig</span></code></p>
+<p>GPIO configuration message.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-gpio-fldconfig-pin"><strong><code class="docutils literal notranslate"><span class="pre">pin</span></code></strong> — <em>repeated</em> <a class="reference internal" href="#protogen-esb-gpio-fldpinconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldPinConfig</span></code></span></a><br />
+Configuration for each GPIO pin.</p>
+</li>
+</ul>
+</section>
+<section id="fldcmd">
+<span id="protogen-esb-gpio-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.gpio.fldCmd</span></code></p>
+<p>Container for GPIO commands.
+Each field is a mask with one bit per GPIO. A set bit applies the operation of the field
+to the GPIO whose number equals the bit position, starting with bit 0 (LSb).
+For an example, see the page <a class="reference internal" href="gpio_dev.html#protogen-gpio"><span class="std std-ref">GPIO Driver</span></a>.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-gpio-fldcmd-out"><strong><code class="docutils literal notranslate"><span class="pre">out</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to (re)configure as output.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldcmd-inp"><strong><code class="docutils literal notranslate"><span class="pre">inp</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to (re)configure as input.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldcmd-get"><strong><code class="docutils literal notranslate"><span class="pre">get</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to get state for.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldcmd-set"><strong><code class="docutils literal notranslate"><span class="pre">set</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to set state for.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldcmd-clr"><strong><code class="docutils literal notranslate"><span class="pre">clr</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to clear state for.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldcmd-tgl"><strong><code class="docutils literal notranslate"><span class="pre">tgl</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins to toggle state for.</p>
+</li>
+</ul>
+</section>
+<section id="fldnotif">
+<span id="protogen-esb-gpio-fldnotif"></span><h3>fldNotif<a class="headerlink" href="#fldnotif" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.gpio.fldNotif</span></code></p>
+<p>GPIO change notification.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-gpio-fldnotif-state"><strong><code class="docutils literal notranslate"><span class="pre">state</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Current state of all GPIO pins for this controller (endpoint).
+The LSb represents the status of GPIO #0 within this controller.</p>
+</li>
+<li><p id="protogen-esb-gpio-fldnotif-change"><strong><code class="docutils literal notranslate"><span class="pre">change</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Mask of pins that changed state.
+A bit set in the mask at position N (starting from LSb) indicates
+that the GPIO #N changed state since the last notification.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enchangeevent">
+<span id="protogen-esb-gpio-enchangeevent"></span><h3>enChangeEvent<a class="headerlink" href="#enchangeevent" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.gpio.enChangeEvent</span></code></p>
+<p>Pin change that generates an event.</p>
+<ul class="simple">
+<li><p id="protogen-esb-gpio-enchangeevent-changeevtnone"><strong><code class="docutils literal notranslate"><span class="pre">changeEvtNone</span></code></strong> — No event (default).</p>
+</li>
+<li><p id="protogen-esb-gpio-enchangeevent-changeevtrising"><strong><code class="docutils literal notranslate"><span class="pre">changeEvtRising</span></code></strong> — Generate an event when the pin transitions from 0 to 1.</p>
+</li>
+<li><p id="protogen-esb-gpio-enchangeevent-changeevtfalling"><strong><code class="docutils literal notranslate"><span class="pre">changeEvtFalling</span></code></strong> — Generate an event when the pin transitions from 1 to 0.</p>
+</li>
+<li><p id="protogen-esb-gpio-enchangeevent-changeevttoggle"><strong><code class="docutils literal notranslate"><span class="pre">changeEvtToggle</span></code></strong> — Generate an event any time the pin changes state.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gpio_dev.html" class="btn btn-neutral float-left" title="GPIO Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../spi/spi_dev.html" class="btn btn-neutral float-right" title="SPI Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

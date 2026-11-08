@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topology Discovery &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Protocol" href="rcp_tpd-protocol.html" />
+    <link rel="prev" title="Protocol" href="rcp_ptp-protocol.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../gsearch.html';
+    var searchPath = '../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rcp_dev.html">RCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_info.html">Identification and Capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_net.html">Network Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_pins.html">Pins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_plca.html">PLCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_ptp.html">PTP</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Topology Discovery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rcp_tpd-protocol.html">Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_core.html">Core Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rcp_vendor.html">Vendor-Specific Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Server</a></li>
+      <li class="breadcrumb-item active">Topology Discovery</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="topology-discovery">
+<span id="protogen-rcp-tpd"></span><h1>Topology Discovery<a class="headerlink" href="#topology-discovery" title="Link to this heading"></a></h1>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">server/rcp_tpd.proto</span></code></p>
+<p><strong>Package:</strong> <code class="docutils literal notranslate"><span class="pre">esb.rcp.tpd</span></code></p>
+<p>Commands for the topology discovery of 10BASE-T1S networks.</p>
+<p>On a 10BASE-T1S network all nodes share the same line. Topology discovery measures signal delays on that line, from
+which a client can derive the layout of the network. The RCP server supports it if
+<a class="reference internal" href="rcp_info-protocol.html#protogen-esb-rcp-info-fldcapabilities-topologydiscoverysupported"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.info.fldCapabilities.topologyDiscoverySupported</span></code></span></a> is set (see <a class="reference internal" href="rcp_info.html#protogen-rcp-info"><span class="std std-ref">Identification and Capabilities</span></a>). The details of the measurement
+are PHY-dependent, refer to the datasheet.</p>
+<p>The measurement involves two nodes, a reference node and a measured node. The client starts it on both nodes with
+the command <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-optopologydiscovery"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opTopologyDiscovery</span></code></span></a>, each with its own role. The nodes then measure together over the
+line: first the internal delays of the nodes, then the delay between them. A node waits for the other node at most
+for the timeout of its command. The measurement requires the line to be silent. The commands
+<a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opentersilent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opEnterSilent</span></code></span></a> and <a class="reference internal" href="rcp_dev-protocol.html#protogen-esb-rcp-dev-encmdoperation-opexitsilent"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.dev.opExitSilent</span></code></span></a> switch an RCP server to and from the silent mode for this
+purpose.</p>
+<p>The server answers with the delays that it measured and the status of the measurement. The delays are counts,
+which the section Distance converts into the distance between the nodes.</p>
+<section id="distance">
+<h2>Distance<a class="headerlink" href="#distance" title="Link to this heading"></a></h2>
+<p>The result of the reference node contains the three delays that the distance needs. Each one is a count: the number
+of passes of a pulse around its loop within the duration of the measurement. The figure shows the three loops:</p>
+<p><img alt="" src="../_images/structureTpd.svg" /></p>
+<p>The time of one pass around a loop is the duration divided by the count. With the duration
+<span class="math notranslate nohighlight">\(T\)</span> = <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmdresult-durationms"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmdResult.durationMs</span></code></span></a> × <span class="math notranslate nohighlight">\(10^6\)</span> ns, the delays are <span class="math notranslate nohighlight">\(t_R\)</span> = <span class="math notranslate nohighlight">\(T\)</span> / <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmdresult-internaldelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmdResult.internalDelay</span></code></span></a> for the
+reference node, <span class="math notranslate nohighlight">\(t_M\)</span> = <span class="math notranslate nohighlight">\(T\)</span> / <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmdresult-measurednodedelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmdResult.measuredNodeDelay</span></code></span></a> for the measured node, and
+<span class="math notranslate nohighlight">\(t_L\)</span> = <span class="math notranslate nohighlight">\(T\)</span> / <a class="reference internal" href="rcp_tpd-protocol.html#protogen-esb-rcp-tpd-fldcmdresult-distancedelay"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmdResult.distanceDelay</span></code></span></a> for the loop through both nodes.</p>
+<p>The loop through both nodes passes the cable twice, once in each direction, so <span class="math notranslate nohighlight">\(t_L\)</span> = <span class="math notranslate nohighlight">\(t_R\)</span> + <span class="math notranslate nohighlight">\(t_M\)</span> + 2 × <span class="math notranslate nohighlight">\(t_C\)</span>,
+where <span class="math notranslate nohighlight">\(t_C\)</span> is the delay of the cable in one direction. The delay of the cable and the distance <span class="math notranslate nohighlight">\(d\)</span> between the
+nodes follow from it:</p>
+<p><span class="math notranslate nohighlight">\(t_C\)</span> = (<span class="math notranslate nohighlight">\(t_L\)</span> - <span class="math notranslate nohighlight">\(t_R\)</span> - <span class="math notranslate nohighlight">\(t_M\)</span>) / 2</p>
+<p><span class="math notranslate nohighlight">\(d\)</span> = <span class="math notranslate nohighlight">\(t_C\)</span> / <span class="math notranslate nohighlight">\(v\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(v\)</span> is the propagation delay of the cable in nanoseconds per meter.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To measure for 10 ms, with a timeout of one second, as the measured node:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
+dir {
+   action {
+      rcp { op: opTopologyDiscovery  topDisc { role: roleMeasuredNode  durationMs: 10  timeoutMs: 1000 } }
+   }
+}
+</pre></div>
+</div>
+<p>To start the other node as the reference node, send it the same command with <code class="docutils literal notranslate"><span class="pre">role:</span> <span class="pre">roleReferenceNode</span></code>.</p>
+<p>To derive the distance from the result of the reference node with <code class="docutils literal notranslate"><span class="pre">internalDelay:</span> <span class="pre">32906</span></code>, <code class="docutils literal notranslate"><span class="pre">distanceDelay:</span> <span class="pre">15800</span></code>,
+<code class="docutils literal notranslate"><span class="pre">durationMs:</span> <span class="pre">16</span></code>, and <code class="docutils literal notranslate"><span class="pre">measuredNodeDelay:</span> <span class="pre">34918</span></code>, take the duration <span class="math notranslate nohighlight">\(T\)</span> = 16 × <span class="math notranslate nohighlight">\(10^6\)</span> ns. The delays are then
+<span class="math notranslate nohighlight">\(t_R\)</span> = 486.23 ns, <span class="math notranslate nohighlight">\(t_M\)</span> = 458.22 ns, and <span class="math notranslate nohighlight">\(t_L\)</span> = 1012.66 ns, so the delay of the cable is
+<span class="math notranslate nohighlight">\(t_C\)</span> = (1012.66 - 486.23 - 458.22) / 2 = 34.10 ns. With <span class="math notranslate nohighlight">\(v\)</span> = 5 ns/m, the distance is <span class="math notranslate nohighlight">\(d\)</span> = 34.10 / 5 = 6.82 m.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rcp_ptp-protocol.html" class="btn btn-neutral float-left" title="Protocol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rcp_tpd-protocol.html" class="btn btn-neutral float-right" title="Protocol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

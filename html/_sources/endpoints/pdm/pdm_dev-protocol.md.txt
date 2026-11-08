@@ -1,0 +1,88 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.pdm.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.pdm.fldConfig`
+
+PDM configuration message.
+
+**Fields**
+
+- (protogen.esb.pdm.fldConfig.bufferSizeBytes)=
+
+  **`bufferSizeBytes`** — *optional* `uint32`\
+  Length of the buffer in bytes. Setting this to 0 configures the default buffer length.
+  Exceeding the buffer size supported by the server causes the configuration to fail.
+
+- (protogen.esb.pdm.fldConfig.samplingEdge)=
+
+  **`samplingEdge`** — *optional* [`enSamplingEdge`](#protogen.esb.pdm.enSamplingEdge)\
+  PDM sampling edge configuration.
+
+- (protogen.esb.pdm.fldConfig.speedHz)=
+
+  **`speedHz`** — *optional* `uint32`\
+  The clock speed in hertz (Hz).
+  If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+  [`cfgSuccess`](#protogen.esb.enConfigResult.cfgSuccess) return code.
+  The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+  tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+  [`cfgParamAdjusted`](#protogen.esb.enConfigResult.cfgParamAdjusted) warning code and the client can retrieve the actual (rounded) speed by querying the
+  configuration of the endpoint.
+
+(protogen.esb.pdm.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.pdm.fldCmd`
+
+Container for PDM command.
+
+**Fields**
+
+- (protogen.esb.pdm.fldCmd.op)=
+
+  **`op`** — *optional* [`enCmdOperation`](#protogen.esb.pdm.enCmdOperation)\
+  PDM operation.
+
+## Enumerations
+
+(protogen.esb.pdm.enSamplingEdge)=
+
+### enSamplingEdge
+
+*Enumeration* `esb.pdm.enSamplingEdge`
+
+PDM sampling edge configuration options.
+
+- (protogen.esb.pdm.enSamplingEdge.samplingRising)=
+
+  **`samplingRising`** — PDM configured to sample DATA on the CLK rising edge.
+
+- (protogen.esb.pdm.enSamplingEdge.samplingFalling)=
+
+  **`samplingFalling`** — PDM configured to sample DATA on the CLK falling edge.
+
+- (protogen.esb.pdm.enSamplingEdge.samplingBoth)=
+
+  **`samplingBoth`** — PDM configured to sample DATA on both CLK edges, rising and falling.
+
+(protogen.esb.pdm.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.pdm.enCmdOperation`
+
+PDM operation types.
+
+- (protogen.esb.pdm.enCmdOperation.opStart)=
+
+  **`opStart`** — Start PDM.
+
+- (protogen.esb.pdm.enCmdOperation.opStop)=
+
+  **`opStop`** — Stop PDM.

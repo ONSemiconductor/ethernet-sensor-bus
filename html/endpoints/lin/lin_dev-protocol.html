@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocol &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=b611b094"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="LIN Driver" href="lin_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="../../search.html" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = '../../gsearch.html';
+    var searchPath = '../../search.html';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="../../pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server/index.html">Server</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Endpoints</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gpio/gpio_dev.html">GPIO Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spi/spi_dev.html">SPI Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i2c/i2c_dev.html">I2C Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pwm/pwm_dev.html">PWM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../uart/uart_dev.html">UART Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pcm/pcm_dev.html">PCM Audio Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pdm/pdm_dev.html">PDM Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../adc/adc_dev.html">ADC Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sent/sent_dev.html">SENT Driver</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="lin_dev.html">LIN Driver</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Endpoints</a></li>
+          <li class="breadcrumb-item"><a href="lin_dev.html">LIN Driver</a></li>
+      <li class="breadcrumb-item active">Protocol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="protocol">
+<h1>Protocol<a class="headerlink" href="#protocol" title="Link to this heading"></a></h1>
+<section id="messages">
+<h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
+<section id="fldconfig">
+<span id="protogen-esb-lin-fldconfig"></span><h3>fldConfig<a class="headerlink" href="#fldconfig" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.lin.fldConfig</span></code></p>
+<p>LIN configuration message.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-lin-fldconfig-speedbps"><strong><code class="docutils literal notranslate"><span class="pre">speedBps</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The bit rate in bits per second (bps).
+If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgsuccess"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgSuccess</span></code></span></a> return code.
+The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+<a class="reference internal" href="../../rcp-protocol.html#protogen-esb-enconfigresult-cfgparamadjusted"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">cfgParamAdjusted</span></code></span></a> warning code and the client can retrieve the actual (rounded) speed by querying the
+configuration of the endpoint.</p>
+</li>
+<li><p id="protogen-esb-lin-fldconfig-identifierparity"><strong><code class="docutils literal notranslate"><span class="pre">identifierParity</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If set to true, the endpoint automatically calculates and appends the parity bits to the identifier.
+Otherwise, the <a class="reference internal" href="#protogen-esb-lin-fldcmd-frameid"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldCmd.frameId</span></code></span></a> field includes the parity bits.</p>
+</li>
+<li><p id="protogen-esb-lin-fldconfig-checksumtype"><strong><code class="docutils literal notranslate"><span class="pre">checksumType</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-lin-enchecksumtype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enChecksumType</span></code></span></a><br />
+LIN checksum type.</p>
+</li>
+<li><p id="protogen-esb-lin-fldconfig-rxsuppressloopback"><strong><code class="docutils literal notranslate"><span class="pre">rxSuppressLoopback</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">bool</span></code><br />
+If used with a LIN transceiver that loops back the transmitted data to the receiver,
+setting this to true suppresses the loopback.</p>
+</li>
+<li><p id="protogen-esb-lin-fldconfig-txbreakbittime"><strong><code class="docutils literal notranslate"><span class="pre">txBreakBitTime</span></code></strong> — <em>optional</em> <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+The break condition duration in bit times.</p>
+</li>
+</ul>
+</section>
+<section id="fldcmd">
+<span id="protogen-esb-lin-fldcmd"></span><h3>fldCmd<a class="headerlink" href="#fldcmd" title="Link to this heading"></a></h3>
+<p><em>Message</em> <code class="docutils literal notranslate"><span class="pre">esb.lin.fldCmd</span></code></p>
+<p>Container for LIN command.</p>
+<p><strong>Fields</strong></p>
+<ul class="simple">
+<li><p id="protogen-esb-lin-fldcmd-mode"><strong><code class="docutils literal notranslate"><span class="pre">mode</span></code></strong> — <em>oneof</em></p>
+<ul>
+<li><p id="protogen-esb-lin-fldcmd-wdata"><strong><code class="docutils literal notranslate"><span class="pre">wdata</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">bytes</span></code><br />
+Bytes to send. If checksum is enabled, checksum byte(s) are appended automatically.</p>
+</li>
+<li><p id="protogen-esb-lin-fldcmd-rsize"><strong><code class="docutils literal notranslate"><span class="pre">rsize</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Number of bytes to read. If checksum is enabled, checksum byte(s) are read and verified automatically.</p>
+</li>
+</ul>
+</li>
+<li><p id="protogen-esb-lin-fldcmd-frameid"><strong><code class="docutils literal notranslate"><span class="pre">frameId</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">uint32</span></code><br />
+Identifier of the LIN frame. If <a class="reference internal" href="#protogen-esb-lin-fldconfig-identifierparity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldConfig.identifierParity</span></code></span></a> is false, it includes the parity bits.</p>
+</li>
+<li><p id="protogen-esb-lin-fldcmd-checksumtype"><strong><code class="docutils literal notranslate"><span class="pre">checksumType</span></code></strong> — <em>optional</em> <a class="reference internal" href="#protogen-esb-lin-enchecksumtype"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">enChecksumType</span></code></span></a><br />
+If set, overrides the checksum configuration for this command.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Link to this heading"></a></h2>
+<section id="enchecksumtype">
+<span id="protogen-esb-lin-enchecksumtype"></span><h3>enChecksumType<a class="headerlink" href="#enchecksumtype" title="Link to this heading"></a></h3>
+<p><em>Enumeration</em> <code class="docutils literal notranslate"><span class="pre">esb.lin.enChecksumType</span></code></p>
+<p>Checksum type for LIN messages.</p>
+<ul class="simple">
+<li><p id="protogen-esb-lin-enchecksumtype-checksumnone"><strong><code class="docutils literal notranslate"><span class="pre">checksumNone</span></code></strong> — Checksum disabled. The client has to handle it.</p>
+</li>
+<li><p id="protogen-esb-lin-enchecksumtype-checksumclassic"><strong><code class="docutils literal notranslate"><span class="pre">checksumClassic</span></code></strong> — Classic checksum (without identifier).</p>
+</li>
+<li><p id="protogen-esb-lin-enchecksumtype-checksumenhanced"><strong><code class="docutils literal notranslate"><span class="pre">checksumEnhanced</span></code></strong> — Enhanced checksum (with identifier).</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lin_dev.html" class="btn btn-neutral float-left" title="LIN Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

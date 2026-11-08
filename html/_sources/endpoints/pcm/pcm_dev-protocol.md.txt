@@ -1,0 +1,170 @@
+# Protocol
+
+## Messages
+
+(protogen.esb.pcm.fldChannelMask)=
+
+### fldChannelMask
+
+*Message* `esb.pcm.fldChannelMask`
+
+Container for specifying which portion of the data stream to ignore.
+
+**Fields**
+
+- (protogen.esb.pcm.fldChannelMask.idx)=
+
+  **`idx`** — `uint32`\
+  Index of the channel, starting from 0.
+
+- (protogen.esb.pcm.fldChannelMask.padding)=
+
+  **`padding`** — *oneof*
+
+  - (protogen.esb.pcm.fldChannelMask.leftBits)=
+
+    **`leftBits`** — `uint32`\
+    Number of ignored padding bits before the first data bit in each channel.
+
+  - (protogen.esb.pcm.fldChannelMask.rightBits)=
+
+    **`rightBits`** — `uint32`\
+    Number of ignored padding bits after the last data bit in each channel.
+
+(protogen.esb.pcm.fldConfig)=
+
+### fldConfig
+
+*Message* `esb.pcm.fldConfig`
+
+PCM configuration message.
+
+**Fields**
+
+- (protogen.esb.pcm.fldConfig.dir)=
+
+  **`dir`** — *optional* [`enDir`](#protogen.esb.pcm.enDir)\
+  PCM direction.
+
+- (protogen.esb.pcm.fldConfig.fsMode)=
+
+  **`fsMode`** — *optional* [`enFsMode`](#protogen.esb.pcm.enFsMode)\
+  PCM FS mode.
+
+- (protogen.esb.pcm.fldConfig.fsInv)=
+
+  **`fsInv`** — *optional* `bool`\
+  FS output inverted if true.
+
+- (protogen.esb.pcm.fldConfig.clkInv)=
+
+  **`clkInv`** — *optional* `bool`\
+  FS clk inverted if true.
+
+- (protogen.esb.pcm.fldConfig.fsAlign)=
+
+  **`fsAlign`** — *optional* `bool`\
+  If true, the leading edge of fs is aligned with the first data bit.
+  If false, the trailing edge of fs is aligned with the first data bit.
+
+- (protogen.esb.pcm.fldConfig.msbFirst)=
+
+  **`msbFirst`** — *optional* `bool`\
+  If set, configures whether the data is sent/received MSB or LSB first.
+
+- (protogen.esb.pcm.fldConfig.rxBufferSizeBytes)=
+
+  **`rxBufferSizeBytes`** — *optional* `uint32`\
+  Length of the buffer in bytes. Setting this to 0 configures the default buffer length.
+  Exceeding the buffer size supported by the server causes the configuration to fail.
+
+- (protogen.esb.pcm.fldConfig.sampleRateHz)=
+
+  **`sampleRateHz`** — *optional* `uint32`\
+  Sample rate in hertz (Hz).
+
+- (protogen.esb.pcm.fldConfig.numChannels)=
+
+  **`numChannels`** — *optional* `uint32`\
+  Number of channels. In I2S mode, this configuration is ignored, as the number of channels is fixed.
+  In TDM mode, this can be set to any number up to the maximum supported by the server.
+
+- (protogen.esb.pcm.fldConfig.bitsPerSample)=
+
+  **`bitsPerSample`** — *optional* `uint32`\
+  Number of bits per audio sample.
+
+- (protogen.esb.pcm.fldConfig.channelMask)=
+
+  **`channelMask`** — *repeated* [`fldChannelMask`](#protogen.esb.pcm.fldChannelMask)\
+  Configuration for ignoring data in specific channels, to save bandwidth.
+
+(protogen.esb.pcm.fldCmd)=
+
+### fldCmd
+
+*Message* `esb.pcm.fldCmd`
+
+Container for PCM command.
+
+**Fields**
+
+- (protogen.esb.pcm.fldCmd.op)=
+
+  **`op`** — *optional* [`enCmdOperation`](#protogen.esb.pcm.enCmdOperation)\
+  Operation to perform.
+
+- (protogen.esb.pcm.fldCmd.txData)=
+
+  **`txData`** — `bytes`\
+  Audio stream to transmit when in output mode.
+
+## Enumerations
+
+(protogen.esb.pcm.enDir)=
+
+### enDir
+
+*Enumeration* `esb.pcm.enDir`
+
+PCM direction.
+
+- (protogen.esb.pcm.enDir.dirIn)=
+
+  **`dirIn`** — PCM configured as input (RX).
+
+- (protogen.esb.pcm.enDir.dirOut)=
+
+  **`dirOut`** — PCM configured as output (TX).
+
+(protogen.esb.pcm.enFsMode)=
+
+### enFsMode
+
+*Enumeration* `esb.pcm.enFsMode`
+
+PCM frame sync mode.
+
+- (protogen.esb.pcm.enFsMode.fsModeI2s)=
+
+  **`fsModeI2s`** — I2S mode.
+
+- (protogen.esb.pcm.enFsMode.fsModeTdm)=
+
+  **`fsModeTdm`** — TDM mode.
+
+(protogen.esb.pcm.enCmdOperation)=
+
+### enCmdOperation
+
+*Enumeration* `esb.pcm.enCmdOperation`
+
+PCM operation types.
+
+- (protogen.esb.pcm.enCmdOperation.opStart)=
+
+  **`opStart`** — Start PCM.
+
+- (protogen.esb.pcm.enCmdOperation.opStop)=
+
+  **`opStop`** — Stop PCM.

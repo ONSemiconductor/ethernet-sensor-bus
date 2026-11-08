@@ -1,0 +1,73 @@
+(protogen.adc)=
+
+# ADC Driver
+
+**File:** `endpoints/adc/adc_dev.proto`
+
+**Package:** `esb.adc`
+
+ADC configuration, actions, queries, and notifications for RCP.
+
+An ADC endpoint samples analog values at a fixed rate, post-processes them in the RCP server, and delivers the
+result to the client. The ADC is either part of the RCP server or an external device connected through a serial
+interface, see [`fldInterfaceSerial`](#protogen.esb.adc.fldInterfaceSerial). Before using the ADC, the client configures it with a [`fldConfig`](#protogen.esb.adc.fldConfig) message.
+
+## Processing chain
+
+The samples are fed into the processing at the configured sample rate. If the ADC has several channels, each of them
+has its own processing chain: a low-pass filter smooths the samples, a decimator reduces the number of reported
+samples, and two thresholds evaluate the filtered values.
+
+![](../../../../../sw_proto_rcp/figures/endpoints/structureAdc.svg)
+
+## Streaming and thresholds
+
+The client starts and stops the ADC with a command. The samples are collected in a buffer, and the RCP server sends
+them to the client in a notification when the buffer is full (streaming), see [`esb.fldNotif.data`](#protogen.esb.fldNotif.data). The format of
+the samples in the buffer is server-dependent. Refer to the datasheet.
+
+A threshold fires when the filtered value crosses a configured level. A fired threshold generates an internal event
+that can trigger actions with low latency, see [`fldActionEvent`](#protogen.esb.fldActionEvent), and it can also send a notification,
+see [`fldNotif`](#protogen.esb.adc.fldNotif). Streaming and thresholds are independent of each other and can be used at the same time.
+
+## External ADC
+
+An external ADC is read through a serial interface with three pins, similar to SPI: the RCP server generates the
+clock SCLK and the chip-select CS, and it samples the data output of the ADC. The RCP server starts a conversion by
+asserting CS. After a number of padding clock cycles, which give the ADC time to sample and hold, the data bits
+follow. The RCP server then waits for more padding clock cycles, which some ADCs need to reset their internal state,
+before it de-asserts CS. The figure shows an acquisition of 8 data bits, most significant bit first, with 3 padding
+clock cycles before them and 4 after them, at clock polarity 0 and clock phase 0:
+
+![](../../../../../sw_proto_rcp/figures/endpoints/timingAdcSerial.svg)
+
+## Example
+
+To sample channel 0 at 1 kHz, filter it, report every fourth sample, and be notified when it exceeds 800:
+
+```text
+seq: 1
+dir {
+   config {
+      hndl: 4
+      adc {
+         sampleRateHz: 1000
+         bufferSizeBytes: 256
+         channels {
+            channelId: 0
+            fltLP: 3
+            decimationFactor: 2
+            threshold1 { value: 800  event: thresholdEvtAbove  notify: true }
+         }
+      }
+   }
+}
+dir { action { hndl: 4  adc { op: opStart } } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+adc_dev-protocol
+```

@@ -1,0 +1,104 @@
+/* Light Mode Theme (Default) */
+:root {
+    --onsemi-primary: #1d3546;        /* Dark blue */
+    --onsemi-secondary: #f0690a;      /* Orange accent */
+    --onsemi-secondary-dark: #d85a08; /* Darker orange for hover states */
+    --onsemi-accent-1: #546278;       /* Accent color 1 */
+    --onsemi-accent-2: #dbe7f0;       /* Accent color 2 */
+    --onsemi-light: #fcfcfd;          /* Light background */
+    --onsemi-light-alt: #f8f9fa;      /* Alternative light */
+    --onsemi-content-bg: #ffffff;     /* Light content background */
+    --onsemi-border: #dbe7f0;         /* Border color */
+    --onsemi-border-dark: #e1e1e1;    /* Darker border */
+    --onsemi-border-light: #dee2e6;   /* Light gray border */
+    --onsemi-border-lightest: #e9ecef; /* Lightest gray border */
+    --onsemi-input-border: #ced4da;   /* Input field border */
+    --onsemi-input-bg: #ffffff;       /* Input field background */
+    --onsemi-accent-light: rgba(248, 175, 123, 0.525); /* Light orange accent (semi-transparent) */
+    --color-white: #ffffff;           /* Pure white */
+    --syntax-string: #000000;         /* Syntax highlighting: string literals */
+    --syntax-tag: #4070A0;            /* Syntax highlighting: HTML/XML tags */
+    --onsemi-primary-dark: #2a4a61;   /* Darker primary for hover states */
+    --onsemi-shadow: rgba(29, 53, 70, 0.3); /* Shadow color */
+    --onsemi-text: #212529;           /* Primary text */
+    --onsemi-text-light: #6c757d;     /* Secondary text */
+    --onsemi-text-muted: #646669;     /* Muted text */
+    --onsemi-link: #1d3546;           /* Link color */
+    --onsemi-link-hover: rgb(23.2, 42.4, 56); /* Link hover */
+    --onsemi-link-visited: #546278;   /* Visited link */
+    --onsemi-success: #02714F;        /* Success/positive */
+    --onsemi-warning: #FFC63F;        /* Warning/caution */
+    --onsemi-danger: #BD4A2E;         /* Error/danger */
+    --onsemi-info: #0076AB;           /* Info/informational */
+
+    /* Navbar color hierarchy for contrast */
+    --navbar-background-color: #fcfcfd;
+    --navbar-background-color-hover: #f8f9fa;
+    --navbar-background-color-active: #e9ecef;
+    --navbar-current-background-color: #f8f9fa;
+    --navbar-current-background-color-hover: #f1f3f5;
+    --navbar-current-background-color-active: #f0690a;
+    --navbar-level-1-color: #212529;  /* Dark text on light background */
+    --navbar-level-2-color: #495057;  /* Secondary text */
+    --navbar-level-3-color: #6c757d;  /* Tertiary/muted */
+    --navbar-disabled-color: rgba(33, 37, 41, 0.25); /* Disabled state */
+    --navbar-heading-color: #1d3546;       /* Dark primary for headers */
+    --navbar-hover-color: #f0690a;         /* Orange on hover */
+    --navbar-active-color: #6c757d;        /* Orange for active items */
+    --navbar-scrollbar-color: #dee2e6;
+    --navbar-scrollbar-hover-color: #adb5bd;
+    --navbar-scrollbar-active-color: #6c757d;
+    --navbar-scrollbar-background: #f8f9fa;
+
+    /* Admonition colors - onsemi scheme */
+    --admonition-note-title-bg-color: #e7f2fa;
+    --admonition-note-bg-color: #e7f2fa;
+    --admonition-note-border-color: #6ab0de;
+    --admonition-note-title-text-color: #ffffff;
+    
+    --admonition-warning-title-bg-color: #f0690a;
+    --admonition-warning-bg-color: #ffedcc;
+    --admonition-warning-border-color: #f0b37e;
+    --admonition-warning-title-text-color: #ffffff;
+    
+    --admonition-error-title-bg-color: #BD4A2E;
+    --admonition-error-bg-color: #fdf3f2;
+    --admonition-error-border-color: #e9a499;
+    --admonition-error-title-text-color: #ffffff;
+    
+    --admonition-hint-title-bg-color: #039669;
+    --admonition-hint-bg-color: #e9f4ea;
+    --admonition-hint-border-color: #039669;
+    --admonition-hint-title-text-color: #ffffff;
+    
+    --admonition-important-title-bg-color: #f0690a;
+    --admonition-important-bg-color: #fff0e6;
+    --admonition-important-border-color: #f0b37e;
+    --admonition-important-title-text-color: #ffffff;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+
+    /* Typography scale for consistent sizing */
+    --base-font-size: 16px;
+    --base-line-height: 1.6;
+    --heading-line-height: 1.3;
+
+    /* Consistent component sizes */
+    --nav-width: 300px;
+    --logo-max-height: 82px;
+    --content-max-width: 1200px;
+    --sidebar-caption-size: 0.85rem;
+    --menu-item-size: 0.95rem;
+    --code-font-size: 0.9rem;
+    --table-font-size: 0.95rem;
+}

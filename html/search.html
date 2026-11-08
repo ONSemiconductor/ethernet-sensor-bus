@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><script>(function(){try{var stored=null;try{stored=localStorage.getItem('theme')}catch(e){stored=null}var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;var theme=stored?stored:(prefersDark?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(err){} })();</script>
+<style id="initial-theme-vars">html[data-theme="dark"]{--navbar-background-color:#1a1d23;--navbar-background-color-hover:#2d3139;--navbar-current-background-color:#2d3139;--navbar-current-background-color-hover:#3d4149;--navbar-level-1-color:#c9d1d9;--navbar-heading-color:#c9d1d9;--onsemi-light:#0d1117;--onsemi-text:#e8e9ea}html[data-theme="light"]{--navbar-background-color:#fcfcfd;--navbar-background-color-hover:#f8f9fa;--navbar-current-background-color:#f8f9fa;--navbar-current-background-color-hover:#f1f3f5;--navbar-level-1-color:#212529;--navbar-heading-color:#1d3546;--onsemi-light:#fcfcfd;--onsemi-text:#212529}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search &mdash; ESB Protocol</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="_static/css/doxybridge.css?v=ed2ee04c" />
+      <link rel="stylesheet" type="text/css" href="_static/css/light.css?v=ddb3986d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/dark.css?v=b5a3722b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=a56eb22f" />
+      <link rel="stylesheet" type="text/css" href="_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="_static/mobile.css?v=c94bd62d" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+    
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b611b094"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/js/custom.js?v=99d60d1b"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=b8b12719"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="search" title="Search" href="#" />
+   <script src="_static/js/embed-search.js"></script>
+  <script>
+    // Try to load and embed the search index
+    (function() {
+      var script = document.createElement('script');
+      script.src = 'searchindex.js';
+      script.onerror = function() {
+        console.warn('Could not load searchindex.js via script tag');
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
+  
+  <style>
+    #search-file-filter {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    #search-file-filter label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    #file-filter-select {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      min-width: 200px;
+    }
+    #search-results li {
+      transition: opacity 0.2s;
+    }
+    #search-results li.filtered-out {
+      display: none;
+    }
+    #filter-stats {
+      margin-left: 15px;
+      color: #666;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form-sidebar" class="wy-form" action="#" method="get">
+    <input type="search" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<script>
+(function () {
+  var defaultEngine = window.location.pathname.includes('/latest') ? 'google' : 'builtin';
+  var currentEngine = localStorage.getItem('searchEngine') || defaultEngine;
+
+  function updatePlaceholder() {
+    var input = document.querySelector('.wy-side-nav-search input[type="search"]');
+    if (input) {
+      input.placeholder = currentEngine === 'google' ? 'Search docs (powered by Google)' : 'Search docs';
+    }
+  }
+
+  function updateSelected() {}
+
+  window.selectSearchEngine = function() {};
+  window.toggleSearchMenu = function() {};
+
+  // Initialize
+  updatePlaceholder();
+  
+  // Set initial form action and ensure proper navigation
+  var form = document.getElementById('rtd-search-form-sidebar');
+  if (form) {
+    var gsearchPath = 'gsearch.html';
+    var searchPath = '#';
+    
+    // If we're on gsearch.html, use gsearch.html instead of relative path
+    if (window.location.pathname.includes('/gsearch.html')) {
+      gsearchPath = 'gsearch.html';
+      searchPath = 'search.html';
+    }
+    
+    form.action = currentEngine === 'google' ? gsearchPath : searchPath;
+    
+    // Update action on form submit to ensure correct path
+    form.addEventListener('submit', function(e) {
+      var currentPath = currentEngine === 'google' ? gsearchPath : searchPath;
+      form.action = currentPath;
+    });
+  }
+})();
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <div data-nosnippet>
+    
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Docs / Latest</span>
+    v: ESB-1.0.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    <dl>
+      <dt>Downloads</dt>
+      
+      <dd><a href="./pdf/esb-specification-1.0.0.pdf">ESB Protocol (PDF)</a></dd>
+      
+    </dl>
+    
+    
+    <dl>
+      <dt>Legal</dt>
+      
+      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
+      
+      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
+      
+    </dl>
+    
+  </div>
+</div>
+    
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcp.html">RCP Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rcp_common.html">Common Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server/index.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints/index.html">Endpoints</a></li>
+</ul>
+
+    
+  </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ESB Protocol</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Search</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+  <noscript>
+  <div id="fallback" class="admonition warning">
+    <p class="last">
+      Please activate JavaScript to enable the search functionality.
+    </p>
+  </div>
+  </noscript>
+
+  
+  <div id="search-results">
+  
+  </div>
+
+  
+  <script>
+  (function() {
+    // Wait for search results to load
+    var checkResults = setInterval(function() {
+      var searchResults = document.getElementById('search-results');
+      if (searchResults && searchResults.children.length > 0) {
+        clearInterval(checkResults);
+        addFileFilter();
+      }
+    }, 100);
+    
+    function addFileFilter() {
+      var searchResults = document.getElementById('search-results');
+      if (!searchResults) return;
+      
+      // Collect all unique files from search results
+      var files = new Set();
+      var results = searchResults.querySelectorAll('li');
+      
+      results.forEach(function(result) {
+        var link = result.querySelector('a');
+        if (link) {
+          var href = link.getAttribute('href');
+          if (href) {
+            // Extract filename from href (remove anchor)
+            var file = href.split('#')[0];
+            if (file) {
+              files.add(file);
+            }
+          }
+        }
+      });
+      
+      if (files.size === 0) return;
+      
+      // Create filter UI
+      var filterDiv = document.createElement('div');
+      filterDiv.id = 'search-file-filter';
+      filterDiv.innerHTML = `
+        <label for="file-filter-select">Filter by file:</label>
+        <select id="file-filter-select">
+          <option value="">All files (${results.length} results)</option>
+        </select>
+        <span id="filter-stats"></span>
+      `;
+      
+      // Insert filter before search results
+      searchResults.parentNode.insertBefore(filterDiv, searchResults);
+      
+      var select = document.getElementById('file-filter-select');
+      var stats = document.getElementById('filter-stats');
+      
+      // Add file options sorted alphabetically
+      var sortedFiles = Array.from(files).sort();
+      sortedFiles.forEach(function(file) {
+        var count = 0;
+        results.forEach(function(result) {
+          var link = result.querySelector('a');
+          if (link && link.getAttribute('href').startsWith(file)) {
+            count++;
+          }
+        });
+        
+        var option = document.createElement('option');
+        option.value = file;
+        // Clean up the filename for display
+        var displayName = file.replace('.html', '').replace(/_/g, ' ');
+        option.textContent = displayName + ' (' + count + ')';
+        select.appendChild(option);
+      });
+      
+      // Add filter functionality
+      select.addEventListener('change', function() {
+        var selectedFile = this.value;
+        var visibleCount = 0;
+        
+        results.forEach(function(result) {
+          var link = result.querySelector('a');
+          if (!link) return;
+          
+          var href = link.getAttribute('href');
+          if (!href) return;
+          
+          var file = href.split('#')[0];
+          
+          if (selectedFile === '' || file === selectedFile) {
+            result.classList.remove('filtered-out');
+            visibleCount++;
+          } else {
+            result.classList.add('filtered-out');
+          }
+        });
+        
+        // Update stats
+        if (selectedFile === '') {
+          stats.textContent = '';
+        } else {
+          stats.textContent = 'Showing ' + visibleCount + ' of ' + results.length + ' results';
+        }
+      });
+    }
+  })();
+  </script>
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+<p>
+    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
+    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+  <script>
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+  
+  <script id="searchindexloader"></script>
+   
+
+
+</body>
+</html>

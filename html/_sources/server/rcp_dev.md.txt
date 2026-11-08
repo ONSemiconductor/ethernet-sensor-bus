@@ -1,0 +1,43 @@
+(protogen.rcp_dev)=
+
+# RCP Server
+
+**File:** `server/rcp_dev.proto`
+
+**Package:** `esb.rcp.dev`
+
+Configuration, commands, and queries of the RCP server itself.
+
+This file defines the messages for the RCP server as a whole, as opposed to the endpoints (GPIO, SPI, etc.) that it
+contains. The server has the handle 0, see [Operating principle](#protogen.principle). Its messages travel in the same containers as those of the
+endpoints: [`fldConfig`](#protogen.esb.rcp.dev.fldConfig) in the configuration ([`esb.fldConfig`](#protogen.esb.fldConfig)), [`fldCmd`](#protogen.esb.rcp.dev.fldCmd) in an action ([`fldAction`](#protogen.esb.fldAction)), and [`enQuery`](#protogen.esb.rcp.dev.enQuery) in
+a query ([`fldQuery`](#protogen.esb.fldQuery)). The result of a command is a [`fldCmdResult`](#protogen.esb.rcp.dev.fldCmdResult), the result of a query a [`fldQueryResult`](#protogen.esb.rcp.dev.fldQueryResult).
+
+## Configuration, commands, and queries
+
+The settings of the server are grouped by topic, and each group has a page of its own: the core operations
+([Core Operations](#protogen.rcp_core)), the PTP protocol ([PTP](#protogen.rcp_ptp)), the PLCA ([PLCA](#protogen.rcp_plca)), the pins ([Pins](#protogen.rcp_pins)), the network
+([Network Configuration](#protogen.rcp_net)), and the vendor-specific features ([Vendor-Specific Features](#protogen.rcp_vendor)). The commands manage the server itself: its power
+state, the storage of its configuration and actions, its scheduler, and its Ethernet line and PHY.
+
+The queries read the configuration, the status, and the identification of the server. The identification queries are
+described in [Identification and Capabilities](#protogen.rcp_info). Not all queries have to be implemented: the query enumeration marks the ones that every
+ESB-compliant server implements, the ones that it implements if the hardware has the feature, and the optional ones.
+
+## Example
+
+To set a DID and a watchdog timeout of one second, send a keep-alive, and read the status:
+
+```text
+seq: 1
+dir { config { rcp { server { did: 3  watchdogTimeoutMs: 1000 } } } }
+dir { action { rcp { op: opNone } } }
+dir { query { rcp: qryServerStatus } }
+```
+
+```{toctree}
+:hidden:
+:titlesonly:
+
+rcp_dev-protocol
+```
