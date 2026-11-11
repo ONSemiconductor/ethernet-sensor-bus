@@ -4,7 +4,7 @@
 
 The Ethernet Sensor Bus (ESB) is a remote control protocol (RCP). A client sends directives over Ethernet to RCP servers. The servers execute them on hardware endpoints, such as SPI, I2C, GPIO, or UART controllers, and report the results back. ESB is an open protocol. It was first released in 2026.
 
-This documentation specifies the messages of ESB as a Protocol Buffers (proto3) schema, and the behavior of clients and servers.
+This documentation specifies the messages of ESB as a Protocol Buffers (proto3) schema, and the behavior of clients and servers. The schema files, from which this documentation is generated, are in the GitHub repository [ethernet-sensor-bus](https://github.com/ONSemiconductor/ethernet-sensor-bus).
 
 ## Motivation
 

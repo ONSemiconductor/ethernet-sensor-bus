@@ -1,23 +1,10 @@
 /* The figures are black ink on white. Invert them in dark mode; the white background makes the PNGs, which are transparent, look like the SVGs. */
-html[data-theme="dark"] .rst-content img[src*="_images/"]:not([src$="Light.svg"]):not([src$="Dark.svg"]) {
+html[data-theme="dark"] .rst-content img[src*="_images/"] {
   background: #ffffff;
   filter: invert(0.9) hue-rotate(180deg);
 }
 
-/* A picture that is drawn twice, <name>Light.svg and <name>Dark.svg (the logo of the home page, to which prepare.py adds the Dark one), shows the variant of the mode. */
-img[src$="Light.svg"],
-img[src$="Dark.svg"] {
-  max-width: min(100%, 640px);
-  height: auto;
-  margin: 1.5rem auto;
-}
-
-img[src$="Dark.svg"],
-html[data-theme="dark"] img[src$="Light.svg"] {
-  display: none;
-}
-
-img[src$="Light.svg"],
-html[data-theme="dark"] img[src$="Dark.svg"] {
-  display: block;
+/* The logo in the sidebar is the Light variant of the ESB logo (html_logo). In the dark mode dark.css of docs-sphinx puts its own logo there, which this replaces with the Dark variant (html_static_path). */
+html[data-theme="dark"] .wy-side-nav-search a img.logo {
+  content: url("logoEsbDark.svg") !important;
 }

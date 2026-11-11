@@ -11,7 +11,7 @@ Send one directive with the queries [`rcp.dev.qryIdentity`](#protogen.esb.rcp.de
 ## Make directives easy to match and to repeat
 
 - Set a non-zero sequence number and use a new one for every directive whose reply you need.
-- Raw Ethernet and UDP do not guarantee delivery. A missing report leaves the outcome unknown. Repeat the directive only if it is safe to execute it twice in the current state. Prefer setting and clearing pins over toggling them. Do not retry a transfer blindly.
+- Raw Ethernet and UDP do not guarantee delivery. A missing report leaves the outcome unknown. Repeat the directive only if it is safe to execute it twice in the current state. Do not retry a transfer blindly.
 - Batch operations to reduce round trips, but do not treat their order as a success condition. If an action depends on a successful configuration, check the configuration result before sending the action, see [Messages](messages.md).
 - Check the result of every operation, also the warnings. A warning means that the operation succeeded, but the server did something other than requested.
 

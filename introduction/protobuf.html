@@ -17,7 +17,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
       <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
-      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=d8000d22" />
       <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
 
   
@@ -51,7 +51,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+              <img src="../_static/logoEsbLight.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
@@ -120,15 +120,6 @@
     </dl>
     
     
-    <dl>
-      <dt>Legal</dt>
-      
-      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
-      
-      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
-      
-    </dl>
-    
   </div>
 </div>
     
@@ -179,9 +170,9 @@
              
   <section class="tex2jax_ignore mathjax_ignore" id="protobuf-encoding">
 <span id="protogen-protobuf"></span><h1>Protobuf encoding<a class="headerlink" href="#protobuf-encoding" title="Link to this heading"></a></h1>
-<p>Protocol Buffers turn a message into a compact sequence of bytes and back. Generated code hides the encoding. Knowing it helps when you read a captured frame, estimate the size of a directive, or write an encoder for a small microcontroller. The authoritative description is the Protocol Buffers guide <a class="reference external" href="https://protobuf.dev/programming-guides/encoding/">Encoding</a>.</p>
-<section id="field-numbers">
-<h2>Field numbers<a class="headerlink" href="#field-numbers" title="Link to this heading"></a></h2>
+<p>Protocol Buffers (protobuf) encode a message as a compact sequence of bytes and decode it again. Generated code hides the encoding. The authoritative description is the Protocol Buffers guide <a class="reference external" href="https://protobuf.dev/programming-guides/encoding/">Encoding</a>.</p>
+<section id="fields-and-records">
+<h2>Fields and records<a class="headerlink" href="#fields-and-records" title="Link to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">.proto</span></code> file defines a message as a list of fields. Each field has a name, a type, and a <em>field number</em>:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>message fldTstamp {
    fixed32 sec  = 1;
@@ -189,11 +180,8 @@
 }
 </pre></div>
 </div>
-<p>The wire carries field numbers, not names. A field number is never changed or reused, and a new field gets a new number.</p>
-</section>
-<section id="records">
-<h2>Records<a class="headerlink" href="#records" title="Link to this heading"></a></h2>
-<p>An encoded message is a sequence of <em>records</em>, one for each field that is present. A record is a tag followed by the value. The tag holds the field number and the <em>wire type</em>, which says how the value is stored:</p>
+<p>The encoding identifies a field by its number, not by its name. A field number never changes and is never reused.</p>
+<p>An encoded message is a sequence of <em>records</em>, one for each field that is present. A record is a tag followed by the value. The tag holds the field number and the <em>wire type</em>, which defines how the value is stored:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tag = (field number &lt;&lt; 3) | wire type
 </pre></div>
 </div>
@@ -209,25 +197,21 @@
 <td class="text-right"><p>0</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">int32</span></code>, <code class="docutils literal notranslate"><span class="pre">int64</span></code>, <code class="docutils literal notranslate"><span class="pre">uint32</span></code>, <code class="docutils literal notranslate"><span class="pre">uint64</span></code>, <code class="docutils literal notranslate"><span class="pre">sint32</span></code>, <code class="docutils literal notranslate"><span class="pre">sint64</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, and enums</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">I64</span></code></p></td>
-<td class="text-right"><p>1</p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fixed64</span></code>, <code class="docutils literal notranslate"><span class="pre">sfixed64</span></code>, and <code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">LEN</span></code></p></td>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">LEN</span></code></p></td>
 <td class="text-right"><p>2</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">string</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes</span></code>, embedded messages, and packed repeated fields</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">I32</span></code></p></td>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">I32</span></code></p></td>
 <td class="text-right"><p>5</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">fixed32</span></code>, <code class="docutils literal notranslate"><span class="pre">sfixed32</span></code>, and <code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 </tr>
 </tbody>
 </table>
-<p>The wire type also tells a decoder how long the value is, so it can skip an unknown field. RCP clients use this for reports, but RCP servers reject unknown fields in directives, see <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>. The records can come in any order.</p>
+<p>The wire type also tells a decoder how long the value is, so that it can skip an unknown field. RCP clients skip unknown fields in reports, but RCP servers reject them in directives, see <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>.</p>
 </section>
-<section id="numbers">
-<h2>Numbers<a class="headerlink" href="#numbers" title="Link to this heading"></a></h2>
-<p>Most numbers are <em>varints</em>: each byte carries seven bits of the number, least significant group first, and its most significant bit says whether another byte follows. The values up to 127 take one byte, the values up to 16383 two bytes, and so on. For example, 150 is written as <code class="docutils literal notranslate"><span class="pre">96</span> <span class="pre">01</span></code>:</p>
+<section id="values">
+<h2>Values<a class="headerlink" href="#values" title="Link to this heading"></a></h2>
+<p>Most numbers are <em>varints</em>: each byte carries seven bits of the number, least significant group first, and its most significant bit indicates whether another byte follows. Values up to 127 take one byte, values up to 16383 take two bytes, and so on. For example, 150 is written as <code class="docutils literal notranslate"><span class="pre">96</span> <span class="pre">01</span></code>:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>150 in binary:                   1001 0110
 in groups of seven bits:         0000001 0010110
 least significant group first:   0010110 0000001
@@ -235,23 +219,18 @@ with the continuation bits:      10010110 00000001
                                  = 96 01
 </pre></div>
 </div>
-<p>The types <code class="docutils literal notranslate"><span class="pre">fixed32</span></code> and <code class="docutils literal notranslate"><span class="pre">sfixed32</span></code> always take four bytes, least significant byte first. The schema uses <code class="docutils literal notranslate"><span class="pre">fixed32</span></code> for the sequence numbers (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a>) and for the fields of the timestamp (<a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a>).</p>
+<p>The types <code class="docutils literal notranslate"><span class="pre">fixed32</span></code> and <code class="docutils literal notranslate"><span class="pre">sfixed32</span></code> always take four bytes, least significant byte first. The schema uses <code class="docutils literal notranslate"><span class="pre">fixed32</span></code> for the sequence numbers (<a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a>) and the fields of the timestamp (<a class="reference internal" href="../rcp_common-protocol.html#protogen-esb-fldtstamp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldTstamp</span></code></span></a>).</p>
+<p>Strings, <code class="docutils literal notranslate"><span class="pre">bytes</span></code>, and embedded messages are stored as a length, written as a varint, followed by that many bytes. An embedded message is a complete message of its own, so a directive nests records several levels deep, from the operation to the action to the command of an endpoint. Each level adds a tag and a length.</p>
 </section>
-<section id="length-delimited-fields">
-<h2>Length-delimited fields<a class="headerlink" href="#length-delimited-fields" title="Link to this heading"></a></h2>
-<p>Strings, <code class="docutils literal notranslate"><span class="pre">bytes</span></code>, and embedded messages are stored as a length, written as a varint, followed by that many bytes. An embedded message is a complete message of its own. A directive nests records several levels deep, from the operation to the action to the command of an endpoint. Each level adds a tag and a length.</p>
-</section>
-<section id="absent-fields-and-defaults">
-<h2>Absent fields and defaults<a class="headerlink" href="#absent-fields-and-defaults" title="Link to this heading"></a></h2>
-<p>A field that is not present takes no space. A singular scalar field without <code class="docutils literal notranslate"><span class="pre">optional</span></code> and outside a <code class="docutils literal notranslate"><span class="pre">oneof</span></code> does not track presence. An encoder omits its default value, i.e., 0, <code class="docutils literal notranslate"><span class="pre">false</span></code>, or empty. The receiver cannot distinguish an omitted field from an explicitly sent default. For example, an omitted <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a> has the value 0.</p>
-<p>A field that is declared <code class="docutils literal notranslate"><span class="pre">optional</span></code> is different: the decoder can tell whether it was present, even when its value is 0 or <code class="docutils literal notranslate"><span class="pre">false</span></code>. The schema uses this for settings where “not set” means “leave as it is” and a value means “change it”, e.g., <a class="reference internal" href="../server/rcp_ptp-protocol.html#protogen-esb-rcp-ptp-fldconfig-enable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.ptp.fldConfig.enable</span></code></span></a>.</p>
-<p>Message fields and <code class="docutils literal notranslate"><span class="pre">oneof</span></code> members also track presence. An empty <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-timed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.timed</span></code></span></a> message still selects a timed trigger, and a selected <code class="docutils literal notranslate"><span class="pre">oneof</span></code> member with value 0 is still encoded.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">oneof</span></code> selects at most one member. Standard protobuf decoders keep the last member if several appear on the wire. RCP servers instead reject such a directive before executing any operation, see <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">repeated</span></code> field stores a list, e.g., one record per operation in a directive. Repeated numbers are normally packed into a <code class="docutils literal notranslate"><span class="pre">LEN</span></code> record. An omitted list and an empty list have no distinct presence in the protobuf data model. Configuration-list updates follow the rules of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldconfig"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">esb.fldConfig</span></code></span></a>.</p>
+<section id="field-presence-and-default-values">
+<h2>Field presence and default values<a class="headerlink" href="#field-presence-and-default-values" title="Link to this heading"></a></h2>
+<p>A field that is not present takes no space. A singular scalar field without <code class="docutils literal notranslate"><span class="pre">optional</span></code> and outside a <code class="docutils literal notranslate"><span class="pre">oneof</span></code> does not track presence: the encoder omits its default value, i.e., 0, <code class="docutils literal notranslate"><span class="pre">false</span></code>, or empty, so the receiver cannot distinguish an omitted field from an explicitly sent default. For example, an omitted <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a> has the value 0.</p>
+<p>Fields declared <code class="docutils literal notranslate"><span class="pre">optional</span></code>, message fields, and <code class="docutils literal notranslate"><span class="pre">oneof</span></code> members track presence. The decoder can tell whether such a field was present, even when its value is 0 or <code class="docutils literal notranslate"><span class="pre">false</span></code>. The schema uses <code class="docutils literal notranslate"><span class="pre">optional</span></code> for settings where “not set” means “leave unchanged” and a value means “change it”, e.g., <a class="reference internal" href="../server/rcp_ptp-protocol.html#protogen-esb-rcp-ptp-fldconfig-enable"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">rcp.ptp.fldConfig.enable</span></code></span></a>. An empty <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldaction-timed"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldAction.timed</span></code></span></a> message still selects a timed trigger, and a selected <code class="docutils literal notranslate"><span class="pre">oneof</span></code> member with the value 0 is still encoded.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">repeated</span></code> field stores a list, e.g., one record for each operation of a directive. Repeated numbers are normally packed into a <code class="docutils literal notranslate"><span class="pre">LEN</span></code> record. The protobuf data model does not distinguish an omitted list from an empty list.</p>
 </section>
 <section id="worked-example">
 <h2>Worked example<a class="headerlink" href="#worked-example" title="Link to this heading"></a></h2>
-<p>The directive that queries the identity of the RCP server is, in the text format:</p>
+<p>In the text format, the directive that queries the identity of the RCP server reads:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>seq: 1
 dir { query { rcp: qryIdentity } }
 </pre></div>
@@ -265,40 +244,32 @@ dir { query { rcp: qryIdentity } }
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0D</span></code></p></td>
-<td class="text-left"><p>Tag: field number 1, wire type 5 (<code class="docutils literal notranslate"><span class="pre">I32</span></code>), which is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a></p></td>
+<td class="text-left"><p>Tag of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-seq"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.seq</span></code></span></a>: field number 1, wire type 5 (<code class="docutils literal notranslate"><span class="pre">I32</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">01</span> <span class="pre">00</span> <span class="pre">00</span> <span class="pre">00</span></code></p></td>
-<td class="text-left"><p>The value of <code class="docutils literal notranslate"><span class="pre">seq</span></code>, 1, in four bytes</p></td>
+<td class="text-left"><p>Value of <code class="docutils literal notranslate"><span class="pre">seq</span></code>: 1, as four bytes</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">12</span></code></p></td>
-<td class="text-left"><p>Tag: field number 2, wire type 2 (<code class="docutils literal notranslate"><span class="pre">LEN</span></code>), which is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-dir"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.dir</span></code></span></a>, the first operation</p></td>
+<td class="text-left"><p>Tag of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-msgdirective-dir"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">msgDirective.dir</span></code></span></a>: field number 2, wire type 2 (<code class="docutils literal notranslate"><span class="pre">LEN</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">04</span></code></p></td>
-<td class="text-left"><p>The operation is 4 bytes long</p></td>
+<td class="text-left"><p>Length of the first operation: 4 bytes</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1A</span></code></p></td>
-<td class="text-left"><p>Tag: field number 3, wire type 2 (<code class="docutils literal notranslate"><span class="pre">LEN</span></code>), which is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldoperation-query"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.query</span></code></span></a></p></td>
+<td class="text-left"><p>Tag of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldoperation-query"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldOperation.query</span></code></span></a>: field number 3, wire type 2 (<code class="docutils literal notranslate"><span class="pre">LEN</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">02</span></code></p></td>
-<td class="text-left"><p>The query is 2 bytes long</p></td>
+<td class="text-left"><p>Length of the query: 2 bytes</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
-<td class="text-left"><p>Tag: field number 2, wire type 0 (<code class="docutils literal notranslate"><span class="pre">VARINT</span></code>), which is <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldquery-rcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery.rcp</span></code></span></a></p></td>
+<td class="text-left"><p>Tag of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldquery-rcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery.rcp</span></code></span></a>: field number 2, wire type 0 (<code class="docutils literal notranslate"><span class="pre">VARINT</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0A</span></code></p></td>
-<td class="text-left"><p>The value 10, which is <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryidentity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryIdentity</span></code></span></a></p></td>
+<td class="text-left"><p>Value of <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldquery-rcp"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery.rcp</span></code></span></a>: 10, which is <a class="reference internal" href="../server/rcp_dev-protocol.html#protogen-esb-rcp-dev-enquery-qryidentity"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">qryIdentity</span></code></span></a></p></td>
 </tr>
 </tbody>
 </table>
-<p>The field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldquery-hndl"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery.hndl</span></code></span></a> is 0, the RCP server itself, so it is not written. The maximum size of an encoded message depends on the frame type, see <a class="reference internal" href="network.html"><span class="std std-doc">Network</span></a>.</p>
-</section>
-<section id="further-reading">
-<h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://protobuf.dev/programming-guides/field_presence/">Field Presence</a>: how presence is tracked with and without <code class="docutils literal notranslate"><span class="pre">optional</span></code>.</p></li>
-<li><p><a class="reference external" href="https://protobuf.dev/programming-guides/serialization-not-canonical/">Proto Serialization Is Not Canonical</a>: why two correct encoders can produce different bytes for the same message.</p></li>
-<li><p><a class="reference external" href="https://github.com/protocolbuffers/protoscope">Protoscope</a>: a tool to write and dump the bytes of a message record by record.</p></li>
-</ul>
+<p>The field <a class="reference internal" href="../rcp-protocol.html#protogen-esb-fldquery-hndl"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">fldQuery.hndl</span></code></span></a> is 0, which addresses the RCP server itself, so it is not written. The maximum size of an encoded message depends on the frame type, see <a class="reference internal" href="network.html"><span class="std std-doc">Network</span></a>.</p>
 </section>
 </section>
 
@@ -314,8 +285,7 @@ dir { query { rcp: qryIdentity } }
 
   <div role="contentinfo">
 <p>
-    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
-    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+    <span class="lastupdated">Last updated on Nov 11, 2026.</span></p>
 
   </div>
 

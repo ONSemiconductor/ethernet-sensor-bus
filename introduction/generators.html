@@ -17,7 +17,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/css/light.css?v=ddb3986d" />
       <link rel="stylesheet" type="text/css" href="../_static/css/dark.css?v=b5a3722b" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a56eb22f" />
-      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=636e8255" />
+      <link rel="stylesheet" type="text/css" href="../_static/figures.css?v=d8000d22" />
       <link rel="stylesheet" type="text/css" href="../_static/mobile.css?v=c94bd62d" />
 
   
@@ -51,7 +51,7 @@
           
           <a href="../index.html">
             
-              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+              <img src="../_static/logoEsbLight.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form-sidebar" class="wy-form" action="../search.html" method="get">
@@ -120,15 +120,6 @@
     </dl>
     
     
-    <dl>
-      <dt>Legal</dt>
-      
-      <dd><a href="https://www.onsemi.com/privacy">Privacy Policy</a></dd>
-      
-      <dd><a href="https://www.onsemi.com/terms-of-use">Terms of Use</a></dd>
-      
-    </dl>
-    
   </div>
 </div>
     
@@ -179,12 +170,10 @@
              
   <section class="tex2jax_ignore mathjax_ignore" id="code-generators">
 <span id="protogen-generators"></span><h1>Code generators<a class="headerlink" href="#code-generators" title="Link to this heading"></a></h1>
-<p>A <em>code generator</em> reads the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and writes a library for one programming language: message types, encoders, and decoders. Compatible generators share the protobuf wire format, but the library does not implement the behavior of RCP. The bytes of one message can differ, see <a class="reference internal" href="protobuf.html"><span class="std std-doc">Protobuf encoding</span></a>.</p>
-<p>A generator has to support proto3 with <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields, <code class="docutils literal notranslate"><span class="pre">oneof</span></code> groups, <code class="docutils literal notranslate"><span class="pre">repeated</span></code> fields, nested messages, <code class="docutils literal notranslate"><span class="pre">reserved</span></code> field numbers, and imports between files in subfolders.</p>
-<p>A server also needs the directive validation described in <a class="reference internal" href="messages.html"><span class="std std-doc">Messages</span></a>. A decoder that silently skips unknown fields or keeps only the last <code class="docutils literal notranslate"><span class="pre">oneof</span></code> member loses information needed for those checks. Check it during decoding, before any operation executes.</p>
+<p>A <em>code generator</em> reads the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and writes a library for one programming language, consisting of message types, encoders, and decoders.</p>
 <section id="the-protocol-buffers-compiler">
 <h2>The Protocol Buffers compiler<a class="headerlink" href="#the-protocol-buffers-compiler" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">protoc</span></code>, the Protocol Buffers compiler, parses and checks the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and runs the generators. The option <code class="docutils literal notranslate"><span class="pre">--&lt;language&gt;_out=&lt;directory&gt;</span></code> selects a built-in generator. A generator that is a separate plugin program <code class="docutils literal notranslate"><span class="pre">protoc-gen-&lt;name&gt;</span></code> is selected with <code class="docutils literal notranslate"><span class="pre">--&lt;name&gt;_out</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">protoc</span></code>, the Protocol Buffers compiler, parses and checks the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files and runs the generators. The option <code class="docutils literal notranslate"><span class="pre">--&lt;language&gt;_out=&lt;directory&gt;</span></code> selects a built-in generator, and <code class="docutils literal notranslate"><span class="pre">--&lt;name&gt;_out</span></code> selects a plugin, i.e., a separate program named <code class="docutils literal notranslate"><span class="pre">protoc-gen-&lt;name&gt;</span></code>.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>protoc -I protocol --python_out=generated/python \
     $(find protocol -name '*.proto')
 </pre></div>
@@ -192,8 +181,8 @@
 </section>
 <section id="generators-from-google">
 <h2>Generators from Google<a class="headerlink" href="#generators-from-google" title="Link to this heading"></a></h2>
-<p>The built-in generators of <code class="docutils literal notranslate"><span class="pre">protoc</span></code> are made for general-purpose computers. The code that they write needs the runtime library of Google for the language, in a version that is compatible with <code class="docutils literal notranslate"><span class="pre">protoc</span></code>, see <a class="reference external" href="https://protobuf.dev/support/cross-version-runtime-guarantee/">Cross-Version Runtime Guarantee</a>, and the messages are objects that the library allocates dynamically.</p>
-<p>The following Python script uses the code that <code class="docutils literal notranslate"><span class="pre">--python_out</span></code> generated and the package <code class="docutils literal notranslate"><span class="pre">protobuf</span></code> to build and encode the directive that queries the identity of an RCP server. Run it with <code class="docutils literal notranslate"><span class="pre">generated/python</span></code> on the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>:</p>
+<p>The built-in generators of <code class="docutils literal notranslate"><span class="pre">protoc</span></code> target general-purpose computers. The generated code needs the Google runtime library for the language, in a version compatible with <code class="docutils literal notranslate"><span class="pre">protoc</span></code> (see <a class="reference external" href="https://protobuf.dev/support/cross-version-runtime-guarantee/">Cross-Version Runtime Guarantee</a>), and the library allocates the messages dynamically.</p>
+<p>The following Python script uses the code generated by <code class="docutils literal notranslate"><span class="pre">--python_out</span></code> and the <code class="docutils literal notranslate"><span class="pre">protobuf</span></code> package to build and encode the directive that queries the identity of an RCP server. It requires <code class="docutils literal notranslate"><span class="pre">generated/python</span></code> on the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rcp_pb2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">server</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcp_dev_pb2</span>
 
@@ -206,13 +195,12 @@
 </section>
 <section id="generators-for-small-systems">
 <h2>Generators for small systems<a class="headerlink" href="#generators-for-small-systems" title="Link to this heading"></a></h2>
-<p>The firmware of a microcontroller often has no room for a general-purpose runtime and cannot allocate memory dynamically. Other projects write the code for these targets, and the list of <a class="reference external" href="https://github.com/protocolbuffers/protobuf/blob/main/docs/third_party.md">third-party add-ons</a> on the Protocol Buffers website names many. Examples are <a class="reference external" href="https://koti.kapsi.fi/jpa/nanopb/">Nanopb</a> and <a class="reference external" href="https://github.com/protobuf-c/protobuf-c">protobuf-c</a> for C, and <a class="reference external" href="https://embeddedproto.com/">EmbeddedProto</a> for C++. Check that the generator supports <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields.</p>
+<p>The firmware of a microcontroller often has no room for a general-purpose runtime and cannot allocate memory dynamically. Other projects provide generators for such targets, and the list of <a class="reference external" href="https://github.com/protocolbuffers/protobuf/blob/main/docs/third_party.md">third-party add-ons</a> on the Protocol Buffers website names many, e.g., <a class="reference external" href="https://koti.kapsi.fi/jpa/nanopb/">Nanopb</a> and <a class="reference external" href="https://github.com/protobuf-c/protobuf-c">protobuf-c</a> for C and <a class="reference external" href="https://embeddedproto.com/">EmbeddedProto</a> for C++. Verify that the generator supports <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields.</p>
 </section>
 <section id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://protobuf.dev/reference/">Reference Guides</a>: the guides of all languages that Google supports.</p></li>
-<li><p><a class="reference external" href="https://github.com/protocolbuffers/protobuf/blob/main/docs/third_party.md">Third-Party Add-ons</a>: generators, build integrations, and tools from other projects.</p></li>
 <li><p><a class="reference external" href="https://protobuf.dev/installation/">Protoc Installation</a>: how to install the compiler.</p></li>
 </ul>
 </section>
@@ -230,8 +218,7 @@
 
   <div role="contentinfo">
 <p>
-    <span class="copyright-text">&#169; Copyright 2026, Semiconductor Components Industries, LLC</span>.
-    <span class="lastupdated">Last updated on Nov 08, 2026.</span></p>
+    <span class="lastupdated">Last updated on Nov 11, 2026.</span></p>
 
   </div>
 
