@@ -2,6 +2,8 @@
 
 The Ethernet Sensor Bus (ESB) is an open protocol for controlling hardware endpoints, such as SPI, I2C, GPIO, and UART controllers, over Ethernet. The application software runs on a central processor, the client, and controls the remote RCP servers. The servers contain the endpoints and run no application software, so the application is developed, tested, and updated in one place.
 
+![logo](figures/logoEsbLight.svg)
+
 ## Repository structure
 
 ```text
