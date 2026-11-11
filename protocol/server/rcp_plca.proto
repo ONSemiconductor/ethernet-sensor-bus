@@ -1,0 +1,43 @@
+/*
+ * @page rcp_plca PLCA
+ * Physical layer collision avoidance (PLCA) configuration and status of the RCP server.
+ *
+ * 10BASE-T1S is a multidrop network: all nodes share the same wire pair. PLCA lets them take turns instead of detecting
+ * collisions. The RCP server supports it if `rcp.info.fldCapabilities.plcaSupported` is set (see @ref rcp_info). The
+ * configuration is part of the server configuration (`rcp.dev.fldConfig.plca`).
+ *
+ * PLCA cycle
+ * ==========
+ *
+ * One node of the network is the coordinator. It has the node ID 0, and every other node has a unique node ID. The
+ * coordinator starts each PLCA cycle with a beacon. After the beacon, every node gets one transmit opportunity (TO) in
+ * the order of the node IDs, and may send a frame in it. A node that has nothing to send lets its opportunity pass.
+ * The opportunity then lasts a configurable number of bit times, the TO timer, before the next one starts. The cycle
+ * ends after the opportunity of the last node, and the coordinator sends the next beacon.
+ *
+ * ![](../figures/server/timingPlcaCycle.svg)
+ *
+ * The time of a cycle depends on the number of nodes, their frames, and the TO timer for the unused
+ * opportunities. If bursts are enabled, a node can send more than one frame in its opportunity.
+ */
+
+syntax = "proto3";
+package esb.rcp.plca;
+
+// Data structure representing the PLCA status.
+message fldStatus {
+   bool          status  = 1;  // The global PLCA operational status (True = UP).
+   optional bool rxInTo  = 2;  // Diag: multiple nodes sharing the same node ID were detected.
+   optional bool unexpB  = 3;  // Diag: multiple coordinators were detected.
+   optional bool bcnBfTo = 4;  // Diag: wrong PLCA node count detected.
+}
+
+// Data structure representing the PLCA configuration.
+message fldConfig {
+   optional bool   enable     = 1;  // PLCA administrative state.
+   optional uint32 nodeId     = 2;  // Unique ID assigned to the node (0 = Coordinator, 255 = disabled).
+   optional uint32 nodeCount  = 3;  // Maximum number of nodes on the network (only for coordinator, default = 8).
+   optional uint32 toTimer    = 4;  // Transmit Opportunity Timer (default = 32).
+   optional uint32 burstTimer = 5;  // Burst Timer in bit times (default = 128).
+   optional uint32 burstCount = 6;  // PLCA burst count (0 = disabled, default).
+}

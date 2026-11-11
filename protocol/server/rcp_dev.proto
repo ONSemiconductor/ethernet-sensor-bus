@@ -1,0 +1,256 @@
+/*
+ * @page rcp_dev RCP Server
+ * Configuration, commands, and queries of the RCP server itself.
+ *
+ * This file defines the messages for the RCP server as a whole, as opposed to the endpoints (GPIO, SPI, etc.) that it
+ * contains. The server has the handle 0, see @ref principle. Its messages travel in the same containers as those of the
+ * endpoints: `fldConfig` in the configuration (`esb.fldConfig`), `fldCmd` in an action (`fldAction`), and `enQuery` in
+ * a query (`fldQuery`). The result of a command is a `fldCmdResult`, the result of a query a `fldQueryResult`.
+ *
+ * Configuration, commands, and queries
+ * ====================================
+ *
+ * The settings of the server are grouped by topic, and each group has a page of its own: the core operations
+ * (@ref rcp_core), the PTP protocol (@ref rcp_ptp), the PLCA (@ref rcp_plca), the pins (@ref rcp_pins), the network
+ * (@ref rcp_net), and the vendor-specific features (@ref rcp_vendor). The commands manage the server itself: its power
+ * state, the storage of its configuration and actions, its scheduler, and its Ethernet line and PHY.
+ *
+ * The queries read the configuration, the status, and the identification of the server. The identification queries are
+ * described in @ref rcp_info. Not all queries have to be implemented: the query enumeration marks the ones that every
+ * ESB-compliant server implements, the ones that it implements if the hardware has the feature, and the optional ones.
+ *
+ * Example
+ * =======
+ *
+ * To set a DID and a watchdog timeout of one second, send a keep-alive, and read the status:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { rcp { server { did: 3  watchdogTimeoutMs: 1000 } } } }
+ * dir { action { rcp { op: opNone } } }
+ * dir { query { rcp: qryServerStatus } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.rcp.dev;
+
+import "server/rcp_info.proto";
+import "server/rcp_pins.proto";
+import "server/rcp_plca.proto";
+import "server/rcp_ptp.proto";
+import "server/rcp_tpd.proto";
+import "server/rcp_net.proto";
+import "server/rcp_core.proto";
+import "server/rcp_vendor.proto";
+import "rcp_common.proto";
+
+// Container of all RCP server configurations.
+message fldConfig {
+   oneof cfg {
+      core.fldServerConfig server = 1;  // RCP server configuration (e.g., DID).
+      ptp.fldConfig        ptp    = 2;  // PTP protocol configuration.
+      plca.fldConfig       plca   = 3;  // PLCA configuration.
+      pins.fldConfig       pins   = 4;  // RCP pins configuration.
+      net.fldConfig        net    = 5;  // Network configuration.
+      net.fldPhyReg        phyReg = 6;  // PHY registers configuration.
+      vendor.fldConfig     vendor = 7;  // Vendor-specific configuration.
+      net.fldClientConfig  client = 8;  // Client configuration.
+   }
+}
+
+// RCP server management operations.
+enum enCmdOperation {
+   /*
+    * This operation is a no-op and does not alter the state of the RCP server.
+    * However, it counts as a network watchdog refresh message, so the
+    * client can use it as a keep-alive message.
+    */
+   opNone = 0;
+
+   /*
+    * Reset the RCP server.
+    * If set, the RCP server reboots, clearing all dynamic configuration
+    * and resetting all internal states and variables.
+    */
+   opResetDevice = 1;
+
+   // Saves the current RCP configuration into non-volatile memory.
+   opSaveConfig = 2;
+
+   /*
+    * Restores the last saved RCP configuration from non-volatile memory.
+    * If the operation fails, the current configuration does not change.
+    */
+   opRestoreConfig = 3;
+
+   /*
+    * Commands the RCP server to enter deep-sleep mode.
+    * In deep-sleep mode, all RCP server functions are switched off, and all
+    * dynamic configuration and states are lost. A portion of the RCP server
+    * stays powered to detect wakeup signals from local sources or from the
+    * Ethernet bus. The wakeup signal triggers a full (re)boot of the server.
+    */
+   opSleep = 4;
+
+   /*
+    * Forces the RCP server to erase the NVM content and reboot.
+    * The default HW configuration is then applied when the system comes
+    * back to life.
+    */
+   opRestoreFactoryConfig = 5;
+
+   /*
+    * This command clears the `core.fldServerStatus.pwrOn` flag in the RCP server status.
+    * See `core.fldServerStatus` for more information.
+    */
+   opClearPwron = 6;
+
+   /*
+    * Commands the RCP server to initiate topology discovery if the HW
+    * supports it. 10BASE-T1S PHYs can provide this feature.
+    */
+   opTopologyDiscovery = 7;
+
+   /*
+    * Initiates an MDIO read or write operation to configure the PHY.
+    * See also `net.fldMdioConfig`.
+    */
+   opManagePhyRegisters = 8;
+
+   /*
+    * Sets the value for the internal PTP timer.
+    * Setting the PTP timer with this command can yield an error of several
+    * milliseconds, depending on the client latency and the network conditions.
+    * @warning Setting the PTP timer with this method can make scheduled
+    * actions fail or be delayed for a long time, depending on the
+    * direction of the time shift.
+    */
+   opSetPtpTime = 9;
+
+   /*
+    * Clears all actions that are currently stored in the NVM.
+    * It does not affect actions loaded into volatile memory.
+    */
+   opClearStoredActions = 10;
+
+   /*
+    * Enter silent mode. Features such as 10BASE-T1S topology
+    * discovery or cable fault detection need the line to be silent.
+    * @note The server sends back a confirmation once it has entered
+    * silent mode, unless suppressed explicitly.
+    */
+   opEnterSilent = 11;
+
+   /*
+    * Leave silent mode.
+    * If the server was not in silent mode, this command is ignored.
+    */
+   opExitSilent = 12;
+
+   /*
+    * Forces the RCP server into fail-safe mode.
+    */
+   opEnterFailsafe = 13;
+
+   /*
+    * Resets the RCP server scheduler, clearing all
+    * pending scheduled actions. This includes actions with a repetition count
+    * that still have pending executions.
+    * A running action always completes.
+    */
+   opCancelAllActions = 14;
+
+   /*
+    * Makes the PHY send a global wakeup signal on the Ethernet line to
+    * wake up all sleeping nodes on the same network segment.
+    * @note Ethernet switches and PHYs can be programmed to propagate the wakeup
+    * signal further.
+    */
+   opGlobalWakeup = 15;
+
+   /*
+    * Loads the stored actions from non-volatile memory.
+    * Existing actions loaded in RAM are not canceled.
+    * @warning Executing this operation multiple times causes actions to
+    * be loaded multiple times into RAM.
+    */
+   opLoadStoredActions = 16;
+
+   /*
+    * Access the user-dedicated NVM, i.e., write or read user data to/from
+    * non-volatile memory.
+    * See `core.fldNvmOperation`.
+    */
+   opManageUserData = 17;
+}
+
+// Container for all RCP server commands.
+message fldCmd {
+   enCmdOperation op = 1;  // Management operation to perform.
+
+   // Command-specific parameters.
+   oneof param {
+      tpd.fldCmd           topDisc = 2;  // Topology discovery (`opTopologyDiscovery`).
+      net.fldPhyReg        phyReg  = 3;  // PHY registers access (`opManagePhyRegisters`).
+      fldTstamp            time    = 4;  // PTP time set (`opSetPtpTime`).
+      core.fldNvmOperation nvmOp   = 5;  // NVM operation parameters.
+   }
+}
+
+// Container for results of RCP commands.
+message fldCmdResult {
+   oneof res {
+      tpd.fldCmdResult topDiscResult = 1;  // Topology discovery result.
+      net.fldPhyData   phyData       = 2;  // PHY register data.
+   }
+}
+
+/*
+ * Queries of the RCP server.
+ * Queries indicated with [M] are mandatory, meaning that ESB-compliant
+ * servers implement them.
+ * Queries marked with [H] are mandatory if the specific HW supports it.
+ * Queries marked with [O] are optional to implement.
+ */
+enum enQuery {
+   qryServerConfig = 0;  // [M] Get current RCP server configuration.
+   qryPtpConfig    = 1;  // [H] Get current PTP protocol configuration.
+   qryPlcaConfig   = 2;  // [H] Get current PLCA configuration.
+   qryPinConfig    = 3;  // [M] Get current RCP pins configuration.
+   qryNetConfig    = 4;  // [M] Get current network configuration.
+   qryRegConfig    = 5;  // [H] Get default register configuration.
+
+   qryIdentity     = 10;  // [M] Get basic server information (vendor, serial, ...).
+   qryCapabilities = 11;  // [O] Get server capabilities (supported features).
+   qryInterfaces   = 12;  // [O] Retrieve a list of supported endpoints (SPI, I2C, ...).
+   qryPins         = 13;  // [O] Retrieve a list of pins and supported functions.
+
+   qryServerStatus    = 20;  // [H] Get state of the server, whether fail-safe mode was activated or not.
+   qryNetStatus       = 21;  // [O] Get current network status.
+   qryPtpStatus       = 22;  // [H] Get current PTP protocol status.
+   qryPlcaStatus      = 23;  // [H] Get current PLCA status.
+   qrySchedulerStatus = 24;  // [M] Get RCP Scheduler status.
+   qryNvmStatus       = 25;  // [H] Get RCP NVM status.
+   qryVendorStatus    = 26;  // [O] Get current vendor-specific status.
+   qryClientStatus    = 27;  // [M] Get current client status.
+}
+
+// Container for the results of all queries of the RCP server.
+message fldQueryResult {
+   oneof rep {
+      info.fldIdentity     identity     = 1;  // Reply to `qryIdentity`.
+      info.fldCapabilities capabilities = 2;  // Reply to `qryCapabilities`.
+      info.fldInterfaces   interfaces   = 3;  // Reply to `qryInterfaces`.
+      pins.fldDescriptors  pins         = 4;  // Reply to `qryPins`.
+
+      core.fldServerStatus    server    = 10;  // Reply to `qryServerStatus`.
+      net.fldStatus           net       = 11;  // Reply to `qryNetStatus`.
+      ptp.fldStatus           ptp       = 12;  // Reply to `qryPtpStatus`.
+      plca.fldStatus          plca      = 13;  // Reply to `qryPlcaStatus`.
+      core.fldSchedulerStatus scheduler = 14;  // Reply to `qrySchedulerStatus`.
+      core.fldNvmStatus       nvm       = 15;  // Reply to `qryNvmStatus`.
+      vendor.fldStatus        vendor    = 16;  // Reply to `qryVendorStatus`.
+      net.fldClientStatus     client    = 17;  // Reply to `qryClientStatus`.
+   }
+}

@@ -1,0 +1,271 @@
+/*
+ * @page adc ADC Driver
+ * ADC configuration, actions, queries, and notifications for RCP.
+ *
+ * An ADC endpoint samples analog values at a fixed rate, post-processes them in the RCP server, and delivers the
+ * result to the client. The ADC is either part of the RCP server or an external device connected through a serial
+ * interface, see `fldInterfaceSerial`. Before using the ADC, the client configures it with a `fldConfig` message.
+ *
+ * Processing chain
+ * ================
+ *
+ * The samples are fed into the processing at the configured sample rate. If the ADC has several channels, each of them
+ * has its own processing chain: a low-pass filter smooths the samples, a decimator reduces the number of reported
+ * samples, and two thresholds evaluate the filtered values.
+ *
+ * ![](../figures/endpoints/structureAdc.svg)
+ *
+ * Streaming and thresholds
+ * ========================
+ *
+ * The client starts and stops the ADC with a command. The samples are collected in a buffer, and the RCP server sends
+ * them to the client in a notification when the buffer is full (streaming), see `esb.fldNotif.data`. The format of
+ * the samples in the buffer is server-dependent. Refer to the datasheet.
+ *
+ * A threshold fires when the filtered value crosses a configured level. A fired threshold generates an internal event
+ * that can trigger actions with low latency, see `fldActionEvent`, and it can also send a notification,
+ * see `fldNotif`. Streaming and thresholds are independent of each other and can be used at the same time.
+ *
+ * External ADC
+ * ============
+ *
+ * An external ADC is read through a serial interface with three pins, similar to SPI: the RCP server generates the
+ * clock SCLK and the chip-select CS, and it samples the data output of the ADC. The RCP server starts a conversion by
+ * asserting CS. After a number of padding clock cycles, which give the ADC time to sample and hold, the data bits
+ * follow. The RCP server then waits for more padding clock cycles, which some ADCs need to reset their internal state,
+ * before it de-asserts CS. The figure shows an acquisition of 8 data bits, most significant bit first, with 3 padding
+ * clock cycles before them and 4 after them, at clock polarity 0 and clock phase 0:
+ *
+ * ![](../figures/endpoints/timingAdcSerial.svg)
+ *
+ * Example
+ * =======
+ *
+ * To sample channel 0 at 1 kHz, filter it, report every fourth sample, and be notified when it exceeds 800:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    config {
+ *       hndl: 4
+ *       adc {
+ *          sampleRateHz: 1000
+ *          bufferSizeBytes: 256
+ *          channels {
+ *             channelId: 0
+ *             fltLP: 3
+ *             decimationFactor: 2
+ *             threshold1 { value: 800  event: thresholdEvtAbove  notify: true }
+ *          }
+ *       }
+ *    }
+ * }
+ * dir { action { hndl: 4  adc { op: opStart } } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.adc;
+
+/*
+ * The ESB protocol allows ADC endpoints to be internal or external to the
+ * RCP server. This interface allows configuration of an external ADC endpoint.
+ * The external ADC serial interface assumes the ADC has only three pins,
+ * similar to an SPI interface. In fact, the pin configuration message is the
+ * same as that of an SPI endpoint (see `rcp.pins.enPinFuncSpi`).
+ * - `rcp.pins.pinSpiSclk`: the clock from the RCP server to the external ADC
+ * - `rcp.pins.pinSpiMiso`: the ADC serial data output pin (input to RCP server)
+ * - `rcp.pins.pinSpiCs`:   the chip-select, marking the start of the sampling period
+ *
+ * The parameters `dataBits`, `leftPaddingBits`, `rightPaddingBits`, `cpol`, `cpha` and
+ * `msbFirst` define the length of a single acquisition.
+ * For an example, see the page @ref adc.
+ *
+ * The RCP server starts the conversion by asserting the chip select (CS). The `leftPaddingBits` defines how many
+ * clock cycles to wait before the first valid data bit appears at the ADC data pin. This allows time for the ADC to
+ * perform sample & hold, depending on the ADC type and performance.
+ * The `dataBits` parameter tells the RCP server how many data bits to sample. This should be set according to the
+ * ADC resolution.
+ * Finally, the `rightPaddingBits` parameter sets how many clock cycles to wait before de-asserting the
+ * chip-select. Some ADCs require these extra clock cycles to reset the internal state before a new conversion can
+ * happen.
+ * The total number of clock cycles for a single acquisition is therefore
+ * the sum of `leftPaddingBits`, `dataBits`, and `rightPaddingBits`.
+ * The `cpol`, `cpha` and `msbFirst` parameters are the same as those used for a normal SPI
+ * interface. See `spi.fldConfig` for more information.
+ */
+message fldInterfaceSerial {
+   /*
+    * The clock speed in hertz (Hz).
+    * If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+    * `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+    * tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+    * `cfgParamAdjusted` warning code and the client can retrieve the actual (rounded) speed by querying the
+    * configuration of the endpoint.
+    */
+   optional uint32 speedHz = 1;
+
+   optional uint32 dataBits         = 2;  // Number of bits in each ADC sample.
+   optional uint32 leftPaddingBits  = 3;  // Number of clock cycles before the first data bit.
+   optional uint32 rightPaddingBits = 4;  // Number of clock cycles after the last data bit.
+   optional bool   cpol             = 5;  // Clock polarity (same as SPI CPOL).
+   optional bool   cpha             = 6;  // Clock phase (same as SPI CPHA).
+   optional bool   msbFirst         = 7;  // If true, ADC data is captured MSb first.
+
+   /*
+    * CS to SCLK delay in half clock periods.
+    * This parameter defines the additional delay between the chip select
+    * assertion and the first clock edge, as well as the delay between the
+    * last clock edge and the de-assertion of the chip-select.
+    * The total delay is calculated as (`csDelay` + 1) / (2 * `speedHz`) seconds.
+    */
+   optional uint32 csDelay = 8;
+}
+
+// Threshold crossing that generates an event.
+enum enThresholdEvent {
+   thresholdEvtNone     = 0;  // No trigger (disables the threshold).
+   thresholdEvtAbove    = 1;  // Trigger if the filtered output rises above `fldThresholdConfig.value`.
+   thresholdEvtBelow    = 2;  // Trigger if the output falls below `fldThresholdConfig.value`.
+   thresholdEvtCrossing = 3;  // Trigger if the output crosses `fldThresholdConfig.value` in either direction.
+}
+
+/*
+ * Each ADC channel has configurable thresholds to generate internal events and
+ * notifications. The thresholds evaluate the value at the ADC filter output,
+ * that is, after all configured on-chip post-processing except decimation.
+ * When a threshold is enabled and triggered, it generates an internal event
+ * that can be used to fire pre-configured (re)actions for use cases requiring
+ * low latency. In addition to the internal event, a threshold can be
+ * configured to send a notification message when triggered.
+ */
+message fldThresholdConfig {
+   optional uint32 value = 1;  // Unsigned threshold value, see `enValueType`.
+
+   optional enThresholdEvent event  = 2;  // Configures which threshold crossings generate an event.
+   optional bool             notify = 3;  // If set, sends a notification to the client when an event occurs.
+}
+
+/*
+ * This enumeration defines the ADC data format as produced by the internal
+ * or external ADC endpoint. This setting affects the ADC post-processing
+ * and filtering arithmetic.
+ * @note The threshold value (`fldThresholdConfig.value`), the initial value (`fldChannelConfig.initialValue`)
+ * and the value in a notification (`fldNotif.value`) are unsigned integers, regardless of the selected format.
+ */
+enum enValueType {
+   valueUnsigned   = 0;  // Standard n-bit unsigned sample data (10010101 = 149 dec.)
+   valueComplement = 1;  // Signed two's complement number (10010101 = -107 dec.)
+   valueSignBit    = 2;  // Sign bit plus integer part, i.e., the MSb is used as sign bit (10010101 = -21 dec.)
+}
+
+// Configuration for each ADC channel post-processor.
+message fldChannelConfig {
+   /*
+    * Filter factor for the ADC channel. This value determines the strength of
+    * the low-pass filter applied to the ADC samples.
+    * The filter transfer function is:
+    * OUT[i] = (IN[i] + `fltLP` * OUT[i - 1]) / (`fltLP` + 1 )
+    * Setting `fltLP` to 0 (default) disables low-pass filtering (OUT[i] = IN[i]).
+    */
+   optional uint32 fltLP = 1;
+
+   /*
+    * Decimation factor for the ADC channel.
+    * This value determines the number of samples reported to the client.
+    * The decimator reports 1 sample every $2^N$ samples, where $N$ is `decimationFactor`.
+    * Setting `decimationFactor` = 0 (default) disables decimation (all samples
+    * are reported to the client).
+    * Decimation affects streamed samples only. Thresholds evaluate the filtered samples before decimation,
+    * see `fldThresholdConfig`.
+    */
+   optional uint32 decimationFactor = 2;
+
+   /*
+    * Initial value for the ADC channel filter output.
+    * This value is the initial output value of the ADC
+    * post-processing block when the ADC starts. This can be used to avoid glitches on the
+    * configured thresholds.
+    */
+   optional uint32 initialValue = 3;
+
+   optional enValueType        valueType  = 4;  // Configures the value type of the ADC samples for this channel.
+   optional fldThresholdConfig threshold1 = 5;  // Threshold configuration for the first threshold event.
+   optional fldThresholdConfig threshold2 = 6;  // Threshold configuration for the second threshold event.
+
+   /*
+    * If the ADC device supports multiple channels, this parameter represents
+    * the channel number identifier, that is, the channel multiplexer (MUX) selector number.
+    * This identifier can be used to instruct the ADC to sample channels in a
+    * specific order / sequence.
+    */
+   optional uint32 channelId = 7;
+}
+
+// ADC post-processing configuration.
+message fldConfig {
+   /*
+    * The ADC sample rate in hertz (Hz).
+    * This parameter configures the speed at which ADC samples are fed into
+    * the ADC post-processing block. If an external ADC interface is used, the
+    * time interval between two CS pin assertions is 1 / `sampleRateHz`.
+    * If the requested frequency is fully supported by the RCP server, the
+    * configuration is accepted with the `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested frequency to
+    * the nearest supported speed within a reasonable tolerance (refer to
+    * the datasheet of the server). In this case, the configuration is
+    * accepted with the `cfgParamAdjusted` warning code and the client can retrieve
+    * the actual (rounded) speed by querying the configuration of the endpoint.
+    * @note On some implementations, the sample rate can be synchronous to the
+    * internal PTP clock.
+    * @warning Do not confuse the sample rate with the external ADC clock speed,
+    * which is configured with the `fldInterfaceSerial` message.
+    */
+   optional uint32 sampleRateHz = 1;
+
+   /*
+    * This parameter sets the size in bytes of the internal ADC buffer.
+    * When the amount of sampled data exceeds `bufferSizeBytes`, the RCP server
+    * sends out a notification message including all the captured samples.
+    */
+   optional uint32 bufferSizeBytes = 2;
+
+   repeated fldChannelConfig channels = 3;  // Configuration for each channel.
+
+   /*
+    * Defines the ADC physical interface.
+    * If none of the options is selected, the configuration targets the first
+    * available internal ADC.
+    */
+   oneof interface {
+      fldInterfaceSerial serial = 11;  // Configuration for the SPI ADC interface.
+   }
+}
+
+// ADC operation types.
+enum enCmdOperation {
+   opStart  = 0;  // Start the ADC in free-running mode.
+   opStop   = 1;  // Stop the ADC.
+   opSingle = 2;  // Capture a single buffer, then stop.
+}
+
+// Container for ADC commands.
+message fldCmd {
+   optional enCmdOperation op = 1;  // ADC operation.
+
+   bool quiet = 4;  // If set, suppresses data streaming to the client.
+}
+
+// Type of ADC event.
+enum enNotifEvent {
+   eventThreshold1 = 0;  // An event occurred on threshold 1.
+   eventThreshold2 = 1;  // An event occurred on threshold 2.
+}
+
+// Container for ADC event notifications.
+message fldNotif {
+   uint32       channelId = 1;  // ID of the channel that generated the event.
+   enNotifEvent event     = 2;  // Type of the event.
+   uint32       value     = 3;  // Value that triggered the event.
+}

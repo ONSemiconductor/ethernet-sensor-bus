@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>LIN frame: header and response</title>
+  <rect width="960" height="330" fill="#ffffff"/>
+  <text x="120" y="122" text-anchor="end" font-size="14" font-weight="bold">LIN</text>
+  <path d="M 126 100 H 140 V 130 H 257 V 100 H 275" fill="none" stroke="#000000" stroke-width="2"/>
+  <text x="198.5" y="86" text-anchor="middle">Break</text>
+  <text x="263" y="150">Delim.</text>
+  <path d="M 275 100 H 275 V 130 H 284 V 100 H 293 V 130 H 302 V 100 H 311 V 130 H 320 V 100 H 329 V 130 H 338 V 100 H 347 V 130 H 356 V 100 H 365" fill="none" stroke="#000000" stroke-width="2"/>
+  <text x="320" y="86" text-anchor="middle">Sync (0x55)</text>
+  <path d="M 365 100 H 374 V 130" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 374 115 L 377 100 L 425 100 L 428 115 L 425 130 L 377 130 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="401" y="119.55" text-anchor="middle">ID</text>
+  <path d="M 428 115 L 431 100 L 443 100 L 446 115 L 443 130 L 431 130 Z" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="437" y="119.55" text-anchor="middle">P</text>
+  <path d="M 446 130 V 100 H 455" fill="none" stroke="#000000" stroke-width="2"/>
+  <text x="410" y="86" text-anchor="middle">PID</text>
+  <path d="M 455 100 H 464 V 130" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 464 115 L 467 100 L 533 100 L 536 115 L 533 130 L 467 130 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="500" y="119.55" text-anchor="middle">Data 1</text>
+  <path d="M 536 130 V 100 H 545" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 545 100 H 554 V 130" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 554 115 L 557 100 L 623 100 L 626 115 L 623 130 L 557 130 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="590" y="119.55" text-anchor="middle">Data 2</text>
+  <path d="M 626 130 V 100 H 635" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="635" y1="100" x2="675" y2="100" stroke="#000000" stroke-width="2"/>
+  <rect x="648" y="93" width="14" height="14" fill="#ffffff"/>
+  <line x1="647" y1="107" x2="653" y2="93" stroke="#000000" stroke-width="1.5"/>
+  <line x1="657" y1="107" x2="663" y2="93" stroke="#000000" stroke-width="1.5"/>
+  <path d="M 675 100 H 684 V 130" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 684 115 L 687 100 L 753 100 L 756 115 L 753 130 L 687 130 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="720" y="119.55" text-anchor="middle">Data N</text>
+  <path d="M 756 130 V 100 H 765" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 765 100 H 774 V 130" fill="none" stroke="#000000" stroke-width="2"/>
+  <path d="M 774 115 L 777 100 L 843 100 L 846 115 L 843 130 L 777 130 Z" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="810" y="119.55" text-anchor="middle">Checksum</text>
+  <path d="M 846 130 V 100 H 855" fill="none" stroke="#000000" stroke-width="2"/>
+  <line x1="855" y1="100" x2="895" y2="100" stroke="#000000" stroke-width="2"/>
+  <path d="M 140 62 Q 140 57 145 57 H 290.5 Q 295.5 57 295.5 52 Q 295.5 57 300.5 57 H 446 Q 451 57 451 62" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text x="297.5" y="40" text-anchor="middle">Header: always sent by the endpoint</text>
+  <path d="M 459 62 Q 459 57 464 57 H 652 Q 657 57 657 52 Q 657 57 662 57 H 850 Q 855 57 855 62" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="655" y="24" text-anchor="middle">Response: <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan> is sent by the endpoint,</text>
+  <text xml:space="preserve" x="655" y="42" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">rsize</tspan> bytes are sent by the target</text>
+  <line x1="140" y1="140" x2="140" y2="184" stroke="#000000" stroke-width="1"/>
+  <line x1="257" y1="140" x2="257" y2="184" stroke="#000000" stroke-width="1"/>
+  <line x1="147" y1="176" x2="250" y2="176" stroke="#000000" stroke-width="1"/>
+  <polygon points="257,176 247,180 247,172" fill="#000000"/>
+  <polygon points="140,176 150,172 150,180" fill="#000000"/>
+  <text xml:space="preserve" x="271" y="181"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">txBreakBitTime</tspan> bit times</text>
+  <line x1="462" y1="206" x2="756" y2="206" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="763,206 753,210 753,202" fill="#000000"/>
+  <polygon points="455,206 465,202 465,210" fill="#000000"/>
+  <line x1="455" y1="198" x2="455" y2="214" stroke="#000000" stroke-width="1"/>
+  <line x1="763" y1="198" x2="763" y2="214" stroke="#000000" stroke-width="1"/>
+  <text xml:space="preserve" x="455" y="232">classic checksum (<tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">checksumClassic</tspan>): data bytes</text>
+  <line x1="372" y1="252" x2="756" y2="252" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="763,252 753,256 753,248" fill="#000000"/>
+  <polygon points="365,252 375,248 375,256" fill="#000000"/>
+  <line x1="365" y1="244" x2="365" y2="260" stroke="#000000" stroke-width="1"/>
+  <line x1="763" y1="244" x2="763" y2="260" stroke="#000000" stroke-width="1"/>
+  <text xml:space="preserve" x="365" y="278">enhanced checksum (<tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">checksumEnhanced</tspan>): PID and data bytes</text>
+  <text x="12" y="316" xml:space="preserve">Each byte: start bit (low), eight data bits (LSb first), stop bit (high). Bit time <tspan font-style="italic">t</tspan><tspan font-size="10" dy="3">B</tspan><tspan dy="-3"> = 1 / </tspan><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">speedBps</tspan>. P: parity bits.</text>
+</svg>

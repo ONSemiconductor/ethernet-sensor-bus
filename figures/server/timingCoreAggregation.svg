@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="660" viewBox="0 0 940 660" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Aggregation of notifications into unsolicited notification messages</title>
+  <rect width="940" height="660" fill="#ffffff"/>
+  <text xml:space="preserve" x="12" y="24"><tspan font-weight="bold" font-size="14">Same setting for all notifications</tspan>: <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">timeoutUs</tspan> = 100</text>
+  <text x="12" y="100">Notifications</text>
+  <text x="12" y="116">generated</text>
+  <line x1="225.2" y1="100" x2="225.2" y2="70" stroke="#000000" stroke-width="2"/>
+  <polygon points="225.2,62 229.2,72 221.2,72" fill="#000000"/>
+  <text x="225.2" y="54" text-anchor="middle" font-size="12">23</text>
+  <line x1="405.2" y1="100" x2="405.2" y2="70" stroke="#000000" stroke-width="2"/>
+  <polygon points="405.2,62 409.2,72 401.2,72" fill="#000000"/>
+  <text x="405.2" y="54" text-anchor="middle" font-size="12">98</text>
+  <line x1="530" y1="100" x2="530" y2="70" stroke="#000000" stroke-width="2"/>
+  <polygon points="530,62 534,72 526,72" fill="#000000"/>
+  <text x="530" y="54" text-anchor="middle" font-size="12">150</text>
+  <text x="12" y="150">Aggregation</text>
+  <text x="12" y="166">timer</text>
+  <rect x="225.2" y="140" width="240" height="18" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="345.2" y="153" text-anchor="middle" font-size="12"><tspan font-family="Consolas, 'Courier New', monospace" font-size="12.72">timeoutUs</tspan> = 100</text>
+  <rect x="530" y="140" width="240" height="18" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="650" y="153" text-anchor="middle" font-size="12"><tspan font-family="Consolas, 'Courier New', monospace" font-size="12.72">timeoutUs</tspan> = 100</text>
+  <line x1="405.2" y1="140" x2="405.2" y2="158" stroke="#000000" stroke-width="1.5"/>
+  <text x="405.2" y="176" text-anchor="middle" font-size="12">appended</text>
+  <text x="12" y="216">Notification</text>
+  <text x="12" y="232">messages sent</text>
+  <line x1="465.2" y1="158" x2="465.2" y2="188" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="465.2,196 461.2,186 469.2,186" fill="#000000"/>
+  <rect x="407.2" y="198" width="116" height="36" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="465.2" y="212.7" text-anchor="middle" font-size="12">message with</text>
+  <text x="465.2" y="227.7" text-anchor="middle" font-size="12">2 notifications</text>
+  <line x1="770" y1="158" x2="770" y2="188" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="770,196 766,186 774,186" fill="#000000"/>
+  <rect x="712" y="198" width="116" height="36" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="770" y="212.7" text-anchor="middle" font-size="12">message with</text>
+  <text x="770" y="227.7" text-anchor="middle" font-size="12">1 notification</text>
+  <line x1="160" y1="262" x2="912" y2="262" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="920,262 910,266 910,258" fill="#000000"/>
+  <line x1="170" y1="258" x2="170" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="170" y="282" text-anchor="middle" font-size="12">0</text>
+  <line x1="290" y1="258" x2="290" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="290" y="282" text-anchor="middle" font-size="12">50</text>
+  <line x1="410" y1="258" x2="410" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="410" y="282" text-anchor="middle" font-size="12">100</text>
+  <line x1="530" y1="258" x2="530" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="530" y="282" text-anchor="middle" font-size="12">150</text>
+  <line x1="650" y1="258" x2="650" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="650" y="282" text-anchor="middle" font-size="12">200</text>
+  <line x1="770" y1="258" x2="770" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="770" y="282" text-anchor="middle" font-size="12">250</text>
+  <line x1="890" y1="258" x2="890" y2="266" stroke="#000000" stroke-width="1.5"/>
+  <text x="890" y="282" text-anchor="middle" font-size="12">300</text>
+  <text x="920" y="282" text-anchor="end" font-size="12">µs</text>
+  <text x="12" y="306">The timer starts with the first notification and is not restarted when another one is appended.</text>
+  <text xml:space="preserve" x="12" y="354"><tspan font-weight="bold" font-size="14">Different settings</tspan>: endpoint 3 has <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">timeoutUs</tspan> = 100, endpoint 7 has <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">timeoutUs</tspan> = 50</text>
+  <text x="12" y="432">Notifications</text>
+  <text x="12" y="448">generated</text>
+  <line x1="266" y1="434" x2="266" y2="404" stroke="#000000" stroke-width="2"/>
+  <polygon points="266,396 270,406 262,406" fill="#000000"/>
+  <text x="258" y="410" text-anchor="end" font-size="12">endpoint 3, 40</text>
+  <line x1="314" y1="434" x2="314" y2="404" stroke="#000000" stroke-width="2"/>
+  <polygon points="314,396 318,406 310,406" fill="#000000"/>
+  <text x="322" y="410" font-size="12">endpoint 7, 60</text>
+  <text x="12" y="478">Timer of</text>
+  <text x="12" y="494">endpoint 3</text>
+  <rect x="266" y="462" width="168" height="18" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <rect x="434" y="462" width="72" height="18" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text xml:space="preserve" x="350" y="475" text-anchor="middle" font-size="12"><tspan font-family="Consolas, 'Courier New', monospace" font-size="12.72">timeoutUs</tspan> = 100</text>
+  <text x="12" y="522">Timer of</text>
+  <text x="12" y="538">endpoint 7</text>
+  <rect x="314" y="508" width="120" height="18" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="374" y="521" text-anchor="middle" font-size="12"><tspan font-family="Consolas, 'Courier New', monospace" font-size="12.72">timeoutUs</tspan> = 50</text>
+  <text x="12" y="582">Notification</text>
+  <text x="12" y="598">message sent</text>
+  <line x1="434" y1="526" x2="434" y2="550" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="434,558 430,548 438,548" fill="#000000"/>
+  <rect x="376" y="560" width="116" height="36" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="434" y="574.7" text-anchor="middle" font-size="12">message with</text>
+  <text x="434" y="589.7" text-anchor="middle" font-size="12">2 notifications</text>
+  <text x="504" y="574">sent at 110 µs instead of 140 µs: the earliest deadline rules</text>
+  <line x1="160" y1="618" x2="912" y2="618" stroke="#000000" stroke-width="1.5"/>
+  <polygon points="920,618 910,622 910,614" fill="#000000"/>
+  <line x1="170" y1="614" x2="170" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="170" y="638" text-anchor="middle" font-size="12">0</text>
+  <line x1="290" y1="614" x2="290" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="290" y="638" text-anchor="middle" font-size="12">50</text>
+  <line x1="410" y1="614" x2="410" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="410" y="638" text-anchor="middle" font-size="12">100</text>
+  <line x1="530" y1="614" x2="530" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="530" y="638" text-anchor="middle" font-size="12">150</text>
+  <line x1="650" y1="614" x2="650" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="650" y="638" text-anchor="middle" font-size="12">200</text>
+  <line x1="770" y1="614" x2="770" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="770" y="638" text-anchor="middle" font-size="12">250</text>
+  <line x1="890" y1="614" x2="890" y2="622" stroke="#000000" stroke-width="1.5"/>
+  <text x="890" y="638" text-anchor="middle" font-size="12">300</text>
+  <text x="920" y="638" text-anchor="end" font-size="12">µs</text>
+</svg>

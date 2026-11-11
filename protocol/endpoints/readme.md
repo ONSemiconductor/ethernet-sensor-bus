@@ -1,0 +1,18 @@
+# Endpoints
+
+Messages for the endpoints of an RCP server, such as SPI, I2C, GPIO, UART, ADC, or PWM. A client addresses an endpoint by its handle, see [Operating principle](../../introduction/01_principle.md).
+
+Each type of endpoint has a page of its own. It defines the configuration of the endpoint, the commands that an action carries, and, if the endpoint produces data or events by itself, the notifications that it sends. The endpoint types are:
+
+- [GPIO Driver](gpio/gpio_dev.proto): general-purpose input/output pins, which a client sets, clears, and reads with masks and which can send notifications about events.
+- [SPI Driver](spi/spi_dev.proto): a serial peripheral interface (SPI) controller that runs bus transactions in the SPI modes 0 to 3.
+- [I2C Driver](i2c/i2c_dev.proto): an inter-integrated circuit (I2C) controller that builds bus transactions from transfer tokens.
+- [UART Driver](uart/uart_dev.proto): a universal asynchronous receiver-transmitter that sends and receives blocks of data words.
+- [LIN Driver](lin/lin_dev.proto): the commander of a local interconnect network (LIN) bus, which sends the frame headers.
+- [PWM Driver](pwm/pwm_dev.proto): a generator of a square wave with a configurable frequency and duty cycle.
+- [ADC Driver](adc/adc_dev.proto): an analog-to-digital converter that samples at a fixed rate and delivers the processed values.
+- [SENT Driver](sent/sent_dev.proto): a receiver of single edge nibble transmission (SENT) messages of a sensor.
+- [PDM Driver](pdm/pdm_dev.proto): a receiver of a pulse-density modulation (PDM) stream, e.g., from a digital microphone.
+- [PCM Audio Driver](pcm/pcm_dev.proto): a pulse-code modulation (PCM) audio interface that streams digital audio in I2S or time-division multiplexing (TDM) frames.
+
+The [pin configuration](../server/rcp_pins.proto) assigns the pins to the endpoints. On a server with a static mapping, the pins are fixed.

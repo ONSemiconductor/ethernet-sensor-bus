@@ -1,0 +1,117 @@
+/*
+ * @page gpio GPIO Driver
+ * GPIO configuration, actions, queries, and notifications for RCP.
+ *
+ * A GPIO endpoint is a controller for a group of general-purpose input/output (GPIO) pins. Because commands and
+ * notifications use 32-bit masks, a controller handles up to 32 pins.
+ *
+ * Pins and masks
+ * ==============
+ *
+ * The GPIO number of a pin is its bit position in the masks of commands and notifications: GPIO #0 is the least
+ * significant bit (LSb). The pin configuration assigns the GPIO numbers to the physical pins and sets their electrical
+ * properties, see `rcp.pins.fldConfig.fldConfigItem.gpio`.
+ *
+ * A command combines operations on any number of pins: it configures the direction of the pins, reads their state, and
+ * drives, clears, or toggles them. A pin is only affected by an operation if its bit is set in the mask of that
+ * operation. For example, a `fldCmd.clr` mask of 0x09 (binary 00001001) clears GPIO #0 and GPIO #3 at the same
+ * time. The states that a command reads are returned in the action result, see `fldActionResult.gpio`.
+ *
+ * Pin change events
+ * =================
+ *
+ * An input can report its changes to the client without being polled. Its configuration selects the changes that
+ * generate an event (see `fldPinConfig.event`). An event generates a notification, unless the pin is configured as
+ * quiet (see `fldPinConfig.quiet`), and it can trigger actions, see `fldActionEvent`. The figure shows a pin and
+ * the notifications that each event type generates:
+ *
+ * ![](../figures/endpoints/timingGpioNotif.svg)
+ *
+ * A notification carries the state of all pins of the controller and tells which of them changed.
+ *
+ * Example
+ * =======
+ *
+ * To report the rising edges of GPIO #3 and to drive GPIO #0 high:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { hndl: 1  gpio { pin { num: 3  event: changeEvtRising  debounceNs: 1000 } } } }
+ * dir { action { hndl: 1  gpio { out: 0x01  set: 0x01 } } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.gpio;
+
+// Pin change that generates an event.
+enum enChangeEvent {
+   changeEvtNone    = 0;  // No event (default).
+   changeEvtRising  = 1;  // Generate an event when the pin transitions from 0 to 1.
+   changeEvtFalling = 2;  // Generate an event when the pin transitions from 1 to 0.
+   changeEvtToggle  = 3;  // Generate an event any time the pin changes state.
+}
+
+// Configuration message for GPIO pins.
+message fldPinConfig {
+   /*
+    * Index of the pin within the controller, starting from 0. It is the GPIO number of the pin, which is its bit
+    * position in the masks of `fldCmd` and `fldNotif`.
+    */
+   uint32 num = 1;
+
+   /*
+    * Configures which changes of the pin generate an event.
+    * An event generates an unsolicited notification, unless `quiet` is set, and it can trigger actions, see
+    * `fldActionEvent`.
+    * If PTP is configured and enabled, the notification contains the value
+    * of the PTP timer at the time the pin changed its state.
+    */
+   optional enChangeEvent event = 2;
+
+   /*
+    * If set, suppresses notification reports for this pin.
+    * The change event can still be used to trigger other actions.
+    */
+   optional bool quiet = 3;
+
+   // Debounce time in nanoseconds.
+   optional uint32 debounceNs = 4;
+}
+
+// GPIO configuration message.
+message fldConfig {
+   repeated fldPinConfig pin = 1;  // Configuration for each GPIO pin.
+}
+
+/*
+ * Container for GPIO commands.
+ * Each field is a mask with one bit per GPIO. A set bit applies the operation of the field
+ * to the GPIO whose number equals the bit position, starting with bit 0 (LSb).
+ * For an example, see the page @ref gpio.
+ */
+message fldCmd {
+   uint32 out = 1;  // Mask of pins to (re)configure as output.
+   uint32 inp = 2;  // Mask of pins to (re)configure as input.
+
+   uint32 get = 3;  // Mask of pins to get state for.
+   uint32 set = 4;  // Mask of pins to set state for.
+   uint32 clr = 5;  // Mask of pins to clear state for.
+   uint32 tgl = 6;  // Mask of pins to toggle state for.
+}
+
+// GPIO change notification.
+message fldNotif {
+   /*
+    * Current state of all GPIO pins for this controller (endpoint).
+    * The LSb represents the status of GPIO #0 within this controller.
+    */
+   uint32 state = 1;
+
+   /*
+    * Mask of pins that changed state.
+    * A bit set in the mask at position N (starting from LSb) indicates
+    * that the GPIO #N changed state since the last notification.
+    */
+   uint32 change = 2;
+}

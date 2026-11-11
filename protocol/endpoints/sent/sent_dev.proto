@@ -1,0 +1,83 @@
+/*
+ * @page sent SENT Driver
+ * SENT configuration, actions, queries, and notifications for RCP.
+ *
+ * A SENT endpoint receives messages of the single edge nibble transmission (SENT) protocol (SAE J2716). A sensor sends
+ * them periodically over a single wire, and the endpoint only listens. The client configures the endpoint with a
+ * `fldConfig` message, starts it with a command, and receives the messages in notifications.
+ *
+ * Message format
+ * ==============
+ *
+ * A SENT message is a sequence of pulses. Each pulse starts with a falling edge, stays low for 5 ticks, and is
+ * measured from its falling edge to the next one. The tick time $t_{tick}$ is defined by the sensor. There is no tick
+ * time parameter. The synchronization pulse, 56 ticks long, lets the receiver measure the tick time. Each nibble pulse
+ * carries a four-bit value $N$ in its length of 12 + $N$ ticks: the first nibble is the status, then up to six data
+ * nibbles follow, and the last one is the cyclic redundancy check (CRC). An optional pause pulse can be used to give
+ * all messages the same length.
+ *
+ * ![](../figures/endpoints/timingSentFrame.svg)
+ *
+ * Streaming
+ * =========
+ *
+ * The client starts and stops the reception with a command. The endpoint collects the received messages in a buffer
+ * and flushes it to the client in notifications when it is full, see `fldNotif.data`. The format of the data
+ * in the buffer is server-dependent. Refer to the datasheet.
+ *
+ * Example
+ * =======
+ *
+ * To receive messages with one status nibble, six data nibbles, and one CRC nibble from a sensor that sends a pause
+ * pulse:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { hndl: 9  sent { frameLength: 8  expectPause: true  bufferSizeBytes: 256 } } }
+ * dir { action { hndl: 9  sent { op: opStart } } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.sent;
+
+// SENT configuration message.
+message fldConfig {
+   // Size of the SENT data buffer in bytes. The endpoint flushes the data to the client when the buffer is full.
+   optional uint32 bufferSizeBytes = 1;
+
+   // If true, inverts the polarity of the SENT signal.
+   optional bool polInv = 2;
+
+   // If true, expects a pause field after the nibble transmission.
+   optional bool expectPause = 3;
+
+   // Expected length of the SENT frame in nibbles.
+   optional uint32 frameLength = 4;
+
+   /*
+    * If true, enables the reception timeout: when no edge occurs on the SENT signal for the time set by `timeout`,
+    * the endpoint flushes the buffer to the client before it is full, in a notification with the code `ntfIOError`.
+    */
+   optional bool timeoutEnable = 5;
+
+   /*
+    * The time without an edge on the SENT signal after which the reception times out, see `timeoutEnable`.
+    * It is given as a number of ticks. The tick time is the one that the receiver measures
+    * from the synchronization pulse. The timer restarts with every edge, so the reception times out if the timeout is
+    * shorter than the longest pulse, which is the pause pulse if the sensor sends one.
+    * The number of ticks per step and the valid range are server-dependent. Refer to the datasheet.
+    */
+   optional uint32 timeout = 6;
+}
+
+// SENT operation types.
+enum enCmdOperation {
+   opStart = 0;  // Start SENT.
+   opStop  = 1;  // Stop SENT.
+}
+
+// Container for SENT commands.
+message fldCmd {
+   optional enCmdOperation op = 1;  // SENT operation.
+}

@@ -1,0 +1,122 @@
+/*
+ * @page i2c I2C Driver
+ * I2C configuration, actions, queries, and notifications for RCP.
+ *
+ * An I2C endpoint is an inter-integrated circuit (I2C) controller. It drives the clock SCL and the bidirectional data
+ * line SDA of a bus on which one or more attached devices, called targets, respond. The pins are assigned to the
+ * endpoint with the pin configuration, see `rcp.pins.enPinFuncI2c`.
+ *
+ * The endpoint is a low-level interface: it generates the bus conditions and moves bytes, but it does not know the
+ * protocol of the attached targets. The client builds each bus transaction from transfer tokens, including the target
+ * address and the R/W bit that start it.
+ *
+ * Bit timing
+ * ==========
+ *
+ * The figure shows a write transaction of two bytes. The first byte holds the 7-bit target address and the R/W bit.
+ * After each byte the target answers with an acknowledge (ACK). A target that needs more time can hold SCL low, which
+ * is called clock stretching. In the example, the target stretches the clock during one bit.
+ *
+ * ![](../figures/endpoints/timingI2cBits.svg)
+ *
+ * The clock stretching timeout (`fldConfig.clockStretchingTimeout`) limits how long the RCP server waits for a
+ * target to release SCL before it aborts the current transfer.
+ *
+ * Transactions
+ * ============
+ *
+ * Each command is one transaction: a start condition, the transfer tokens in order, and a stop condition. A token
+ * either writes bytes or reads a number of bytes. A token can be preceded by a repeated start condition, which allows
+ * a transaction to change the direction without releasing the bus. The bytes that all read tokens return are
+ * collected, in order, in the reply to the command.
+ *
+ * The figure shows a typical register read of an EEPROM at the 7-bit address 0x50: the first token writes
+ * the address byte (with the R/W bit cleared) and the register address, the second token restarts and sends the
+ * address byte again with the R/W bit set, and the third token reads three bytes.
+ *
+ * ![](../figures/endpoints/sequenceI2cXfer.svg)
+ *
+ * Example
+ * =======
+ *
+ * The register read of the figure:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    action {
+ *       hndl: 3
+ *       i2c {
+ *          xfer { wdata: "\xA0\x10" }
+ *          xfer { restart: true  wdata: "\xA1" }
+ *          xfer { rsize: 3 }
+ *       }
+ *    }
+ * }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.i2c;
+
+// I2C bus configuration.
+message fldConfig {
+   /*
+    * The clock speed in hertz (Hz).
+    * If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+    * `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+    * tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+    * `cfgParamAdjusted` warning code and the client can retrieve the actual (rounded) speed by querying the
+    * configuration of the endpoint.
+    */
+   optional uint32 speedHz = 1;
+
+   /*
+    * If set, configures the timeout for clock stretching: the longest time that the RCP server waits for a target to
+    * release SCL before it aborts the current transfer.
+    * The timeout is given in quarter periods of the SCL clock.
+    */
+   optional uint32 clockStretchingTimeout = 2;
+
+   // If set, enables clock stretching on the bus.
+   optional bool clockStretching = 3;
+}
+
+/*
+ * I2C transfer token, the building block of an I2C command.
+ * A token is either a write or a read transfer.
+ * @note This is a low-level I2C interface that gives the client direct control of the bus. The client implements
+ * the I2C protocol of the attached device(s), including the generation of the target address and the R/W bit.
+ */
+message fldCmdXfer {
+   oneof xft {
+      /*
+       * If set, the I2C controller performs a write transfer of the specified
+       * amount of data (size of `wdata`). The controller expects an ACK from the
+       * attached device for each byte transferred. Otherwise, the command fails
+       * with the `actIOError` code.
+       */
+      bytes wdata = 1;
+
+      /*
+       * Determines the transfer length in bytes. This amount of data is
+       * appended to the data of the action result (`fldActionResult.data`).
+       */
+      uint32 rsize = 2;
+   }
+
+   // If set, generates a repeated start condition before the current transfer occurs.
+   bool restart = 3;
+}
+
+// Container for I2C commands.
+message fldCmd {
+   /*
+    * If set, overrides the clock speed in hertz (Hz) for this command only.
+    * The RCP server is allowed to round the requested speed, as described for `fldConfig.speedHz`.
+    */
+   optional uint32 speedHz = 1;
+
+   repeated fldCmdXfer xfer = 2;  // List of transfer tokens.
+}

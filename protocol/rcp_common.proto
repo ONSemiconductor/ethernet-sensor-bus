@@ -1,0 +1,72 @@
+/*
+ * @page rcp_common Common Definitions
+ * Definitions that several files of the RCP protocol share.
+ *
+ * This file holds the few definitions that other files share: endpoint types and queries, notification ownership,
+ * the timestamp, and the version.
+ *
+ * Endpoints
+ * =========
+ *
+ * The type of an endpoint tells which messages describe it: @ref gpio, @ref uart, @ref spi, @ref i2c, @ref adc,
+ * @ref pwm, @ref pdm, @ref pcm, @ref lin, or @ref sent. The server lists its endpoints with their handles and types in
+ * the result of the query `rcp.dev.qryInterfaces` (see @ref rcp_info).
+ *
+ * Timestamps and versions
+ * =======================
+ *
+ * Time is expressed in the format of the Precision Time Protocol (PTP, IEEE 802.1AS), see @ref rcp_ptp. Besides
+ * absolute times of the PTP timer, the protocol also uses it for time spans, such as the offset, the period, and the
+ * delays of an action.
+ *
+ * The server reports the version of the RCP protocol that it implements in its identity (see @ref rcp_info).
+ */
+
+syntax = "proto3";
+package esb;
+
+// Endpoint types handled by the RCP protocol.
+enum enEndpointType {
+   devTypeGpio = 0;  // General Purpose I/O Interface (GPIO).
+   devTypeUart = 1;  // Universal Asynchronous Receiver-Transmitter (UART) Interface.
+   devTypeSpi  = 2;  // Serial Peripheral Interface (SPI).
+   devTypeI2c  = 3;  // Inter-Integrated Circuit (I2C) Interface.
+   devTypeAdc  = 4;  // Analog-to-Digital Converter (ADC) Interface.
+   devTypePwm  = 5;  // Pulse-Width Modulation (PWM) Interface.
+   devTypePdm  = 6;  // Pulse-Density Modulation (PDM) Interface.
+   devTypePcm  = 7;  // Pulse-Code Modulation (PCM) Audio Interface.
+   devTypeLin  = 8;  // Local Interconnect Network (LIN) Interface.
+   devTypeSent = 9;  // Single Edge Nibble Transmission (SENT) Interface.
+}
+
+// Types of query that an endpoint answers.
+enum enEndpointQuery {
+   epqConfig    = 0;  // Get current endpoint configuration.
+   epqNotifInfo = 1;  // Get notification ownership and sequence state.
+}
+
+/*
+ * Notification ownership and sequence state of an endpoint.
+ * An endpoint has at most one notification owner and sends its notifications only to that client.
+ */
+message fldEndpointNotifInfo {
+   bool   used     = 1;  // True if the endpoint has a notification owner.
+   uint32 clientId = 2;  // Client ID of that owner, valid if `used` is true.
+   uint32 seq      = 3;  // Last notification sequence number, valid if `used` is true.
+}
+
+/*
+ * Time expressed in seconds and nanoseconds. The containing field selects an absolute PTP time or a non-negative
+ * time span, e.g., an action period or delay. The seconds component is 32 bits.
+ */
+message fldTstamp {
+   fixed32 sec  = 1;  // Seconds component.
+   fixed32 nsec = 2;  // Nanoseconds component.
+}
+
+// Version record.
+message fldVersion {
+   uint32 major = 1;  // The major version number.
+   uint32 minor = 2;  // The minor version number.
+   uint32 patch = 3;  // The patch number.
+}

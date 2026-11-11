@@ -1,0 +1,83 @@
+/*
+ * @page pdm PDM Driver
+ * PDM configuration, actions, queries, and notifications for RCP.
+ *
+ * A PDM endpoint receives a pulse-density modulation (PDM) stream, for example from a digital microphone. The endpoint
+ * drives the clock CLK and samples the data line DATA, see the pin functions `rcp.pins.enPinFuncPdm`.
+ *
+ * Principle
+ * =========
+ *
+ * A PDM stream is a one-bit stream with a high bit rate. The amplitude of the signal is encoded in the density of the
+ * 1 bits: many 1 bits stand for a large positive value, many 0 bits for a large negative value. Converting the stream
+ * to audio samples with a lower rate requires filtering and decimation. This conversion is not part of the protocol.
+ * The endpoint streams the sampled bits to the client.
+ *
+ * Clock and sampling edge
+ * =======================
+ *
+ * The endpoint takes over DATA on the rising edge, on the falling edge, or on both edges of the clock. With both
+ * edges, two bits are received per clock period, so the bit rate is twice the clock speed.
+ *
+ * ![](../figures/endpoints/timingPdm.svg)
+ *
+ * Streaming
+ * =========
+ *
+ * The client starts and stops the stream with a command. The endpoint collects the sampled bits in a buffer and
+ * delivers them to the client in notifications, see `fldNotif.data`.
+ *
+ * Example
+ * =======
+ *
+ * To record a PDM microphone with a 3.072 MHz clock, sampled on the rising edge:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { hndl: 6  pdm { speedHz: 3072000  samplingEdge: samplingRising  bufferSizeBytes: 1024 } } }
+ * dir { action { hndl: 6  pdm { op: opStart } } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.pdm;
+
+// PDM sampling edge configuration options.
+enum enSamplingEdge {
+   samplingRising  = 0;  // PDM configured to sample DATA on the CLK rising edge.
+   samplingFalling = 1;  // PDM configured to sample DATA on the CLK falling edge.
+   samplingBoth    = 2;  // PDM configured to sample DATA on both CLK edges, rising and falling.
+}
+
+// PDM configuration message.
+message fldConfig {
+   /*
+    * Length of the buffer in bytes. Setting this to 0 configures the default buffer length.
+    * Exceeding the buffer size supported by the server causes the configuration to fail.
+    */
+   optional uint32 bufferSizeBytes = 1;
+
+   optional enSamplingEdge samplingEdge = 2;  // PDM sampling edge configuration.
+
+   /*
+    * The clock speed in hertz (Hz).
+    * If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+    * `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+    * tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+    * `cfgParamAdjusted` warning code and the client can retrieve the actual (rounded) speed by querying the
+    * configuration of the endpoint.
+    */
+   optional uint32 speedHz = 3;
+}
+
+// PDM operation types.
+enum enCmdOperation {
+   opStart = 0;  // Start PDM.
+   opStop  = 1;  // Stop PDM.
+}
+
+// Container for PDM command.
+message fldCmd {
+   optional enCmdOperation op = 1;  // PDM operation.
+}

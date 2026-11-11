@@ -1,0 +1,5 @@
+generated
+*~
+*.swp
+__pycache__
+rcp.txt

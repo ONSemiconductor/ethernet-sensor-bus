@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="424" viewBox="0 0 940 424" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Delays of the topology discovery: the internal delays of the nodes and the loop through both nodes and the cable</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <marker id="arrows" viewBox="0 0 10 8" refX="0" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,4 L10,8 z" fill="#000000"/>
+    </marker>
+    <style>
+      .n { font-size: 12px; }
+      .b { font-size: 14px; font-weight: bold; }
+      .c { text-anchor: middle; }
+      .r { text-anchor: end; }
+      .m { font-family: Consolas, 'Courier New', monospace; font-size: 13.78px; }
+      .mn { font-family: Consolas, 'Courier New', monospace; font-size: 12.72px; }
+      .mb { font-family: Consolas, 'Courier New', monospace; font-size: 14.84px; font-weight: bold; }
+      .g { fill: #888888; }
+      .blk { fill: #ffffff; stroke: #000000; stroke-width: 1.5; }
+      .act { fill: #f2f2f2; stroke: #000000; stroke-width: 1.5; }
+      .end { fill: #e4e4e4; stroke: #000000; stroke-width: 1.5; }
+      .grp { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 6 4; }
+      .line { fill: none; stroke: #000000; stroke-width: 1.5; }
+      .loop { fill: none; stroke: #000000; stroke-width: 2; }
+      .dash { fill: none; stroke: #000000; stroke-width: 1; stroke-dasharray: 4 3; }
+      .thin { fill: none; stroke: #888888; stroke-width: 1; }
+      .life { fill: none; stroke: #888888; stroke-width: 1; stroke-dasharray: 5 4; }
+      .arrow { fill: none; stroke: #000000; stroke-width: 1.5; marker-end: url(#arrow); }
+      .arrow2 { fill: none; stroke: #000000; stroke-width: 1.5; marker-start: url(#arrows); marker-end: url(#arrow); }
+      .sync { fill: none; stroke: #000000; stroke-width: 1.5; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+      .dot { fill: #000000; }
+      .head { fill: #000000; }
+    </style>
+  </defs>
+  <rect width="940" height="424" fill="#ffffff"/>
+  <rect class="blk" x="24" y="16" width="200" height="92" rx="6"/>
+  <path class="end" d="M24,42 V22 A6,6 0 0 1 30,16 H218 A6,6 0 0 1 224,22 V42 Z"/>
+  <text class="b" x="36" y="33.9" xml:space="preserve">Reference node</text>
+  <rect class="blk" x="414" y="16" width="200" height="92" rx="6"/>
+  <path class="end" d="M414,42 V22 A6,6 0 0 1 420,16 H608 A6,6 0 0 1 614,22 V42 Z"/>
+  <text class="b" x="426" y="33.9" xml:space="preserve">Measured node</text>
+  <path class="thin" d="M224,66 L414,66"/>
+  <path class="thin" d="M224,94 L414,94"/>
+  <text class="c n g" x="319" y="85" xml:space="preserve">cable</text>
+  <path class="loop" d="M48,66 H200 V94 H48 Z"/>
+  <polygon class="head" points="89,66 79,62 79,70"/>
+  <polygon class="head" points="79,94 89,90 89,98"/>
+  <text class="c" x="148" y="83" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">R</tspan></text>
+  <text class="b" x="644" y="48" xml:space="preserve"><tspan class="mb">internalDelay</tspan></text>
+  <text class="n" x="644" y="68" xml:space="preserve">internal delay of the</text>
+  <text class="n" x="644" y="84" xml:space="preserve">reference node</text>
+  <rect class="blk" x="24" y="142" width="200" height="92" rx="6"/>
+  <path class="end" d="M24,168 V148 A6,6 0 0 1 30,142 H218 A6,6 0 0 1 224,148 V168 Z"/>
+  <text class="b" x="36" y="159.9" xml:space="preserve">Reference node</text>
+  <rect class="blk" x="414" y="142" width="200" height="92" rx="6"/>
+  <path class="end" d="M414,168 V148 A6,6 0 0 1 420,142 H608 A6,6 0 0 1 614,148 V168 Z"/>
+  <text class="b" x="426" y="159.9" xml:space="preserve">Measured node</text>
+  <path class="thin" d="M224,192 L414,192"/>
+  <path class="thin" d="M224,220 L414,220"/>
+  <text class="c n g" x="319" y="211" xml:space="preserve">cable</text>
+  <path class="loop" d="M438,192 H590 V220 H438 Z"/>
+  <polygon class="head" points="479,192 469,188 469,196"/>
+  <polygon class="head" points="469,220 479,216 479,224"/>
+  <text class="c" x="538" y="209" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">M</tspan></text>
+  <text class="b" x="644" y="174" xml:space="preserve"><tspan class="mb">measuredNodeDelay</tspan></text>
+  <text class="n" x="644" y="194" xml:space="preserve">internal delay of the measured node,</text>
+  <text class="n" x="644" y="210" xml:space="preserve">measured by the reference node</text>
+  <rect class="blk" x="24" y="268" width="200" height="92" rx="6"/>
+  <path class="end" d="M24,294 V274 A6,6 0 0 1 30,268 H218 A6,6 0 0 1 224,274 V294 Z"/>
+  <text class="b" x="36" y="285.9" xml:space="preserve">Reference node</text>
+  <rect class="blk" x="414" y="268" width="200" height="92" rx="6"/>
+  <path class="end" d="M414,294 V274 A6,6 0 0 1 420,268 H608 A6,6 0 0 1 614,274 V294 Z"/>
+  <text class="b" x="426" y="285.9" xml:space="preserve">Measured node</text>
+  <text class="c n g" x="319" y="337" xml:space="preserve">cable</text>
+  <path class="loop" d="M48,318 H590 V346 H48 Z"/>
+  <polygon class="head" points="89,318 79,314 79,322"/>
+  <polygon class="head" points="79,346 89,342 89,350"/>
+  <polygon class="head" points="324,318 314,314 314,322"/>
+  <polygon class="head" points="314,346 324,342 324,350"/>
+  <polygon class="head" points="479,318 469,314 469,322"/>
+  <polygon class="head" points="469,346 479,342 479,350"/>
+  <text class="c" x="148" y="335" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">R</tspan></text>
+  <text class="c" x="538" y="335" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">M</tspan></text>
+  <text class="c" x="319" y="308" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">C</tspan></text>
+  <text class="c" x="319" y="367" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">C</tspan></text>
+  <text class="b" x="644" y="300" xml:space="preserve"><tspan class="mb">distanceDelay</tspan></text>
+  <text class="n" x="644" y="320" xml:space="preserve">delay of the loop through both nodes</text>
+  <text class="n" x="644" y="336" xml:space="preserve">and the cable</text>
+  <text x="644" y="358" xml:space="preserve"><tspan font-style="italic">t</tspan><tspan dy="3" font-size="10">L</tspan><tspan dy="-3"> = <tspan font-style="italic">t</tspan></tspan><tspan dy="3" font-size="10">R</tspan><tspan dy="-3"> + <tspan font-style="italic">t</tspan></tspan><tspan dy="3" font-size="10">M</tspan><tspan dy="-3"> + 2 × <tspan font-style="italic">t</tspan></tspan><tspan dy="3" font-size="10">C</tspan></text>
+  <text x="12" y="396" xml:space="preserve">Each delay is the number of passes of a pulse around its loop within the duration <tspan class="m">durationMs</tspan> of the measurement.</text>
+  <text x="12" y="414" xml:space="preserve">The result of the reference node contains all three delays.</text>
+</svg>

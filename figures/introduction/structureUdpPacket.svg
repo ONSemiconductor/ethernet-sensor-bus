@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="444" viewBox="0 0 960 444" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Structure of a UDP packet in an IPv4 packet that carries an RCP message</title>
+  <rect width="960" height="444" fill="#ffffff"/>
+
+  <text x="35" y="14" font-size="12" text-anchor="middle">0</text>
+  <text x="255" y="14" font-size="12" text-anchor="middle">1</text>
+  <text x="475" y="14" font-size="12" text-anchor="middle">2</text>
+  <text x="695" y="14" font-size="12" text-anchor="middle">3</text>
+  <text x="35" y="28" font-size="12" text-anchor="middle">0</text>
+  <text x="57" y="28" font-size="12" text-anchor="middle">1</text>
+  <text x="79" y="28" font-size="12" text-anchor="middle">2</text>
+  <text x="101" y="28" font-size="12" text-anchor="middle">3</text>
+  <text x="123" y="28" font-size="12" text-anchor="middle">4</text>
+  <text x="145" y="28" font-size="12" text-anchor="middle">5</text>
+  <text x="167" y="28" font-size="12" text-anchor="middle">6</text>
+  <text x="189" y="28" font-size="12" text-anchor="middle">7</text>
+  <text x="211" y="28" font-size="12" text-anchor="middle">8</text>
+  <text x="233" y="28" font-size="12" text-anchor="middle">9</text>
+  <text x="255" y="28" font-size="12" text-anchor="middle">0</text>
+  <text x="277" y="28" font-size="12" text-anchor="middle">1</text>
+  <text x="299" y="28" font-size="12" text-anchor="middle">2</text>
+  <text x="321" y="28" font-size="12" text-anchor="middle">3</text>
+  <text x="343" y="28" font-size="12" text-anchor="middle">4</text>
+  <text x="365" y="28" font-size="12" text-anchor="middle">5</text>
+  <text x="387" y="28" font-size="12" text-anchor="middle">6</text>
+  <text x="409" y="28" font-size="12" text-anchor="middle">7</text>
+  <text x="431" y="28" font-size="12" text-anchor="middle">8</text>
+  <text x="453" y="28" font-size="12" text-anchor="middle">9</text>
+  <text x="475" y="28" font-size="12" text-anchor="middle">0</text>
+  <text x="497" y="28" font-size="12" text-anchor="middle">1</text>
+  <text x="519" y="28" font-size="12" text-anchor="middle">2</text>
+  <text x="541" y="28" font-size="12" text-anchor="middle">3</text>
+  <text x="563" y="28" font-size="12" text-anchor="middle">4</text>
+  <text x="585" y="28" font-size="12" text-anchor="middle">5</text>
+  <text x="607" y="28" font-size="12" text-anchor="middle">6</text>
+  <text x="629" y="28" font-size="12" text-anchor="middle">7</text>
+  <text x="651" y="28" font-size="12" text-anchor="middle">8</text>
+  <text x="673" y="28" font-size="12" text-anchor="middle">9</text>
+  <text x="695" y="28" font-size="12" text-anchor="middle">0</text>
+  <text x="717" y="28" font-size="12" text-anchor="middle">1</text>
+  <path d="M24,35 V40 M46,35 V40 M68,35 V40 M90,35 V40 M112,35 V40 M134,35 V40 M156,35 V40 M178,35 V40 M200,35 V40 M222,35 V40 M244,35 V40 M266,35 V40 M288,35 V40 M310,35 V40 M332,35 V40 M354,35 V40 M376,35 V40 M398,35 V40 M420,35 V40 M442,35 V40 M464,35 V40 M486,35 V40 M508,35 V40 M530,35 V40 M552,35 V40 M574,35 V40 M596,35 V40 M618,35 V40 M640,35 V40 M662,35 V40 M684,35 V40 M706,35 V40 M728,35 V40" fill="none" stroke="#000000" stroke-width="1"/>
+  <rect x="24" y="40" width="88" height="44" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="68" y="58.3" font-size="13" text-anchor="middle">Version</text>
+  <text x="68" y="75.07" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">4</text>
+  <rect x="112" y="40" width="88" height="44" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="156" y="58.3" font-size="13" text-anchor="middle">IHL</text>
+  <text x="156" y="75.07" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">5</text>
+  <rect x="200" y="40" width="176" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="288" y="66.55" font-size="13" text-anchor="middle">Type of Service</text>
+  <rect x="376" y="40" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="552" y="66.55" font-size="13" text-anchor="middle">Total Length</text>
+  <rect x="24" y="84" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="200" y="110.55" font-size="13" text-anchor="middle">Identification</text>
+  <rect x="376" y="84" width="66" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="409" y="110.55" font-size="13" text-anchor="middle">Flags</text>
+  <rect x="442" y="84" width="286" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="585" y="110.55" font-size="13" text-anchor="middle">Fragment Offset</text>
+  <rect x="24" y="128" width="176" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="112" y="154.55" font-size="13" text-anchor="middle">Time to Live</text>
+  <rect x="200" y="128" width="176" height="44" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="288" y="146.3" font-size="13" text-anchor="middle">Protocol</text>
+  <text x="288" y="163.07" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">17 (UDP)</text>
+  <rect x="376" y="128" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="552" y="154.55" font-size="13" text-anchor="middle">Header Checksum</text>
+  <rect x="24" y="172" width="704" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="376" y="198.55" font-size="13" text-anchor="middle">Source Address</text>
+  <rect x="24" y="216" width="704" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="376" y="242.55" font-size="13" text-anchor="middle">Destination Address</text>
+  <rect x="24" y="260" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="200" y="286.55" font-size="13" text-anchor="middle">Source Port</text>
+  <rect x="376" y="260" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="552" y="286.55" font-size="13" text-anchor="middle">Destination Port</text>
+  <rect x="24" y="304" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="200" y="323.05" font-size="13" text-anchor="middle">Length</text>
+  <text x="200" y="338.45" font-size="12" text-anchor="middle">UDP header and payload</text>
+  <rect x="376" y="304" width="352" height="44" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="552" y="323.05" font-size="13" text-anchor="middle">Checksum</text>
+  <text x="552" y="338.45" font-size="12" text-anchor="middle">optional</text>
+  <rect x="24" y="348" width="704" height="44" fill="#ffffff"/>
+  <path d="M24,348 L728,348" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <path d="M24,348 L24,392" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <path d="M728,348 L728,392" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <path d="M24,392 L728,392" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="376" y="367.05" font-size="13" text-anchor="middle">Encoded message</text>
+  <text x="376" y="382.45" font-size="12" text-anchor="middle">directive or report</text>
+  <path d="M738,44 H744 V256 H738" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text x="754" y="148" font-size="13" text-anchor="start">IPv4 header</text>
+  <text x="754" y="164" font-size="12" text-anchor="start">20 bytes</text>
+  <path d="M738,264 H744 V344 H738" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text x="754" y="302" font-size="13" text-anchor="start">UDP header</text>
+  <text x="754" y="318" font-size="12" text-anchor="start">8 bytes</text>
+  <path d="M738,352 H744 V388 H738" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text x="754" y="368" font-size="13" text-anchor="start">UDP payload</text>
+  <text x="754" y="384" font-size="12" text-anchor="start">≤1472 or ≤1468 bytes</text>
+  <rect x="24" y="412" width="14" height="14" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="46" y="424" font-size="12" text-anchor="start">Fixed value</text>
+</svg>

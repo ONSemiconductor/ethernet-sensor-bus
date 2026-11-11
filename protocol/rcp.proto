@@ -1,0 +1,628 @@
+/*
+ * @page rcp_msg RCP Messages
+ * The top-level messages of ESB, a remote control protocol (RCP), and the containers of the operations.
+ *
+ * The client sends a directive (`msgDirective`) to the RCP server, and the server answers with a report
+ * (`msgReport`). The page @ref messages describes their structure and the page @ref scheduler how the server runs
+ * actions. The messages of the endpoints travel in the containers that this file defines. The endpoints are described
+ * on their own pages (see @ref rcp_common for the list), the RCP server itself on @ref rcp_dev.
+ *
+ * The message `msgRcp` combines both top-level messages for tools such as Wireshark. Neither side sends it.
+ *
+ * Example
+ * =======
+ *
+ * A directive with a configuration, a synchronous action, and a query:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { hndl: 2  spi { cpol: false  cpha: false  speedHz: 1000000 } } }
+ * dir { action { hndl: 2  spi { xfer { xft: xferWriteOnly  wdata: "\x9F" }  xfer { xft: xferReadOnly  rsize: 2 } } } }
+ * dir { query { rcp: qryIdentity } }
+ * ```
+ *
+ * The report has the same `msgReport.seq` and holds three results, one for each operation. A directive that toggles
+ * GPIO #0, which is configured as an output, ten times at intervals of 500 ms, starting one second after its reception
+ * (an asynchronous action):
+ *
+ * ```text
+ * seq: 2
+ * dir {
+ *    action {
+ *       hndl: 1
+ *       gpio { tgl: 0x01 }
+ *       timed { offset { sec: 1 }  period { nsec: 500000000 } }
+ *       repeatCount: 9
+ *    }
+ * }
+ * ```
+ *
+ * The server answers with `actPending` and the unique ID of the action, and reports the result of each execution
+ * in an unsolicited report, unless `fldAction.replyMode` limits it.
+ */
+
+syntax = "proto3";
+package esb;
+
+import "rcp_common.proto";
+import "server/rcp_dev.proto";
+import "endpoints/gpio/gpio_dev.proto";
+import "endpoints/spi/spi_dev.proto";
+import "endpoints/i2c/i2c_dev.proto";
+import "endpoints/pwm/pwm_dev.proto";
+import "endpoints/uart/uart_dev.proto";
+import "endpoints/pcm/pcm_dev.proto";
+import "endpoints/pdm/pdm_dev.proto";
+import "endpoints/adc/adc_dev.proto";
+import "endpoints/sent/sent_dev.proto";
+import "endpoints/lin/lin_dev.proto";
+
+/*
+ * Container for all configuration operations.
+ */
+message fldConfig {
+   // Unique non-zero handle of the endpoint, or 0 for the RCP server itself.
+   uint32 hndl = 1;
+
+   // Configuration matching the type of the endpoint at `hndl`.
+   oneof dev {
+      rcp.dev.fldConfig rcp  = 2;   // Configuration of the RCP server itself.
+      gpio.fldConfig    gpio = 3;   // Configuration of a GPIO controller.
+      i2c.fldConfig     i2c  = 4;   // Configuration of an I2C controller.
+      spi.fldConfig     spi  = 5;   // Configuration of a SPI controller.
+      uart.fldConfig    uart = 6;   // Configuration of a UART controller.
+      pcm.fldConfig     pcm  = 7;   // Configuration of a PCM audio controller.
+      pdm.fldConfig     pdm  = 8;   // Configuration of a PDM controller.
+      adc.fldConfig     adc  = 9;   // Configuration of an ADC controller.
+      sent.fldConfig    sent = 10;  // Configuration of a SENT controller.
+      lin.fldConfig     lin  = 11;  // Configuration of a LIN controller.
+      pwm.fldConfig     pwm  = 12;  // Configuration of a PWM controller.
+   }
+}
+
+// Configuration of timed actions.
+message fldActionTimed {
+   /*
+    * Presentation time of the first execution. If absent, the action runs as soon as the endpoint is free.
+    * @note The granularity and precision of the PTP timer are implementation-specific.
+    * Refer to the datasheet of the server for details.
+    */
+   oneof start {
+      // Absolute time: the operation is executed when the internal PTP timer crosses this presentation time.
+      fldTstamp ptime = 1;
+
+      /*
+       * Relative time: the RCP server captures the precise time at which the
+       * directive is received from the network, then schedules the operation
+       * to be executed at that time plus this offset.
+       */
+      fldTstamp offset = 2;
+   }
+
+   /*
+    * Repeat interval of this timed action.
+    * It is only used if the `fldAction.repeatCount` field is greater than 0. The RCP server
+    * then calculates each subsequent presentation time by adding this interval to the previous
+    * presentation time. Delays in execution and duration of the action do not affect the interval.
+    * The `periodAdjNs` field can change the interval after every execution.
+    */
+   fldTstamp period = 3;
+
+   /*
+    * Decides whether a late action is dropped or executed. An action is late if it cannot be
+    * scheduled at the specified time. This happens if `ptime` lies in the past,
+    * or if the endpoint is busy executing other operations at the desired scheduling time.
+    *
+    * If set to true, a late action is not executed. Its result code is `actTooLate`,
+    * an error code.
+    *
+    * If set to false (or not set), a late action is always executed, even if
+    * the required deadline cannot be met. However, in this case its result code is
+    * `actDelayed`, a warning code, if execution succeeds. A failed execution returns its error instead.
+    *
+    * @note This field does not guarantee that the RCP server sends a reply. Whether and
+    * when the result code is reported depends on the `fldAction.replyMode` of the action.
+    * The warning `actDelayed` is treated as a successful execution, so `actReplyOnError`
+    * reports `actTooLate` but not `actDelayed`.
+    * Reply modes that report only on the last action of a series can defer the result.
+    */
+   bool hardDeadline = 4;
+
+   /*
+    * If set, the specified adjustment time in nanoseconds is added/subtracted
+    * from the repeating period after each time the action is re-scheduled.
+    * This allows creating sequences of operations that repeat faster or slower
+    * in a linear fashion.
+    * @note This option is only used in conjunction with the `period` parameter.
+    * If this one is not specified, the `periodAdjNs` field is ignored.
+    */
+   sint32 periodAdjNs = 5;
+}
+
+// Configuration for event-triggered actions.
+message fldActionEvent {
+   /*
+    * Actions can optionally be triggered on specific events.
+    * If the `events` array is not empty, the action is executed when the RCP
+    * server asserts any of the events contained therein.
+    * The list of available events and associated IDs is implementation-specific.
+    * Refer to the datasheet of the server for details.
+    */
+   repeated uint32 events = 1;
+
+   /*
+    * If set, this optional parameter defines the delay in PTP time format
+    * between the time the event was asserted and the time the action is scheduled.
+    */
+   fldTstamp delay = 2;
+}
+
+/*
+ * Actions can optionally be triggered on completion of other actions. This
+ * allows, for example, defining daisy chains of timed operations to be
+ * executed as a reaction to specific events, in sequence.
+ */
+enum enActionDependentType {
+   actDepDefault = 0;  // Execute as soon as the parent action finishes, regardless of its result code.
+   actDepSuccess = 1;  // Execute only if the parent action succeeded: `actSuccess` or a warning such as `actDelayed`.
+   actDepError   = 2;  // Execute only if the parent action failed, i.e., its result code is an error.
+}
+
+/*
+ * Configuration for an action triggered by the completion of a parent action.
+ * If the parent is removed while this action is waiting for its completion, this action is removed without a
+ * notification or an action result. An already-triggered execution, including its delay, completes under
+ * `fldAction.replyMode` but does not repeat.
+ */
+message fldActionDependent {
+   /*
+    * Tag of the parent action to wait for. The tag 0 refers to the previously queued action.
+    * See `fldAction.tag` for how a tag is resolved.
+    */
+   uint32 tag = 1;
+
+   // The trigger type (see `enActionDependentType`).
+   enActionDependentType trigType = 2;
+
+   /*
+    * If set, the actual execution of the action is further delayed by the
+    * specified amount of time after the completion of the parent action.
+    */
+   fldTstamp delay = 3;
+}
+
+/*
+ * Selects which execution results of an asynchronous action are sent in unsolicited reports.
+ * It does not affect the reply to the directive, which is controlled by `msgDirective.seq`.
+ * Warnings, including `actDelayed`, count as success rather than an error.
+ */
+enum enActionReplyMode {
+   actReplyDefault       = 0;  // Report every execution.
+   actReplyNever         = 1;  // Report no executions.
+   actReplyOnError       = 2;  // Report only executions that fail.
+   actReplyOnLast        = 3;  // Report only the last execution of this action.
+   actReplyOnErrorOrLast = 4;  // Report executions that fail and the last execution of this action.
+}
+
+// Container for an action that an endpoint or the RCP server executes.
+message fldAction {
+   /*
+    * Selects when the action runs. Without a trigger, it runs as soon as the endpoint is free.
+    * An action without a trigger and with `repeatCount` equal to 0 is synchronous, unless
+    * `rcp.core.fldServerConfig.syncActionsEnable` is false. Its execution result is returned in the reply to the
+    * directive. All other actions are asynchronous, including one with an empty `timed` message.
+    * A queued asynchronous action returns `actPending`. Its execution results follow in unsolicited reports,
+    * subject to `replyMode`.
+    */
+   oneof trigger {
+      fldActionTimed timed = 1;  // Execute at a specific time, as defined by `fldActionTimed`.
+      fldActionEvent event = 2;  // Execute upon the assertion of one or more events, as defined by `fldActionEvent`.
+
+      // Execute after the completion of another action, as defined by `fldActionDependent`.
+      fldActionDependent action = 3;
+
+      /*
+       * Execute concurrently with the action that has the specified tag (see `tag`). The tag 0 refers to the
+       * previously queued action. Bound actions refer to different endpoints (handles). Otherwise, the RCP
+       * server rejects the action.
+       */
+      uint32 bind = 4;
+   }
+
+   /*
+    * If set to a non-zero value, the RCP server automatically re-schedules
+    * the operation based on the specified trigger type.
+    * The total number of times the action is scheduled is `repeatCount` + 1.
+    * If `repeatCount` is set to 0, or not set (default), the action is executed
+    * once.
+    * If `repeatCount` is set to its maximum value (0xffffffff), the action is
+    * re-scheduled indefinitely, or until canceled.
+    * @note Setting this parameter to a non-zero value makes the action
+    * asynchronous regardless of the `trigger` type.
+    */
+   uint32 repeatCount = 5;
+
+   /*
+    * Reply mode for this action, see `enActionReplyMode`.
+    * If the action is synchronous, this parameter is ignored. For the
+    * definition of synchronous actions, see the `trigger` field documentation.
+    */
+   enActionReplyMode replyMode = 6;
+
+   /*
+    * If set, the action is executed only if the RCP server is in fail-safe
+    * mode. Fail-safe mode can be triggered by the network watchdog or other
+    * implementation-specific conditions (refer to the datasheet of the server).
+    * For asynchronous operations (see the `trigger` field documentation), this
+    * parameter adds fail-safe mode as an additional condition for scheduling.
+    * For synchronous operations, if this parameter is set and the system is
+    * not currently in fail-safe mode, the action is rejected with the
+    * `actFailsafeError` error code. If this parameter is not set, the action is
+    * rejected if the system is currently in fail-safe mode.
+    * This feature can be useful for implementing functional safety and safe
+    * operation of the server in case, for example, of loss of network
+    * connectivity.
+    */
+   bool failsafe = 7;
+
+   /*
+    * If set, the action is saved in non-volatile memory and loaded on
+    * server POR or reboot.
+    * @warning Actions stored to NVM are not loaded into RAM at the same time.
+    * The command `rcp.dev.opLoadStoredActions` loads all saved actions.
+    */
+   bool storeToNvm = 8;
+
+   /*
+    * Optional label that the client gives to the action. It does not have to be unique: several actions can carry the
+    * same tag, and 0 means that the action has no tag.
+    * The tag is how other operations refer to this action:
+    * - the triggers `action` (dependent) and `bind` of later actions
+    * - the cancel operation by tag, see `fldActionCancel.tag`
+    *
+    * When more than one live action carries the same tag, a trigger refers to the first one found, while canceling by
+    * tag cancels all of them.
+    * In contrast, the RCP server assigns every queued action a unique `fldActionResult.uid`, which the client only
+    * learns from the acknowledgement. It refers to exactly one action, see `fldActionCancel.uid`.
+    */
+   uint32 tag = 9;
+
+   /*
+    * Handle of the endpoint, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+    * The datasheet of the server and the query `rcp.dev.qryInterfaces` list the endpoints with their handles and
+    * types.
+    */
+   uint32 hndl = 10;
+
+   // The endpoint-specific command.
+   oneof dev {
+      rcp.dev.fldCmd rcp  = 11;  // Commands for RCP functionality.
+      gpio.fldCmd    gpio = 12;  // Commands for GPIO interfaces.
+      spi.fldCmd     spi  = 13;  // Commands for SPI interfaces.
+      i2c.fldCmd     i2c  = 14;  // Commands for I2C interfaces.
+      pwm.fldCmd     pwm  = 15;  // Commands for PWM interfaces.
+      pcm.fldCmd     pcm  = 16;  // Commands for PCM audio interfaces.
+      uart.fldCmd    uart = 17;  // Commands for UART interfaces.
+      pdm.fldCmd     pdm  = 18;  // Commands for PDM interfaces.
+      adc.fldCmd     adc  = 19;  // Commands for ADC interfaces.
+      sent.fldCmd    sent = 20;  // Commands for SENT interfaces.
+      lin.fldCmd     lin  = 21;  // Commands for LIN interfaces.
+   }
+}
+
+// Global enum for action results.
+enum enActionResult {
+   actSuccess     = 0;  // Action was successfully executed.
+   actPending     = 1;  // Action has been successfully scheduled.
+   actDelayed     = 2;  // Action was successful but executed past its due time.
+   actTooLate     = 3;  // Action was not executed because it missed its hard deadline.
+   actNoResources = 4;  // Not enough server resources to perform the action.
+
+   /*
+    * A parameter value is invalid or out of range, or a combination of parameters violates the
+    * constraints of the requested operation.
+    */
+   actInvalidParam = 5;
+
+   actNotSupported         = 6;   // The requested operation or feature is not supported by this server.
+   actFailsafeError        = 7;   // Operating mode mismatch for the synchronous operation.
+   actInternalError        = 8;   // Unspecified internal error.
+   actCmdFailed            = 9;   // The execution of the command associated with the action failed.
+   actEndpointNotEnabled   = 10;  // Action failed because the endpoint is not enabled.
+   actTimeoutError         = 11;  // Action failed because the execution of the action timed out.
+   actCsumError            = 12;  // Action failed because of an invalid checksum.
+   actIOError              = 13;  // Action failed because of a hardware/bus error.
+   actStreamNotStarted     = 14;  // Action failed because the stream is not started.
+   actStreamAlreadyStarted = 15;  // Action failed because the stream is already started.
+   actNvmNotPresent        = 16;  // Unable to access NVM because it is not present.
+}
+
+/*
+ * Result of an action.
+ * The RCP server returns it as a direct reply to an action (`fldAction`). Such a reply reports either the execution
+ * of a synchronous action or the scheduling of an asynchronous action.
+ * The server also returns it when an asynchronous action has run. Such an unsolicited result reports the execution.
+ */
+message fldActionResult {
+   // Result code of the action.
+   enActionResult code = 1;
+
+   /*
+    * The tag that the client gave in `fldAction.tag`, only present if it was not zero.
+    * It is not necessarily unique, use the `uid` to tell actions apart.
+    */
+   optional uint32 tag = 2;
+
+   /*
+    * The RCP server generates a sequence number for each reply of an asynchronous action (see `uid`). The number
+    * increases by one with each reply. Each action has its own series, so the number is not globally unique. The
+    * client can use it to detect missing or misordered replies of each action independently.
+    */
+   optional fixed32 seq = 3;
+
+   /*
+    * Optional timestamp in PTP format that the RCP server captures when it executes specific types of actions
+    * (e.g., GPIO capture). The RCP server can also set it if an event triggered the action or if the action was
+    * late.
+    */
+   optional fldTstamp time = 4;
+
+   /*
+    * For the result of an event-triggered action, this field specifies the trigger ID that became active.
+    * @warning If multiple events trigger the action at the same time, only the one with the highest priority, i.e.,
+    * the lowest event identifier, is reported as `triggerId`.
+    */
+   optional uint32 triggerId = 5;
+
+   // Endpoint-specific reply data.
+   oneof res {
+      uint32               gpio = 6;  // Result generated by GPIOs.
+      bytes                data = 7;  // Generic binary data (multiple endpoints).
+      rcp.dev.fldCmdResult rcp  = 8;  // Result of RCP commands.
+   }
+
+   /*
+    * Unique non-zero ID generated by the RCP server for every queued action. It is included in the
+    * acknowledgement of the action and in every result of that action. Live actions never share a uid.
+    * Unlike the `tag`, which the client chooses, the client only learns it from the acknowledgement.
+    */
+   optional uint32 uid = 9;
+}
+
+// Container for a query of the RCP server or of an endpoint.
+message fldQuery {
+   /*
+    * Handle of the endpoint to query, or 0 for the RCP server itself. Endpoint handles are unique and non-zero.
+    * The datasheet of the server and the query `rcp.dev.qryInterfaces` list the endpoints with their handles and
+    * types.
+    */
+   uint32 hndl = 1;
+
+   /*
+    * The RCP server supports synchronous queries to retrieve static or dynamic
+    * information about the RCP server itself or one of its endpoints.
+    * If none of the options is selected and `hndl` is non-zero, the query returns
+    * the configuration of the specified endpoint.
+    */
+   oneof qry {
+      rcp.dev.enQuery rcp = 2;  // Query of the RCP server itself.
+      enEndpointQuery ep  = 3;  // Query of an endpoint.
+   }
+}
+
+// Global enum for query result code.
+enum enQueryResult {
+   qrySuccess       = 0;  // Query was successful.
+   qryUnknownDevice = 1;  // The specified handle is invalid.
+
+   /*
+    * A parameter value is invalid or out of range, or a combination of parameters violates the
+    * constraints of the requested operation.
+    */
+   qryInvalidParam = 2;
+
+   qryInternalError      = 3;  // Unspecified internal error.
+   qryEndpointNotEnabled = 4;  // The query targets an endpoint that is not enabled.
+   qryNotSupported       = 5;  // The requested operation or feature is not supported by this server.
+}
+
+// Container for the result of a query.
+message fldQueryResult {
+   enQueryResult code = 1;  // Return code of the query.
+
+   /*
+    * Content of the specific query reply.
+    * @note `config` does not use the field `fldConfig.rcp`. To retrieve the configuration of the RCP server, use the
+    * individual queries and the field `rcp` of this message.
+    */
+   oneof res {
+      rcp.dev.fldQueryResult rcp    = 2;  // Reply to RCP server queries.
+      fldConfig              config = 3;  // Reply to endpoints config queries.
+      fldEndpointNotifInfo   epInfo = 4;  // Reply to endpoint status query.
+   }
+}
+
+// Result codes for endpoint notifications and directive decoding errors.
+enum enNotifResult {
+   ntfSuccess             = 0;   // Notification was successful.
+   ntfIOError             = 1;   // Hardware/bus error.
+   ntfBufferOverrun       = 2;   // Buffer overrun occurred.
+   ntfProtocolError       = 3;   // The server could not decode the received message.
+   ntfProtocolTooLarge    = 4;   // The received message exceeds a limit of the server.
+   ntfProtocolUnsupported = 5;   // The received message has an unknown field or several members of a oneof.
+   ntfInternalError       = 6;   // Unspecified internal error.
+   ntfFlushed             = 7;   // Endpoint was flushed (e.g., UART break).
+   ntfCsumError           = 8;   // Checksum error (e.g., UART parity error).
+   ntfFrameError          = 9;   // Frame error (e.g., UART framing error).
+   ntfOutOfMemory         = 10;  // Out of memory error.
+}
+
+/*
+ * Notifications sent by the server, including endpoint events and received stream data.
+ * Each endpoint sends its notifications only to its notification owner, identified by `fldEndpointNotifInfo`.
+ * This message also carries directive-decoding errors.
+ */
+message fldNotif {
+   enNotifResult code = 1;  // Result code of the notification.
+   uint32        hndl = 2;  // Endpoint that generated the notification.
+
+   /*
+    * The RCP server generates a sequence number for each notification of an endpoint. The number increases by one
+    * with each notification. Each endpoint has its own series, so the number is not globally unique. The client can
+    * use it to detect missing or misordered notifications of each endpoint independently.
+    */
+   fixed32 seq = 3;
+
+   /*
+    * Optional timestamp in PTP format, captured by the RCP server when
+    * triggering specific types of notifications (e.g., GPIO capture).
+    */
+   optional fldTstamp time = 4;
+
+   // Data supplied by the notifying endpoint.
+   oneof ntf {
+      gpio.fldNotif gpio = 5;  // GPIO change status notification.
+      bytes         data = 6;  // Endpoint bytes (streaming).
+      adc.fldNotif  adc  = 7;  // ADC specific notifications.
+   }
+}
+
+/*
+ * Selects live actions to cancel, either by tag or by uid. An action is live while scheduled or running.
+ * A scheduled action is removed. A running action completes its current execution without further repetitions.
+ */
+message fldActionCancel {
+   // Identifier used to select live actions.
+   oneof by {
+      uint32 tag = 1;  // Cancel all live actions that have this tag, see `fldAction.tag`.
+      uint32 uid = 2;  // Cancel the action that has this uid, see `fldActionResult.uid`.
+   }
+}
+
+// One operation of a directive.
+message fldOperation {
+   /*
+    * Optional mask to select which RCP servers execute the operation.
+    * If not set, all receiving RCP servers execute the operation.
+    * If set, the receiving RCP server executes the operation only if the bitwise AND of its own DID and the mask
+    * is not zero.
+    * All other RCP servers receiving the directive ignore this operation and add no result for it to the report.
+    * For an example, see the page @ref rcp_core.
+    * This feature is useful when using broadcast and multicast messages on
+    * the network containing operations for multiple RCP servers. This allows
+    * the client to save bandwidth and reduce latency while keeping strict control over
+    * which server does what.
+    * The DID is set with `rcp.core.fldServerConfig.did`.
+    */
+   optional uint32 deviceIdMask = 1;
+
+   // Selects the operation type.
+   oneof op {
+      fldAction       action = 2;  // Action to perform.
+      fldQuery        query  = 3;  // Query to perform.
+      fldConfig       config = 4;  // Configuration to apply.
+      fldActionCancel cancel = 5;  // Actions to cancel.
+   }
+}
+
+// Global enum for configuration result.
+enum enConfigResult {
+   cfgSuccess       = 0;  // Configuration was successful (default).
+   cfgParamAdjusted = 1;  // Configuration was successful, but some parameters were adjusted by the server.
+   cfgNotSupported  = 2;  // The requested operation or feature is not supported by this server.
+
+   /*
+    * A parameter value is invalid or out of range, or a combination of parameters violates the
+    * constraints of the requested operation.
+    */
+   cfgInvalidParam = 3;
+
+   cfgInternalError = 4;  // Unspecified internal error.
+   cfgBusy          = 5;  // Server is busy and cannot accept the configuration at the moment.
+   cfgNotAllowed    = 6;  // Configuration not allowed for the item being configured because it is read-only.
+}
+
+// Global enum for action cancel result.
+enum enAclResult {
+   aclSuccess       = 0;  // Action cancel operation was successful.
+   aclPending       = 1;  // Action cancel operation was successful, but the action was already in progress.
+   aclNotFound      = 2;  // Action cancel operation failed because the action was not found.
+   aclInternalError = 3;  // Unspecified internal error.
+}
+
+/*
+ * Container for the result of an operation.
+ * It is a direct response to an operation, an unsolicited action result, or a notification.
+ */
+message fldOperationResult {
+   oneof res {
+      fldActionResult action = 1;  // Result of an action.
+      fldQueryResult  query  = 2;  // Result of a query.
+      enConfigResult  config = 3;  // Result of a configuration.
+      enAclResult     cancel = 4;  // Result of an action cancel.
+      fldNotif        notif  = 5;  // Unsolicited notification or directive-decoding error.
+   }
+}
+
+/*
+ * Top-level message from the client to the RCP server.
+ * The server decodes the whole message before handling its operations. It rejects the whole directive for a decoding
+ * error. No operation is executed, and the reply contains one
+ * `fldNotif` describing the error.
+ */
+message msgDirective {
+   /*
+    * Sequence number used to correlate directives and reports.
+    * A non-zero value is echoed in `msgReport.seq`. 0 (default) suppresses the normal reply, but not unsolicited
+    * reports or the error report for a directive rejected during decoding.
+    * The number does not suppress duplicate execution. Receiving the same directive again can execute it again.
+    */
+   fixed32 seq = 1;
+
+   /*
+    * Operations handled in list order. An asynchronous action is queued at its position, not awaited.
+    * An operation error neither rolls back earlier operations nor prevents later operations from being handled.
+    * If a reply is requested, it contains one result per operation in the same order, except for an operation
+    * ignored because of `fldOperation.deviceIdMask`.
+    */
+   repeated fldOperation dir = 2;
+
+   // Reserved field required for overlapping with the `msgRcp` message.
+   reserved 3;
+}
+
+// Top-level message from the RCP server to the client.
+message msgReport {
+   /*
+    * Echoes `msgDirective.seq` in a reply. In an unsolicited report, it is 0.
+    * For a directive rejected during decoding, it carries the directive's sequence number only if the server read
+    * it before detecting the error. Otherwise, it is 0.
+    */
+   fixed32 seq = 1;
+
+   // Reserved field required for overlapping with the `msgRcp` message.
+   reserved 2;
+
+   /*
+    * A reply contains one result per operation, in directive order, except for operations ignored because of
+    * `fldOperation.deviceIdMask`. A directive rejected during decoding produces one `fldNotif` instead.
+    * An unsolicited report contains asynchronous action results or endpoint notifications.
+    */
+   repeated fldOperationResult res = 3;
+}
+
+/*
+ * Combination of the top-level messages `msgDirective` and `msgReport`.
+ * Neither side sends this message. Tools such as Wireshark use it to decode the messages of both directions, so the
+ * field set of `msgRcp` is the union of the fields of the two messages.
+ * @note The three messages use identical field numbers, so that Wireshark decodes them properly.
+ *
+ * A client could use this message as a top-level message and omit the `res` or the `dir` field depending on the
+ * direction, but it should use the dedicated messages `msgDirective` and `msgReport`.
+ * The encoders and decoders inside the RCP server never use this message.
+ */
+message msgRcp {
+   fixed32                     seq = 1;  // The interpretation depends on the direction.
+   repeated fldOperation       dir = 2;  // List of operations to perform.
+   repeated fldOperationResult res = 3;  // List of operation results.
+}

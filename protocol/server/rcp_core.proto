@@ -1,0 +1,222 @@
+/*
+ * @page rcp_core Core Operations
+ * Core operations of the RCP server.
+ *
+ * This file defines the core functions of the RCP server: its identification number, the network watchdog with the
+ * fail-safe mode, the aggregation of notifications, the scheduler, and the non-volatile memory (NVM). They are
+ * configured with `fldServerConfig` (see `rcp.dev.fldConfig`) and reported by status queries. The page @ref behavior
+ * describes the fail-safe mode and the NVM, and the page @ref scheduler the scheduler.
+ *
+ * Server identification
+ * =====================
+ *
+ * The identification number (DID) of an RCP server and the DID mask of an operation (`fldOperation.deviceIdMask`)
+ * select the servers that execute an operation of a directive that is broadcast or multicast, see @ref messages. A
+ * server executes the operation only if the bitwise AND of its DID and the mask is not zero. All other servers ignore
+ * the operation. A server with the DID 0 therefore ignores every operation that has a mask. Each set bit of a DID
+ * makes the server a member of the group that the same bit of a mask selects. For example, three servers with the
+ * DIDs 0b001, 0b010, and 0b100 are each selected by a mask with their own bit, and the mask 0b101 selects the first
+ * and the third server. A server with the DID 0b011 executes every operation whose mask has the bit 0 or the bit 1
+ * set.
+ *
+ * Network watchdog
+ * ================
+ *
+ * The network watchdog detects the loss of the client. It is disabled by default, and a non-zero
+ * `fldServerConfig.watchdogTimeoutMs` enables it. While the watchdog is enabled, every valid RCP message restarts the
+ * watchdog timer. A client that wants to keep the server out of the fail-safe mode sends a valid RCP message at least
+ * once within the timeout. The command `rcp.dev.opNone` only restarts the timer, so a client can use it as a keep-alive
+ * message when it has nothing else to send. The figure shows the timer:
+ *
+ * ![](../figures/server/timingCoreWatchdog.svg)
+ *
+ * In the figure, each valid RCP message from the client starts the timer again. After the third message, no valid
+ * message arrives within the timeout. The timer reaches `fldServerConfig.watchdogTimeoutMs` and the watchdog event
+ * occurs. The server changes from normal operation to the fail-safe mode and executes the fail-safe actions, see the
+ * page @ref behavior.
+ *
+ * Aggregation of notifications
+ * ============================
+ *
+ * To save bandwidth, the RCP server collects the notifications of the endpoints in unsolicited notification messages
+ * (see `fldNotif`). Per endpoint, a timeout limits how long the server may wait after the first notification
+ * before it sends the message. The timer is not restarted when another notification is appended, and of several
+ * endpoints with different timeouts, the earliest deadline applies. A message is also sent when it reaches a
+ * configurable number of notifications or bytes. The figure shows an example for one endpoint and an example for two
+ * endpoints with different timeouts:
+ *
+ * ![](../figures/server/timingCoreAggregation.svg)
+ *
+ * In the first example, the timeout is 100 µs and notifications are generated at 23 µs, 98 µs, and 150 µs. The first
+ * notification starts the timer, the second one is appended to the same message, and at 123 µs the server sends the
+ * message with two notifications. The third notification starts a new message, which the server sends at 250 µs with
+ * one notification.
+ *
+ * In the second example, endpoint 3 has a timeout of 100 µs and endpoint 7 one of 50 µs. Endpoint 3 generates a
+ * notification at 40 µs and endpoint 7 at 60 µs. The deadline of endpoint 3 would be 140 µs, but that of endpoint 7
+ * is 110 µs, so the server sends one message with both notifications at 110 µs.
+ */
+
+syntax = "proto3";
+package esb.rcp.core;
+
+// Message for configuring aggregation of notifications.
+message fldConfigAggregation {
+   // Handle of the endpoint generating notifications.
+   uint32 hndl = 1;
+
+   /*
+    * Timeout in microseconds for aggregating multiple endpoint notifications into a single unsolicited notification
+    * message. The RCP server schedules the message in its MAC TX queue no later than this time after the first
+    * notification. Appending another notification does not restart the timer.
+    * If 0 (default), the RCP server optimizes for latency and sends the message as soon as the endpoint generates an
+    * event. Notifications can still be aggregated while an outgoing message waits in the MAC queue. A longer timeout
+    * trades latency for bandwidth.
+    * If endpoints have different timeouts, the earliest deadline applies. For examples, see the page @ref rcp_core.
+    * @note The message can be sent earlier if it exceeds the maximum allowed size (buffer full).
+    */
+   uint32 timeoutUs = 2;
+}
+
+// Core settings of the RCP server.
+message fldServerConfig {
+   /*
+    * If set, changes the identification number (DID) of the RCP server.
+    * The DID selects the servers that execute an operation of a directive that is broadcast or multicast, see
+    * `fldOperation.deviceIdMask`.
+    * @note A client can derive the DID from the hardware-unique identifier `info.fldIdentity.sid` that the query
+    * `dev.qryIdentity` returns. Some vendors do not provide a `info.fldIdentity.sid`.
+    */
+   optional uint32 did = 1;
+
+   /*
+    * Configures the network watchdog functionality.
+    * If set to 0 (default), the network watchdog feature is disabled.
+    * If set to a non-zero value, the RCP server expects the client to send RCP
+    * messages periodically. If no valid RCP messages are received within the
+    * specified number of milliseconds since the last valid RCP
+    * message was received, the watchdog event is triggered and the RCP server enters
+    * fail-safe mode.
+    * If fail-safe operations are defined when the fail-safe mode is entered,
+    * they are executed. The client can define these fail-safe operations
+    * after booting, or the RCP server can load them from the NVM.
+    * The flag `fldAction.failsafe` selects fail-safe actions.
+    */
+   optional uint32 watchdogTimeoutMs = 2;
+
+   // Aggregation configuration for each endpoint generating notifications.
+   repeated fldConfigAggregation agg = 3;
+
+   /*
+    * Configures the maximum number of notifications allowed within a single
+    * notification message.
+    * If set to 0 (default), there is no limit to the number of notifications
+    * that can be stored in a single notification message.
+    * If set to a non-zero value, the RCP server sends an unsolicited
+    * notification message as soon as the number of pending notifications
+    * reaches this limit.
+    */
+   optional uint32 unsolicitedOperationLimit = 4;
+
+   /*
+    * In some applications, synchronous actions can negatively affect the
+    * overall determinism of the system. Setting this option to false
+    * forces the scheduler to treat synchronous actions as asynchronous.
+    * This means that best-effort actions are scheduled asynchronously,
+    * generate an immediate `actPending` reply, and run as soon
+    * as possible. This option is enabled by default.
+    */
+   optional bool syncActionsEnable = 5;
+
+   /*
+    * Sets the threshold in bytes after which an unsolicited message is
+    * scheduled to the MAC TX queue, regardless of how many notifications
+    * are still pending.
+    * If set to 0 (default) the RCP server implicitly limits the size
+    * according to the maximum Ethernet frame size.
+    * The RCP server tries to aggregate as many notifications as
+    * possible in a single unsolicited message, also based on the
+    * `unsolicitedOperationLimit` and the `fldConfigAggregation` options.
+    * When `aggregationSizeBytes` is set to a non-zero value, if at any time
+    * while aggregating notifications the size of the message exceeds this
+    * value, the message is scheduled to be sent.
+    * The actual message size can therefore exceed the `aggregationSizeBytes`
+    * value, depending on the configured buffer size of the endpoints
+    * generating notifications.
+    */
+   optional uint32 aggregationSizeBytes = 6;
+}
+
+// Container to retrieve RCP server status information.
+message fldServerStatus {
+   /*
+    * If set, the RCP server operates normally, i.e., it is alive. The flag is cleared while the RCP server is in
+    * fail-safe mode.
+    */
+   bool liv = 1;
+
+   /*
+    * This flag is set when the RCP server powers on, and can only be cleared
+    * by the client. Polling this flag detects unwanted resets of the
+    * RCP server.
+    * To clear this flag, use the `dev.opClearPwron` command.
+    */
+   bool pwrOn = 2;
+}
+
+// Container to retrieve NVM status information.
+message fldNvmStatus {
+   bool   present       = 1;  // NVM is present and ready to be used.
+   bool   hasConfig     = 2;  // True if the NVM contains a valid configuration.
+   uint32 storedActions = 3;  // Number of actions stored in the NVM, 0 if loading them failed (see `actionsError`).
+
+   /*
+    * True if loading the stored actions failed: a corrupted action (CRC mismatch), an NVM read error, or a missing
+    * resource. No stored action is loaded then and `storedActions` is 0. The flag is also set when the scheduler
+    * refuses a stored action. The other actions stay loaded then, and the count is kept.
+    * It stays set until the stored actions are cleared or successfully loaded again.
+    */
+   bool actionsError = 4;
+
+   /*
+    * True if the stored configuration could not be loaded (e.g., a CRC mismatch). This is detected on boot and when
+    * the configuration is restored. The stored configuration is not applied then (`hasConfig` is false).
+    * It stays set until the configuration is saved, cleared, or successfully loaded again.
+    */
+   bool configError = 5;
+}
+
+/*
+ * Message to perform user-NVM read/write operations.
+ * This message can be used to perform user-defined read/write accesses into
+ * the user-dedicated NVM in the server, if available.
+ * The RCP server does not interpret or use the user-dedicated NVM data for
+ * any purpose other than making it accessible to the user. Therefore, the
+ * format and structure of the user-dedicated NVM are entirely user-defined.
+ * The RCP server rejects attempts to read/write past the available
+ * user-dedicated NVM.
+ */
+message fldNvmOperation {
+   uint32 address = 1;  // Byte address in user-dedicated NVM.
+   // Selects a read or a write.
+   oneof op {
+      uint32 rsize = 2;  // Length of data to read.
+      bytes  wdata = 3;  // Data to write to NVM.
+   }
+}
+
+// Container to retrieve information about the RCP server scheduler.
+message fldSchedulerStatus {
+   // Single instance of a scheduled action item.
+   message fldSchedulerItem {
+      uint32          uid         = 1;  // Unique identifier of the scheduled action, see `fldActionResult.uid`.
+      uint32          hndl        = 2;  // Endpoint handle the action is associated with.
+      bool            failsafe    = 3;  // True if the action is a fail-safe mode action.
+      uint32          repeatCount = 4;  // Remaining repetitions (0xFFFFFFFF = infinite).
+      uint32          seq         = 5;  // Last sequence number of the (repeated) action.
+      uint32          clientId    = 6;  // Client ID of the action.
+      optional uint32 tag         = 7;  // Tag given by the client, if any, see `fldAction.tag`.
+   }
+
+   repeated fldSchedulerItem actions = 1;  // List of scheduled actions.
+}

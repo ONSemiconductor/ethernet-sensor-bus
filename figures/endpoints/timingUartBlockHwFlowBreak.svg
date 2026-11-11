@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="844" height="249" viewBox="-1.6 0 111.6 33" font-family="Arial, Helvetica, sans-serif" font-size="1.7198">
+  <title>UART block with a break, held by hardware flow control (CTS)</title>
+  <defs>
+    <marker id="Arrow2Mend" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 8" markerWidth="1.3229" markerHeight="1.0583" refX="7.36" refY="4" overflow="visible">
+      <path d="M0,0 L10,4 L0,8 z" fill="#000000"/>
+    </marker>
+    <g id="g12223" transform="translate(-41,11.000002)">
+      <path d="m 71,52 v 3.999998 L 73,56 v -4.000002 h 14" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="m 73,55.999998 h 0.999999 L 87,56 V 51.999998 L 89,52" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linecap="round" stroke-miterlimit="40"/>
+      <path id="path6787" d="m 74.999999,51.999998 v 0.5" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+      <use xlink:href="#path6787" transform="translate(2.000001)"/>
+      <use xlink:href="#path6787" transform="translate(4.000001)"/>
+      <use xlink:href="#path6787" transform="translate(6.000001)"/>
+      <use xlink:href="#path6787" transform="translate(8.000001)"/>
+      <use xlink:href="#path6787" transform="translate(10.000001)"/>
+      <use xlink:href="#path6787" transform="translate(2.000001,3.5)"/>
+      <use xlink:href="#path6787" transform="translate(4.000001,3.5)"/>
+      <use xlink:href="#path6787" transform="translate(6.000001,3.5)"/>
+      <use xlink:href="#path6787" transform="translate(8.000001,3.5)"/>
+      <use xlink:href="#path6787" transform="translate(10.000001,3.5)"/>
+      <use xlink:href="#path6787" transform="translate(9.9999999e-7,3.5)"/>
+    </g>
+    <g id="g32776">
+      <text xml:space="preserve" x="52" y="19.5969" font-size="1.8521" font-weight="bold">TX</text>
+      <path d="M 66,20.998163 190,21" fill="none" stroke="#888888" stroke-width="0.132292"/>
+      <text xml:space="preserve" x="58" y="17.2376">Mark</text>
+      <text xml:space="preserve" x="58" y="21.2376">Space</text>
+    </g>
+    <path id="path10010" d="m 106,163.75 h 0.0665 c 0,-0.31408 0.0684,-0.5321 0.20508,-0.65404 0.0924,-0.0813 0.23834,-0.12193 0.43786,-0.12193 h 34.07613 c 0.20325,0 0.37875,-0.0573 0.52658,-0.17183 0.22539,-0.17367 0.37134,-0.47667 0.43785,-0.909 h -0.072 c -0.0776,0.29192 -0.19585,0.49515 -0.35473,0.6097 -0.14412,0.10347 -0.34734,0.15519 -0.6097,0.15519 h -34.03735 c -0.19214,0 -0.33441,0.0443 -0.42677,0.13303 -0.10345,0.0961 -0.18661,0.27713 -0.24942,0.54318 z"/>
+    <g id="axisBreak">
+      <path d="M -1.05,1.2 C -0.163,0.631 -0.937,-0.631 -0.05,-1.2 H 1.05 C 0.163,-0.631 0.937,0.631 0.05,1.2 z" fill="#ffffff"/>
+      <path d="M -1.05,1.2 C -0.163,0.631 -0.937,-0.631 -0.05,-1.2 M 0.05,1.2 C 0.937,0.631 0.163,-0.631 1.05,-1.2" fill="none" stroke="#000000" stroke-width="0.264583"/>
+    </g>
+  </defs>
+  <rect x="-1.6" width="111.6" height="33" fill="#ffffff"/>
+  <g transform="translate(-192,-214)">
+    <path d="m 192,220 124,0.002" fill="none" stroke="#888888" stroke-width="0.132292"/>
+    <g transform="translate(140,224)">
+      <text xml:space="preserve" x="52" y="19.5969" font-size="1.8521" font-weight="bold">CTS</text>
+      <path d="M 66,20.998163 190,21" fill="none" stroke="#888888" stroke-width="0.132292"/>
+      <text xml:space="preserve" x="58" y="17.2376">Inactive</text>
+      <text xml:space="preserve" x="58" y="21.2376">Active</text>
+    </g>
+    <use xlink:href="#g32776" transform="translate(140,215)"/>
+    <path d="m 206,232 h 11 l 0,4 h 16 l 0,-4 h 2" fill="none" stroke="#000000" stroke-width="0.264583" stroke-linejoin="round"/>
+    <use xlink:href="#g12223" transform="translate(222,169)"/>
+    <use xlink:href="#g12223" transform="translate(240,169)"/>
+    <path d="m 288,232 h 17" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <text xml:space="preserve" x="294" y="234.738" text-anchor="middle">Idle</text>
+    <text xml:space="preserve" x="261" y="234.738" text-anchor="middle">Word 0</text>
+    <text xml:space="preserve" x="279" y="234.738" text-anchor="middle">Word 1</text>
+    <text xml:space="preserve" x="210" y="234.738" text-anchor="middle">Idle</text>
+    <text xml:space="preserve" x="195" y="216.738"><tspan x="195" y="216.738">Transmission</tspan><tspan x="195" y="218.986">command</tspan></text>
+    <path d="m 211,217.75 c 5,0 0,16.25 3,16.25 h 2.5" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40" marker-end="url(#Arrow2Mend)"/>
+    <path d="m 206,245 h 18 v -4 l 26,0 v 4 l 52,0" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <path d="m 224,243 c 5,0 5,-9 8,-9 h 2.5" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40" marker-end="url(#Arrow2Mend)"/>
+    <path d="m 210,217.75 h 1" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <text xml:space="preserve" x="252.49997" y="227.568" text-anchor="middle">Data block with break</text>
+    <g transform="matrix(1,0,0,-1,146.49997,391.97403)">
+      <path d="m 106,163.75 h 0.0665 c 0,-0.31408 0.0684,-0.5321 0.20508,-0.65404 0.0924,-0.0813 0.23834,-0.12193 0.43786,-0.12193 h 34.07613 c 0.20325,0 0.37875,-0.0573 0.52658,-0.17183 0.22539,-0.17367 0.37134,-0.47667 0.43785,-0.909 h -0.072 c -0.0776,0.29192 -0.19585,0.49515 -0.35473,0.6097 -0.14412,0.10347 -0.34734,0.15519 -0.6097,0.15519 h -34.03735 c -0.19214,0 -0.33441,0.0443 -0.42677,0.13303 -0.10345,0.0961 -0.18661,0.27713 -0.24942,0.54318 z"/>
+      <use xlink:href="#path10010" transform="matrix(-1,0,0,1,212.00006,0)"/>
+    </g>
+    <text xml:space="preserve" x="242" y="234.738" text-anchor="middle">Held</text>
+    <path d="m 235,232 h 17" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <path d="m 251,243 c 5,0 -5,-9 -2,-9 h 2.5" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40" marker-end="url(#Arrow2Mend)"/>
+    <path d="m 250,243 h 1" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <path d="m 288,234 h 1" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <path d="m 289,234 c 5,0 -5.5,-16.25 -2.5,-16.25 h 2" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40" marker-end="url(#Arrow2Mend)"/>
+    <text xml:space="preserve" x="271.25" y="216.738"><tspan x="271.25" y="216.738">Transmission</tspan><tspan x="271.25" y="218.986">confirmation</tspan></text>
+    <path d="m 210,220 v -4" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <path d="m 289,220 v -4" fill="none" stroke="#000000" stroke-width="0.264583" stroke-miterlimit="40"/>
+    <use xlink:href="#axisBreak" transform="translate(221,236)"/>
+  </g>
+</svg>

@@ -1,0 +1,130 @@
+/*
+ * @page rcp_ptp PTP
+ * Precision Time Protocol (PTP) configuration and status of the RCP server.
+ *
+ * The RCP server has a PTP timer, a clock that is synchronized with the time of the network by the Precision Time
+ * Protocol (PTP, IEEE 802.1AS). The timer provides the time base of the server: actions can be scheduled at a point in
+ * time (`fldActionTimed`), and notifications and results carry timestamps (`fldTstamp`). All servers
+ * of a network that follow the same time master share a common time, which allows synchronized actions on
+ * different servers. The configuration is part of the server configuration (`rcp.dev.fldConfig.ptp`).
+ *
+ * Synchronization
+ * ===============
+ *
+ * While the PTP protocol is enabled, the server compares its timer with the time of the master and corrects the timer
+ * with a control loop, in which the error is the input of a PID controller. The parameters of the controller tune the
+ * loop, and an offset compensates systematic delays, such as the wire length.
+ *
+ * ![](../figures/server/structurePtp.svg)
+ *
+ * The client can also set the timer with a command, e.g., before it uses timed actions or enables the PTP protocol,
+ * see `rcp.dev.enCmdOperation`.
+ *
+ * Example
+ * =======
+ *
+ * To enable the PTP protocol with the proportional gain 4.0 (`pidP: 64`), the integral gain 0.5 (`pidI: 8`), and an
+ * offset of 500 ns for the delay of the wire, to declare the loss of synchronization after one second without a
+ * synchronization message, and then to read the status:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    config {
+ *       rcp {
+ *          ptp { enable: true  syncTimeoutMs: 1000  offsetNs: 500  pidP: 64  pidI: 8  pidD: 0  pidN: 0 }
+ *       }
+ *    }
+ * }
+ * dir { query { rcp: qryPtpStatus } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.rcp.ptp;
+
+import "rcp_common.proto";
+
+/*
+ * PTP protocol settings. The gains `pidP`, `pidI`, and `pidD` have four fractional bits: the gain is the field value
+ * divided by 16. The supported coefficients and their ranges are server-dependent. Refer to the datasheet.
+ * The PID controller adds three terms: the error multiplied by the proportional gain, the sum of the errors
+ * multiplied by the integral gain, and the change of the error since the previous synchronization message
+ * multiplied by the derivative gain. The sum is shifted left by N bits, i.e., multiplied by 2 to the power of N,
+ * and adjusts the rate of the PTP timer.
+ */
+message fldConfig {
+   /*
+    * If set, enables or disables the PTP protocol.
+    * While the protocol is enabled, the RCP server corrects its PTP timer with the time of the PTP master.
+    * While it is disabled, the RCP server does not correct the timer, but the client can still set the timer with
+    * the command `rcp.dev.opSetPtpTime`.
+    */
+   optional bool enable = 1;
+
+   /*
+    * If set, configures the timeout for losing synchronization in milliseconds.
+    * If the RCP server receives no synchronization message from the PTP master within this time, it declares the
+    * loss of synchronization and clears `fldStatus.synced` until the next synchronization message arrives.
+    * If 0, the timeout is disabled, and the RCP server never declares the loss of synchronization.
+    */
+   optional uint32 syncTimeoutMs = 2;
+
+   /*
+    * If set, configures the error offset for synchronization in nanoseconds.
+    * This value is added to the calculated error before it is used for clock
+    * adjustment, effectively shifting the clock reference point.
+    * This can be used to compensate for systematic delays in the system,
+    * for example the wire length.
+    * The error that the RCP server reports in `fldStatus.err` does not include the offset.
+    */
+   optional uint32 offsetNs = 3;
+
+   /*
+    * If set, sets the "P" coefficient of the PID algorithm, i.e., the proportional gain by which the error is
+    * multiplied.
+    */
+   optional uint32 pidP = 4;
+
+   /*
+    * If set, sets the "I" coefficient of the PID algorithm, i.e., the integral gain by which the sum of the errors
+    * since the start of the synchronization is multiplied.
+    */
+   optional uint32 pidI = 5;
+
+   /*
+    * If set, sets the "D" coefficient of the PID algorithm, i.e., the derivative gain by which the change of the
+    * error since the previous synchronization message is multiplied.
+    */
+   optional uint32 pidD = 6;
+
+   /*
+    * If set, sets the N shift of the PID algorithm: the sum of the three terms of the controller is shifted left by
+    * N bits, i.e., multiplied by 2 to the power of N, before it adjusts the rate of the PTP timer. The shift scales
+    * the three gains together.
+    */
+   optional uint32 pidN = 7;
+}
+
+// PTP protocol status, returned by the query `rcp.dev.qryPtpStatus`.
+message fldStatus {
+   /*
+    * The current value of the PTP timer, read when the RCP server handles the query.
+    * If the timer is neither synchronized (see `synced`) nor set with a command, its value does not correspond
+    * to the time of the master.
+    */
+   fldTstamp val = 1;
+
+   /*
+    * The calculated error: the difference between the time of the PTP master and the PTP timer, determined with the
+    * last synchronization message and compensated with `fldConfig.offsetNs`.
+    * It is an absolute value, so its sign is not reported.
+    */
+   fldTstamp err = 2;
+
+   /*
+    * If set, the PTP timer is currently synchronized: the RCP server received a synchronization message from the PTP
+    * master, and it has not declared the loss of synchronization since, see `fldConfig.syncTimeoutMs`.
+    */
+   bool synced = 3;
+}

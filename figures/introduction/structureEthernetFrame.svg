@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="336" viewBox="0 0 960 336" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>Structure of a raw Ethernet frame that carries an RCP message</title>
+  <rect width="960" height="336" fill="#ffffff"/>
+
+  <text x="20" y="31" font-size="14" text-anchor="start" font-weight="bold">Ethernet frame</text>
+  <rect x="20" y="46" width="150" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="95" y="74.3" font-size="13" text-anchor="middle">Destination</text>
+  <text x="95" y="90.8" font-size="13" text-anchor="middle">MAC address</text>
+  <text x="95" y="128" font-size="12" text-anchor="middle">6 bytes</text>
+  <rect x="170" y="46" width="150" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="245" y="74.3" font-size="13" text-anchor="middle">Source</text>
+  <text x="245" y="90.8" font-size="13" text-anchor="middle">MAC address</text>
+  <text x="245" y="128" font-size="12" text-anchor="middle">6 bytes</text>
+  <rect x="320" y="46" width="110" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="375" y="75.05" font-size="13" text-anchor="middle">VLAN tag</text>
+  <text x="375" y="90.45" font-size="12" text-anchor="middle">(optional)</text>
+  <text x="375" y="128" font-size="12" text-anchor="middle">0 or 4 bytes</text>
+  <rect x="430" y="46" width="110" height="64" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="485" y="74.3" font-size="13" text-anchor="middle">EtherType</text>
+  <text x="485" y="91.07" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">0x88B7</text>
+  <text x="485" y="128" font-size="12" text-anchor="middle">2 bytes</text>
+  <rect x="540" y="46" width="280" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="680" y="82.55" font-size="13" text-anchor="middle">Ethernet payload</text>
+  <text x="680" y="128" font-size="12" text-anchor="middle">≤1500 or ≤1496 bytes</text>
+  <rect x="820" y="46" width="120" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="880" y="74.3" font-size="13" text-anchor="middle">Frame check</text>
+  <text x="880" y="90.8" font-size="13" text-anchor="middle">sequence (FCS)</text>
+  <text x="880" y="128" font-size="12" text-anchor="middle">4 bytes</text>
+  <rect x="20" y="178" width="150" height="64" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="95" y="198.05" font-size="13" text-anchor="middle">Company</text>
+  <text x="95" y="214.55" font-size="13" text-anchor="middle">identifier</text>
+  <text x="95" y="231.32" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">0x60C0BF</text>
+  <text x="95" y="260" font-size="12" text-anchor="middle">3 bytes</text>
+  <rect x="170" y="178" width="150" height="64" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="245" y="198.05" font-size="13" text-anchor="middle">Protocol</text>
+  <text x="245" y="214.55" font-size="13" text-anchor="middle">identifier</text>
+  <text x="245" y="231.32" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">0x1E5B</text>
+  <text x="245" y="260" font-size="12" text-anchor="middle">2 bytes</text>
+  <rect x="320" y="178" width="110" height="64" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="375" y="198.05" font-size="13" text-anchor="middle">Header</text>
+  <text x="375" y="214.55" font-size="13" text-anchor="middle">version</text>
+  <text x="375" y="231.32" font-size="13.78" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">1</text>
+  <text x="375" y="260" font-size="12" text-anchor="middle">1 byte</text>
+  <rect x="430" y="178" width="110" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="485" y="206.3" font-size="13" text-anchor="middle">Message</text>
+  <text x="485" y="222.8" font-size="13" text-anchor="middle">length</text>
+  <text x="485" y="260" font-size="12" text-anchor="middle">2 bytes</text>
+  <rect x="540" y="178" width="400" height="64" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="740" y="207.05" font-size="13" text-anchor="middle">Encoded message</text>
+  <text x="740" y="222.45" font-size="12" text-anchor="middle">directive or report</text>
+  <text x="740" y="260" font-size="12" text-anchor="middle">≤1492 or ≤1488 bytes</text>
+  <path d="M540,110 V142 L20,178 M820,110 V142 L940,178" fill="none" stroke="#000000" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M20,264 V270 H540 V264" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text x="280" y="288" font-size="13" text-anchor="middle">Payload header</text>
+  <rect x="20" y="300" width="14" height="14" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="42" y="312" font-size="12" text-anchor="start">Fixed value</text>
+</svg>

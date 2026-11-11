@@ -1,0 +1,156 @@
+/*
+ * @page spi SPI Driver
+ * SPI configuration, actions, queries, and notifications for RCP.
+ *
+ * An SPI endpoint is a serial peripheral interface (SPI) controller, also called the "master". It drives the clock
+ * SCLK and the chip-select CS, shifts data out on MOSI, and samples MISO. The client first configures the bus with a
+ * `fldConfig` message and then performs bus transactions with `fldCmd` commands. The pins SCLK, MOSI, MISO, and
+ * CS are assigned to the endpoint with the pin configuration, see `rcp.pins.enPinFuncSpi`.
+ *
+ * Clock polarity and phase
+ * ========================
+ *
+ * The clock polarity and the clock phase select one of the four SPI modes. The polarity is the idle level of SCLK. The
+ * phase decides which clock edge samples the data: the leading edge (the first edge after the idle level) or the
+ * trailing edge (the second edge of each clock period). The transmitter changes its data on the other edge. The figure
+ * shows the four modes with the most significant bit (MSb) first. The circles mark the sampling edges.
+ *
+ * ![](../figures/endpoints/timingSpiModes.svg)
+ *
+ * Transactions
+ * ============
+ *
+ * Each command is one SPI transaction. The chip-select is asserted before the first transfer token and released after
+ * the last one, unless the command keeps it asserted so that a following command can continue the transaction. The
+ * tokens are executed in order. A token writes bytes, reads bytes, or does both at the same time. The bytes that all
+ * tokens return are concatenated, in the order of the tokens, in the reply to the command.
+ *
+ * The figure shows a command with two tokens: a write-only token that sends one byte, followed by a read-only token
+ * that reads two bytes while MOSI stays at a constant level. SCLK runs continuously from the first to the last bit. CS
+ * is asserted a configurable delay before the first clock edge and released the same delay after the last one. The
+ * hardware can add a minimum delay on top of this. Refer to the datasheet of the server.
+ *
+ * ![](../figures/endpoints/timingSpiXfer.svg)
+ *
+ * A command uses the configuration of the endpoint. It can override some of the parameters for itself, e.g., to use a
+ * lower clock speed for one device.
+ *
+ * Example
+ * =======
+ *
+ * To read a two-byte identifier from a device with the command byte 0x9F in SPI mode 0, at 1 MHz:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    config { hndl: 2  spi { cpol: false  cpha: false  msbFirst: true  speedHz: 1000000 } }
+ * }
+ * dir {
+ *    action {
+ *       hndl: 2
+ *       spi {
+ *          xfer { xft: xferWriteOnly  wdata: "\x9F" }
+ *          xfer { xft: xferReadOnly   rsize: 2 }
+ *       }
+ *    }
+ * }
+ * ```
+ *
+ * The identifier is returned in `fldActionResult.data`.
+ */
+
+syntax = "proto3";
+package esb.spi;
+
+// SPI transfer type.
+enum enXferType {
+   xferFullDuplex = 0;  // Perform R/W concurrently.
+   xferWriteOnly  = 1;  // Just write, discard data from MISO.
+   xferReadOnly   = 2;  // Just read, set MOSI to the PAD value.
+}
+
+/*
+ * SPI transfer token, building block to perform I/O operations.
+ * Three transfer types are supported:
+ * - full-duplex: a number of bytes (`wdata`) is transferred via MOSI and the
+ *   same number of bytes, sampled from MISO, is returned.
+ * - write-only: as full-duplex, but the data from MISO is discarded and no
+ *   buffer is returned to the client.
+ * - read-only: no data is transferred on MOSI, which is set to the constant
+ *   value `wpad` during the transfer. Instead, `rsize` bytes are sampled from
+ *   MISO and returned to the client.
+ */
+message fldCmdXfer {
+   enXferType xft = 1;  // Selects the transfer type (full-duplex, write-only, read-only).
+
+   /*
+    * When `xft` is set to `xferFullDuplex` or `xferWriteOnly`, the size of the
+    * transfer is set by the length of `wdata`, which contains the data to
+    * be sent over the MOSI pin.
+    */
+   bytes wdata = 2;
+
+   /*
+    * When `xft` is set to `xferReadOnly`, `rsize` determines the transfer length
+    * in bytes. This amount of data is appended to the data of the action result (`fldActionResult.data`).
+    */
+   uint32 rsize = 3;
+
+   /*
+    * When `xft` is set to `xferReadOnly`, the MOSI pin is set according to the
+    * value of `wpad` (False = 0, True = 1) for the duration of the transfer.
+    */
+   bool wpad = 4;
+}
+
+// SPI configuration message.
+message fldConfig {
+   // If set, configures whether the data is sent/received MSB or LSB first.
+   optional bool msbFirst = 1;
+
+   // If set, configures the clock polarity.
+   optional bool cpol = 2;
+
+   // If set, configures the clock/data phase.
+   optional bool cpha = 3;
+
+   /*
+    * If set, configures the default pin to be used as the chip-select.
+    * The number is the unique pin identifier as reported by
+    * `rcp.dev.qryPins`.
+    */
+   optional uint32 cs = 4;
+
+   /*
+    * CS to SCLK delay in half clock periods.
+    * The same delay applies to both sides of the transfer.
+    * This is in addition to the minimum delay.
+    */
+   optional uint32 csDelay = 5;
+
+   /*
+    * The clock speed in hertz (Hz).
+    * If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+    * `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+    * tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+    * `cfgParamAdjusted` warning code and the client can retrieve the actual (rounded) speed by querying the
+    * configuration of the endpoint.
+    */
+   optional uint32 speedHz = 6;
+}
+
+// Container for SPI commands.
+message fldCmd {
+   // If set, overrides the specified configuration fields for this command only.
+   optional fldConfig param = 1;
+
+   /*
+    * List of transfer tokens.
+    * The chip-select is asserted on the first transfer token, and
+    * it is de-asserted after all tokens have been processed.
+    */
+   repeated fldCmdXfer xfer = 2;
+
+   bool csHold = 3;  // Keep CS low after the transaction.
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="330" viewBox="0 0 800 330" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <title>I2C command built from three transfer tokens</title>
+  <rect width="800" height="330" fill="#ffffff"/>
+  <rect x="28" y="100" width="30" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="43" y="122" text-anchor="middle" font-size="14" font-weight="bold">S</text>
+  <rect x="58" y="100" width="62" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="89" y="122" text-anchor="middle">0xA0</text>
+  <rect x="120" y="100" width="30" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="135" y="122" text-anchor="middle">A</text>
+  <rect x="150" y="100" width="62" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="181" y="122" text-anchor="middle">0x10</text>
+  <rect x="212" y="100" width="30" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="227" y="122" text-anchor="middle">A</text>
+  <rect x="242" y="100" width="34" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="259" y="122" text-anchor="middle" font-size="14" font-weight="bold">Sr</text>
+  <rect x="276" y="100" width="62" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="307" y="122" text-anchor="middle">0xA1</text>
+  <rect x="338" y="100" width="30" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="353" y="122" text-anchor="middle">A</text>
+  <rect x="368" y="100" width="54" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="395" y="122" text-anchor="middle">D0</text>
+  <rect x="422" y="100" width="30" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="437" y="122" text-anchor="middle">A</text>
+  <rect x="452" y="100" width="54" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="479" y="122" text-anchor="middle">D1</text>
+  <rect x="506" y="100" width="30" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="521" y="122" text-anchor="middle">A</text>
+  <rect x="536" y="100" width="54" height="34" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="563" y="122" text-anchor="middle">D2</text>
+  <rect x="590" y="100" width="30" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="605" y="122" text-anchor="middle">N</text>
+  <rect x="620" y="100" width="30" height="34" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="635" y="122" text-anchor="middle" font-size="14" font-weight="bold">P</text>
+  <path d="M 28 84 Q 28 79 33 79 H 334 Q 339 79 339 74 Q 339 79 344 79 H 645 Q 650 79 650 84" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="339" y="62" text-anchor="middle">One <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">fldCmd</tspan>: a single bus transaction</text>
+  <path d="M 30 148 Q 30 153 35 153 H 130 Q 135 153 135 158 Q 135 153 140 153 H 235 Q 240 153 240 148" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="135" y="180" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xfer[0]</tspan></text>
+  <text xml:space="preserve" x="135" y="198" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan> = {0xA0, 0x10}</text>
+  <path d="M 244 148 Q 244 153 249 153 H 300 Q 305 153 305 158 Q 305 153 310 153 H 361 Q 366 153 366 148" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="305" y="180" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xfer[1]</tspan></text>
+  <text xml:space="preserve" x="305" y="198" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">restart</tspan></text>
+  <text xml:space="preserve" x="305" y="216" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan> = {0xA1}</text>
+  <path d="M 370 148 Q 370 153 375 153 H 489 Q 494 153 494 158 Q 494 153 499 153 H 613 Q 618 153 618 148" fill="none" stroke="#000000" stroke-width="1.5"/>
+  <text xml:space="preserve" x="494" y="180" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">xfer[2]</tspan></text>
+  <text xml:space="preserve" x="494" y="198" text-anchor="middle"><tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">rsize</tspan> = 3</text>
+  <text x="12" y="262">S: start condition, Sr: repeated start, P: stop condition, A: ACK, N: NACK.</text>
+  <text xml:space="preserve" x="12" y="282">0xA0 / 0xA1: 7-bit slave address 0x50 with the R/W bit. The client builds them as part of <tspan font-family="Consolas, 'Courier New', monospace" font-size="13.78">wdata</tspan>.</text>
+  <rect x="12" y="296" width="18" height="14" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="38" y="308">Driven by the RCP server (I2C controller)</text>
+  <rect x="330" y="296" width="18" height="14" fill="#e4e4e4" stroke="#000000" stroke-width="1.5"/>
+  <text x="356" y="308">Driven by the target</text>
+</svg>

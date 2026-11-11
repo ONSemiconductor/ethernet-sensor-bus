@@ -1,0 +1,153 @@
+/*
+ * @page rcp_tpd Topology Discovery
+ * Commands for the topology discovery of 10BASE-T1S networks.
+ *
+ * On a 10BASE-T1S network all nodes share the same line. Topology discovery measures signal delays on that line, from
+ * which a client can derive the layout of the network. The RCP server supports it if
+ * `rcp.info.fldCapabilities.topologyDiscoverySupported` is set (see @ref rcp_info). The details of the measurement
+ * are PHY-dependent, refer to the datasheet.
+ *
+ * The measurement involves two nodes, a reference node and a measured node. The client starts it on both nodes with
+ * the command `rcp.dev.opTopologyDiscovery`, each with its own role. The nodes then measure together over the
+ * line: first the internal delays of the nodes, then the delay between them. A node waits for the other node at most
+ * for the timeout of its command. The measurement requires the line to be silent. The commands
+ * `rcp.dev.opEnterSilent` and `rcp.dev.opExitSilent` switch an RCP server to and from the silent mode for this
+ * purpose.
+ *
+ * The server answers with the delays that it measured and the status of the measurement. The delays are counts,
+ * which the section Distance converts into the distance between the nodes.
+ *
+ * Distance
+ * ========
+ *
+ * The result of the reference node contains the three delays that the distance needs. Each one is a count: the number
+ * of passes of a pulse around its loop within the duration of the measurement. The figure shows the three loops:
+ *
+ * ![](../figures/server/structureTpd.svg)
+ *
+ * The time of one pass around a loop is the duration divided by the count. With the duration
+ * $T$ = `fldCmdResult.durationMs` × $10^6$ ns, the delays are $t_R$ = $T$ / `fldCmdResult.internalDelay` for the
+ * reference node, $t_M$ = $T$ / `fldCmdResult.measuredNodeDelay` for the measured node, and
+ * $t_L$ = $T$ / `fldCmdResult.distanceDelay` for the loop through both nodes.
+ *
+ * The loop through both nodes passes the cable twice, once in each direction, so $t_L$ = $t_R$ + $t_M$ + 2 × $t_C$,
+ * where $t_C$ is the delay of the cable in one direction. The delay of the cable and the distance $d$ between the
+ * nodes follow from it:
+ *
+ * $t_C$ = ($t_L$ - $t_R$ - $t_M$) / 2
+ *
+ * $d$ = $t_C$ / $v$
+ *
+ * where $v$ is the propagation delay of the cable in nanoseconds per meter.
+ *
+ * Example
+ * =======
+ *
+ * To measure for 10 ms, with a timeout of one second, as the measured node:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    action {
+ *       rcp { op: opTopologyDiscovery  topDisc { role: roleMeasuredNode  durationMs: 10  timeoutMs: 1000 } }
+ *    }
+ * }
+ * ```
+ *
+ * To start the other node as the reference node, send it the same command with `role: roleReferenceNode`.
+ *
+ * To derive the distance from the result of the reference node with `internalDelay: 32906`, `distanceDelay: 15800`,
+ * `durationMs: 16`, and `measuredNodeDelay: 34918`, take the duration $T$ = 16 × $10^6$ ns. The delays are then
+ * $t_R$ = 486.23 ns, $t_M$ = 458.22 ns, and $t_L$ = 1012.66 ns, so the delay of the cable is
+ * $t_C$ = (1012.66 - 486.23 - 458.22) / 2 = 34.10 ns. With $v$ = 5 ns/m, the distance is $d$ = 34.10 / 5 = 6.82 m.
+ */
+
+syntax = "proto3";
+package esb.rcp.tpd;
+
+// Role of a node in the topology discovery.
+enum enCmdRole {
+   /*
+    * Start topology discovery as the measured node. The measured node waits for the reference node, measures its own
+    * internal delay, and then takes part in the measurement of the delay between the two nodes.
+    */
+   roleMeasuredNode = 0;
+
+   /*
+    * Start topology discovery as the reference node. The reference node starts the exchange with the measured node.
+    * It measures its own internal delay and that of the measured node, and then the delay between the two nodes.
+    */
+   roleReferenceNode = 1;
+}
+
+// Container for the topology discovery operation.
+message fldCmd {
+   /*
+    * Role of the node in the measurement.
+    * The measurement needs two nodes with different roles, so the client sends the command to both of them.
+    */
+   enCmdRole role = 2;
+
+   /*
+    * Duration of each delay measurement in milliseconds.
+    * A longer duration improves the precision of the measured delays, but makes the whole measurement longer.
+    */
+   uint32 durationMs = 3;
+
+   /*
+    * Timeout of the measurement in milliseconds.
+    * The RCP server waits at most this time for the other node to take part in the measurement. If the other node does
+    * not respond in time, the measurement fails with an error status, see `enCmdStatus`.
+    */
+   uint32 timeoutMs = 4;
+}
+
+// Topology discovery status.
+enum enCmdStatus {
+   // Measurement was successful.
+   statusSuccess = 0;
+
+   /*
+    * Error in the automatic sequence of the measurement: the other node did not continue the sequence within the
+    * timeout, see `fldCmd.timeoutMs`.
+    */
+   statusAutoErr = 1;
+
+   // Error during the measurement of the delay between the two nodes, e.g., because no signal was received in time.
+   statusMeasErr = 2;
+
+   // Error during the measurement of an internal delay, e.g., because no signal was received in time.
+   statusDlyMeasErr = 3;
+}
+
+// Container for the topology discovery result.
+message fldCmdResult {
+   /*
+    * Internal delay of the node, i.e., the delay that the node itself adds to the signal.
+    * The delay between the two nodes includes the internal delays, see `distanceDelay`.
+    * It is a count, see the page @ref rcp_tpd for the conversion into a time.
+    */
+   uint32 internalDelay = 1;
+
+   /*
+    * Delay between the two nodes, measured over the line. The client derives the distance between the nodes from it,
+    * taking the internal delays into account, see `internalDelay` and `measuredNodeDelay`.
+    * For the calculation, see the page @ref rcp_tpd.
+    */
+   uint32 distanceDelay = 2;
+
+   /*
+    * Duration of each delay measurement in milliseconds, the same as in `fldCmd.durationMs`.
+    * The client needs it to convert the delays into times, see the page @ref rcp_tpd.
+    */
+   uint32 durationMs = 3;
+
+   /*
+    * Internal delay of the measured node, as measured by the reference node. Only the reference node reports it. In
+    * the result of the measured node, it is 0.
+    */
+   uint32 measuredNodeDelay = 4;
+
+   // Status of the measurement. The delays are only valid if it is `statusSuccess`.
+   enCmdStatus status = 5;
+}

@@ -1,0 +1,287 @@
+/*
+ * @page rcp_net Network Configuration
+ * Network (MAC and PHY) configuration and status of the RCP server.
+ *
+ * This file defines the addresses, the VLANs, and the clients of the RCP server and the access to its PHY. The
+ * configuration is part of the server configuration (`rcp.dev.fldConfig.net`, `rcp.dev.fldConfig.client`, and
+ * `rcp.dev.fldConfig.phyReg`). The page @ref network describes how the server accepts and answers frames.
+ *
+ * Subnet
+ * ======
+ *
+ * The subnet prefix length (`fldConfig.subnetPrefixLength`) determines the subnet mask and also affects the
+ * subnet broadcast address. For example, the IP address 192.168.1.1 with a prefix length of 24 results in
+ * 192.168.1.1/24, which means that the subnet mask is 255.255.255.0.
+ *
+ * VLANs
+ * =====
+ *
+ * The server remembers the VLAN of each client. Clients with the same MAC or IP address but different VLAN IDs are
+ * different clients. Replies use the VLAN of the request, and unsolicited notifications use the VLAN that the client
+ * used when it subscribed.
+ *
+ * Clients
+ * =======
+ *
+ * The server learns a client from the messages that it receives from it and numbers it with a unique, non-zero client
+ * ID. A client with an IPv4 address is identified by this address, its port, and its VLAN ID, any other client by its
+ * MAC address and VLAN ID. The client ID tells who uses an endpoint (`fldEndpointNotifInfo`) and who scheduled an
+ * action (`rcp.core.fldSchedulerStatus`). The server sends the notifications of the endpoint and the results of the
+ * action to that client.
+ *
+ * The client configuration (`rcp.dev.fldConfig.client`) registers clients in advance, so that the server knows
+ * their addresses before they send a message. It is saved with the server configuration (see
+ * `rcp.dev.opSaveConfig`), so the server knows these clients again after a restart, with the same client IDs. The
+ * query `rcp.dev.qryClientStatus` returns the clients that the server knows, with their client IDs.
+ *
+ * PHY registers
+ * =============
+ *
+ * The registers of the PHY are accessed over the management data input/output (MDIO) interface. A list of accesses
+ * writes or reads registers, and the values read come back in the order of the accesses. The command
+ * `rcp.dev.opManagePhyRegisters` executes the accesses once. In the server configuration (`rcp.dev.fldConfig.phyReg`),
+ * the same message configures PHY registers.
+ *
+ * Example
+ * =======
+ *
+ * To accept the VLANs 10 and 20 in addition to untagged frames and to send ARP or DHCP in VLAN 10:
+ *
+ * ```text
+ * seq: 1
+ * dir { config { rcp { net { vlanIds: [10, 20]  defaultVlanId: 10 } } } }
+ * ```
+ *
+ * To register two clients, one in VLAN 10 and one with the IPv4 address 192.168.1.10 (`0xC0A8010A`) and the UDP port
+ * 5000, and then to read the clients that the server knows, with their client IDs:
+ *
+ * ```text
+ * seq: 2
+ * dir {
+ *    config {
+ *       rcp {
+ *          client {
+ *             clients { macAddr: "\x00\x01\x02\x03\x04\x05"  vlanId: 10 }
+ *             clients { macAddr: "\x00\x01\x02\x03\x04\x06"  ipAddr: 0xC0A8010A  port: 5000 }
+ *          }
+ *       }
+ *    }
+ * }
+ * dir { query { rcp: qryClientStatus } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.rcp.net;
+
+// Embedded Ethernet PHY modes.
+enum enPhyMode {
+   phyUnknown    = 0;  // Unknown or no PHY.
+   phy10BASE_T1S = 1;  // 10BASE-T1S PHY.
+   phy100BASE_T1 = 2;  // 100BASE-T1 PHY.
+}
+
+// Ethernet link modes.
+enum enLinkMode {
+   lnkModeUnknown    = 0;  // Unknown or no link mode.
+   lnkModeHalfDuplex = 1;  // Half duplex link.
+}
+
+// Embedded Ethernet link speeds.
+enum enLinkSpeed {
+   lnkSpeedUnknown = 0;  // Unknown or no link speed.
+   lnkSpeed10M     = 1;  // 10 Mbps supported.
+   lnkSpeed100M    = 2;  // 100 Mbps supported.
+}
+
+// Network status records.
+message fldStatus {
+   enPhyMode        phyMode            = 1;  // Current mode the embedded PHY is operating in.
+   enLinkMode       lnkMode            = 2;  // Current Ethernet link mode.
+   enLinkSpeed      lnkSpeed           = 3;  // Current Ethernet link speed.
+   optional fixed32 ipAddr             = 4;  // Current IPv4 address.
+   optional uint32  sqi                = 5;  // Current value of SQI+.
+   optional uint32  subnetPrefixLength = 6;  // Current subnet prefix length.
+}
+
+// Network configuration container.
+message fldConfig {
+   /*
+    * Configured MAC address.
+    * If set, the RCP server uses the specified MAC address for communications.
+    * When the MAC address changes, the RCP server sends the reply to the configuration operation with the old MAC
+    * address as source address.
+    * If not configured (default), the RCP server uses the factory-default MAC address, if available. Otherwise, it
+    * uses a fixed or randomly generated MAC address.
+    */
+   optional bytes macAddr = 1;
+
+   /*
+    * If set, changes the current IPv4 address of the RCP server.
+    * When the IPv4 address changes, the RCP server sends the reply to the configuration operation with the old IP
+    * address as source address.
+    * If `ipAddr` is 0.0.0.0, the RCP server acquires an IPv4 address with DHCP or BOOTP.
+    * If it is 255.255.255.255, IPv4 is disabled.
+    * When IPv4 is enabled, the RCP server answers directives that arrive on the UDP port 7771 (0x1E5B) and uses the
+    * source port of the client as the destination port.
+    * @warning Setting the IP address to 127.x.x.x fails with the `cfgInvalidParam` code.
+    */
+   optional fixed32 ipAddr = 2;
+
+   /*
+    * Configures the subnetwork prefix length, which determines the subnet mask.
+    * This also affects the subnet broadcast address.
+    * For an example, see the page @ref rcp_net.
+    */
+   optional uint32 subnetPrefixLength = 3;
+
+   // Single entry of the multicast address list.
+   message fldMulticastItem {
+      oneof addr {
+         fixed32 ipAddr  = 1;  // Multicast IPv4 address.
+         bytes   macAddr = 2;  // Multicast MAC address.
+      }
+   }
+
+   // List of the multicast addresses that the RCP server accepts.
+   repeated fldMulticastItem multicastAddrs = 4;
+
+   /*
+    * If set, specifies a list of VLANs that the RCP server accepts.
+    * If this list is empty, the RCP server accepts only untagged
+    * frames, and silently drops all VLAN-tagged ones.
+    * The RCP server tracks the VLAN ID for the purpose of replying to clients:
+    * - Clients with the same MAC/IP address and different VLAN ID are considered
+    *   different clients.
+    * - Replies preserve the original VLAN used by the client to communicate with
+    *   the RCP server.
+    *
+    * Unsolicited RCP notifications use the VLAN that the client used for
+    * subscribing to the specific notification / endpoint.
+    */
+   repeated uint32 vlanIds = 5;
+
+   /*
+    * The VLAN ID to be used for unsolicited non-RCP protocol frames, for
+    * example ARP announcements or DHCP.
+    * If set to 0 (default), non-RCP protocols use untagged frames.
+    */
+   optional uint32 defaultVlanId = 7;
+
+   /*
+    * If set to true, the server sends an ARP announcement after a successful
+    * IP address change.
+    * If set to false (default), the server does not announce its IP address
+    * on boot, regardless of the DHCP or static IP settings.
+    */
+   optional bool gratuitousArpEnable = 8;
+}
+
+/*
+ * Address of a client that the RCP server registers in advance.
+ * If the client has an IPv4 address, the RCP server identifies it by this address, its UDP port, and its VLAN ID, and
+ * sends its messages to it in UDP datagrams. Otherwise, the RCP server identifies the client by its MAC address and
+ * its VLAN ID, and sends its messages to it in raw Ethernet frames.
+ */
+message fldClientConfigItem {
+   /*
+    * MAC address of the client.
+    * The RCP server uses it as the destination address of the Ethernet frames that carry its messages to the client.
+    */
+   bytes macAddr = 1;
+
+   /*
+    * VLAN ID of the client. If 0 (default), the client does not use a VLAN, and the RCP server sends its messages
+    * to it in untagged frames. Otherwise, it sends them in frames that carry this VLAN ID in their tag.
+    */
+   uint32 vlanId = 2;
+
+   /*
+    * IPv4 address of the client.
+    * If set to a non-zero address, the RCP server sends its messages to the client in UDP datagrams to this address
+    * and to the `port`.
+    */
+   optional fixed32 ipAddr = 3;
+
+   /*
+    * UDP port of the client, to which the RCP server sends its UDP datagrams. It is only used if `ipAddr` is set.
+    */
+   optional uint32 port = 4;
+}
+
+/*
+ * Registers clients in advance, i.e., before they send their first message.
+ * The RCP server learns a client from the messages that it receives from it. A registered client is known to the RCP
+ * server before it sends a message, so the RCP server can send messages to it without having received one from it
+ * first, e.g., the results of a stored action that it loads on boot.
+ * The client configuration is part of the server configuration. If it is saved (see `rcp.dev.opSaveConfig`), the
+ * RCP server knows the clients again after a restart, with the same client IDs, so that the stored actions that it
+ * loads still report to their clients.
+ */
+message fldClientConfig {
+   /*
+    * Clients to register.
+    * For each entry, the RCP server adds the client and assigns a client ID to it. If the RCP server already knows the
+    * client, it keeps the client ID.
+    * The query `rcp.dev.qryClientStatus` returns the client IDs.
+    */
+   repeated fldClientConfigItem clients = 1;
+}
+
+/*
+ * A client that the RCP server knows, with the client ID that the RCP server assigned to it.
+ * The address fields have the same meaning as those of `fldClientConfigItem`.
+ */
+message fldClientStatusItem {
+   /*
+    * Client ID that the RCP server assigned to the client. It is unique among the clients that the RCP server knows.
+    * The ID identifies the notification owner of an endpoint (`fldEndpointNotifInfo.clientId`) or the client that
+    * scheduled an action (`rcp.core.fldSchedulerStatus.fldSchedulerItem.clientId`).
+    */
+   uint32 clientId = 1;
+
+   // MAC address of the client, 6 bytes.
+   bytes macAddr = 2;
+
+   // VLAN ID of the client. Not set if the client does not use a VLAN.
+   optional uint32 vlanId = 3;
+
+   // IPv4 address of the client. Not set if the client does not have an IPv4 address.
+   optional fixed32 ipAddr = 4;
+
+   // UDP port of the client. Set together with `ipAddr`.
+   optional uint32 port = 5;
+}
+
+// Status of the clients of the RCP server, returned by the query `rcp.dev.qryClientStatus`.
+message fldClientStatus {
+   /*
+    * The clients that the RCP server knows: the ones that it learned from their messages, and the ones that were
+    * registered with `fldClientConfig`.
+    */
+   repeated fldClientStatusItem clients = 1;
+}
+
+// MDIO access container.
+message fldMdioConfig {
+   uint32          phyAddr    = 1;  // PHY MDIO address.
+   optional uint32 mmd        = 2;  // MMD address (0 = Clause 22).
+   uint32          regAddress = 3;  // Register address.
+   optional uint32 data       = 4;  // Register data for write operations.
+}
+
+// Container for a list of MDIO register accesses.
+message fldPhyReg {
+   repeated fldMdioConfig mdioList = 1;  // List of MDIO accesses.
+
+   /*
+    * Key that gives access to vendor-specific capabilities of the PHY. The meaning of the key and of the accesses that
+    * it enables is implementation-specific (refer to the datasheet of the server).
+    */
+   optional uint32 key = 2;
+}
+
+// Container for MDIO register read data.
+message fldPhyData {
+   repeated uint32 data = 1;  // List of MDIO register data for read operations.
+}

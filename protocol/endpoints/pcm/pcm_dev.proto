@@ -1,0 +1,126 @@
+/*
+ * @page pcm PCM Audio Driver
+ * PCM audio interface configuration, actions, queries, and notifications for RCP.
+ *
+ * A PCM audio endpoint streams digital audio as pulse-code modulation (PCM) samples: either to a converter or codec
+ * (output) or from a source such as a microphone (input). The frame format is either I2S, with two channels, or
+ * time-division multiplexing (TDM), with several channels. The endpoint uses the pins SCK (bit clock), SD (serial
+ * data), and WS (word select, also called frame sync or FS), see `rcp.pins.enPinFuncPcm`. Before streaming, the
+ * client configures the endpoint with a `fldConfig` message.
+ *
+ * Frame formats
+ * =============
+ *
+ * The audio is organized in frames. One frame carries one sample of every channel, so the frame rate is the sample
+ * rate. In I2S mode, a frame has two channels, left and right, and the level of FS tells which of them is on SD. In
+ * TDM mode, a frame has several channels, up to the maximum that the server supports, which follow each other, and FS
+ * marks the start of the frame.
+ *
+ * ![](../figures/endpoints/timingPcmFrame.svg)
+ *
+ * The alignment of FS with the first data bit, the polarity of FS and of the bit clock, and the bit order of the
+ * samples are configurable. A channel slot can be longer than the sample. The padding bits are not part of the audio
+ * and can be ignored to save bandwidth.
+ *
+ * Streaming
+ * =========
+ *
+ * The client starts and stops the stream with a command. In output mode, the audio samples are sent to the endpoint in
+ * the command. In input mode, the endpoint collects the received samples in a buffer and delivers them to the client
+ * in notifications, see `fldNotif.data`.
+ *
+ * Example
+ * =======
+ *
+ * To receive stereo audio at 48 kHz with 24 bits per sample, MSb first:
+ *
+ * ```text
+ * seq: 1
+ * dir {
+ *    config {
+ *       hndl: 5
+ *       pcm {
+ *          dir: dirIn  fsMode: fsModeI2s  sampleRateHz: 48000  bitsPerSample: 24  msbFirst: true
+ *          rxBufferSizeBytes: 1024
+ *       }
+ *    }
+ * }
+ * dir { action { hndl: 5  pcm { op: opStart } } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.pcm;
+
+// Container for specifying which portion of the data stream to ignore.
+message fldChannelMask {
+   uint32 idx = 1;  // Index of the channel, starting from 0.
+   oneof  padding {
+      uint32 leftBits  = 2;  // Number of ignored padding bits before the first data bit in each channel.
+      uint32 rightBits = 3;  // Number of ignored padding bits after the last data bit in each channel.
+   }
+}
+
+// PCM direction.
+enum enDir {
+   dirIn  = 0;  // PCM configured as input (RX).
+   dirOut = 1;  // PCM configured as output (TX).
+}
+
+// PCM frame sync mode.
+enum enFsMode {
+   fsModeI2s = 0;  // I2S mode.
+   fsModeTdm = 1;  // TDM mode.
+}
+
+// PCM configuration message.
+message fldConfig {
+   optional enDir    dir    = 1;  // PCM direction.
+   optional enFsMode fsMode = 2;  // PCM FS mode.
+   optional bool     fsInv  = 3;  // FS output inverted if true.
+   optional bool     clkInv = 4;  // FS clk inverted if true.
+
+   /*
+    * If true, the leading edge of fs is aligned with the first data bit.
+    * If false, the trailing edge of fs is aligned with the first data bit.
+    */
+   optional bool fsAlign = 5;
+
+   // If set, configures whether the data is sent/received MSB or LSB first.
+   optional bool msbFirst = 6;
+
+   /*
+    * Length of the buffer in bytes. Setting this to 0 configures the default buffer length.
+    * Exceeding the buffer size supported by the server causes the configuration to fail.
+    */
+   optional uint32 rxBufferSizeBytes = 7;
+
+   // Sample rate in hertz (Hz).
+   optional uint32 sampleRateHz = 8;
+
+   /*
+    * Number of channels. In I2S mode, this configuration is ignored, as the number of channels is fixed.
+    * In TDM mode, this can be set to any number up to the maximum supported by the server.
+    */
+   optional uint32 numChannels = 9;
+
+   // Number of bits per audio sample.
+   optional uint32 bitsPerSample = 10;
+
+   /*
+    * Configuration for ignoring data in specific channels, to save bandwidth.
+    */
+   repeated fldChannelMask channelMask = 11;
+}
+
+// PCM operation types.
+enum enCmdOperation {
+   opStart = 0;  // Start PCM.
+   opStop  = 1;  // Stop PCM.
+}
+
+// Container for PCM command.
+message fldCmd {
+   optional enCmdOperation op     = 1;  // Operation to perform.
+   bytes                   txData = 2;  // Audio stream to transmit when in output mode.
+}

@@ -1,0 +1,18 @@
+/*
+ * @page rcp_vendor Vendor-Specific Features
+ * Vendor-specific configuration and status of the RCP server.
+ *
+ * The settings and the status that are specific to the vendor of an RCP server are not part of the common ESB
+ * specification, so this file defines only the containers for them, and the vendor adds the fields. The configuration
+ * is part of the server configuration (`rcp.dev.fldConfig.vendor`). The status is returned by the optional query
+ * `rcp.dev.qryVendorStatus`. Refer to the datasheet of the server for the fields and their valid values.
+ */
+
+syntax = "proto3";
+package esb.rcp.vendor;
+
+// Vendor-specific configuration.
+message fldConfig {}
+
+// Vendor-specific status.
+message fldStatus {}

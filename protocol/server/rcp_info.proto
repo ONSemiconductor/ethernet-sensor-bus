@@ -1,0 +1,117 @@
+/*
+ * @page rcp_info Identification and Capabilities
+ * Identity, capabilities, and endpoints of the RCP server.
+ *
+ * A client that connects to an unknown RCP server uses these queries to find out what the server is and what it can
+ * do. They are sent to the RCP server (handle 0, see @ref rcp_dev), and their results are the messages of this file:
+ * the identity of the server, its capabilities, and the list of its endpoints.
+ *
+ * The identity holds the version of the RCP protocol that the server implements and the data that identifies the
+ * server, such as its factory-default MAC address, its vendor, and its product. The capabilities tell which PHY modes
+ * and which optional network features the server supports, e.g., PLCA (@ref rcp_plca) or topology discovery
+ * (@ref rcp_tpd). The list of the endpoints gives the handle of each endpoint, which identifies it in all
+ * configurations, actions, queries, and notifications, and its type. The type selects the driver that describes the
+ * messages of the endpoint, e.g., @ref spi for the type `devTypeSpi`.
+ *
+ * A client can read all three results with one directive:
+ *
+ * ```text
+ * seq: 1
+ * dir { query { rcp: qryIdentity } }
+ * dir { query { rcp: qryCapabilities } }
+ * dir { query { rcp: qryInterfaces } }
+ * ```
+ */
+
+syntax = "proto3";
+package esb.rcp.info;
+
+import "rcp_common.proto";
+import "server/rcp_net.proto";
+
+// RCP server identity records.
+message fldIdentity {
+   /*
+    * The current RCP protocol version implemented by the RCP server.
+    */
+   fldVersion rcpVersion = 1;
+
+   /*
+    * The factory-default MAC address of the server.
+    * @warning This can differ from the actual MAC address the RCP server
+    * is using if the client configured a new MAC address using `net.fldConfig`.
+    * @note Some vendor implementations do not provide a default (globally-unique) MAC
+    * address permanently stored in the RCP server.
+    */
+   bytes macAddr = 2;
+
+   // Optional UTF-8 string containing the RCP server vendor name.
+   optional string vendor = 3;
+
+   // Optional product identifier (managed by the vendor).
+   optional uint32 pid = 4;
+
+   // Optional product version identifier (managed by the vendor).
+   optional uint32 version = 5;
+
+   // Optional product serial number/string (managed by the vendor).
+   optional string serial = 6;
+
+   // Optional manufacturing date in UNIX format (seconds since 1st Jan 1970 00:00:00).
+   optional uint32 date = 7;
+
+   // Optional system-level unique identifier (not to be confused with the DID).
+   optional uint32 sid = 8;
+}
+
+// RCP server capability records.
+message fldCapabilities {
+   // List of communication standards supported by the PHY.
+   repeated net.enPhyMode supportedPhyModes = 1;
+
+   /*
+    * If set, indicates the RCP server supports Physical Layer Collision
+    * Avoidance (PLCA) for the PHY modes that support it (e.g., 10BASE-T1S).
+    */
+   bool plcaSupported = 2;
+
+   /*
+    * If set, the RCP server supports the Topology Discovery feature for
+    * the PHY modes that support it (e.g., 10BASE-T1S).
+    */
+   bool topologyDiscoverySupported = 3;
+
+   /*
+    * If set, the RCP server supports the SQI feature for the PHY modes that
+    * support it (e.g., 100BASE-T1 and 10BASE-T1S).
+    */
+   bool sqiSupported = 4;
+
+   /*
+    * If set, the RCP server supports the OPEN Alliance TC10 wake/sleep feature
+    * for the PHY modes that support it (e.g., 100BASE-T1 and 10BASE-T1S).
+    */
+   bool wakeSleepSupported = 5;
+}
+
+// RCP interface descriptors.
+message fldInterfaces {
+   // Single instance of an endpoint descriptor.
+   message fldInterfaceDescriptor {
+      /*
+       * The unique endpoint identifier (handle).
+       * @note This number cannot be 0 as it is reserved for the RCP server itself.
+       */
+      uint32 hndl = 1;
+
+      // Endpoint type (SPI, I2C, ...)
+      enEndpointType type = 2;
+   }
+
+   /*
+    * List of endpoint descriptors.
+    * Each interface has a type and a unique ID (handle) that can be used for
+    * configuration and actions.
+    */
+   repeated fldInterfaceDescriptor dsc = 1;
+}

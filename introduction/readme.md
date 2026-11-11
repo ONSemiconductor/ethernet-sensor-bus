@@ -1,0 +1,52 @@
+# Introduction
+
+## Ethernet Sensor Bus (ESB)
+
+The Ethernet Sensor Bus (ESB) is a remote control protocol (RCP). A client sends directives over Ethernet to RCP servers. The servers execute them on hardware endpoints, such as SPI, I2C, GPIO, or UART controllers, and report the results back. ESB is an open protocol. It was first released in 2026.
+
+This documentation specifies the messages of ESB as a Protocol Buffers (proto3) schema, and the behavior of clients and servers. The schema files, from which this documentation is generated, are in the GitHub repository [ethernet-sensor-bus](https://github.com/ONSemiconductor/ethernet-sensor-bus).
+
+## Motivation
+
+A distributed system usually puts a microcontroller with firmware next to every sensor, actuator, or bus interface. The application logic is then split across many firmware images, and each of them has its own development, test, and update cycle.
+
+With ESB, the application runs on a central processor and reaches the hardware of the remote RCP servers over Ethernet. An RCP server runs no application software. It interprets the protocol and drives its endpoints. A change of the application affects only the central processor.
+
+## Scope
+
+This documentation specifies the messages that a client and an RCP server exchange, how they are carried over Ethernet, and how an RCP server behaves when it receives them.
+
+The datasheet of a server defines what this documentation leaves open, such as the endpoints and optional features of the server and its limits, e.g., the maximum clock speed of the SPI controller or the depth of the UART transmit buffer.
+
+## Conventions
+
+Normative text states a requirement in the present tense, e.g., "The server accepts the broadcast address." The verbal forms *should*, *may*, and *can* express a recommendation, a permission, and a possibility or capability, respectively. *Should not* expresses the opposite of *should*.
+
+The pages [Operating principle](01_principle.md), [Usage hints](06_hints.md), [Protobuf encoding](07_protobuf.md), and [Code generators](08_generators.md) are informative and do not contain requirements. Notes, warnings, and examples are informative as well. All other text is normative.
+
+Hexadecimal numbers have the prefix 0x and binary numbers the prefix 0b. All other numbers are decimal. Byte sequences are written as pairs of hexadecimal digits without prefix, e.g., `0D 01`. A name in code font is a name from the schema or a literal, such as a keyword or a file name. A name from the schema is qualified by its package where needed, e.g., `rcp.net.fldConfig.vlanIds`.
+
+## Terms and definitions
+
+- *Client*: a system that controls RCP servers. It sends directives and receives reports, e.g., as software on a central processor.
+- *RCP server*, short *server*: a system that clients control. It contains the endpoints, executes directives on them, and sends reports.
+- *Endpoint*: a hardware block of an RCP server that exchanges low-level data with the outside world, e.g., a SPI controller, a GPIO controller, or a UART, see [Operating principle](01_principle.md).
+- *Handle*: the number that addresses an endpoint, see [Operating principle](01_principle.md).
+- *Directive*: the top-level message from a client to an RCP server. It holds a list of operations.
+- *Operation*: an entry in a directive, see [Messages](02_messages.md).
+- *Report*: the top-level message from an RCP server to a client. It holds results and notifications.
+- *Notification*: data that an endpoint sends on its own, see [Messages](02_messages.md).
+- *RCP message*: a directive or a report.
+
+## Normative references
+
+- [IEEE 802.3-2022](https://standards.ieee.org/ieee/802.3/10422/), Ethernet
+- [IEEE 802.1Q-2022](https://standards.ieee.org/ieee/802.1Q/10323/), Bridges and bridged networks
+- [IEEE 802.1AS-2020](https://standards.ieee.org/ieee/802.1AS/7121/), Timing and synchronization for time-sensitive applications
+- [RFC 768](https://www.rfc-editor.org/rfc/rfc768), User Datagram Protocol
+- [RFC 791](https://www.rfc-editor.org/rfc/rfc791), Internet Protocol
+- [RFC 826](https://www.rfc-editor.org/rfc/rfc826), Address Resolution Protocol
+- [RFC 951](https://www.rfc-editor.org/rfc/rfc951), Bootstrap Protocol
+- [RFC 2131](https://www.rfc-editor.org/rfc/rfc2131), Dynamic Host Configuration Protocol
+- SAE J2716, SENT (Single Edge Nibble Transmission) for Automotive Applications
+- [Protocol Buffers Language Guide (proto3)](https://protobuf.dev/programming-guides/proto3/)

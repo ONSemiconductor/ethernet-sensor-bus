@@ -1,0 +1,12 @@
+Language: Proto
+BasedOnStyle: Google
+IndentWidth: 3
+TabWidth: 3
+UseTab: Never
+ColumnLimit: 120
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignTrailingComments: true
+BreakBeforeBraces: Attach
+AllowShortBlocksOnASingleLine: Always
+AllowShortFunctionsOnASingleLine: All

@@ -1,0 +1,81 @@
+/*
+ * @page pwm PWM Driver
+ * PWM configuration and actions for RCP.
+ *
+ * A PWM endpoint generates a periodic square wave with a configurable frequency and duty cycle.
+ *
+ * After configuration, the endpoint is stopped and its output pin is low. A `fldCmd` message with `fldCmd.op` set to
+ * `opStart` starts PWM. The command can set a frequency $f_{PWM}$ and a duty cycle $D$ at the same time (0 ≤ $D$ ≤ 1).
+ * When the endpoint processes the start instruction, it first emits a low pulse lasting $t_{LOW}$ = (1 - $D$) /
+ * $f_{PWM}$, then a high pulse lasting $t_{HIGH}$ = $D$ / $f_{PWM}$.
+ *
+ * A new `fldCmd` message can change the PWM frequency and the duty cycle at any time. To avoid glitches, the endpoint
+ * applies the new values at the end of a full cycle. Similarly, `fldCmd.op` = `opStop` pulls the output pin low only
+ * after the active low-high cycle has completed.
+ *
+ * The figure shows the output pin when PWM is started, when the frequency and the duty cycle are changed, and when
+ * PWM is stopped:
+ *
+ * ![](../figures/endpoints/timingPwm.svg)
+ */
+
+syntax = "proto3";
+package esb.pwm;
+
+message fldConfig {
+   /*
+    * The clock speed in hertz (Hz).
+    * If the requested speed is fully supported by the RCP server, the configuration is accepted with the
+    * `cfgSuccess` return code.
+    * The RCP server is allowed to round the requested speed to the nearest supported speed within a reasonable
+    * tolerance (refer to the datasheet of the server). In this case, the configuration is accepted with the
+    * `cfgParamAdjusted` warning code and the client can retrieve the actual (rounded) speed by querying the
+    * configuration of the endpoint.
+    */
+   optional uint32 speedHz = 1;
+
+   /*
+    * 32-bit left-aligned duty cycle value $X$:
+    *
+    * - `0`: output stuck to GND.
+    * - `0xFFFFFFFF`: output stuck to VCC.
+    * - `0x80000000`: 50% (default).
+    * - Otherwise: duty cycle = $X$ / $2^{32}$.
+    */
+   optional fixed32 duty = 2;
+}
+
+// PWM operation types.
+enum enCmdOperation {
+   opStart = 0;  // Start PWM.
+   opStop  = 1;  // Stop PWM.
+}
+
+// Container for PWM commands.
+message fldCmd {
+   optional enCmdOperation op = 1;  // PWM operation.
+
+   oneof duty {
+      /*
+       * 32-bit left-aligned duty cycle value, same as `fldConfig.duty`.
+       */
+      fixed32 dutySet = 2;
+
+      /*
+       * Adjust the duty cycle by this amount. Adjustments can be negative.
+       * If the result would be invalid, i.e., exceeding the boundaries
+       * of a 32-bit unsigned integer, the duty cycle is clipped.
+       */
+      sint32 dutyAdj = 3;
+   }
+
+   oneof freq {
+      uint32 freqSet = 4;  // Set frequency in hertz (Hz), same as `fldConfig.speedHz`.
+
+      /*
+       * Adjust frequency by this amount in hertz (Hz), can be negative.
+       * Under-and overflows are handled as with `dutyAdj`.
+       */
+      sint32 freqAdj = 5;
+   }
+}
