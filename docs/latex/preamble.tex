@@ -1,0 +1,139 @@
+% Page design of the PDF of the ESB documentation (XeLaTeX): colors, fonts, headings, header and footer, lists, tables, and figures.
+% docs/conf.py puts this file into the key preamble of latex_elements, after \documentid, \versionid, and \esbtitle, and after
+% the packages and the options of \sphinxsetup of Sphinx, so that what is set here replaces them.
+
+\definecolor{esbdark}{HTML}{1D3546}
+\definecolor{esborange}{HTML}{F0690A}
+
+\usepackage{eso-pic}     % the background of the title page
+\usepackage{sectsty}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage{array}
+\usepackage{caption}
+\usepackage[strings]{underscore}
+% a long identifier may break after an underscore
+\renewcommand{\_}{\textunderscore\allowbreak}
+
+% -- Fonts ---------------------------------------------------------------------------------------------------------------
+% Inter for the text and Inconsolata for the code, which the packages fonts-inter and fonts-inconsolata install. Where
+% one is missing, a font that is common to systems takes its place.
+\usepackage{fontspec}
+\IfFontExistsTF{Inter}{\newcommand{\esbtextfont}{Inter}}{%
+  \IfFontExistsTF{Arial}{\newcommand{\esbtextfont}{Arial}}{%
+    \IfFontExistsTF{Liberation Sans}{\newcommand{\esbtextfont}{Liberation Sans}}{\newcommand{\esbtextfont}{DejaVu Sans}}}}
+\IfFontExistsTF{Inconsolata}{\newcommand{\esbcodefont}{Inconsolata}}{%
+  \IfFontExistsTF{Courier New}{\newcommand{\esbcodefont}{Courier New}}{%
+    \IfFontExistsTF{Liberation Mono}{\newcommand{\esbcodefont}{Liberation Mono}}{\newcommand{\esbcodefont}{DejaVu Sans Mono}}}}
+% fontspec takes Inter ExtraBold for the bold face of Inter, Bold is the one that is meant. The contextual alternates of Inter
+% (calt) are off: they put a bracket or a hyphen next to a capital into a glyph without a Unicode value, so that the text of
+% the PDF could not be copied or searched.
+\IfFontExistsTF{Inter Bold}{%
+  \setmainfont{\esbtextfont}[Ligatures=TeX, RawFeature={-calt}, BoldFont={Inter Bold}, BoldItalicFont={Inter Bold Italic}]
+  \setsansfont{\esbtextfont}[Ligatures=TeX, RawFeature={-calt}, BoldFont={Inter Bold}, BoldItalicFont={Inter Bold Italic}]
+}{%
+  \setmainfont{\esbtextfont}[Ligatures=TeX, RawFeature={-calt}]
+  \setsansfont{\esbtextfont}[Ligatures=TeX, RawFeature={-calt}]
+}
+\setmonofont{\esbcodefont}[Scale=MatchLowercase, AutoFakeBold=2]
+
+% -- Text ----------------------------------------------------------------------------------------------------------------
+% A word moves to the next line instead of breaking.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+% no blank page before a chapter
+\makeatletter
+\@openrightfalse
+\makeatother
+
+\addto\captionsenglish{\renewcommand{\contentsname}{Table of contents}}
+
+% inline code a little smaller than the text, and the size of the code blocks
+\AtBeginDocument{\renewcommand{\sphinxcode}[1]{\texttt{\small #1}}}
+\fvset{fontsize=\small}
+
+% links are blue, except the ones of the table of contents
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, filecolor=blue, linktoc=all}
+\let\esbtableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{{\hypersetup{linkcolor=black}\esbtableofcontents}}
+
+% -- Headings ------------------------------------------------------------------------------------------------------------
+\allsectionsfont{\color{esbdark}}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{esbdark}\filcenter}
+  {\chaptertitlename\ \thechapter}
+  {2pt}
+  {\Huge}
+  [\vspace{-8pt}{\color{esborange}\rule{\textwidth}{0.8pt}}]
+\titlespacing*{\chapter}{0pt}{-20pt}{12pt}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{esbdark}}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{esbdark}}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{esbdark}}{\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% -- Header and footer ---------------------------------------------------------------------------------------------------
+% The title in the header, the page number below an orange rule in the footer; the first page of a chapter has them too.
+\setlength{\headheight}{14pt}
+\newcommand{\esbpagestyle}{%
+  \fancyhf{}%
+  \fancyhead[C]{\small\bfseries\esbtitle}%
+  \fancyfoot[C]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.8pt}%
+  \renewcommand{\footrule}{{\color{esborange}\hrule width\headwidth height\footrulewidth}}%
+}
+\fancypagestyle{normal}{\esbpagestyle}
+\fancypagestyle{plain}{\esbpagestyle}
+\pagestyle{normal}
+
+% -- Lists ---------------------------------------------------------------------------------------------------------------
+\newlength{\esbindent}
+\setlength{\esbindent}{2em}
+
+\setlist[itemize,1]{leftmargin=\dimexpr\esbindent+1.25em\relax, label=\textbullet, labelsep=0.5em, labelwidth=1em, align=parleft,
+  itemsep=2pt, parsep=0pt, topsep=4pt, partopsep=2pt, listparindent=0pt, itemindent=0pt}
+\setlist[enumerate,1]{leftmargin=\dimexpr\esbindent+1.25em\relax, labelsep=0.5em, labelwidth=1em, align=parleft,
+  itemsep=2pt, parsep=0pt, topsep=4pt, partopsep=2pt, listparindent=0pt, itemindent=0pt}
+\setlist[itemize,2,3]{leftmargin=\dimexpr\esbindent+2.75em\relax, labelsep=0.25em, labelwidth=1em, align=parleft,
+  itemsep=1pt, parsep=0pt, topsep=2pt, listparindent=0pt, itemindent=0pt}
+\setlist[enumerate,2,3]{leftmargin=\dimexpr\esbindent+2.75em\relax, labelsep=0.25em, labelwidth=1em, align=parleft,
+  itemsep=1pt, parsep=0pt, topsep=2pt, listparindent=0pt, itemindent=0pt}
+
+% -- Tables and figures --------------------------------------------------------------------------------------------------
+% Tables are small, start at the left margin, and have bold column titles.
+\tymin=15pt
+\tymax=\maxdimen
+\setlength{\arrayrulewidth}{0.8pt}
+\AtBeginDocument{%
+  \let\esbattablestart\sphinxattablestart
+  \renewcommand{\sphinxattablestart}{%
+    \par\medskip
+    \let\centering\raggedright
+    \raggedright
+    \esbattablestart
+    \footnotesize
+    \setlength{\tabcolsep}{2pt}%
+    \setlength{\emergencystretch}{3em}%
+  }%
+  \def\sphinxstyletheadfamily{\bfseries}%
+}
+\AtBeginEnvironment{longtable}{%
+  \setlength{\LTleft}{0pt}%
+  \setlength{\LTright}{0pt}%
+  \footnotesize
+  \setlength{\tabcolsep}{2pt}%
+  \setlength{\emergencystretch}{3em}%
+}
+
+\captionsetup[figure]{position=bottom, labelfont=it, textfont=it, labelsep=period, name={Fig.~}, justification=centering,
+  singlelinecheck=false}
+
+% A PNG figure can carry a resolution in the file, which LaTeX honors and browsers ignore; every figure is as wide as the text.
+\setkeys{Gin}{width=\linewidth}

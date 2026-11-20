@@ -1,0 +1,47 @@
+% Title page of the PDF: the cover page UserGuide_Cover.pdf as the background, with the title, the logo below it, the document ID,
+% and the date on it.
+% docs/conf.py puts this file into the key maketitle of latex_elements; \documentid and \versionid come from there too.
+
+\makeatletter
+
+% the background of this page only
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{%
+    \includegraphics[width=\paperwidth,height=\paperheight]{UserGuide_Cover}%
+  }%
+}
+
+\thispagestyle{empty}
+\enlargethispage{2cm}
+\begin{titlepage}
+  \raggedright
+  \vspace*{-0.85cm}
+
+  \hspace*{-1.5cm}
+  \begin{minipage}{\textwidth}
+    {\color[HTML]{143B5E}\LARGE\bfseries User Guide\par}
+    \vspace{0.1cm}
+    {\color[HTML]{143B5E}\fontsize{32}{38}\selectfont\textbf{\spaceskip=0.25em\@title}\par}
+    \vspace{0.9cm}
+    \includegraphics[width=265pt]{Logo}\par
+  \end{minipage}
+
+  % the document ID and the version in the dark bar at the bottom of the cover page
+  \vspace*{0pt}\vfill
+  \vspace{-4cm}
+
+  \noindent
+  \hspace*{-1.5cm}\hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \raggedleft
+    {\color{white}\LARGE\textbf{\documentid}\par}
+    \vspace{0.1cm}
+    {\color{white}\large\textbf{\@date\ - Rev. \versionid}\par}
+  \end{minipage}\hspace*{-1.5cm}
+
+  \vspace{0.2cm}
+\end{titlepage}
+
+\makeatother
+
+\pagestyle{normal}

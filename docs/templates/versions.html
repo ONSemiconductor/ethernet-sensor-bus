@@ -1,0 +1,9 @@
+{# The bar at the bottom of the side bar: the links to the repository and to the PDF. The theme includes this file in every page and has it empty. #}
+{%- if repository_url %}
+<div class="rst-versions" role="note" aria-label="Links">
+  <span class="rst-current-version esb-links">
+    <a href="{{ repository_url }}" class="fa fa-github"> GitHub</a>
+    <a href="{{ pathto('esb-specification.pdf', 1) }}" class="fa fa-file-pdf-o"> PDF</a>
+  </span>
+</div>
+{%- endif %}

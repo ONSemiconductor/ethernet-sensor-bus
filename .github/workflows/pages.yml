@@ -1,0 +1,88 @@
+name: Pages
+
+# Builds the documentation (docs/build.py: protoc-gen-hikaripb makes the Sphinx sources, Sphinx the HTML, xelatex the
+# PDF) and deploys it to GitHub Pages. In the settings of the repository, Pages has to use "GitHub Actions" as its source.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - protocol/**
+      - introduction/**
+      - figures/**
+      - docs/**
+      - .github/workflows/pages.yml
+  pull_request:
+    paths:
+      - protocol/**
+      - introduction/**
+      - figures/**
+      - docs/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # the plugin that generates the Sphinx sources of the documentation
+  HIKARIPB_REPOSITORY: ONSemiconductor/protoc-plugin-hikaripb
+  HIKARIPB_REF: main
+
+jobs:
+  build:
+    # the packages and fonts below are the ones of this release; ubuntu-latest moves on to a newer one
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout the protocol
+        uses: actions/checkout@v7
+
+      - name: Checkout HikariPb
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.HIKARIPB_REPOSITORY }}
+          ref: ${{ env.HIKARIPB_REF }}
+          path: hikaripb
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            docs/requirements.txt
+            hikaripb/protoc/requirements.txt
+
+      - name: Install protoc, LaTeX and the Python packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler librsvg2-bin fonts-inter fonts-inconsolata \
+            texlive-xetex texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+          pip install -r docs/requirements.txt -r hikaripb/protoc/requirements.txt
+
+      - name: Build the documentation and the PDF
+        run: python docs/build.py --hikaripb hikaripb --output generated/html --strict
+
+      - name: Upload the pages
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: generated/html
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,77 @@
+/* What the ESB documentation adds to colors.css, the color scheme of the plugin documentation. */
+
+/* The theme caps the page at 800px, which leaves half of a wide window empty. */
+.wy-nav-content {
+  max-width: 1400px;
+}
+
+/* The logo at the top of the side bar. */
+.wy-side-nav-search > a img.logo {
+  width: 250px;
+  margin: 0.4em auto 0.8em;
+}
+
+/* The bar at the bottom of the side bar: the repository link and the PDF link, each in half of the bar. */
+.rst-versions .rst-current-version.esb-links {
+  display: flex;
+  padding: 0;
+  text-align: center;
+}
+
+.rst-versions .esb-links a {
+  flex: 1;
+  padding: 12px;
+}
+
+.rst-versions .esb-links a + a {
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* The theme does not wrap table cells, so a long description makes the table scroll sideways. */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+  white-space: normal;
+}
+
+/* Dotted names such as esb.rcp.pins.fldDescriptors.fldDescriptor.fldFunction do not wrap by themselves and make a page wider than a phone. */
+.rst-content {
+  overflow-wrap: break-word;
+}
+
+.rst-content code.literal span.pre {
+  white-space: normal;
+}
+
+/* Sphinx writes inline code as code.literal, which the theme colors red. */
+.rst-content code.literal,
+.rst-content tt.literal {
+  background: var(--code-bg);
+  border-color: var(--code-border);
+  color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* The figures are black ink on a white background. */
+  .rst-content img[src*="_images/"] {
+    background: #ffffff;
+    filter: invert(0.9) hue-rotate(180deg);
+  }
+
+  /* html_logo is the Light variant of the logo. */
+  .wy-side-nav-search > a img.logo {
+    content: url("logoEsbDark.svg");
+  }
+
+  /* The theme styles the admonitions for a light page. */
+  .rst-content .admonition,
+  .rst-content .note,
+  .rst-content .warning,
+  .rst-content .seealso {
+    background: var(--alt);
+    color: var(--text);
+  }
+
+  .rst-content .admonition-title {
+    color: #ffffff;
+  }
+}
