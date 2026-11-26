@@ -50,3 +50,7 @@ Hexadecimal numbers have the prefix 0x and binary numbers the prefix 0b. All oth
 - [RFC 2131](https://www.rfc-editor.org/rfc/rfc2131), Dynamic Host Configuration Protocol
 - SAE J2716, SENT (Single Edge Nibble Transmission) for Automotive Applications
 - [Protocol Buffers Language Guide (proto3)](https://protobuf.dev/programming-guides/proto3/)
+
+## Licensing
+
+ESB is an open protocol licensed under the BSD 3-Clause license.

@@ -34,3 +34,7 @@ Open an issue to report a problem or to discuss a change. Changes are submitted 
 - Follow the [conventions](introduction/readme.md) of the documentation, such as the notation of numbers and the use of normative language.
 - Format the `.proto` files with `clang-format`. The configuration is in the file [.clang-format](.clang-format).
 - Verify that all `.proto` files compile with `protoc`, see [Code generators](introduction/08_generators.md).
+
+## License
+
+ESB is an open protocol licensed under the BSD 3-Clause license.
